@@ -1,40 +1,114 @@
 # LINE Blockchain Developers SDK for JavaScript
-This is a subproject of LINE Blockchain Developers SDK.
-See [README](../README.md) for overview.
+[![NPM version](https://img.shields.io/npm/v/%40line%2Fline-blockchain-developers-sdk-js
+.svg)](https://www.npmjs.com/package/@line/line-blockchain-developers-sdk-js
+)
+[![NPM downloads](https://img.shields.io/npm/dm/%40line%2Fline-blockchain-developers-sdk-js
+.svg)](https://www.npmjs.com/package/@line/line-blockchain-developers-sdk-js)
 
-This is written by Typescript, so it supports both Typescript and JavaScript.
+## Table of Contents // TODO update
+* [Introduction](#introduction)
+* [Getting Started](#getting-Started)
+* [Requirements](#requirements)
 
-## Install
-To install package of this SDK, run following commands.
+## Introduction
+The LINE Blockchain Developers SDK for Javascript makes it easy to develop a service(dApp) using [LINE Blockchain Developers API](https://docs-blockchain.line.biz/api-guide/), and no worries about generating signature for each request.
 
-### npm
+### Documentation
+Please see the official LINE Blockchain Developers API documentation for more information.
+* English: https://docs-blockchain.line.biz/api-guide/
+* Japanese: https://docs-blockchain.line.biz/ja/api-guide/
+* Korean: https://docs-blockchain.line.biz/ko/api-guide/
+
+### Requirements
+* Node.js 10 or higher
+
+### Installation
+Before getting started, you need to install the library to your project. 
+To make installation easy, use package managers as the follows:
+
+Using [npm](https://www.npmjs.com/?target=_blank):
+
+`npm install @line/link-developers-sdk-js`
+
+Using [yarn](https://yarnpkg.com/?target=_blank)
+
+`yarn add @line/link-developers-sdk-js`
+
+### Versioning
+This project respects semantic versioning
+
+See http://semver.org/
+
+### Contributing
+Please check [CONTRIBUTING](https://github.com/line/line-blockchain-developers-sdk-js/blob/master/CONTRIBUTING.md) before making a contribution.
+
+### License
 ```
-npm install @ryukato79/link-developers-sdk
+Copyright (C) 2017-2018 LINE Corp.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
 
-### yarn
+## Getting Started
+### Requirements
+* Node.js >= 10
+  * It uses ES2017.
+
+* [npm](https://www.npmjs.com/?target=_blank), preferably >=7
+
+Other dependencies are installed via npm(or yarn), and do not need to be pre-installed.
+
+### Install
+All the dependencies can be install via [npm](https://www.npmjs.com/?target=_blank) or [yarn](https://yarnpkg.com/?target=_blank)
+
+* [npm](https://www.npmjs.com/?target=_blank)
+  ```
+  npm install @line/link-developers-sdk-js
+  ```
+
+* [yarn](https://yarnpkg.com/?target=_blank)
+  ```
+  yarn add @line/link-developers-sdk-js
+  ```
+
+Instead of using package managers, you can clone this repository as well. You can build from source. Please clone the repository and run the following scripts to build.
+
 ```
-yarn add @ryukato79/link-developers-sdk
+$ git clone https://github.com/line/line-blockchain-developers-sdk-js.git
+$ cd line-blockchain-developers-sdk-js
+$ npm install
+$ npm run build
+```
+The built result will be placed in `build/`.
+
+#### Test
+You can run all the unit tests by following scripts.
+
+```
+npm run test
 ```
 
-## Build
-To build this library, run following commands.
+#### Integration tests
+You can **run** all the integration tests by following scripts.
 
 ```
-yarn
-yarn run build
+npm run test:integration
 ```
 
-## Test
-### Run all unit tests
-Run the following command to test the library.
-
-```
-yarn run test
-```
-
-### Run integration tests
-To run integration tests, `integration-test.env` is required with following properties.
+> Note
+> 
+> To run integration tests, `integration-test.env` is required with following properties.
 ```
 HOST_URL=[api-url]
 SERVICE_ID=[your service-id]
@@ -49,34 +123,66 @@ LINE_USER_ID=[your line user id]
 LINE_USER_WALLET_ADDRESS=[BitMax wallet address of the user]
 ```
 
-If you have `integration-test.env` ready, then you can run integration test by below command.
+### Basic Usage
+It can be imported with [CommonJS](https://nodejs.org/docs/latest/api/modules.html?target=_blank), [ES2015 modules](https://babeljs.io/learn-es2015/#ecmascript-2015-features-modules?target=_blank), and preferably [TypeScript](https://www.typescriptlang.org/?target=_blank).
+
+The library is written in TypeScript and includes TypeScript definitions by default. Nevertheless, it can surely be used with plain JavaScript too.
+
+#### Create HttpClient
+```
+// CommonJS
+const devSdk = require('@line/link-developers-sdk-js');
+const httpClient = new devSdk.HttpClient(BASE_URL, SERVICE_API_KEY, SERVICE_API_SECRET)
+
+// ES2015 modules or TypeScript
+import * as devSdk from '@line/link-developers-sdk-js';
+const httpClient = new devSdk.HttpClient(BASE_URL, SERVICE_API_KEY, SERVICE_API_SECRET)
 
 ```
-yarn run test:integration
+
+#### Example to get server time
+##### Using promise
+```
+httpClient.time().then(response => {
+    console.log("statusCode", response.statusCode);
+    console.log("responseTime", response.responseTime);
+    console.log("statusMessage", response.statusMessage);
+    console.log("responseData", response.responseData);
+})
+```
+
+##### Using async function
+```
+async function checkServerTime() {
+    var response = await httpClient.time();
+    console.log("statusCode", response.statusCode);
+    console.log("responseTime", response.responseTime);
+    console.log("statusMessage", response.statusMessage);
+    console.log("responseData", response.responseData);
+}
 ```
 
 ## Key objects and usage
 ### `HttpClient`
-This class represents a HTTP client to connect and interact LINE Blockchain Developers API. It provides functions to call the endpoints of the API with mandatory and optional parameters.
-
+This class represents an HTTP client to connect and interact with the LINE Blockchain Developers API server. It provides functions to call the endpoints of the API with mandatory and optional parameters.
 It's an entry point for this library, every dApp for LINE Blockchain Developers should have an instance of `HttpClient`.
 
 Create an instance with your connection and authentication information as follows:
 
 ```javascript
-import { HttpClient } from '../lib/http-client-base';
+import { HttpClient } from './lib/http-client-base';
 const httpClient = new HttpClient(baseUrl, apiKey, apiSecret);
 ```
 
 - `baseUrl` is the address of API server. Find one for the chain your service runs on in [API guide](https://docs-blockchain.line.biz/api-guide/).
 - `apiKey` is your service's API key.
-- `apiSecret` is your serivce's API secret. **Never** use the secret hardcoded in the source code.
+- `apiSecret` is your service's API secret. **Never** use the secret hard-coded in the source code.
 
 Now, you can call any endpoints via the functions of the instance. A simple example is to get the server time:
 
 ```javascript
-(aync() => {
-  const reponse = await httpclient.time();
+(async() => {
+  const response = await httpClient.time();
   console.log(response['statusCode']);
 })();
 ```
@@ -84,7 +190,7 @@ Now, you can call any endpoints via the functions of the instance. A simple exam
 Remember that you must handle it in an asynchronous way.
 
 ### Request and response
-When requesting, you can use predefined request data classes in `lib/request.ts`. Try to send a memo save request as follows:
+When requesting, you can use predefined request data classes in `lib/request.ts`. Try to send a memo save request for example as follows:
 
 ```javascript
 import { MemoRequest } from './lib/request';
@@ -95,36 +201,22 @@ import { MemoRequest } from './lib/request';
 })();
 ```
 
-When you need to parse a JSON-formatted `responseData` in your response, find and use the proper response data class in `lib/response.ts`. To get the txhash or the above request for example:
+When you need to parse a JSON-formatted `responseData` in a response, find and use the proper response data class in `lib/response.ts`. To get the `txhash` or the above request for example:
 
 ```javascript
 import { GenericResponse, TxResultResponse } from './lib/response';
 
-(aync() => {
+(async() => {
   const request = new MemoRequest('my first memo', walletAddress, walletSecret);
-  let response: GenericResponse<TxResultResponse> = await httpclient.createMemo(servcieId);
+  let response: GenericResponse<TxResultResponse> = await httpClient.createMemo(servcieId);
   console.log(response.responseData.txhash);
 })();
 ```
 
 ### `SignatureGenerator`
-This class provides a functionality to generate signatures for a request.
-All API requests, except for the endpoint to retrieve the server time, must pass authentication information and be signed.
+This class provides a functionality to [generate signatures](https://docs-blockchain.line.biz/api-guide/Generating-Signature) for a request.
 
-Never mind, fortunately, `HttpClient` itself will import this and generate signatures before sending a request. If you do want to study how LINE Blockchain signature created, it's okay to dive into the source code.
+All API requests, except for the endpoint to retrieve the server time, must pass authentication information and be signed. Signing is a bit annoying, but never mind, fortunately, `HttpClient` itself will import this and generate signatures before sending a request. 
 
-## License
- Copyright (C) 2017-2018 LINE Corp.
+If you do want to study how LINE Blockchain signature created, it's okay to dive into the source code.
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       https://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
