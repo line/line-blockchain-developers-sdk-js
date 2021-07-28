@@ -8,7 +8,7 @@
 ## Table of Contents // TODO update
 * [Introduction](#introduction)
 * [Getting Started](#getting-Started)
-* [Requirements](#requirements)
+* [Key objects and usage](#key-objects-and-usage)
 
 ## Introduction
 The LINE Blockchain Developers SDK for Javascript makes it easy to develop a service(dApp) using [LINE Blockchain Developers API](https://docs-blockchain.line.biz/api-guide/), and no worries about generating signature for each request.
