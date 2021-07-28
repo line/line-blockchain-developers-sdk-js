@@ -28,7 +28,7 @@ export class RequestBodyFlattener {
         flatPair[key] = objBody[key]
       }
     });
-    const flattenBody = Object.keys(flatPair).sort().map(key => `${key}=${flatPair[key]}`).join('&')
-    return flattenBody;
+
+    return Object.keys(flatPair).sort().map(key => `${key}=${flatPair[key]}`).join('&');
   }
 }

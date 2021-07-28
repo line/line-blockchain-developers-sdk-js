@@ -83,7 +83,7 @@ export class HttpClient {
     this.instance.defaults.headers.put["Content-Type"] = "application/json;charset=UTF-8"
     this.instance.defaults.headers.delete["Content-Type"] = "application/json;charset=UTF-8"
 
-    this._initialzeResponseInterceptor();
+    this._initializeResponseInterceptor();
   }
 
   // for test
@@ -91,7 +91,7 @@ export class HttpClient {
     return this.instance;
   }
 
-  private _initialzeResponseInterceptor = () => {
+  private _initializeResponseInterceptor = () => {
     this.instance.interceptors.response.use(
       this._handleResponse,
       this._handleError,
@@ -103,29 +103,20 @@ export class HttpClient {
   };
 
   private _handleResponse = ({ data }: AxiosResponse) => {
-    this.logger.debug(`response: ${JSON.stringify(data)}`);
     return data
   };
   protected _handleError = (error: any) => {
-    this.logger.error("error response: ", error.response.data);
-    this.logger.error("error response status: ", error.response.status);
+    this.logger.error("error response: ", error.response);
     return Promise.reject(error)
   };
 
   private _handleRequest = (config: AxiosRequestConfig) => {
-    this.logger.debug("headers: ", config.headers)
-    this.logger.debug("body: ", config.data)
     if (config.data) {
       //clean null properties
       config.data = _.omitBy(config.data, _.isNil)
-      this.logger.debug("body: ", config.data)
     }
     this.addRequestHeaders(config)
-    this.logger.debug(`headers: ${JSON.stringify(config.headers)}`)
 
-    if (config.params) {
-      this.logger.debug(`query-params: ${JSON.stringify(config.params)}`)
-    }
     return config;
   }
 
@@ -140,245 +131,222 @@ export class HttpClient {
     config.headers[Constant.TIMESTAMP_HEADER] = timestamp
   }
 
-  public async time(): Promise<GenericResponse<void>> {
-    const response = await this.instance.get("/v1/time");
-    return response;
+  public time(): Promise<GenericResponse<void>> {
+    return this.instance.get("/v1/time");
   }
 
-  public async serviceDetail(serviceId: string): Promise<GenericResponse<ServiceDetail>> {
+  public serviceDetail(serviceId: string): Promise<GenericResponse<ServiceDetail>> {
     const path = `/v1/services/${serviceId}`;
-    const response = await this.instance.get(path);
-    return response;
+    return this.instance.get(path);
   }
 
-  public async serviceTokens(): Promise<GenericResponse<Array<ServiceToken>>> {
-    const response = await this.instance.get(`/v1/service-tokens`);
-    return response;
+  public serviceTokens(): Promise<GenericResponse<Array<ServiceToken>>> {
+    return this.instance.get(`/v1/service-tokens`);
   }
 
-  public async serviceTokenDetail(contractId: string): Promise<GenericResponse<ServiceToken>> {
+  public serviceTokenDetail(contractId: string): Promise<GenericResponse<ServiceToken>> {
     const path = `/v1/service-tokens/${contractId}`;
-    const response = await this.instance.get(path);
-    return response;
+    return this.instance.get(path);
   }
 
-  public async updateServiceToken(
+  public updateServiceToken(
     contractId: string,
     request: UpdateServiceTokenRequest): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/service-tokens/${contractId}`;
-    const response = await this.instance.put(path, request);
-    return response;
+    return this.instance.put(path, request);
   }
 
-  public async mintServiceToken(
+  public mintServiceToken(
     contractId: string,
     request: MintServiceTokenRequest): Promise<GenericResponse<TxResultResponse>> {
     this.assertTransactionRequest(request)
     const path = `/v1/service-tokens/${contractId}/mint`;
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async burnFromServiceToken(
+  public burnFromServiceToken(
     contractId: string,
     request: BurnFromServiceTokenRequest): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/service-tokens/${contractId}/burn-from`;
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async serviceTokenHolders(
+  public serviceTokenHolders(
     contractId: string,
     pageRequest: PageRequest
   ): Promise<GenericResponse<Array<ServiceTokenHolder>>> {
     const path = `/v1/service-tokens/${contractId}/holders`;
     const requestConfig = this.pageRequestConfig(pageRequest);
-    const response = await this.instance.get(path, requestConfig);
-    return response;
+    return this.instance.get(path, requestConfig);
   }
 
-  public async itemToken(contractId: string): Promise<GenericResponse<ItemToken>> {
+  public itemToken(contractId: string): Promise<GenericResponse<ItemToken>> {
     const path = `/v1/item-tokens/${contractId}`;
-    const response = await this.instance.get(path);
-    return response;
+    return this.instance.get(path);
   }
 
-  public async fungibleTokens(
+  public fungibleTokens(
     contractId: string,
     pageRequest: PageRequest
   ): Promise<GenericResponse<Array<FungibleToken>>> {
     const path = `/v1/item-tokens/${contractId}/fungibles`;
     const requestConfig = this.pageRequestConfig(pageRequest);
-    const response = await this.instance.get(path, requestConfig);
-    return response;
+    return this.instance.get(path, requestConfig);
   }
 
-  public async createFungibleToken(
+  public createFungibleToken(
     contractId: string,
     request: FungibleTokenCreateUpdateRequest): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/item-tokens/${contractId}/fungibles`;
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async fungibleToken(
+  public fungibleToken(
     contractId: string,
     tokenType: string
   ): Promise<GenericResponse<FungibleToken>> {
     const path = `/v1/item-tokens/${contractId}/fungibles/${tokenType}`;
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async updateFungibleToken(
+  public updateFungibleToken(
     contractId: string,
     tokenType: string,
     request: FungibleTokenCreateUpdateRequest): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/item-tokens/${contractId}/fungibles/${tokenType}`;
-    const response = await this.instance.put(path, request);
-    return response;
+    return this.instance.put(path, request);
   }
 
-  public async mintFungibleToken(
+  public mintFungibleToken(
     contractId: string,
     tokenType: string,
     request: FungibleTokenMintRequest): Promise<GenericResponse<TxResultResponse>> {
     this.assertTransactionRequest(request)
     const path = `/v1/item-tokens/${contractId}/fungibles/${tokenType}/mint`;
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async burnFungibleToken(
+  public burnFungibleToken(
     contractId: string,
     tokenType: string,
     request: FungibleTokenBurnRequest): Promise<GenericResponse<TxResultResponse>> {
     this.assertItemTokenBurnTransactionRequest(request)
     const path = `/v1/item-tokens/${contractId}/fungibles/${tokenType}/burn`;
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async fungibleTokenHolders(
+  public fungibleTokenHolders(
     contractId: string,
     tokenType: string,
     pageRequest: PageRequest
   ): Promise<GenericResponse<Array<FungibleTokenHolder>>> {
     const path = `/v1/item-tokens/${contractId}/fungibles/${tokenType}/holders`;
     const requestConfig = this.pageRequestConfig(pageRequest);
-    const response = await this.instance.get(path, requestConfig);
-    return response;
+    return this.instance.get(path, requestConfig);
   }
 
-  public async nonFungibleTokens(
+  public nonFungibleTokens(
     contractId: string,
     pageRequest: PageRequest): Promise<GenericResponse<Array<ItemTokenType>>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles`;
     const requestConfig = this.pageRequestConfig(pageRequest);
-    const response = await this.instance.get(path, requestConfig);
-    return response;
+    return this.instance.get(path, requestConfig);
   }
 
-  public async createNonFungibleToken(
+  public createNonFungibleToken(
     contractId: string,
     request: NonFungibleTokenCreateUpdateRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles`;
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async nonFungibleTokenType(
+  public nonFungibleTokenType(
     contractId: string,
     tokenType: string,
     pageRequest: PageRequest
   ): Promise<GenericResponse<NonFungibleTokenType>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}`;
     const requestConfig = this.pageRequestConfig(pageRequest);
-    const response = await this.instance.get(path, requestConfig);
-    return response;
+    return this.instance.get(path, requestConfig);
   }
 
-  public async updateNonFungibleTokenType(
+  public updateNonFungibleTokenType(
     contractId: string,
     tokenType: string,
     request: NonFungibleTokenCreateUpdateRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}`;
-    const response = await this.instance.put(path, request);
-    return response;
+    return this.instance.put(path, request);
   }
 
-  public async nonFungibleToken(
+  public nonFungibleToken(
     contractId: string,
     tokenType: string,
     tokenIndex: string
   ): Promise<GenericResponse<NonFungibleId>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}`;
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async updateNonFungibleToken(
+  public updateNonFungibleToken(
     contractId: string,
     tokenType: string,
     tokenIndex: string,
     request: NonFungibleTokenCreateUpdateRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}`;
-    const response = await this.instance.put(path, request);
-    return response;
+    return this.instance.put(path, request);
   }
 
-  public async mintNonFungibleToken(
+  public mintNonFungibleToken(
     contractId: string,
     tokenType: string,
     request: NonFungibleTokenMintRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/mint`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async nonFungibleTokenTypeHolders(
+  public nonFungibleTokenTypeHolders(
     contractId: string,
     tokenType: string,
     pageRequest: PageRequest
   ): Promise<GenericResponse<NonFungibleTokenTypeHolder>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/holders`;
     const requestConfig = this.pageRequestConfig(pageRequest);
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
   // NFT has to belong to only one holder
-  public async nonFungibleTokenHolder(
+  public nonFungibleTokenHolder(
     contractId: string,
     tokenType: string,
     tokenIndex: string
   ): Promise<GenericResponse<NonFungibleTokenHolder>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/holder`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async multiMintnonFungibleToken(
+  public multiMintNonFungibleToken(
     contractId: string,
     request: NonFungibleTokenMultiMintRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/multi-mint`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async burnNonFungibleToken(
+  public burnNonFungibleToken(
     contractId: string,
     tokenType: string,
     tokenIndex: string,
     request: NonFungibleTokenBurnRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/burn`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async childrenOfNonFungibleToken(
+  public childrenOfNonFungibleToken(
     contractId: string,
     tokenType: string,
     tokenIndex: string,
@@ -386,30 +354,29 @@ export class HttpClient {
   ): Promise<GenericResponse<Array<NonFungibleId>>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/children`
     const requestConfig = this.pageRequestConfig(pageRequest);
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
-  public async parentOfNonFungibleToken(
+  public parentOfNonFungibleToken(
     contractId: string,
     tokenType: string,
     tokenIndex: string
   ): Promise<GenericResponse<Array<NonFungibleId>>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/parent`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async attachNonFungibleToken(
+  public attachNonFungibleToken(
     contractId: string,
     tokenType: string,
     tokenIndex: string,
     request: NonFungibleTokenAttachRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/parent`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async detachNonFungibleToken(
+  public detachNonFungibleToken(
     contractId: string,
     tokenType: string,
     tokenIndex: string,
@@ -419,30 +386,29 @@ export class HttpClient {
     // payload in delete has no defined semantics,
     // https://tools.ietf.org/html/rfc7231#page-29
     const requestConfig = this.detachRequestConfig(request);
-    const response = await this.instance.delete(path, requestConfig);
-    return response;
+    return this.instance.delete(path, requestConfig);
   }
 
-  public async rootOfNonFungibleToken(
+  public rootOfNonFungibleToken(
     contractId: string,
     tokenType: string,
     tokenIndex: string
   ): Promise<GenericResponse<Array<NonFungibleId>>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/root`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async wallets(): Promise<GenericResponse<Array<WalletResponse>>> {
+  public wallets(): Promise<GenericResponse<Array<WalletResponse>>> {
     const path = `/v1/wallets`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async walletDetail(walletAddress: string): Promise<GenericResponse<WalletResponse>> {
+  public walletDetail(walletAddress: string): Promise<GenericResponse<WalletResponse>> {
     const path = `/v1/wallets/${walletAddress}`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async walletTransactions(
+  public walletTransactions(
     walletAddress: string,
     pageRequest: PageRequest,
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
@@ -450,61 +416,61 @@ export class HttpClient {
     const path = `/v1/wallets/${walletAddress}/transactions`
     const requestConfig = this.pageRequestConfig(pageRequest, optionalTransactionSearchParameters);
 
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
-  public async baseCoinBalanceOfWallet(walletAddress: string): Promise<GenericResponse<BaseCoinBalance>> {
+  public baseCoinBalanceOfWallet(walletAddress: string): Promise<GenericResponse<BaseCoinBalance>> {
     const path = `/v1/wallets/${walletAddress}/base-coin`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async serviceTokenBalancesOfWallet(
+  public serviceTokenBalancesOfWallet(
     walletAddress: string,
     pageRequest: PageRequest
   ): Promise<GenericResponse<Array<ServiceTokenBalance>>> {
     const path = `/v1/wallets/${walletAddress}/service-tokens`
     const requestConfig = this.pageRequestConfig(pageRequest);
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
-  public async serviceTokenBalanceOfWallet(
+  public serviceTokenBalanceOfWallet(
     walletAddress: string,
     contractId: string
   ): Promise<GenericResponse<ServiceTokenBalance>> {
     const path = `/v1/wallets/${walletAddress}/service-tokens/${contractId}`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async fungibleTokenBalancesOfWallet(
+  public fungibleTokenBalancesOfWallet(
     walletAddress: string,
     contractId: string,
     pageRequest: PageRequest
   ): Promise<GenericResponse<Array<FungibleBalance>>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/fungibles`
     const requestConfig = this.pageRequestConfig(pageRequest);
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
-  public async fungibleTokenBalanceOfWallet(
+  public fungibleTokenBalanceOfWallet(
     walletAddress: string,
     contractId: string,
     tokenType: string
   ): Promise<GenericResponse<FungibleBalance>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/fungibles/${tokenType}`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async nonFungibleTokenBalancesOfWallet(
+  public nonFungibleTokenBalancesOfWallet(
     walletAddress: string,
     contractId: string,
     pageRequest: PageRequest
   ): Promise<GenericResponse<Array<NonFungibleBalance>>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/non-fungibles`
     const requestConfig = this.pageRequestConfig(pageRequest);
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
-  public async nonFungibleTokenBalancesByTypeOfWallet(
+  public nonFungibleTokenBalancesByTypeOfWallet(
     walletAddress: string,
     contractId: string,
     tokenType: string,
@@ -512,50 +478,47 @@ export class HttpClient {
   ): Promise<GenericResponse<Array<NonFungibleBalance>>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/non-fungibles/${tokenType}`
     const requestConfig = this.pageRequestConfig(pageRequest);
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
-  public async nonFungibleTokenBalanceOfWallet(
+  public nonFungibleTokenBalanceOfWallet(
     walletAddress: string,
     contractId: string,
     tokenType: string,
     tokenIndex: string
   ): Promise<GenericResponse<NonFungibleBalance>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async transferBaseCoinOfWallet(
+  public transferBaseCoinOfWallet(
     walletAddress: string,
     request: TransferBaseCoinRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/wallets/${walletAddress}/base-coin/transfer`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async transferServiceTokenOfWallet(
+  public transferServiceTokenOfWallet(
     walletAddress: string,
     contractId: string,
     request: TransferServiceTokenRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/wallets/${walletAddress}/service-tokens/${contractId}/transfer`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async transferFungibleTokenOfWallet(
+  public transferFungibleTokenOfWallet(
     walletAddress: string,
     contractId: string,
     tokenType: string,
     request: TransferFungibleTokenRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/fungibles/${tokenType}/transfer`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async transferNonFungibleTokenOfWallet(
+  public transferNonFungibleTokenOfWallet(
     walletAddress: string,
     contractId: string,
     tokenType: string,
@@ -563,87 +526,85 @@ export class HttpClient {
     request: TransferNonFungibleTokenRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/transfer`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async batchTransferNonFungibleTokenOfWallet(
+  public batchTransferNonFungibleTokenOfWallet(
     walletAddress: string,
     contractId: string,
     request: BatchTransferNonFungibleTokenRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/non-fungibles/batch-transfer`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async userDetail(userId: string): Promise<GenericResponse<UserIdAddress>> {
+  public userDetail(userId: string): Promise<GenericResponse<UserIdAddress>> {
     const path = `/v1/users/${userId}`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async userTransactions(
+  public userTransactions(
     userId: string,
     pageRequest: PageRequest,
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/users/${userId}/transactions`
     const requestConfig = this.pageRequestConfig(pageRequest, optionalTransactionSearchParameters);
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
-  public async baseCoinBalanceOfUser(userId: string): Promise<GenericResponse<BaseCoinBalance>> {
+  public baseCoinBalanceOfUser(userId: string): Promise<GenericResponse<BaseCoinBalance>> {
     const path = `/v1/users/${userId}/base-coin`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async serviceTokenBalancesOfUser(
+  public serviceTokenBalancesOfUser(
     userId: string,
     pageRequest: PageRequest
   ): Promise<GenericResponse<Array<ServiceTokenBalance>>> {
     const path = `/v1/users/${userId}/service-tokens`
     const requestConfig = this.pageRequestConfig(pageRequest);
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
-  public async serviceTokenBalanceOfUser(
+  public serviceTokenBalanceOfUser(
     userId: string,
     contractId: string
   ): Promise<GenericResponse<ServiceTokenBalance>> {
     const path = `/v1/users/${userId}/service-tokens/${contractId}`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async fungibleTokenBalancesOfUser(
+  public fungibleTokenBalancesOfUser(
     userId: string,
     contractId: string,
     pageRequest: PageRequest
   ): Promise<GenericResponse<Array<FungibleBalance>>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/fungibles`
     const requestConfig = this.pageRequestConfig(pageRequest);
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
-  public async fungibleTokenBalanceOfUser(
+  public fungibleTokenBalanceOfUser(
     userId: string,
     contractId: string,
     tokenType: string
   ): Promise<GenericResponse<FungibleBalance>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/fungibles/${tokenType}`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async nonFungibleTokenBalancesOfUser(
+  public nonFungibleTokenBalancesOfUser(
     userId: string,
     contractId: string,
     pageRequest: PageRequest
   ): Promise<GenericResponse<Array<NonFungibleBalance>>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles`
     const requestConfig = this.pageRequestConfig(pageRequest);
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
-  public async nonFungibleTokenBalancesByTypeOfUser(
+  public nonFungibleTokenBalancesByTypeOfUser(
     userId: string,
     contractId: string,
     tokenType: string,
@@ -651,41 +612,39 @@ export class HttpClient {
   ): Promise<GenericResponse<Array<NonFungibleBalance>>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles/${tokenType}`
     const requestConfig = this.pageRequestConfig(pageRequest);
-    return await this.instance.get(path, requestConfig);
+    return this.instance.get(path, requestConfig);
   }
 
-  public async nonFungibleTokenBalanceOfUser(
+  public nonFungibleTokenBalanceOfUser(
     userId: string,
     contractId: string,
     tokenType: string,
     tokenIndex: string
   ): Promise<GenericResponse<NonFungibleBalance>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async transferServiceTokenOfUser(
+  public transferServiceTokenOfUser(
     userId: string,
     contractId: string,
     request: TransferServiceTokenProxyRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/users/${userId}/service-tokens/${contractId}/transfer`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async transferFungibleTokenOfUser(
+  public transferFungibleTokenOfUser(
     userId: string,
     contractId: string,
     tokenType: string,
     request: TransferFungibleTokenProxyRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/fungibles/${tokenType}/transfer`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async transferNonFungibleTokenOfUser(
+  public transferNonFungibleTokenOfUser(
     userId: string,
     contractId: string,
     tokenType: string,
@@ -693,32 +652,29 @@ export class HttpClient {
     request: TransferNonFungibleTokenProxyRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/transfer`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async batchTransferNonFungibleTokenOfUser(
+  public batchTransferNonFungibleTokenOfUser(
     userId: string,
     contractId: string,
     request: BatchTransferNonFungibleTokenProxyRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles/batch-transfer`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async issueSessionTokenForBaseCoinTransfer(
+  public issueSessionTokenForBaseCoinTransfer(
     userId: string,
     requestType: RequestType,
     request: IssueTransferSessionTokenRequest
   ): Promise<GenericResponse<SessionTokenResponse>> {
     const path = `/v1/users/${userId}/base-coin/request-transfer`
     const requestTypeParam = this.requestTypeParam(requestType)
-    const response = await this.instance.post(path, request, requestTypeParam);
-    return response;
+    return this.instance.post(path, request, requestTypeParam);
   }
 
-  public async issueSessionTokenForServiceTokenTransfer(
+  public issueSessionTokenForServiceTokenTransfer(
     userId: string,
     contractId: string,
     requestType: RequestType,
@@ -726,11 +682,10 @@ export class HttpClient {
   ): Promise<GenericResponse<SessionTokenResponse>> {
     const path = `/v1/users/${userId}/service-tokens/${contractId}/request-transfer`
     const requestTypeParam = this.requestTypeParam(requestType)
-    const response = await this.instance.post(path, request, requestTypeParam);
-    return response;
+    return this.instance.post(path, request, requestTypeParam);
   }
 
-  public async issueServiceTokenProxyRequest(
+  public issueServiceTokenProxyRequest(
     userId: string,
     contractId: string,
     requestType: RequestType,
@@ -738,11 +693,10 @@ export class HttpClient {
   ) {
     const path = `/v1/users/${userId}/service-tokens/${contractId}/request-proxy`
     const requestTypeParam = this.requestTypeParam(requestType)
-    const response = await this.instance.post(path, request, requestTypeParam);
-    return response;
+    return this.instance.post(path, request, requestTypeParam);
   }
 
-  public async issueItemTokenProxyRequest(
+  public issueItemTokenProxyRequest(
     userId: string,
     contractId: string,
     requestType: RequestType,
@@ -750,34 +704,31 @@ export class HttpClient {
   ) {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/request-proxy`
     const requestTypeParam = this.requestTypeParam(requestType)
-    const response = await this.instance.post(path, request, requestTypeParam);
-    return response;
+    return this.instance.post(path, request, requestTypeParam);
   }
 
-  public async commitProxyRequest(
+  public commitProxyRequest(
     requestSessionToken: string
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/user-requests/${requestSessionToken}/commit`
-    const response = await this.instance.post(path);
-    return response;
+    return this.instance.post(path);
   }
 
-  public async transactionResult(txHash: string): Promise<GenericResponse<TxResultResponse>> {
+  public transactionResult(txHash: string): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/transactions/${txHash}`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
-  public async createMemo(
+  public createMemo(
     request: MemoRequest
   ): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/memos`
-    const response = await this.instance.post(path, request);
-    return response;
+    return this.instance.post(path, request);
   }
 
-  public async memos(txHash: string): Promise<GenericResponse<Memo>> {
+  public memos(txHash: string): Promise<GenericResponse<Memo>> {
     const path = `/v1/memos/${txHash}`
-    return await this.instance.get(path);
+    return this.instance.get(path);
   }
 
   private requestTypeParam(requestType: RequestType): AxiosRequestConfig {
