@@ -5,7 +5,6 @@ import { RequestBodyFlattener } from "./request-body-flattener";
 /**
 reference site: https://jokecamp.wordpress.com/2012/10/21/examples-of-creating-base64-hashes-using-hmac-sha256-in-different-languages/#js
 */
-const logger = LoggerFactory.logger("SignatureGenerator");
 export class SignatureGenerator {
   static signature(
     apiSecret: string,
@@ -23,12 +22,11 @@ export class SignatureGenerator {
     }
     if (body && _.size(body) > 0) {
       if (hasQueryParam) {
-          signTarget += "&" + RequestBodyFlattener.flatten(body);
+        signTarget += "&" + RequestBodyFlattener.flatten(body);
       } else {
-          signTarget += RequestBodyFlattener.flatten(body);
+        signTarget += RequestBodyFlattener.flatten(body);
       }
     }
-    logger.debug(`signature-target: ${signTarget}`)
     let hash = CryptoJS.HmacSHA512(signTarget, apiSecret);
     return CryptoJS.enc.Base64.stringify(hash);
   }

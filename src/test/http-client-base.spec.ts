@@ -903,7 +903,7 @@ describe('http-client-base test', () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.multiMintnonFungibleToken(testContractId, request);
+    const response = await httpClient.multiMintNonFungibleToken(testContractId, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   })
@@ -1072,11 +1072,11 @@ describe('http-client-base test', () => {
       return [200, receivedData];
     });
 
-      const request = {
-        'serviceWalletAddress': testAddress,
-        'serviceWalletSecret': 'PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=',
-        'tokenHolderAddress': testAddress
-      }
+    const request = {
+      'serviceWalletAddress': testAddress,
+      'serviceWalletSecret': 'PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=',
+      'tokenHolderAddress': testAddress
+    }
 
     const response =
       await httpClient.detachNonFungibleToken(testContractId, testTokenType, testTokenIndex, request);

@@ -48,7 +48,8 @@ const LINE_USER_ID = env.LINE_USER_ID
 describe('http-client-base test', () => {
   const httpClient = new HttpClient(HOST_URL, SERVICE_API_KEY, SERVICE_API_SECRET);
 
-  it('time api test', async () => { 1
+  it('time api test', async () => {
+    1
 
     const response = await httpClient.time();
     expect(response["statusCode"]).to.equal(1000);
@@ -161,11 +162,11 @@ describe('http-client-base test', () => {
 
   it('mintFungibleToken api test', async () => {
     const request = {
-        "ownerAddress": OWNER_ADDRESS,
-        "ownerSecret": OWNER_SECRET,
-        "toAddress": OWNER_ADDRESS,
-        "amount": "1000000"
-      };
+      "ownerAddress": OWNER_ADDRESS,
+      "ownerSecret": OWNER_SECRET,
+      "toAddress": OWNER_ADDRESS,
+      "amount": "1000000"
+    };
     const response =
       await httpClient.mintFungibleToken(
         ITEM_TOKEN_CONTRACT_ID,
@@ -178,11 +179,11 @@ describe('http-client-base test', () => {
 
   it('burnFungibleToken api test', async () => {
     const request = {
-        "ownerAddress": OWNER_ADDRESS,
-        "ownerSecret": OWNER_SECRET,
-        "fromAddress": OWNER_ADDRESS,
-        "amount": "1000000"
-      };
+      "ownerAddress": OWNER_ADDRESS,
+      "ownerSecret": OWNER_SECRET,
+      "fromAddress": OWNER_ADDRESS,
+      "amount": "1000000"
+    };
     const response =
       await httpClient.burnFungibleToken(
         ITEM_TOKEN_CONTRACT_ID,
@@ -336,7 +337,7 @@ describe('http-client-base test', () => {
       ]
     }
     const response =
-      await httpClient.multiMintnonFungibleToken(ITEM_TOKEN_CONTRACT_ID,request);
+      await httpClient.multiMintNonFungibleToken(ITEM_TOKEN_CONTRACT_ID, request);
 
     console.log("response: " + JSON.stringify(response))
     expect(response["statusCode"]).to.equal(1002);
@@ -412,7 +413,7 @@ describe('http-client-base test', () => {
       await httpClient.rootOfNonFungibleToken(
         ITEM_TOKEN_CONTRACT_ID,
         "10000002",
-        "00000002",);
+        "00000002");
 
     console.log("response: " + JSON.stringify(response))
     expect(response["statusCode"]).to.equal(1000);
@@ -541,7 +542,7 @@ describe('http-client-base test', () => {
       'amount': '1'
     }
     const response =
-      await httpClient.transferBaseCoinOfWallet(OWNER_ADDRESS,request);
+      await httpClient.transferBaseCoinOfWallet(OWNER_ADDRESS, request);
 
     console.log("response: " + JSON.stringify(response))
     expect(response["statusCode"]).to.equal(1002);
@@ -827,11 +828,11 @@ describe('http-client-base test', () => {
   })
 
   it('transferNonFungibleTokenOfUser api test', async () => {
-      const request = {
-        'ownerAddress': OWNER_ADDRESS,
-        'ownerSecret': OWNER_SECRET,
-        'toAddress': OWNER_ADDRESS2
-      }
+    const request = {
+      'ownerAddress': OWNER_ADDRESS,
+      'ownerSecret': OWNER_SECRET,
+      'toAddress': OWNER_ADDRESS2
+    }
 
     const response =
       await httpClient.transferNonFungibleTokenOfUser(
