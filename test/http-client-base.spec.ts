@@ -14,6 +14,7 @@ import { TransactionMsgTypes } from '../lib/constants';
 import { PageRequest, OrderBy, TokenId, RequestType } from '../lib/request';
 import { transactionResult, singleTransactionResult } from './test-data';
 
+
 describe('http-client-base test', () => {
   let stub: MockAdapter;
 
@@ -524,8 +525,10 @@ describe('http-client-base test', () => {
       return [200, receivedData];
     });
 
-    const promise = httpClient.burnFungibleToken(testContractId, testTokenType, request)
-    await expect(promise).to.eventually.be.rejectedWith(Error)
+    expect(
+      () => httpClient.burnFungibleToken(testContractId, testTokenType, request)
+    ).to.throw()
+
   })
 
   it('fungible-token-holders api test', async () => {
