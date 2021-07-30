@@ -15,4 +15,3 @@ __exportStar(require("./request"), exports);
 __exportStar(require("./response"), exports);
 __exportStar(require("./signature-generator"), exports);
 __exportStar(require("./request-body-flattener"), exports);
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi9saWIvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7Ozs7Ozs7O0FBQUEscURBQW1DO0FBQ25DLDRDQUEwQjtBQUMxQiw2Q0FBMkI7QUFDM0Isd0RBQXNDO0FBQ3RDLDJEQUF5QyJ9
