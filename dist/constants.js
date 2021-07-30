@@ -1,0 +1,43 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TransactionMsgTypes = exports.Constant = void 0;
+class Constant {
+}
+exports.Constant = Constant;
+Constant.SERVICE_API_KEY_HEADER = "service-api-key";
+Constant.SIGNATURE_HEADER = "Signature";
+Constant.TIMESTAMP_HEADER = "Timestamp";
+Constant.NONCE_HEADER = "Nonce";
+class TransactionMsgTypes {
+}
+exports.TransactionMsgTypes = TransactionMsgTypes;
+TransactionMsgTypes.COIN_MSGSEND = "coin/MsgSend";
+TransactionMsgTypes.TOKEN_MSGISSUE = "token/MsgIssue";
+TransactionMsgTypes.TOKEN_MSGMINT = "token/MsgMint";
+TransactionMsgTypes.TOKEN_MSGBURN = "token/MsgBurn";
+TransactionMsgTypes.TOKEN_MSGBURNFROM = "token/MsgBurnFrom";
+TransactionMsgTypes.TOKEN_MSGTRANSFER = "token/MsgTransfer";
+TransactionMsgTypes.TOKEN_MSGTRANSFERFROM = "token/MsgTransferFrom";
+TransactionMsgTypes.TOKEN_MSGMODIFY = "token/MsgModify";
+TransactionMsgTypes.TOKEN_MSGAPPROVE = "token/MsgApprove";
+TransactionMsgTypes.COLLECTION_MSGCREATECOLLECTION = "collection/MsgCreateCollection";
+TransactionMsgTypes.COLLECTION_MSGISSUEFT = "collection/MsgIssueFT";
+TransactionMsgTypes.COLLECTION_MSGISSUENFT = "collection/MsgIssueNFT";
+TransactionMsgTypes.COLLECTION_MSGMINTFT = "collection/MsgMintFT";
+TransactionMsgTypes.COLLECTION_MSGMINTNFT = "collection/MsgMintNFT";
+TransactionMsgTypes.COLLECTION_MSGBURNFT = "collection/MsgBurnFT";
+TransactionMsgTypes.COLLECTION_MSGBURNFTFROM = "collection/MsgBurnFTFrom";
+TransactionMsgTypes.COLLECTION_MSGBURNNFT = "collection/MsgBurnNFT";
+TransactionMsgTypes.COLLECTION_MSGBURNNFTFROM = "collection/MsgBurnNFTFrom";
+TransactionMsgTypes.COLLECTION_MSGTRANSFERFT = "collection/MsgTransferFT";
+TransactionMsgTypes.COLLECTION_MSGTRANSFERFTFROM = "collection/MsgTransferFTFrom";
+TransactionMsgTypes.COLLECTION_MSGTRANSFERNFT = "collection/MsgTransferNFT";
+TransactionMsgTypes.COLLECTION_MSGTRANSFERNFTFROM = "collection/MsgTransferNFTFrom";
+TransactionMsgTypes.COLLECTION_MSGATTACH = "collection/MsgAttach";
+TransactionMsgTypes.COLLECTION_MSGATTACHFROM = "collection/MsgAttachFrom";
+TransactionMsgTypes.COLLECTION_MSGDETACH = "collection/MsgDetach";
+TransactionMsgTypes.COLLECTION_MSGDETACHFROM = "collection/MsgDetachFrom";
+TransactionMsgTypes.COLLECTION_MSGAPPROVE = "collection/MsgApprove";
+TransactionMsgTypes.COLLECTION_MSGMODIFY = "collection/MsgModify";
+TransactionMsgTypes.ACCOUNT_MSGEMPTY = "account/MsgEmpty";
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiY29uc3RhbnRzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vbGliL2NvbnN0YW50cy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSxNQUFhLFFBQVE7O0FBQXJCLDRCQUtDO0FBSlEsK0JBQXNCLEdBQUcsaUJBQWlCLENBQUE7QUFDMUMseUJBQWdCLEdBQUcsV0FBVyxDQUFBO0FBQzlCLHlCQUFnQixHQUFHLFdBQVcsQ0FBQTtBQUM5QixxQkFBWSxHQUFHLE9BQU8sQ0FBQTtBQUcvQixNQUFhLG1CQUFtQjs7QUFBaEMsa0RBOEJDO0FBN0JRLGdDQUFZLEdBQUcsY0FBYyxDQUFDO0FBQzlCLGtDQUFjLEdBQUcsZ0JBQWdCLENBQUM7QUFDbEMsaUNBQWEsR0FBRyxlQUFlLENBQUM7QUFDaEMsaUNBQWEsR0FBRyxlQUFlLENBQUM7QUFDaEMscUNBQWlCLEdBQUcsbUJBQW1CLENBQUM7QUFDeEMscUNBQWlCLEdBQUcsbUJBQW1CLENBQUM7QUFDeEMseUNBQXFCLEdBQUcsdUJBQXVCLENBQUM7QUFDaEQsbUNBQWUsR0FBRyxpQkFBaUIsQ0FBQztBQUNwQyxvQ0FBZ0IsR0FBRyxrQkFBa0IsQ0FBQztBQUN0QyxrREFBOEIsR0FBRyxnQ0FBZ0MsQ0FBQztBQUNsRSx5Q0FBcUIsR0FBRyx1QkFBdUIsQ0FBQztBQUNoRCwwQ0FBc0IsR0FBRyx3QkFBd0IsQ0FBQztBQUNsRCx3Q0FBb0IsR0FBRyxzQkFBc0IsQ0FBQztBQUM5Qyx5Q0FBcUIsR0FBRyx1QkFBdUIsQ0FBQztBQUNoRCx3Q0FBb0IsR0FBRyxzQkFBc0IsQ0FBQztBQUM5Qyw0Q0FBd0IsR0FBRywwQkFBMEIsQ0FBQztBQUN0RCx5Q0FBcUIsR0FBRyx1QkFBdUIsQ0FBQztBQUNoRCw2Q0FBeUIsR0FBRywyQkFBMkIsQ0FBQztBQUN4RCw0Q0FBd0IsR0FBRywwQkFBMEIsQ0FBQztBQUN0RCxnREFBNEIsR0FBRyw4QkFBOEIsQ0FBQztBQUM5RCw2Q0FBeUIsR0FBRywyQkFBMkIsQ0FBQztBQUN4RCxpREFBNkIsR0FBRywrQkFBK0IsQ0FBQztBQUNoRSx3Q0FBb0IsR0FBRyxzQkFBc0IsQ0FBQztBQUM5Qyw0Q0FBd0IsR0FBRywwQkFBMEIsQ0FBQztBQUN0RCx3Q0FBb0IsR0FBRyxzQkFBc0IsQ0FBQztBQUM5Qyw0Q0FBd0IsR0FBRywwQkFBMEIsQ0FBQztBQUN0RCx5Q0FBcUIsR0FBRyx1QkFBdUIsQ0FBQztBQUNoRCx3Q0FBb0IsR0FBRyxzQkFBc0IsQ0FBQztBQUM5QyxvQ0FBZ0IsR0FBRyxrQkFBa0IsQ0FBQyJ9

@@ -29,7 +29,7 @@ const env = load(
     "LINE_USER_ID": String,
     "LINE_USER_WALLET_ADDRESS": String,
   }, {
-  "path": "./src/integration-test/integration-test.env"
+  "path": "./integration-test/integration-test.env"
 }
 )
 
