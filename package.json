@@ -1,5 +1,5 @@
 {
-  "name": "@line/link-developers-sdk-js",
+  "name": "@line/lbd-sdk-js",
   "version": "1.0.0",
   "description": "javascript sdk for Line Blockchain Developers",
   "engines": {
