@@ -11,10 +11,10 @@
 * [Key objects and usage](#key-objects-and-usage)
 
 ## Introduction
-The LINE Blockchain Developers SDK for Javascript makes it easy to develop a service(dApp) using [LINE Blockchain Developers API](https://docs-blockchain.line.biz/api-guide/), and no worries about generating signature for each request.
+The LINE Blockchain Developers SDK for JavaScript makes it easy to develop a service(dApp) using [LINE Blockchain Developers API](https://docs-blockchain.line.biz/api-guide/), and there are no worries about generating signature for each request.
 
 ### Documentation
-Please see the official LINE Blockchain Developers API documentation for more information.
+See the official LINE Blockchain Developers API documentation for more information.
 * English: https://docs-blockchain.line.biz/api-guide/
 * Japanese: https://docs-blockchain.line.biz/ja/api-guide/
 * Korean: https://docs-blockchain.line.biz/ko/api-guide/
@@ -24,7 +24,7 @@ Please see the official LINE Blockchain Developers API documentation for more in
 
 ### Installation
 Before getting started, you need to install the library to your project. 
-To make installation easy, use package managers as the follows:
+To make installation easy, use package managers as follows:
 
 Using [npm](https://www.npmjs.com/?target=_blank):
 
@@ -35,7 +35,7 @@ Using [yarn](https://yarnpkg.com/?target=_blank)
 `yarn add @line/link-developers-sdk-js`
 
 ### Versioning
-This project respects semantic versioning
+This project respects [semantic versioning](http://semver.org/?target=_blank).
 
 See http://semver.org/
 
@@ -44,10 +44,9 @@ Please check [CONTRIBUTING](https://github.com/line/line-blockchain-developers-s
 
 ### License
 ```
-Copyright (C) 2017-2018 LINE Corp.
+Copyright (C) 2021 LINE Corp.
 
 Licensed under the Apache License, Version 2.0 (the "License");
-
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
@@ -82,7 +81,7 @@ All the dependencies can be install via [npm](https://www.npmjs.com/?target=_bla
   yarn add @line/link-developers-sdk-js
   ```
 
-Instead of using package managers, you can clone this repository as well. You can build from source. Please clone the repository and run the following scripts to build.
+Instead of using package managers, you can clone and build from source as well. Run the following scripts/commends.
 
 ```
 $ git clone https://github.com/line/line-blockchain-developers-sdk-js.git
@@ -142,7 +141,7 @@ const httpClient = new devSdk.HttpClient(BASE_URL, SERVICE_API_KEY, SERVICE_API_
 
 #### Example to get server time
 ##### Using promise
-```
+```JavaScript
 httpClient.time().then(response => {
     console.log("statusCode", response.statusCode);
     console.log("responseTime", response.responseTime);
@@ -152,7 +151,7 @@ httpClient.time().then(response => {
 ```
 
 ##### Using async function
-```
+```JavaScript
 async function checkServerTime() {
     var response = await httpClient.time();
     console.log("statusCode", response.statusCode);
@@ -169,9 +168,18 @@ It's an entry point for this library, every dApp for LINE Blockchain Developers 
 
 Create an instance with your connection and authentication information as follows:
 
-```javascript
+```JavaScript
+// Directly import
 import { HttpClient } from './lib/http-client-base';
 const httpClient = new HttpClient(baseUrl, apiKey, apiSecret);
+
+// CommonJS
+const devSdk = require('@line/link-developers-sdk-js');
+const httpClient = new devSdk.HttpClient(BASE_URL, SERVICE_API_KEY, SERVICE_API_SECRET)
+
+// ES2015 modules or TypeScript
+import * as devSdk from '@line/link-developers-sdk-js';
+const httpClient = new devSdk.HttpClient(BASE_URL, SERVICE_API_KEY, SERVICE_API_SECRET)
 ```
 
 - `baseUrl` is the address of API server. Find one for the chain your service runs on in [API guide](https://docs-blockchain.line.biz/api-guide/).
@@ -180,7 +188,7 @@ const httpClient = new HttpClient(baseUrl, apiKey, apiSecret);
 
 Now, you can call any endpoints via the functions of the instance. A simple example is to get the server time:
 
-```javascript
+```JavaScript
 (async() => {
   const response = await httpClient.time();
   console.log(response['statusCode']);
@@ -192,7 +200,8 @@ Remember that you must handle it in an asynchronous way.
 ### Request and response
 When requesting, you can use predefined request data classes in `lib/request.ts`. Try to send a memo save request for example as follows:
 
-```javascript
+```JavaScript
+//Directly import
 import { MemoRequest } from './lib/request';
 
 (async() => {
@@ -203,7 +212,7 @@ import { MemoRequest } from './lib/request';
 
 When you need to parse a JSON-formatted `responseData` in a response, find and use the proper response data class in `lib/response.ts`. To get the `txhash` or the above request for example:
 
-```javascript
+```JavaScript
 import { GenericResponse, TxResultResponse } from './lib/response';
 
 (async() => {
