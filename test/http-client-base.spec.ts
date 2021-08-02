@@ -2651,6 +2651,85 @@ describe("http-client-base test", () => {
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["requestId"]).to.equal(testRequestId);
   });
+
+  it("query fungible-token media resource update status", async () => {
+    const testContractId = "9636a07e";
+    const testRequestId = "test-request-id";
+    const testTokenType1 = "00000001";
+    const testTokenType2 = "00000002";
+    const receivedData = {
+      responseTime: 1585498625527,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          "tokenType": "00000001",
+          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}`,
+          "status": "COMPLETED",
+        },
+        {
+          "tokenType": "00000002",
+          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}`,
+          "status": "COMPLETED",
+          "detailStatus": "-",
+        }
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    const path = `/v1/item-tokens/${testContractId}/fungible/icon/${testRequestId}/status`;
+    stub.onGet(path).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(testContractId, testRequestId);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
+  });
+
+  it("query non-fungible-token media resource update status", async () => {
+    const testContractId = "9636a07e";
+    const testRequestId = "test-request-id";
+    const testTokenType1 = "10000001";
+    const testTokenType2 = "10000002";
+    const testTokenIndex1 = "00000001";
+    const testTokenIndex2 = "00000002";
+    const receivedData = {
+      responseTime: 1585498625527,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          "tokenType": testTokenType1,
+          "tokenIndex": testTokenIndex1,
+          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}${testTokenIndex1}`,
+          "status": "COMPLETED",
+        },
+        {
+          "tokenType": testTokenType2,
+          "tokenIndex": testTokenIndex2,
+          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}${testTokenIndex2}`,
+          "status": "COMPLETED",
+          "detailStatus": "-",
+        }
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    const path = `/v1/item-tokens/${testContractId}/fungible/icon/${testRequestId}/status`;
+    stub.onGet(path).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(testContractId, testRequestId);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
+  });
+
 });
 
 function assertHeaders(headers: any) {

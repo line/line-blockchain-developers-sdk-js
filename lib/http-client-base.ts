@@ -25,6 +25,8 @@ import {
   SessionTokenResponse,
   Memo,
   TokenMediaResourceUpdateResponse,
+  FungibleTokenMediaResourceUpdateStatusResponse,
+  NonFungibleTokenMediaResourceUpdateStatusResponse
 } from "./response";
 import {
   RequestType,
@@ -739,6 +741,22 @@ export class HttpClient {
       updateList,
     );
     return this.instance.put(path, request);
+  }
+
+  public fungibleTokenMediaResourcesUpdateStatus(
+    contractId: string,
+    requestId: string,
+  ): Promise<GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>> {
+    const path = `/v1/item-tokens/${contractId}/fungible/icon/${requestId}/status`;
+    return this.instance.get(path);
+  }
+
+  public nonFungibleTokenMediaResourcesUpdateStatus(
+    contractId: string,
+    requestId: string,
+  ): Promise<GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>> {
+    const path = `/v1/item-tokens/${contractId}/non-fungible/icon/${requestId}/status`;
+    return this.instance.get(path);
   }
 
   public issueSessionTokenForBaseCoinTransfer(
