@@ -1,5 +1,5 @@
 import { LoggerFactory } from "./logger-factory";
-import CryptoJS from 'crypto-js';
+import CryptoJS from "crypto-js";
 import _ from "lodash";
 import { RequestBodyFlattener } from "./request-body-flattener";
 /**
@@ -13,10 +13,17 @@ export class SignatureGenerator {
     timestamp: number,
     nonce: string,
     parameters: object = {}, // query string
-    body: object = {}
+    body: object = {},
   ): string {
-    let signTarget = SignatureGenerator.createSignTarget(method, path, timestamp, nonce, parameters, body);
-    let hasQueryParam = _.size(parameters) > 0
+    let signTarget = SignatureGenerator.createSignTarget(
+      method,
+      path,
+      timestamp,
+      nonce,
+      parameters,
+      body,
+    );
+    let hasQueryParam = _.size(parameters) > 0;
     if (parameters && hasQueryParam) {
       signTarget += RequestBodyFlattener.flatten(parameters);
     }
@@ -37,14 +44,14 @@ export class SignatureGenerator {
     timestamp: number,
     nonce: string,
     parameters: object = {}, // query string
-    body: object = {}
+    body: object = {},
   ) {
     let signTarget = `${nonce}${timestamp}${method}${path}`;
     if ((parameters && _.size(parameters) > 0) || (body && _.size(body) > 0)) {
-      if (signTarget.indexOf('?') < 0) {
-        signTarget += '?'
+      if (signTarget.indexOf("?") < 0) {
+        signTarget += "?";
       } else {
-        signTarget += '&'
+        signTarget += "&";
       }
     }
     return signTarget;

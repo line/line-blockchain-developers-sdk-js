@@ -3,7 +3,8 @@ export class GenericResponse<T> {
     readonly responseTime: number,
     readonly statusCode: number,
     readonly statusMessage: string,
-    readonly responseData?: T) { }
+    readonly responseData?: T,
+  ) {}
 }
 
 export class ServiceDetail {
@@ -11,19 +12,18 @@ export class ServiceDetail {
     readonly serviceId: string,
     readonly name: string,
     readonly category: string,
-    readonly description?: string
-  ) { }
+    readonly description?: string,
+  ) {}
 }
 
 export class UserRequestStatus {
-  constructor(readonly status: RequestSessionTokenStatus) { }
+  constructor(readonly status: RequestSessionTokenStatus) {}
 }
 
 export enum RequestSessionTokenStatus {
   Authorized,
-  Unauthorized
+  Unauthorized,
 }
-
 
 export class ServiceToken {
   constructor(
@@ -38,20 +38,24 @@ export class ServiceToken {
     readonly imgUri: string,
     readonly totalSupply: string,
     readonly totalMint: string,
-    readonly totalBurn: string
-  ) { }
+    readonly totalBurn: string,
+  ) {}
 }
 
 export class ServiceTokenHolder {
   constructor(
     readonly address: string,
     readonly amount: string,
-    readonly userId?: string
-  ) { }
+    readonly userId?: string,
+  ) {}
 }
 
 export class TransactionResponse {
-  constructor(readonly txHash: string) { }
+  constructor(readonly txHash: string) {}
+}
+
+export class TokenMediaResourceUpdateResponse {
+  constructor(readonly requestId: string) {}
 }
 
 export class TxResultResponse {
@@ -68,30 +72,29 @@ export class TxResultResponse {
     readonly logs?: Array<LogResponse>,
     readonly info?: string,
     readonly gasWanted?: number,
-  ) { }
+  ) {}
 }
-
 
 export class LogResponse {
   constructor(
     readonly msgIndex: number,
     readonly log: string,
-    readonly events?: Array<EventResponse>
-  ) { }
+    readonly events?: Array<EventResponse>,
+  ) {}
 }
 
 export class EventResponse {
   constructor(
     readonly type: string,
-    readonly attributes: Array<KeyValueResponse<String>>
-  ) { }
+    readonly attributes: Array<KeyValueResponse<String>>,
+  ) {}
 }
 
-export class KeyValueResponse<T>{
-  constructor(readonly key: string, readonly value?: T) { }
+export class KeyValueResponse<T> {
+  constructor(readonly key: string, readonly value?: T) {}
 }
-export class TypedValueResponse<T>{
-  constructor(readonly type: String, readonly value: T) { }
+export class TypedValueResponse<T> {
+  constructor(readonly type: String, readonly value: T) {}
 }
 
 export class StdTxResponse {
@@ -99,45 +102,45 @@ export class StdTxResponse {
     readonly msg: Array<TypedValueResponse<any>>,
     readonly fee: FeeResponse,
     readonly memo: string,
-    readonly signatures: Array<SignatureResponse>
-  ) { }
+    readonly signatures: Array<SignatureResponse>,
+  ) {}
 }
 
 export class FeeResponse {
-  constructor(readonly gas: BigInteger, readonly amount: Array<CoinResponse>) { }
+  constructor(readonly gas: BigInteger, readonly amount: Array<CoinResponse>) {}
 }
 export class SignatureResponse {
   constructor(
     readonly signature: ArrayBuffer,
-    readonly pubKey?: TypedValueResponse<ArrayBuffer>
-  ) { }
+    readonly pubKey?: TypedValueResponse<ArrayBuffer>,
+  ) {}
 }
 
 export class BaseCoinBalance {
   constructor(
     readonly symbol: string,
     readonly decimals: number,
-    readonly amount: string
-  ) { }
+    readonly amount: string,
+  ) {}
 }
 
 export class CoinResponse {
-  constructor(readonly denom: string, readonly amount: BigInt) { }
+  constructor(readonly denom: string, readonly amount: BigInt) {}
   toString(): String {
-    return this.amount.toString() + this.denom
+    return this.amount.toString() + this.denom;
   }
 }
 
 export class Memo {
-  constructor(readonly memo: string) { }
+  constructor(readonly memo: string) {}
 }
 
 export class WalletResponse {
   constructor(
     readonly name: string,
     readonly walletAddress: string,
-    readonly createdAt: number
-  ) { }
+    readonly createdAt: number,
+  ) {}
 }
 
 export class ServiceTokenBalance {
@@ -147,8 +150,8 @@ export class ServiceTokenBalance {
     readonly symbol: string,
     readonly imgUri: string,
     readonly decimals: number,
-    readonly amount: string
-  ) { }
+    readonly amount: string,
+  ) {}
 }
 
 export class FungibleBalance {
@@ -156,8 +159,8 @@ export class FungibleBalance {
     readonly tokenType: string,
     readonly name: string,
     readonly meta: string,
-    readonly amount: string
-  ) { }
+    readonly amount: string,
+  ) {}
 }
 
 export class NonFungibleBalance {
@@ -165,12 +168,16 @@ export class NonFungibleBalance {
     readonly tokenType: string,
     readonly name: string,
     readonly meta: string,
-    readonly numberOfIndex: string
-  ) { }
+    readonly numberOfIndex: string,
+  ) {}
 }
 
 export class TokenIndex {
-  constructor(readonly tokenIndex: string, readonly name: string, readonly meta: string) { }
+  constructor(
+    readonly tokenIndex: string,
+    readonly name: string,
+    readonly meta: string,
+  ) {}
 }
 
 export class ItemToken {
@@ -179,8 +186,8 @@ export class ItemToken {
     readonly baseImgUri: string,
     readonly ownerAddress: string,
     readonly serviceId: string,
-    readonly createdAt: number
-  ) { }
+    readonly createdAt: number,
+  ) {}
 }
 
 export class FungibleToken {
@@ -191,16 +198,16 @@ export class FungibleToken {
     readonly totalSupply: string,
     readonly totalMint: string,
     readonly totalBurn: string,
-    readonly createdAt: number
-  ) { }
+    readonly createdAt: number,
+  ) {}
 }
 
 export class FungibleTokenHolder {
   constructor(
     readonly walletAddress: string,
     readonly amount: string,
-    readonly userId?: string
-  ) { }
+    readonly userId?: string,
+  ) {}
 }
 
 export class ItemTokenType {
@@ -211,8 +218,8 @@ export class ItemTokenType {
     readonly totalSupply: string,
     readonly totalMint: string,
     readonly totalBurn: string,
-    readonly createdAt: number
-  ) { }
+    readonly createdAt: number,
+  ) {}
 }
 
 export class NonFungibleTokenType {
@@ -224,8 +231,8 @@ export class NonFungibleTokenType {
     readonly totalMint: BigInteger,
     readonly totalBurn: BigInteger,
     readonly createdAt: number,
-    readonly tokens: Array<NonFungibleIndex>
-  ) { }
+    readonly tokens: Array<NonFungibleIndex>,
+  ) {}
 }
 
 export class NonFungibleIndex {
@@ -234,8 +241,8 @@ export class NonFungibleIndex {
     readonly name: string,
     readonly meta: string,
     readonly createdAt: number,
-    readonly burnedAt?: number
-  ) { }
+    readonly burnedAt?: number,
+  ) {}
 }
 
 export class NonFungibleId {
@@ -244,16 +251,16 @@ export class NonFungibleId {
     readonly name: string,
     readonly meta: string,
     readonly createdAt: number,
-    readonly burnedAt?: number
-  ) { }
+    readonly burnedAt?: number,
+  ) {}
 }
 
 export class NonFungibleTokenTypeHolder {
   constructor(
     readonly walletAddress: string,
     readonly numberOfIndex: string,
-    readonly userId?: string
-  ) { }
+    readonly userId?: string,
+  ) {}
 }
 
 export class NonFungibleTokenHolder {
@@ -262,14 +269,17 @@ export class NonFungibleTokenHolder {
     readonly walletAddress: string,
     readonly amount: string,
     readonly userId?: string,
-  ) { }
+  ) {}
 }
 
 export class UserIdAddress {
-  constructor(readonly userId: string, readonly address: string) { }
+  constructor(readonly userId: string, readonly address: string) {}
 }
 export class SessionTokenResponse {
-  constructor(readonly requestSessionToken: string, readonly redirectUri: string) { }
+  constructor(
+    readonly requestSessionToken: string,
+    readonly redirectUri: string,
+  ) {}
 }
 
 export class RequestSessionStatus {
