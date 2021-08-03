@@ -1,4 +1,4 @@
-const sdk = require("@line/link-developers-sdk-js");
+const sdk = require("@line/lbd-sdk-js");
 const load = require("ts-dotenv").load;
 
 const env = load(

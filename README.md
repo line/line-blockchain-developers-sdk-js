@@ -28,11 +28,11 @@ To make installation easy, use package managers as follows:
 
 Using [npm](https://www.npmjs.com/?target=_blank):
 
-`npm install @line/link-developers-sdk-js`
+`npm install @line/lbd-sdk-js`
 
 Using [yarn](https://yarnpkg.com/?target=_blank)
 
-`yarn add @line/link-developers-sdk-js`
+`yarn add @line/lbd-sdk-js`
 
 ### Versioning
 This project respects [semantic versioning](http://semver.org/?target=_blank).
@@ -130,11 +130,11 @@ The library is written in TypeScript and includes TypeScript definitions by defa
 #### Create HttpClient
 ```
 // CommonJS
-const devSdk = require('@line/link-developers-sdk-js');
+const devSdk = require('@line/lbd-sdk-js');
 const httpClient = new devSdk.HttpClient(BASE_URL, SERVICE_API_KEY, SERVICE_API_SECRET)
 
 // ES2015 modules or TypeScript
-import * as devSdk from '@line/link-developers-sdk-js';
+import * as devSdk from '@line/lbd-sdk-js';
 const httpClient = new devSdk.HttpClient(BASE_URL, SERVICE_API_KEY, SERVICE_API_SECRET)
 
 ```
@@ -174,11 +174,11 @@ import { HttpClient } from './lib/http-client-base';
 const httpClient = new HttpClient(baseUrl, apiKey, apiSecret);
 
 // CommonJS
-const devSdk = require('@line/link-developers-sdk-js');
+const devSdk = require('@line/lbd-sdk-js');
 const httpClient = new devSdk.HttpClient(BASE_URL, SERVICE_API_KEY, SERVICE_API_SECRET)
 
 // ES2015 modules or TypeScript
-import * as devSdk from '@line/link-developers-sdk-js';
+import * as devSdk from '@line/lbd-sdk-js';
 const httpClient = new devSdk.HttpClient(BASE_URL, SERVICE_API_KEY, SERVICE_API_SECRET)
 ```
 

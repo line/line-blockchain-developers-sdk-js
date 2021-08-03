@@ -106,8 +106,7 @@ export class HttpClient {
     return data
   };
   protected _handleError = (error: any) => {
-    this.logger.error("error response: ", error.response);
-    return Promise.reject(error)
+    return Promise.reject(error.response)
   };
 
   private _handleRequest = (config: AxiosRequestConfig) => {
