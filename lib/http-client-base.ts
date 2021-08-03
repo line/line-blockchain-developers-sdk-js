@@ -1,6 +1,7 @@
 import { LoggerFactory } from "./logger-factory";
 import _ from "lodash";
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from "axios";
+import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, AxiosError } from "axios";
+import { HTTPError, ReadError, RequestError } from "./exceptions";
 import cryptoRandomString from "crypto-random-string";
 import {
   GenericResponse,
@@ -112,8 +113,7 @@ export class HttpClient {
     return data;
   };
   protected _handleError = (error: any) => {
-    this.logger.error("error response: ", error.response);
-    return Promise.reject(error);
+    return Promise.reject(this.wrapError(error));
   };
 
   private _handleRequest = (config: AxiosRequestConfig) => {
@@ -125,6 +125,25 @@ export class HttpClient {
 
     return config;
   };
+
+  private wrapError(err: AxiosError): Error {
+    if (err.response) {
+      return new HTTPError(
+        err.message,
+        err.response.status,
+        err.response.statusText,
+        err,
+      );
+    } else if (err.code) {
+      return new RequestError(err.message, err.code, err);
+    } else if (err.config) {
+      // unknown, but from axios
+      return new ReadError(err);
+    }
+
+    // otherwise, just rethrow
+    return err;
+  }
 
   protected addRequestHeaders(config: AxiosRequestConfig) {
     const nonce = cryptoRandomString({ length: 8 });
