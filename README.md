@@ -1,9 +1,7 @@
 # LINE Blockchain Developers SDK for JavaScript
-[![NPM version](https://img.shields.io/npm/v/%40line%2Fline-blockchain-developers-sdk-js
-.svg)](https://www.npmjs.com/package/@line/line-blockchain-developers-sdk-js
-)
-[![NPM downloads](https://img.shields.io/npm/dm/%40line%2Fline-blockchain-developers-sdk-js
-.svg)](https://www.npmjs.com/package/@line/line-blockchain-developers-sdk-js)
+<!-- 
+//TODO add npm version, downloads, build status and etc, after release
+-->
 
 ## Table of Contents // TODO update
 * [Introduction](#introduction)
