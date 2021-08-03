@@ -1,0 +1,16 @@
+{
+  "name": "commonJsExample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "type": "commonjs",
+  "dependencies": {
+    "@line/link-developers-sdk-js": "file:../..",
+    "ts-dotenv": "^0.8.3"
+  }
+}
