@@ -71,12 +71,12 @@ All the dependencies can be install via [npm](https://www.npmjs.com/?target=_bla
 
 * [npm](https://www.npmjs.com/?target=_blank)
   ```
-  npm install @line/link-developers-sdk-js
+  npm install @line/lbd-sdk-js
   ```
 
 * [yarn](https://yarnpkg.com/?target=_blank)
   ```
-  yarn add @line/link-developers-sdk-js
+  yarn add @line/lbd-sdk-js
   ```
 
 Instead of using package managers, you can clone and build from source as well. Run the following scripts/commends.
