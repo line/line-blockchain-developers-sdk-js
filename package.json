@@ -17,9 +17,9 @@
   },
   "license": "Apache-2.0",
   "keywords": [
-    "link-developers-sdk",
+    "line-blockchain-developers-sdk",
     "line blockchain",
-    "link-developers"
+    "line-blockchain-developers"
   ],
   "scripts": {
     "prettier": "prettier --parser typescript --trailing-comma all --arrow-parens avoid \"{lib,test}/**/*.ts\"",
