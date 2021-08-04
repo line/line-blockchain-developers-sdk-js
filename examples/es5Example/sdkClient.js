@@ -1,4 +1,4 @@
-import * as Sdk from '@line/link-developers-sdk-js';
+import * as Sdk from '@line/lbd-sdk-js';
 import { load } from 'ts-dotenv';
 
 const env = load(

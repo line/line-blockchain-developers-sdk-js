@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "type": "module",
   "dependencies": {
-    "@line/link-developers-sdk-js": "file:../..",
+    "@line/lbd-sdk-js": "file:../..",
     "ts-dotenv": "^0.8.3"
   }
 }
