@@ -112,7 +112,7 @@ export class LogResponse {
 export class EventResponse {
   constructor(
     readonly type: string,
-    readonly attributes: Array<KeyValueResponse<String>>,
+    readonly attributes: Array<KeyValueResponse<string>>,
   ) { }
 }
 
@@ -120,7 +120,7 @@ export class KeyValueResponse<T> {
   constructor(readonly key: string, readonly value?: T) { }
 }
 export class TypedValueResponse<T> {
-  constructor(readonly type: String, readonly value: T) { }
+  constructor(readonly type: string, readonly value: T) { }
 }
 
 export class StdTxResponse {
@@ -152,7 +152,7 @@ export class BaseCoinBalance {
 
 export class CoinResponse {
   constructor(readonly denom: string, readonly amount: BigInt) { }
-  toString(): String {
+  toString(): string {
     return this.amount.toString() + this.denom;
   }
 }
