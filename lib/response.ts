@@ -152,8 +152,8 @@ export class BaseCoinBalance {
 
 export class CoinResponse {
   constructor(readonly denom: string, readonly amount: BigInt) { }
-  tostring(): string {
-    return this.amount.tostring() + this.denom;
+  toString(): string {
+    return this.amount.toString() + this.denom;
   }
 }
 
