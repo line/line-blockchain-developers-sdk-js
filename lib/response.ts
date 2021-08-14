@@ -84,6 +84,10 @@ export enum TokenMediaResourceUpdateStatus {
   NONE,
 }
 
+export class TxHashResponse {
+  constructor(readonly txHash: string) { }
+}
+
 export class TxResultResponse {
   constructor(
     readonly height: number,
