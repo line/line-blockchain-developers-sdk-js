@@ -7,6 +7,7 @@ import {
   GenericResponse,
   ServiceDetail,
   ServiceToken,
+  TxHashResponse,
   TxResultResponse,
   ServiceTokenHolder,
   ItemToken,
@@ -188,7 +189,7 @@ export class HttpClient {
   public updateServiceToken(
     contractId: string,
     request: UpdateServiceTokenRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/service-tokens/${contractId}`;
     return this.instance.put(path, request);
   }
@@ -196,7 +197,7 @@ export class HttpClient {
   public mintServiceToken(
     contractId: string,
     request: MintServiceTokenRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     this.assertTransactionRequest(request);
     const path = `/v1/service-tokens/${contractId}/mint`;
     return this.instance.post(path, request);
@@ -205,7 +206,7 @@ export class HttpClient {
   public burnFromServiceToken(
     contractId: string,
     request: BurnFromServiceTokenRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/service-tokens/${contractId}/burn-from`;
     return this.instance.post(path, request);
   }
@@ -236,7 +237,7 @@ export class HttpClient {
   public createFungibleToken(
     contractId: string,
     request: FungibleTokenCreateUpdateRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/fungibles`;
     return this.instance.post(path, request);
   }
@@ -253,7 +254,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     request: FungibleTokenCreateUpdateRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/fungibles/${tokenType}`;
     return this.instance.put(path, request);
   }
@@ -262,7 +263,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     request: FungibleTokenMintRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     this.assertTransactionRequest(request);
     const path = `/v1/item-tokens/${contractId}/fungibles/${tokenType}/mint`;
     return this.instance.post(path, request);
@@ -272,7 +273,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     request: FungibleTokenBurnRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     this.assertItemTokenBurnTransactionRequest(request);
     const path = `/v1/item-tokens/${contractId}/fungibles/${tokenType}/burn`;
     return this.instance.post(path, request);
@@ -300,7 +301,7 @@ export class HttpClient {
   public createNonFungibleToken(
     contractId: string,
     request: NonFungibleTokenCreateUpdateRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles`;
     return this.instance.post(path, request);
   }
@@ -319,7 +320,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     request: NonFungibleTokenCreateUpdateRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}`;
     return this.instance.put(path, request);
   }
@@ -338,7 +339,7 @@ export class HttpClient {
     tokenType: string,
     tokenIndex: string,
     request: NonFungibleTokenCreateUpdateRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}`;
     return this.instance.put(path, request);
   }
@@ -347,7 +348,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     request: NonFungibleTokenMintRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/mint`;
     return this.instance.post(path, request);
   }
@@ -375,7 +376,7 @@ export class HttpClient {
   public multiMintNonFungibleToken(
     contractId: string,
     request: NonFungibleTokenMultiMintRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/multi-mint`;
     return this.instance.post(path, request);
   }
@@ -385,7 +386,7 @@ export class HttpClient {
     tokenType: string,
     tokenIndex: string,
     request: NonFungibleTokenBurnRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/burn`;
     return this.instance.post(path, request);
   }
@@ -415,7 +416,7 @@ export class HttpClient {
     tokenType: string,
     tokenIndex: string,
     request: NonFungibleTokenAttachRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/parent`;
     return this.instance.post(path, request);
   }
@@ -425,7 +426,7 @@ export class HttpClient {
     tokenType: string,
     tokenIndex: string,
     request: NonFungibleTokenDetachRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/parent`;
     // payload in delete has no defined semantics,
     // https://tools.ietf.org/html/rfc7231#page-29
@@ -458,7 +459,7 @@ export class HttpClient {
     walletAddress: string,
     pageRequest: PageRequest,
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/wallets/${walletAddress}/transactions`;
     const requestConfig = this.pageRequestConfig(
       pageRequest,
@@ -545,7 +546,7 @@ export class HttpClient {
   public transferBaseCoinOfWallet(
     walletAddress: string,
     request: TransferBaseCoinRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/wallets/${walletAddress}/base-coin/transfer`;
     return this.instance.post(path, request);
   }
@@ -554,7 +555,7 @@ export class HttpClient {
     walletAddress: string,
     contractId: string,
     request: TransferServiceTokenRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/wallets/${walletAddress}/service-tokens/${contractId}/transfer`;
     return this.instance.post(path, request);
   }
@@ -564,7 +565,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     request: TransferFungibleTokenRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/fungibles/${tokenType}/transfer`;
     return this.instance.post(path, request);
   }
@@ -575,7 +576,7 @@ export class HttpClient {
     tokenType: string,
     tokenIndex: string,
     request: TransferNonFungibleTokenRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/transfer`;
     return this.instance.post(path, request);
   }
@@ -584,7 +585,7 @@ export class HttpClient {
     walletAddress: string,
     contractId: string,
     request: BatchTransferNonFungibleTokenRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/non-fungibles/batch-transfer`;
     return this.instance.post(path, request);
   }
@@ -598,7 +599,7 @@ export class HttpClient {
     userId: string,
     pageRequest: PageRequest,
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/users/${userId}/transactions`;
     const requestConfig = this.pageRequestConfig(
       pageRequest,
@@ -685,7 +686,7 @@ export class HttpClient {
     userId: string,
     contractId: string,
     request: TransferServiceTokenProxyRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/users/${userId}/service-tokens/${contractId}/transfer`;
     return this.instance.post(path, request);
   }
@@ -695,7 +696,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     request: TransferFungibleTokenProxyRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/fungibles/${tokenType}/transfer`;
     return this.instance.post(path, request);
   }
@@ -706,7 +707,7 @@ export class HttpClient {
     tokenType: string,
     tokenIndex: string,
     request: TransferNonFungibleTokenProxyRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/transfer`;
     return this.instance.post(path, request);
   }
@@ -715,7 +716,7 @@ export class HttpClient {
     userId: string,
     contractId: string,
     request: BatchTransferNonFungibleTokenProxyRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles/batch-transfer`;
     return this.instance.post(path, request);
   }
@@ -823,7 +824,7 @@ export class HttpClient {
 
   public commitProxyRequest(
     requestSessionToken: string,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/user-requests/${requestSessionToken}/commit`;
     return this.instance.post(path);
   }
@@ -837,7 +838,7 @@ export class HttpClient {
 
   public createMemo(
     request: MemoRequest,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/memos`;
     return this.instance.post(path, request);
   }
