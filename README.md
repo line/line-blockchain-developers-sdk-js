@@ -3,7 +3,7 @@
 [![License](https://img.shields.io/github/license/line/line-blockchain-developers-sdk-js)](https://github.com/line/line-blockchain-developers-sdk-js)
 [![NPM version](https://img.shields.io/npm/v/@line/lbd-sdk-js.svg)](https://www.npmjs.com/package/@line/lbd-sdk-js)
 [![NPM downloads](https://img.shields.io/npm/dm/@line/lbd-sdk-js.svg)](https://www.npmjs.com/package/@line/bot-sdk)
-[![Build Status](https://app.travis-ci.com/dduck00/line-blockchain-developers-sdk-js.svg?branch=develop)](https://app.travis-ci.com/dduck00/line-blockchain-developers-sdk-js)
+[![Build Status](https://app.travis-ci.com/line/line-blockchain-developers-sdk-js.svg?branch=develop)](https://app.travis-ci.com/line/line-blockchain-developers-sdk-js)
 
 
 ## Table of Contents // TODO update
