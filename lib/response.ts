@@ -303,7 +303,7 @@ export class NonFungibleTokenHolder {
 }
 
 export class UserIdAddress {
-  constructor(readonly userId: string, readonly address: string) { }
+  constructor(readonly userId: string, readonly walletAddress: string) { }
 }
 export class SessionTokenResponse {
   constructor(
