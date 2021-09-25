@@ -332,7 +332,7 @@ export class NonFungibleTokenAttachRequest {
     readonly tokenHolderAddress?: string,
     readonly tokenHolderUserId?: string,
   ) {
-    if (tokenHolderAddress != null || tokenHolderUserId != null) {
+    if (!tokenHolderAddress && !tokenHolderUserId) {
       throw new Error(
         "tokenHolderAddress or tokenHolderUserId, one of them is required",
       );
@@ -347,7 +347,7 @@ export class NonFungibleTokenDetachRequest {
     readonly tokenHolderAddress?: string,
     readonly tokenHolderUserId?: string,
   ) {
-    if (tokenHolderAddress != null || tokenHolderUserId != null) {
+    if (!tokenHolderAddress && !tokenHolderUserId) {
       throw new Error(
         "tokenHolderAddress or tokenHolderUserId, one of them is required",
       );
