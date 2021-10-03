@@ -1,16 +1,14 @@
-export enum MessageTypes {
+export enum MessageType {
     // SERVICE TOKEN MESSAGE TYPES
     SERVICE_TOKEN_ISSUE = "token/MsgIssue",
     SERVICE_TOKEN_MODIFY = "token/MsgModify",
     SERVICE_TOKEN_MINT = "token/MsgMint",
     SERVICE_TOKEN_BURN = "token/MsgBurn",
-    SERVICE_TOKEN_GRANT_PERMISSION = "token/MsgGrantPermission",
-    SERVICE_TOKEN_REVOKE_PERMISSION = "token/MsgRevokePermission",
     SERVICE_TOKEN_TRANSFER = "token/MsgTransfer",
     SERVICE_TOKEN_TRANSFER_FROM = "token/MsgTransferFrom",
 
     // ITEM TOKEN MESSAGE TYPES
-    ITEM_TOKEN_CREATE = "collection/MsgCreate",
+    // ITEM_TOKEN_CREATE = "collection/MsgCreate",
     ITEM_TOKEN_MODIFY = "collection/MsgModify",
     ITEM_TOKEN_APPROVE = "collection/MsgApprove",
     ITEM_TOKEN_DISAPPROVE = "collection/MsgDisapprove",
@@ -73,10 +71,7 @@ export class CreatedItemToken {
 }
 
 export class FungibleToken {
-    constructor(
-        readonly contractId: string,
-        readonly tokenType: string,
-    ) { }
+    constructor(readonly contractId: string, readonly tokenType: string) { }
 }
 
 export class IssuedFungibleToken extends FungibleToken {
@@ -87,40 +82,27 @@ export class IssuedFungibleToken extends FungibleToken {
         readonly meta: string,
         readonly decimal: number,
     ) {
-        super(contractId, tokenType)
+        super(contractId, tokenType);
     }
 }
 
 export class MintedFungibleToken extends FungibleToken {
-    constructor(
-        contractId: string,
-        tokenType: string,
-        readonly amount: string,
-    ) {
-        super(contractId, tokenType)
+    constructor(contractId: string, tokenType: string, readonly amount: string) {
+        super(contractId, tokenType);
     }
 }
 
 export class BurnedFungibleTokenAmount extends FungibleToken {
-    constructor(
-        contractId: string,
-        tokenType: string,
-        readonly amount: string,
-    ) {
-        super(contractId, tokenType)
+    constructor(contractId: string, tokenType: string, readonly amount: string) {
+        super(contractId, tokenType);
     }
 }
 
 export class TransferredFungibleTokenAmount extends FungibleToken {
-    constructor(
-        contractId: string,
-        tokenType: string,
-        readonly amount: string,
-    ) {
-        super(contractId, tokenType)
+    constructor(contractId: string, tokenType: string, readonly amount: string) {
+        super(contractId, tokenType);
     }
 }
-
 
 export class NonFungibleToken {
     constructor(
@@ -131,12 +113,8 @@ export class NonFungibleToken {
 }
 
 export class BaseCoinAmount {
-    constructor(
-        readonly contractId: string,
-        readonly amount: string,
-    ) { }
+    constructor(readonly contractId: string, readonly amount: string) { }
 }
-
 
 export class IssuedNonFungibleToken extends NonFungibleToken {
     constructor(
@@ -145,7 +123,7 @@ export class IssuedNonFungibleToken extends NonFungibleToken {
         readonly name: string,
         readonly meta: string,
     ) {
-        super(contractId, tokenType)
+        super(contractId, tokenType);
     }
 }
 
@@ -157,7 +135,7 @@ export class MintedNonFungibleToken extends NonFungibleToken {
         readonly name: string,
         readonly meta: string,
     ) {
-        super(contractId, tokenType, tokenIndex)
+        super(contractId, tokenType, tokenIndex);
     }
 }
 
@@ -167,15 +145,12 @@ export class TransferredNonFungibleToken extends NonFungibleToken {
         readonly tokenType: string,
         readonly tokenIndex: string,
     ) {
-        super(contractId, tokenType, tokenIndex)
+        super(contractId, tokenType, tokenIndex);
     }
 }
 
 export class TokenChange {
-    constructor(
-        readonly field: string,
-        readonly value: string,
-    ) { }
+    constructor(readonly field: string, readonly value: string) { }
 }
 
 export class ServiceTokenIssueMessage extends TxResultMessage {
@@ -188,7 +163,7 @@ export class ServiceTokenIssueMessage extends TxResultMessage {
         readonly issuedServiceToken: IssuedServiceToken,
         readonly amount: string,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -196,13 +171,12 @@ export class ServiceTokenModifyMessage extends TxResultMessage {
     constructor(
         height: number,
         txHash: string,
-        from: string,
+        sender: string, // sender
         readonly owner: string,
         readonly contractId: string,
-        readonly amount: string,
         readonly changes: Array<TokenChange>,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, sender);
     }
 }
 
@@ -216,7 +190,7 @@ export class ServiceTokenMintMessage extends TxResultMessage {
         readonly contractId: string,
         readonly amount: string,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -229,7 +203,7 @@ export class ServiceTokenBurnMessage extends TxResultMessage {
         readonly contractId: string,
         readonly amount: string,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -243,7 +217,7 @@ export class ServiceTokenGrantPermissionMessage extends TxResultMessage {
         readonly to: string,
         readonly permission: string,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -256,7 +230,7 @@ export class ServiceTokenRevokePermissionMessage extends TxResultMessage {
         readonly contractId: string,
         readonly permission: string,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -270,7 +244,7 @@ export class ServiceTokenTransferMessage extends TxResultMessage {
         readonly to: string,
         readonly amount: string,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -285,7 +259,7 @@ export class ServiceTokenTransferFromMessage extends TxResultMessage {
         readonly to: string,
         readonly amount: string,
     ) {
-        super(height, txHash, from, proxy)
+        super(height, txHash, from, proxy);
     }
 }
 
@@ -295,9 +269,9 @@ export class ItemTokenCreateMessage extends TxResultMessage {
         txHash: string,
         from: string,
         readonly owner: string, // from
-        readonly createdItemToken: CreatedItemToken
+        readonly createdItemToken: CreatedItemToken,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -305,12 +279,16 @@ export class ItemTokenModifyMessage extends TxResultMessage {
     constructor(
         height: number,
         txHash: string,
-        from: string,
+        from: string, // sender
+        readonly sender: string,
         readonly owner: string, // from
         readonly contractId: string,
+        readonly tokenType: string,
+        readonly tokenIndex: string, // if fungible then '00000000'
         readonly changes: Array<TokenChange>,
+        readonly isFungible: boolean = false,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -323,7 +301,7 @@ export class ItemTokenApproveMessage extends TxResultMessage {
         readonly contractId: string,
         readonly proxy: string, // approve to
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -336,7 +314,7 @@ export class ItemTokenDisapproveMessage extends TxResultMessage {
         readonly contractId: string,
         readonly proxy: string,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -350,7 +328,7 @@ export class ItemTokenGrantPermissionMessage extends TxResultMessage {
         readonly to: string,
         readonly permission: string,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -363,7 +341,7 @@ export class ItemTokenRevokePermissionMessage extends TxResultMessage {
         readonly contractId: string,
         readonly permission: string,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -377,7 +355,21 @@ export class FungibleTokenIssueMessage extends TxResultMessage {
         readonly issuedFungibleToken: IssuedFungibleToken,
         readonly amount: string,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
+    }
+}
+
+export class FungibleTokenModifyMessage extends TxResultMessage {
+    constructor(
+        height: number,
+        txHash: string,
+        from: string,
+        readonly owner: string, // from
+        readonly contractId: string,
+        readonly tokenType: string,
+        readonly changes: Array<TokenChange>,
+    ) {
+        super(height, txHash, from);
     }
 }
 
@@ -391,7 +383,7 @@ export class FungibleTokenMintMessage extends TxResultMessage {
         readonly mintedFungibleToken: MintedFungibleToken,
         readonly amount: string,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -404,7 +396,7 @@ export class FungibleTokenBurnMessage extends TxResultMessage {
         readonly contractId: string,
         readonly burnedFungibleTokenAmount: BurnedFungibleTokenAmount,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -418,7 +410,7 @@ export class FungibleTokenBurnFromMessage extends TxResultMessage {
         readonly contractId: string,
         readonly burnedFungibleTokenAmount: BurnedFungibleTokenAmount,
     ) {
-        super(height, txHash, from, proxy)
+        super(height, txHash, from, proxy);
     }
 }
 
@@ -430,9 +422,9 @@ export class FungibleTokenTransferMessage extends TxResultMessage {
         readonly owner: string, // from
         readonly contractId: string,
         readonly to: string,
-        readonly transferredFungibleTokenAmount: TransferredFungibleTokenAmount
+        readonly transferredFungibleTokenAmount: TransferredFungibleTokenAmount,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -445,9 +437,9 @@ export class FungibleTokenTransferFromMessage extends TxResultMessage {
         readonly owner: string, // from
         readonly contractId: string,
         readonly to: string,
-        readonly transferredFungibleTokenAmount: TransferredFungibleTokenAmount
+        readonly transferredFungibleTokenAmount: TransferredFungibleTokenAmount,
     ) {
-        super(height, txHash, from, proxy)
+        super(height, txHash, from, proxy);
     }
 }
 
@@ -459,7 +451,7 @@ export class NonFungibleTokenIssueMessage extends TxResultMessage {
         readonly owner: string, // from
         readonly issuedNonFungibleToken: IssuedNonFungibleToken,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -471,7 +463,7 @@ export class NonFungibleTokenMintMessage extends TxResultMessage {
         readonly owner: string, // from
         readonly mintedNonFungibleToken: MintedNonFungibleToken,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -483,7 +475,7 @@ export class NonFungibleTokenBurnMessage extends TxResultMessage {
         readonly owner: string, // from
         readonly burnedNonFungibleToken: NonFungibleToken,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -496,7 +488,7 @@ export class NonFungibleTokenBurnFromMessage extends TxResultMessage {
         readonly owner: string, // from
         readonly burnedNonFungibleToken: NonFungibleToken,
     ) {
-        super(height, txHash, from, proxy)
+        super(height, txHash, from, proxy);
     }
 }
 
@@ -508,7 +500,7 @@ export class NonFungibleTokenTransferMessage extends TxResultMessage {
         readonly owner: string, // from
         readonly transferredNonFungibleToken: NonFungibleToken,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -521,7 +513,7 @@ export class NonFungibleTokenTransferFromMessage extends TxResultMessage {
         readonly owner: string, // from
         readonly transferredNonFungibleToken: NonFungibleToken,
     ) {
-        super(height, txHash, from, proxy)
+        super(height, txHash, from, proxy);
     }
 }
 
@@ -534,7 +526,7 @@ export class NonFungibleTokenAttachMessage extends TxResultMessage {
         readonly parentNonFungibleToken: NonFungibleToken,
         readonly attachedNonFungibleToken: NonFungibleToken,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -548,10 +540,9 @@ export class NonFungibleTokenAttachFromMessage extends TxResultMessage {
         readonly parentNonFungibleToken: NonFungibleToken,
         readonly attachedNonFungibleToken: NonFungibleToken,
     ) {
-        super(height, txHash, from, proxy)
+        super(height, txHash, from, proxy);
     }
 }
-
 
 export class NonFungibleTokenDetachMessage extends TxResultMessage {
     constructor(
@@ -562,7 +553,7 @@ export class NonFungibleTokenDetachMessage extends TxResultMessage {
         readonly parentNonFungibleToken: NonFungibleToken,
         readonly attachedNonFungibleToken: NonFungibleToken,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
 
@@ -576,7 +567,7 @@ export class NonFungibleTokenDetachFromMessage extends TxResultMessage {
         readonly parentNonFungibleToken: NonFungibleToken,
         readonly attachedNonFungibleToken: NonFungibleToken,
     ) {
-        super(height, txHash, from, proxy)
+        super(height, txHash, from, proxy);
     }
 }
 
@@ -589,6 +580,6 @@ export class BaseCoinTransferMessage extends TxResultMessage {
         readonly to: string,
         readonly baseCoinAmount: BaseCoinAmount,
     ) {
-        super(height, txHash, from)
+        super(height, txHash, from);
     }
 }
