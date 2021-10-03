@@ -2663,16 +2663,16 @@ describe("http-client-base test", () => {
       statusMessage: "Success",
       responseData: [
         {
-          "tokenType": "00000001",
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}`,
-          "status": "COMPLETED",
+          tokenType: "00000001",
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}`,
+          status: "COMPLETED",
         },
         {
-          "tokenType": "00000002",
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}`,
-          "status": "COMPLETED",
-          "detailStatus": "-",
-        }
+          tokenType: "00000002",
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}`,
+          status: "COMPLETED",
+          detailStatus: "-",
+        },
       ],
     };
 
@@ -2684,7 +2684,10 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(testContractId, testRequestId);
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatuses(
+      testContractId,
+      testRequestId,
+    );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
@@ -2702,18 +2705,18 @@ describe("http-client-base test", () => {
       statusMessage: "Success",
       responseData: [
         {
-          "tokenType": testTokenType1,
-          "tokenIndex": testTokenIndex1,
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}${testTokenIndex1}`,
-          "status": "COMPLETED",
+          tokenType: testTokenType1,
+          tokenIndex: testTokenIndex1,
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}${testTokenIndex1}`,
+          status: "COMPLETED",
         },
         {
-          "tokenType": testTokenType2,
-          "tokenIndex": testTokenIndex2,
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}${testTokenIndex2}`,
-          "status": "COMPLETED",
-          "detailStatus": "-",
-        }
+          tokenType: testTokenType2,
+          tokenIndex: testTokenIndex2,
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}${testTokenIndex2}`,
+          status: "COMPLETED",
+          detailStatus: "-",
+        },
       ],
     };
 
@@ -2725,11 +2728,13 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(testContractId, testRequestId);
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatuses(
+      testContractId,
+      testRequestId,
+    );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
-
 });
 
 function assertHeaders(headers: any) {
