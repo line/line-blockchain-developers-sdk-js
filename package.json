@@ -30,6 +30,7 @@
     "build": "tsc -p tsconfig.json",
     "test-api": "mocha test/http-client-base.spec.ts -r ts-node/register",
     "test:integration": "mocha integration-test/*.spec.ts -r ts-node/register",
+    "test-single": "mocha -g",
     "test": "mocha test/**/*.ts -r ts-node/register",
     "generate-changelog": "ts-node ./scripts/generate-changelog.ts",
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish",
