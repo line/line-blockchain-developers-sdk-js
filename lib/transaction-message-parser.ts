@@ -17,7 +17,10 @@ import {
     NonFungibleToken,
     FungibleTokenIssueMessage,
     FungibleTokenMintMessage,
-    IssuedFungibleToken,
+    FungibleTokenBurnMessage,
+    NonFungibleTokenIssueMessage,
+    NonFungibleTokenMintMessage,
+    NonFungibleTokenBurnMessage,
 } from "./transaction-messages";
 
 // TODO this interface, and just parse directly
@@ -183,8 +186,10 @@ export class ItemTokenModifyMessageParser
     private createMessage(
         txResultResponse: TxResultResponse,
     ): ItemTokenModifyMessage {
+        const tokenType = TxResultUtil.findTokenType(txResultResponse);
         const tokenIndex = TxResultUtil.findTokenIndex(txResultResponse);
-        const isFungible = TokenUtil.isFungible(tokenIndex);
+        const isFungible = TokenUtil.isFungible(tokenType);
+        const tokenId = TxResultUtil.findTokenId(txResultResponse);
         return new ItemTokenModifyMessage(
             txResultResponse.height,
             txResultResponse.txhash,
@@ -192,9 +197,9 @@ export class ItemTokenModifyMessageParser
             TxResultUtil.findSenderFromLogEvents(txResultResponse),
             TxResultUtil.findOwnerWalletAddress(txResultResponse),
             TxResultUtil.findContractId(txResultResponse),
-            TxResultUtil.findTokenType(txResultResponse),
-            TxResultUtil.findTokenIndex(txResultResponse),
-            TxResultUtil.findTokenId(txResultResponse),
+            tokenType,
+            tokenIndex,
+            tokenId,
             TxResultUtil.findChanges(txResultResponse),
             isFungible,
         );
@@ -363,13 +368,7 @@ export class IssueFungibleMessageParser
             TxResultUtil.findSenderFromLogEvents(txResultResponse),
             TxResultUtil.findOwnerWalletAddress(txResultResponse),
             TxResultUtil.findToWalletAddress(txResultResponse),
-            new IssuedFungibleToken(
-                TxResultUtil.findContractId(txResultResponse),
-                tokenType,
-                TxResultUtil.findTokenName(txResultResponse),
-                TxResultUtil.findTokenMeta(txResultResponse),
-                TxResultUtil.findTokenDecimals(txResultResponse),
-            ),
+            TxResultUtil.findIssuedFungibleToken(txResultResponse),
             TxResultUtil.findAmount(txResultResponse),
         );
     }
@@ -391,11 +390,7 @@ export class MintFungibleMessageParser
     private createMessage(
         txResultResponse: TxResultResponse,
     ): FungibleTokenMintMessage {
-        const tokenId = TxResultUtil.findTokenIdFromEvents(txResultResponse);
-        const tokenType = TokenUtil.tokenTypeFrom(tokenId);
-        const mintFtTokens = TxResultUtil.findMintedFungibleTokens(
-            txResultResponse,
-        );
+        const mintFtTokens = TxResultUtil.findMintedFungibleTokens(txResultResponse);
         return new FungibleTokenMintMessage(
             txResultResponse.height,
             txResultResponse.txhash,
@@ -406,6 +401,116 @@ export class MintFungibleMessageParser
         );
     }
 }
+export class BurnFungibleMessageParser
+    implements TxResultMessageParser<FungibleTokenBurnMessage> {
+    parse(txResultResponse: TxResultResponse): FungibleTokenBurnMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): FungibleTokenBurnMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): FungibleTokenBurnMessage {
+        const burnedTokens = TxResultUtil.findBurnedFungibleTokens(txResultResponse);
+        return new FungibleTokenBurnMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findSenderFromLogEvents(txResultResponse),
+            TxResultUtil.findContractId(txResultResponse),
+            burnedTokens,
+        );
+    }
+}
+
+export class NonFungibleTokenIssueMessageParser
+    implements TxResultMessageParser<NonFungibleTokenIssueMessage> {
+    parse(txResultResponse: TxResultResponse): NonFungibleTokenIssueMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): NonFungibleTokenIssueMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): NonFungibleTokenIssueMessage {
+        return new NonFungibleTokenIssueMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findSenderFromLogEvents(txResultResponse),
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findIssuedNonFungibleToken(txResultResponse)
+        );
+    }
+}
+
+
+export class NonFungibleTokenMintMessageParser
+    implements TxResultMessageParser<NonFungibleTokenMintMessage> {
+    parse(txResultResponse: TxResultResponse): NonFungibleTokenMintMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): NonFungibleTokenMintMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): NonFungibleTokenMintMessage {
+        return new NonFungibleTokenMintMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findSenderFromLogEvents(txResultResponse),
+            TxResultUtil.findToWalletAddress(txResultResponse),
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findMintedNonFungibleToken(txResultResponse)
+        );
+    }
+}
+
+export class NonFungibleTokenBurnMessageParser
+    implements TxResultMessageParser<NonFungibleTokenBurnMessage> {
+    parse(txResultResponse: TxResultResponse): NonFungibleTokenBurnMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): NonFungibleTokenBurnMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): NonFungibleTokenBurnMessage {
+        return new NonFungibleTokenBurnMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findSenderFromLogEvents(txResultResponse),
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findBurnedNonFungibleToken(txResultResponse)
+        );
+    }
+}
+
 
 export class TxResultMessageParserFactory {
     static create(
@@ -450,6 +555,18 @@ export class TxResultMessageParserFactory {
                 txResultMessageParser = new MintFungibleMessageParser();
                 break;
 
+            case MessageType.ITEM_TOKEN_BURN_FT:
+                txResultMessageParser = new BurnFungibleMessageParser();
+                break;
+            case MessageType.ITEM_TOKEN_ISSUE_NFT:
+                txResultMessageParser = new NonFungibleTokenIssueMessageParser();
+                break;
+            case MessageType.ITEM_TOKEN_MINT_NFT:
+                txResultMessageParser = new NonFungibleTokenMintMessageParser();
+                break;
+            case MessageType.ITEM_TOKEN_BURN_NFT:
+                txResultMessageParser = new NonFungibleTokenBurnMessageParser();
+                break;
             // case MessageType.SERVICE_TOKEN_MODIFY:
             //     txResultMessageParser = new class implements TxResultMessageParser<ServiceTokenModifyMessage> {
             //         parse(txResultResponse: TxResultResponse): ServiceTokenModifyMessage {
