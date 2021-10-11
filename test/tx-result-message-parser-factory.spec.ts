@@ -3,9 +3,11 @@ import { describe, it } from "mocha";
 import { TxResultMessageParserFactory } from "../lib/transaction-message-parser";
 import {
     MessageType,
+    ServiceTokenIssueMessage,
     ServiceTokenModifyMessage,
     ServiceTokenMintMessage,
     ServiceTokenBurnMessage,
+    ServiceTokenBurnFromMessage,
     ServiceTokenTransferMessage,
     ServiceTokenTransferFromMessage,
     ItemTokenModifyMessage,
@@ -19,13 +21,16 @@ import {
     NonFungibleTokenIssueMessage,
     NonFungibleTokenMintMessage,
     NonFungibleTokenBurnMessage,
+    NonFungibleTokenBurnFromMessage
 } from "../lib/transaction-messages";
 
 import {
+    issueServiceTokenTxResult,
     serviceTokenMintTxResult,
     serviceTokenModifyTxResult,
     genericServiceTokenModifyTxResultResponse,
     serviceTokenBurnTxResult,
+    serviceTokenBurnFromTxResult,
     serviceTokenTransferTxResult,
     serviceTokenTransferFromTxResult,
     fungibleTokenModifyTxResult,
@@ -40,23 +45,18 @@ import {
     burnFungibleTxResult,
     issueNonFungibleTypeTxResult,
     mintNonFungibleTxResult,
-    burnNonFungibleTxResult
+    burnNonFungibleTxResult,
+    burnFromNonFungibleTxResult,
+    multiMintNonFungibleTxResult
 } from "./test-data";
 
 describe("txResultMessageParserFactory-test", () => {
     it("test parsing to ServiceTokenModifyMessage", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.SERVICE_TOKEN_MODIFY,
-        );
-        const serviceTokenModifyMessage = parser.parse(
-            serviceTokenModifyTxResult,
-        ) as ServiceTokenModifyMessage;
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            serviceTokenModifyMessage.from,
-        );
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            serviceTokenModifyMessage.owner,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_MODIFY);
+        const serviceTokenModifyMessage =
+            parser.parse(serviceTokenModifyTxResult,) as ServiceTokenModifyMessage;
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(serviceTokenModifyMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(serviceTokenModifyMessage.owner);
         expect("9636a07e").to.equal(serviceTokenModifyMessage.contractId);
 
         const expectedChanges = [
@@ -71,490 +71,296 @@ describe("txResultMessageParserFactory-test", () => {
     });
 
     it("test parsing to genericServiceTokenModifyTxResultResponse", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.SERVICE_TOKEN_MODIFY,
-        );
-        const serviceTokenModifyMessage = parser.parseGenericTxResultResponse(
-            genericServiceTokenModifyTxResultResponse,
-        ) as ServiceTokenModifyMessage;
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            serviceTokenModifyMessage.from,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_MODIFY);
+        const serviceTokenModifyMessage =
+            parser.parseGenericTxResultResponse(genericServiceTokenModifyTxResultResponse) as ServiceTokenModifyMessage;
+
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(serviceTokenModifyMessage.from);
+    });
+
+
+    it("test parsing to serviceTokenIssueTxResult", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_ISSUE);
+        const serviceTokenIssueMessage =
+            parser.parse(issueServiceTokenTxResult) as ServiceTokenIssueMessage;
+
+        expect("tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558").to.equal(serviceTokenIssueMessage.from);
+        expect("tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558").to.equal(serviceTokenIssueMessage.to);
+        expect("9be17165").to.equal(serviceTokenIssueMessage.issuedServiceToken.contractId);
+        expect("987654321").to.equal(serviceTokenIssueMessage.amount);
     });
 
     it("test parsing to serviceTokenMintTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.SERVICE_TOKEN_MINT,
-        );
-        const serviceTokenMintMessage = parser.parse(
-            serviceTokenMintTxResult,
-        ) as ServiceTokenMintMessage;
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            serviceTokenMintMessage.from,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_MINT);
+        const serviceTokenMintMessage =
+            parser.parse(serviceTokenMintTxResult) as ServiceTokenMintMessage;
 
-        expect("tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww").to.equal(
-            serviceTokenMintMessage.to,
-        );
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(serviceTokenMintMessage.from);
+        expect("tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww").to.equal(serviceTokenMintMessage.to);
         expect("9636a07e").to.equal(serviceTokenMintMessage.contractId);
-
         expect("1000").to.equal(serviceTokenMintMessage.amount);
     });
 
     it("test parsing to serviceTokenBurnTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.SERVICE_TOKEN_MINT,
-        );
-        const serviceTokenBurnMessage = parser.parse(
-            serviceTokenBurnTxResult,
-        ) as ServiceTokenBurnMessage;
-        expect("tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9").to.equal(
-            serviceTokenBurnMessage.from,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_BURN);
+        const serviceTokenBurnMessage =
+            parser.parse(serviceTokenBurnTxResult) as ServiceTokenBurnMessage;
 
+        expect("tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9").to.equal(serviceTokenBurnMessage.from);
         expect("9be17165").to.equal(serviceTokenBurnMessage.contractId);
-
         expect("1000").to.equal(serviceTokenBurnMessage.amount);
     });
 
+    it("test parsing to serviceTokenBurnFromTxResult", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_BURN_FROM);
+        const serviceTokenBurnFromMessage =
+            parser.parse(serviceTokenBurnFromTxResult) as ServiceTokenBurnFromMessage;
+
+        expect("tlink1jvsldpv083tu0xd58vrtp54j3q8s84av35k6ax").to.equal(serviceTokenBurnFromMessage.from);
+        expect("tlink1zl4zgr446curnyf9jv07775529axdnu3kxnkex").to.equal(serviceTokenBurnFromMessage.proxy);
+        expect("3336b76f").to.equal(serviceTokenBurnFromMessage.contractId);
+        expect("2").to.equal(serviceTokenBurnFromMessage.amount);
+    });
+
     it("test parsing to serviceTokenTransferMessage", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.SERVICE_TOKEN_TRANSFER,
-        );
-        const serviceTokenTransferMessage = parser.parse(
-            serviceTokenTransferTxResult,
-        ) as ServiceTokenTransferMessage;
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            serviceTokenTransferMessage.from,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_TRANSFER);
+        const serviceTokenTransferMessage =
+            parser.parse(serviceTokenTransferTxResult) as ServiceTokenTransferMessage;
 
-        expect("tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww").to.equal(
-            serviceTokenTransferMessage.to,
-        );
-
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(serviceTokenTransferMessage.from);
+        expect("tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww").to.equal(serviceTokenTransferMessage.to);
         expect("9636a07e").to.equal(serviceTokenTransferMessage.contractId);
-
         expect("1000").to.equal(serviceTokenTransferMessage.amount);
     });
 
     it("test parsing to serviceTokenTransferFromMessage", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.SERVICE_TOKEN_TRANSFER_FROM,
-        );
-        const serviceTokenTransferMessage = parser.parse(
-            serviceTokenTransferFromTxResult,
-        ) as ServiceTokenTransferFromMessage;
-        expect("tlink149nz34tch6wc5xslljt0q2j8rfnxg27dxrneyd").to.equal(
-            serviceTokenTransferMessage.from,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_TRANSFER_FROM);
+        const serviceTokenTransferMessage =
+            parser.parse(serviceTokenTransferFromTxResult) as ServiceTokenTransferFromMessage;
 
-        expect("tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9").to.equal(
-            serviceTokenTransferMessage.proxy,
-        );
-
-        expect("tlink1r3nl5pm7a8effx39hvac09uxz8eay8jlhyj3us").to.equal(
-            serviceTokenTransferMessage.to,
-        );
-
+        expect("tlink149nz34tch6wc5xslljt0q2j8rfnxg27dxrneyd").to.equal(serviceTokenTransferMessage.from);
+        expect("tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9").to.equal(serviceTokenTransferMessage.proxy);
+        expect("tlink1r3nl5pm7a8effx39hvac09uxz8eay8jlhyj3us").to.equal(serviceTokenTransferMessage.to);
         expect("9be17165").to.equal(serviceTokenTransferMessage.contractId);
-
         expect("1").to.equal(serviceTokenTransferMessage.amount);
     });
 
     it("test parsing to serviceTokenTransferFromMessage", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.SERVICE_TOKEN_TRANSFER_FROM,
-        );
-        const serviceTokenTransferMessage = parser.parse(
-            serviceTokenTransferFromTxResult,
-        ) as ServiceTokenTransferFromMessage;
-        expect("tlink149nz34tch6wc5xslljt0q2j8rfnxg27dxrneyd").to.equal(
-            serviceTokenTransferMessage.from,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_TRANSFER_FROM);
+        const serviceTokenTransferMessage =
+            parser.parse(serviceTokenTransferFromTxResult) as ServiceTokenTransferFromMessage;
 
-        expect("tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9").to.equal(
-            serviceTokenTransferMessage.proxy,
-        );
-
-        expect("tlink1r3nl5pm7a8effx39hvac09uxz8eay8jlhyj3us").to.equal(
-            serviceTokenTransferMessage.to,
-        );
-
+        expect("tlink149nz34tch6wc5xslljt0q2j8rfnxg27dxrneyd").to.equal(serviceTokenTransferMessage.from);
+        expect("tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9").to.equal(serviceTokenTransferMessage.proxy);
+        expect("tlink1r3nl5pm7a8effx39hvac09uxz8eay8jlhyj3us").to.equal(serviceTokenTransferMessage.to);
         expect("9be17165").to.equal(serviceTokenTransferMessage.contractId);
-
         expect("1").to.equal(serviceTokenTransferMessage.amount);
     });
 
     it("test parsing to fungibleTokenModifyTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_MODIFY,
-        );
-        const itemTokenModifyMessage = parser.parse(
-            fungibleTokenModifyTxResult,
-        ) as ItemTokenModifyMessage;
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.sender,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_MODIFY);
+        const itemTokenModifyMessage =
+            parser.parse(fungibleTokenModifyTxResult) as ItemTokenModifyMessage;
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.owner,
-        );
-
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.sender);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.owner);
         expect("61e14383").to.equal(itemTokenModifyMessage.contractId);
-
         expect(true).to.equal(itemTokenModifyMessage.isFungible);
         expect("00000001").to.equal(itemTokenModifyMessage.tokenType);
-
     });
 
     it("test parsing to nonFungibleTokenTypeModifyTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_MODIFY,
-        );
-        const itemTokenModifyMessage = parser.parse(
-            nonFungibleTokenTypeModifyTxResult,
-        ) as ItemTokenModifyMessage;
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.sender,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_MODIFY);
+        const itemTokenModifyMessage =
+            parser.parse(nonFungibleTokenTypeModifyTxResult) as ItemTokenModifyMessage;
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.owner,
-        );
-
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.sender);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.owner);
         expect("61e14383").to.equal(itemTokenModifyMessage.contractId);
-
         expect(false).to.equal(itemTokenModifyMessage.isFungible);
     });
     //
 
     it("test parsing to nonFungibleTokenModifyTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_MODIFY,
-        );
-        const itemTokenModifyMessage = parser.parse(
-            nonFungibleTokenModifyTxResult,
-        ) as ItemTokenModifyMessage;
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.sender,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_MODIFY);
+        const itemTokenModifyMessage =
+            parser.parse(nonFungibleTokenModifyTxResult) as ItemTokenModifyMessage;
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.owner,
-        );
-
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.sender);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.owner);
         expect("61e14383").to.equal(itemTokenModifyMessage.contractId);
-
         expect("1000000100000001").to.equal(itemTokenModifyMessage.tokenId);
-
         expect(false).to.equal(itemTokenModifyMessage.isFungible);
     });
 
     it("test parsing to nonFungibleTokenAttachTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_ATTACH,
-        );
-        const itemTokenModifyMessage = parser.parse(
-            attachNFTTxResult,
-        ) as NonFungibleTokenAttachMessage;
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.from,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_ATTACH);
+        const itemTokenModifyMessage =
+            parser.parse(attachNFTTxResult) as NonFungibleTokenAttachMessage;
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.sender,
-        );
-
-        expect("61e14383").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.contractId,
-        );
-
-        expect("10000008").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.tokenType,
-        );
-        expect("0000000f").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.tokenIndex,
-        );
-
-        expect("61e14383").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.contractId,
-        );
-
-        expect("10000008").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.tokenType,
-        );
-        expect("0000000e").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.tokenIndex,
-        );
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.sender);
+        expect("61e14383").to.equal(itemTokenModifyMessage.parentNonFungibleToken.contractId);
+        expect("10000008").to.equal(itemTokenModifyMessage.parentNonFungibleToken.tokenType);
+        expect("0000000f").to.equal(itemTokenModifyMessage.parentNonFungibleToken.tokenIndex);
+        expect("61e14383").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.contractId);
+        expect("10000008").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.tokenType);
+        expect("0000000e").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.tokenIndex);
     });
 
     it("test parsing to nonFungibleTokenAttachFromTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_ATTACH_FROM,
-        );
-        const itemTokenModifyMessage = parser.parse(
-            attachFromNFTTxResult,
-        ) as NonFungibleTokenAttachFromMessage;
-        expect("tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph").to.equal(
-            itemTokenModifyMessage.from,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_ATTACH_FROM);
+        const itemTokenModifyMessage =
+            parser.parse(attachFromNFTTxResult) as NonFungibleTokenAttachFromMessage;
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.proxy,
-        );
-
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.sender,
-        );
-
-        expect("61e14383").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.contractId,
-        );
-
-        expect("10000001").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.tokenType,
-        );
-        expect("0000000c").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.tokenIndex,
-        );
-
-        expect("61e14383").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.contractId,
-        );
-
-        expect("10000001").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.tokenType,
-        );
-        expect("0000000b").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.tokenIndex,
-        );
+        expect("tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph").to.equal(itemTokenModifyMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.proxy);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.sender);
+        expect("61e14383").to.equal(itemTokenModifyMessage.parentNonFungibleToken.contractId);
+        expect("10000001").to.equal(itemTokenModifyMessage.parentNonFungibleToken.tokenType);
+        expect("0000000c").to.equal(itemTokenModifyMessage.parentNonFungibleToken.tokenIndex);
+        expect("61e14383").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.contractId);
+        expect("10000001").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.tokenType);
+        expect("0000000b").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.tokenIndex);
     });
 
     it("test parsing to nonFungibleTokenDetachTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_DETACH,
-        );
-        const itemTokenModifyMessage = parser.parse(
-            detachNFTTxResult,
-        ) as NonFungibleTokenDetachMessage;
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.from,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_DETACH);
+        const itemTokenModifyMessage =
+            parser.parse(detachNFTTxResult) as NonFungibleTokenDetachMessage;
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.sender,
-        );
-
-        expect("61e14383").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.contractId,
-        );
-
-        expect("10000008").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.tokenType,
-        );
-        expect("0000000f").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.tokenIndex,
-        );
-
-        expect("61e14383").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.contractId,
-        );
-
-        expect("10000008").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.tokenType,
-        );
-        expect("0000000e").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.tokenIndex,
-        );
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.sender);
+        expect("61e14383").to.equal(itemTokenModifyMessage.parentNonFungibleToken.contractId);
+        expect("10000008").to.equal(itemTokenModifyMessage.parentNonFungibleToken.tokenType);
+        expect("0000000f").to.equal(itemTokenModifyMessage.parentNonFungibleToken.tokenIndex);
+        expect("61e14383").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.contractId);
+        expect("10000008").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.tokenType);
+        expect("0000000e").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.tokenIndex);
     });
 
     it("test parsing to nonFungibleTokenDetachFromTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_DETACH_FROM,
-        );
-        const itemTokenModifyMessage = parser.parse(
-            detachNFTFromTxResult,
-        ) as NonFungibleTokenDetachFromMessage;
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_DETACH_FROM);
+        const itemTokenModifyMessage =
+            parser.parse(detachNFTFromTxResult) as NonFungibleTokenDetachFromMessage;
 
-        expect("tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph").to.equal(
-            itemTokenModifyMessage.from,
-        );
-
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.proxy,
-        );
-
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenModifyMessage.sender,
-        );
-
-        expect("61e14383").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.contractId,
-        );
-
-        expect("10000001").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.tokenType,
-        );
-        expect("0000000c").to.equal(
-            itemTokenModifyMessage.parentNonFungibleToken.tokenIndex,
-        );
-
-        expect("61e14383").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.contractId,
-        );
-
-        expect("10000001").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.tokenType,
-        );
-        expect("0000000b").to.equal(
-            itemTokenModifyMessage.attachedNonFungibleToken.tokenIndex,
-        );
+        expect("tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph").to.equal(itemTokenModifyMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.proxy);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenModifyMessage.sender);
+        expect("61e14383").to.equal(itemTokenModifyMessage.parentNonFungibleToken.contractId);
+        expect("10000001").to.equal(itemTokenModifyMessage.parentNonFungibleToken.tokenType);
+        expect("0000000c").to.equal(itemTokenModifyMessage.parentNonFungibleToken.tokenIndex);
+        expect("61e14383").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.contractId);
+        expect("10000001").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.tokenType);
+        expect("0000000b").to.equal(itemTokenModifyMessage.attachedNonFungibleToken.tokenIndex);
     });
 
     it("test parsing to fungibleTokenIssueTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_ISSUE_FT,
-        );
-        const itemTokenIssueMessage = parser.parse(
-            issueFungibleTxResult,
-        ) as FungibleTokenIssueMessage;
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_ISSUE_FT);
+        const itemTokenIssueMessage =
+            parser.parse(issueFungibleTxResult) as FungibleTokenIssueMessage;
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenIssueMessage.sender,
-        );
-
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenIssueMessage.owner,
-        );
-
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenIssueMessage.to,
-        );
-
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenIssueMessage.sender);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenIssueMessage.owner);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenIssueMessage.to);
         expect("0").to.equal(itemTokenIssueMessage.amount);
-
-        expect("61e14383").to.equal(
-            itemTokenIssueMessage.issuedFungibleToken.contractId,
-        );
-
-        expect("00000031").to.equal(
-            itemTokenIssueMessage.issuedFungibleToken.tokenType,
-        );
-
+        expect("61e14383").to.equal(itemTokenIssueMessage.issuedFungibleToken.contractId);
+        expect("00000031").to.equal(itemTokenIssueMessage.issuedFungibleToken.tokenType);
         expect("0").to.equal(itemTokenIssueMessage.issuedFungibleToken.decimal);
-
-        expect("FungibleName").to.equal(
-            itemTokenIssueMessage.issuedFungibleToken.name,
-        );
-
-        expect("FungibleMeta").to.equal(
-            itemTokenIssueMessage.issuedFungibleToken.meta,
-        );
+        expect("FungibleName").to.equal(itemTokenIssueMessage.issuedFungibleToken.name);
+        expect("FungibleMeta").to.equal(itemTokenIssueMessage.issuedFungibleToken.meta);
     });
 
     it("test parsing to fungibleTokenMintTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_MINT_FT,
-        );
-        const itemTokenMintMessage = parser.parse(
-            mintFungibleTxResult,
-        ) as FungibleTokenMintMessage;
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_MINT_FT);
+        const itemTokenMintMessage =
+            parser.parse(mintFungibleTxResult) as FungibleTokenMintMessage;
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenMintMessage.from,
-        );
-
-        expect("tlink1fjx6drmlf9wjjtpk3pkr6zcdl8h8a4aur3wc6j").to.equal(
-            itemTokenMintMessage.to,
-        );
-
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenMintMessage.from);
+        expect("tlink1fjx6drmlf9wjjtpk3pkr6zcdl8h8a4aur3wc6j").to.equal(itemTokenMintMessage.to);
         expect(1).to.equal(itemTokenMintMessage.mintedFungibleTokens.length);
-        expect("61e14383").to.equal(
-            itemTokenMintMessage.mintedFungibleTokens[0].contractId,
-        );
-        expect("00000001").to.equal(
-            itemTokenMintMessage.mintedFungibleTokens[0].tokenType,
-        );
-        expect("3000").to.equal(
-            itemTokenMintMessage.mintedFungibleTokens[0].amount,
-        );
+        expect("61e14383").to.equal(itemTokenMintMessage.mintedFungibleTokens[0].contractId);
+        expect("00000001").to.equal(itemTokenMintMessage.mintedFungibleTokens[0].tokenType);
+        expect("3000").to.equal(itemTokenMintMessage.mintedFungibleTokens[0].amount);
     });
 
     it("test parsing to fungibleTokenBurnTxResult", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_BURN_FT,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_BURN_FT);
         const itemTokenBurnMessage = parser.parse(burnFungibleTxResult) as FungibleTokenBurnMessage
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenBurnMessage.from,
-        );
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenBurnMessage.sender,
-        );
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.sender);
         expect("61e14383").to.equal(itemTokenBurnMessage.contractId);
         expect("61e14383").to.equal(itemTokenBurnMessage.burnedFungibleTokens[0].contractId);
         expect("1").to.equal(itemTokenBurnMessage.burnedFungibleTokens[0].amount);
     });
 
     it("test parsing to nonFungibleTypeIssueTx", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_ISSUE_NFT,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_ISSUE_NFT);
         const itemTokenBurnMessage =
             parser.parse(issueNonFungibleTypeTxResult) as NonFungibleTokenIssueMessage;
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenBurnMessage.from
-        );
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenBurnMessage.sender
-        );
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.sender);
         expect("61e14383").to.equal(itemTokenBurnMessage.contractId);
         expect("61e14383").to.equal(itemTokenBurnMessage.issuedNonFungibleToken.contractId);
         expect("1000000c").to.equal(itemTokenBurnMessage.issuedNonFungibleToken.tokenType)
     });
 
     it("test parsing to nonFungibleTypeMintTx", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_MINT_NFT,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_MINT_NFT);
         const itemTokenBurnMessage =
             parser.parse(mintNonFungibleTxResult) as NonFungibleTokenMintMessage;
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenBurnMessage.from
-        );
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenBurnMessage.sender
-        );
-        expect("61e14383").to.equal(itemTokenBurnMessage.contractId);
-        expect("61e14383").to.equal(itemTokenBurnMessage.mintedNonFungibleToken.contractId);
-        expect("10000001").to.equal(itemTokenBurnMessage.mintedNonFungibleToken.tokenType)
-        expect("00000007").to.equal(itemTokenBurnMessage.mintedNonFungibleToken.tokenIndex);
+        expect("").to.equal(itemTokenBurnMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[0].from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[0].sender);
+        expect("61e14383").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[0].contractId);
+        expect("10000001").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[0].tokenType)
+        expect("00000007").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[0].tokenIndex);
+    });
+
+    it("test parsing to nonFungibleTypeMultiMintTx", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_MINT_NFT);
+        const itemTokenBurnMessage =
+            parser.parse(multiMintNonFungibleTxResult) as NonFungibleTokenMintMessage;
+
+
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[0].from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[0].sender);
+        expect("61e14383").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[0].contractId);
+        expect("61e14383").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[1].contractId);
+        expect("10000001").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[0].tokenType)
+        expect("10000002").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[1].tokenType)
+        expect("0000000a").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[0].tokenIndex);
+        expect("00000001").to.equal(itemTokenBurnMessage.mintedNonFungibleTokens[1].tokenIndex);
     });
 
 
     it("test parsing to nonFungibleTypeBurnTx", () => {
-        const parser = TxResultMessageParserFactory.create(
-            MessageType.ITEM_TOKEN_BURN_NFT,
-        );
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_BURN_NFT);
         const itemTokenBurnMessage =
             parser.parse(burnNonFungibleTxResult) as NonFungibleTokenBurnMessage;
 
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenBurnMessage.from
-        );
-
-        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
-            itemTokenBurnMessage.sender
-        );
-
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.sender);
         expect("61e14383").to.equal(itemTokenBurnMessage.contractId);
         expect("61e14383").to.equal(itemTokenBurnMessage.burnedNonFungibleToken.contractId);
         expect("10000001").to.equal(itemTokenBurnMessage.burnedNonFungibleToken.tokenType);
         expect("00000003").to.equal(itemTokenBurnMessage.burnedNonFungibleToken.tokenIndex);
+    });
 
+    it("test parsing to nonFungibleTypeBurnFromTx", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_BURN_FROM_NFT);
+        const itemTokenBurnFromMessage =
+            parser.parse(burnFromNonFungibleTxResult) as NonFungibleTokenBurnFromMessage;
+
+        expect("tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph").to.equal(itemTokenBurnFromMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnFromMessage.proxy);
+        expect("61e14383").to.equal(itemTokenBurnFromMessage.contractId);
+        expect("61e14383").to.equal(itemTokenBurnFromMessage.burnedNonFungibleToken.contractId);
+        expect("10000001").to.equal(itemTokenBurnFromMessage.burnedNonFungibleToken.tokenType);
+        expect("00000005").to.equal(itemTokenBurnFromMessage.burnedNonFungibleToken.tokenIndex);
     });
 
 });

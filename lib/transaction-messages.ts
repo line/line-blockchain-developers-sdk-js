@@ -4,6 +4,7 @@ export enum MessageType {
     SERVICE_TOKEN_MODIFY = "token/MsgModify",
     SERVICE_TOKEN_MINT = "token/MsgMint",
     SERVICE_TOKEN_BURN = "token/MsgBurn",
+    SERVICE_TOKEN_BURN_FROM = "token/MsgBurnFrom",
     SERVICE_TOKEN_TRANSFER = "token/MsgTransfer",
     SERVICE_TOKEN_TRANSFER_FROM = "token/MsgTransferFrom",
 
@@ -129,6 +130,9 @@ export class IssuedNonFungibleToken extends NonFungibleToken {
 
 export class MintedNonFungibleToken extends NonFungibleToken {
     constructor(
+        readonly from: string,
+        readonly sender: string,
+        readonly to: string,
         readonly contractId: string,
         readonly tokenType: string,
         readonly tokenIndex: string,
@@ -199,7 +203,20 @@ export class ServiceTokenBurnMessage extends TxResultMessage {
         height: number,
         txHash: string,
         from: string,
-        readonly owner: string, // from
+        readonly owner: string,
+        readonly contractId: string,
+        readonly amount: string,
+    ) {
+        super(height, txHash, from);
+    }
+}
+
+export class ServiceTokenBurnFromMessage extends TxResultMessage {
+    constructor(
+        height: number,
+        txHash: string,
+        from: string,
+        readonly proxy: string,
         readonly contractId: string,
         readonly amount: string,
     ) {
@@ -462,11 +479,8 @@ export class NonFungibleTokenMintMessage extends TxResultMessage {
     constructor(
         height: number,
         txHash: string,
-        from: string,
-        readonly sender: string,
-        readonly to: string,
-        readonly contractId: string,
-        readonly mintedNonFungibleToken: MintedNonFungibleToken,
+        from: string = "",
+        readonly mintedNonFungibleTokens: Array<MintedNonFungibleToken>,
     ) {
         super(height, txHash, from);
     }
@@ -492,6 +506,7 @@ export class NonFungibleTokenBurnFromMessage extends TxResultMessage {
         from: string,
         proxy: string,
         readonly owner: string, // from
+        readonly contractId: string,
         readonly burnedNonFungibleToken: NonFungibleToken,
     ) {
         super(height, txHash, from, proxy);

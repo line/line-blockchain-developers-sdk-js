@@ -4,9 +4,11 @@ import { TokenUtil } from "./token-util";
 import {
     MessageType,
     TxResultMessage,
+    ServiceTokenIssueMessage,
     ServiceTokenModifyMessage,
     ServiceTokenMintMessage,
     ServiceTokenBurnMessage,
+    ServiceTokenBurnFromMessage,
     ServiceTokenTransferMessage,
     ServiceTokenTransferFromMessage,
     ItemTokenModifyMessage,
@@ -21,6 +23,7 @@ import {
     NonFungibleTokenIssueMessage,
     NonFungibleTokenMintMessage,
     NonFungibleTokenBurnMessage,
+    NonFungibleTokenBurnFromMessage
 } from "./transaction-messages";
 
 // TODO this interface, and just parse directly
@@ -29,6 +32,34 @@ export interface TxResultMessageParser<T extends TxResultMessage> {
     parseGenericTxResultResponse(
         txResultResponse: GenericResponse<TxResultResponse>,
     ): T;
+}
+
+export class ServiceTokenIssueMessageParser
+    implements TxResultMessageParser<ServiceTokenIssueMessage> {
+    parse(txResultResponse: TxResultResponse): ServiceTokenIssueMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): ServiceTokenIssueMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): ServiceTokenIssueMessage {
+        return new ServiceTokenIssueMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findOwnerWalletAddress(txResultResponse),
+            TxResultUtil.findOwnerWalletAddress(txResultResponse),
+            TxResultUtil.findToWalletAddress(txResultResponse),
+            TxResultUtil.findIssuedServiceToken(txResultResponse),
+            TxResultUtil.findAmount(txResultResponse),
+        );
+    }
 }
 
 export class ServiceTokenModifyMessageParser
@@ -107,6 +138,33 @@ export class ServiceTokenBurnMessageParser
             txResultResponse.txhash,
             TxResultUtil.findFromWalletAddress(txResultResponse),
             TxResultUtil.findOwnerWalletAddress(txResultResponse),
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findAmount(txResultResponse),
+        );
+    }
+}
+
+export class ServiceTokenBurnFromMessageParser
+    implements TxResultMessageParser<ServiceTokenBurnFromMessage> {
+    parse(txResultResponse: TxResultResponse): ServiceTokenBurnFromMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): ServiceTokenBurnFromMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): ServiceTokenBurnFromMessage {
+        return new ServiceTokenBurnFromMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findProxyWalletAddress(txResultResponse),
             TxResultUtil.findContractId(txResultResponse),
             TxResultUtil.findAmount(txResultResponse),
         );
@@ -475,11 +533,8 @@ export class NonFungibleTokenMintMessageParser
         return new NonFungibleTokenMintMessage(
             txResultResponse.height,
             txResultResponse.txhash,
-            TxResultUtil.findFromWalletAddress(txResultResponse),
-            TxResultUtil.findSenderFromLogEvents(txResultResponse),
-            TxResultUtil.findToWalletAddress(txResultResponse),
-            TxResultUtil.findContractId(txResultResponse),
-            TxResultUtil.findMintedNonFungibleToken(txResultResponse)
+            "",
+            TxResultUtil.findMintedNonFungibleTokens(txResultResponse)
         );
     }
 }
@@ -511,6 +566,34 @@ export class NonFungibleTokenBurnMessageParser
     }
 }
 
+export class NonFungibleTokenBurnFromMessageParser
+    implements TxResultMessageParser<NonFungibleTokenBurnFromMessage> {
+    parse(txResultResponse: TxResultResponse): NonFungibleTokenBurnFromMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): NonFungibleTokenBurnFromMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): NonFungibleTokenBurnFromMessage {
+        return new NonFungibleTokenBurnFromMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findProxyWalletAddress(txResultResponse),
+            TxResultUtil.findSenderFromLogEvents(txResultResponse),
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findBurnedNonFungibleToken(txResultResponse)
+        );
+    }
+}
+
 
 export class TxResultMessageParserFactory {
     static create(
@@ -518,6 +601,9 @@ export class TxResultMessageParserFactory {
     ): TxResultMessageParser<TxResultMessage> {
         let txResultMessageParser: TxResultMessageParser<TxResultMessage> = null;
         switch (messageType) {
+            case MessageType.SERVICE_TOKEN_ISSUE:
+                txResultMessageParser = new ServiceTokenIssueMessageParser();
+                break;
             case MessageType.SERVICE_TOKEN_MODIFY:
                 txResultMessageParser = new ServiceTokenModifyMessageParser();
                 break;
@@ -526,6 +612,9 @@ export class TxResultMessageParserFactory {
                 break;
             case MessageType.SERVICE_TOKEN_BURN:
                 txResultMessageParser = new ServiceTokenBurnMessageParser();
+                break;
+            case MessageType.SERVICE_TOKEN_BURN_FROM:
+                txResultMessageParser = new ServiceTokenBurnFromMessageParser();
                 break;
             case MessageType.SERVICE_TOKEN_TRANSFER:
                 txResultMessageParser = new ServiceTokenTransferMessageParser();
@@ -566,6 +655,9 @@ export class TxResultMessageParserFactory {
                 break;
             case MessageType.ITEM_TOKEN_BURN_NFT:
                 txResultMessageParser = new NonFungibleTokenBurnMessageParser();
+                break;
+            case MessageType.ITEM_TOKEN_BURN_FROM_NFT:
+                txResultMessageParser = new NonFungibleTokenBurnFromMessageParser();
                 break;
             // case MessageType.SERVICE_TOKEN_MODIFY:
             //     txResultMessageParser = new class implements TxResultMessageParser<ServiceTokenModifyMessage> {

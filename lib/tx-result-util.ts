@@ -4,6 +4,7 @@ import { TokenUtil } from "./token-util";
 import { TxResultResponse } from "./response";
 import {
     TokenChange,
+    IssuedServiceToken,
     MintedFungibleToken,
     BurnedFungibleToken,
     IssuedNonFungibleToken,
@@ -64,13 +65,10 @@ export class TxResultUtil {
     }
 
     static findContractId(txResultResponse: TxResultResponse): string {
-        const contractId = TxResultUtil.findValueFromMessagesWithDefaultValue(
-            txResultResponse,
-            "contractId",
-            "",
-        );
+        const contractId =
+            TxResultUtil.findValueFromMessagesWithDefaultValue(txResultResponse, "contractId", "",);
 
-        if (contractId && contractId > 1) {
+        if (contractId && contractId.length > 1) {
             return contractId
         } else {
             return TxResultUtil.findValueFromLogEvents(txResultResponse, "contract_id")
@@ -88,6 +86,17 @@ export class TxResultUtil {
         } else {
             return amount.toString();
         }
+    }
+
+    static findIssuedServiceToken(txResultResponse: TxResultResponse): IssuedServiceToken {
+        return new IssuedServiceToken(
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findTokenName(txResultResponse),
+            TxResultUtil.findTokenSymbol(txResultResponse),
+            TxResultUtil.findTokenMeta(txResultResponse),
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findTokenDecimals(txResultResponse)
+        );
     }
 
     static findMintedFungibleTokens(
@@ -156,12 +165,39 @@ export class TxResultUtil {
         const tokenType = TokenUtil.tokenTypeFrom(tokenId)
         const tokenIndex = TokenUtil.tokenIndexFrom(tokenId)
         return new MintedNonFungibleToken(
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findSenderFromLogEvents(txResultResponse),
+            TxResultUtil.findToWalletAddress(txResultResponse),
             TxResultUtil.findContractId(txResultResponse),
             tokenType,
             tokenIndex,
             TxResultUtil.findTokenNameFromMintNFT(txResultResponse),
             TxResultUtil.findTokenMetaFromMintNFT(txResultResponse)
         )
+    }
+
+    static findMintedNonFungibleTokens(txResultResponse: TxResultResponse): Array<MintedNonFungibleToken> {
+        const senderAddresses = jsonpath.query(txResultResponse.logs, `$..[?(@.key === 'sender')].value`)
+        const fromAddresses = jsonpath.query(txResultResponse.logs, `$..[?(@.key === 'from')].value`)
+        const toAddresses = jsonpath.query(txResultResponse.logs, `$..[?(@.key === 'to')].value`)
+        const contractIdList = jsonpath.query(txResultResponse.logs, `$..[?(@.key === 'contract_id')].value`)
+        const tokenIdList = jsonpath.query(txResultResponse.logs, `$..[?(@.key === 'token_id')].value`)
+        const params = jsonpath.query(txResultResponse.tx.value.msg, "$..params[0]")
+
+        return tokenIdList.map((it, index) => {
+            const tokenType = TokenUtil.tokenTypeFrom(it)
+            const tokenIndex = TokenUtil.tokenIndexFrom(it)
+            return new MintedNonFungibleToken(
+                fromAddresses[index],
+                senderAddresses[index],
+                toAddresses[index],
+                contractIdList[index],
+                tokenType,
+                tokenIndex,
+                params[index]["name"],
+                params[index]["meta"]
+            )
+        });
     }
 
     static findBurnedNonFungibleToken(txResultResponse: TxResultResponse): NonFungibleToken {
@@ -280,6 +316,14 @@ export class TxResultUtil {
         return TxResultUtil.findValueFromMessagesWithDefaultValue(
             txResultResponse,
             "name",
+            "",
+        );
+    }
+
+    static findTokenSymbol(txResultResponse: TxResultResponse): string {
+        return TxResultUtil.findValueFromMessagesWithDefaultValue(
+            txResultResponse,
+            "symbol",
             "",
         );
     }

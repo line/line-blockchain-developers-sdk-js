@@ -522,6 +522,124 @@ export const memoTxResultResponse = {
   timestamp: "2020-03-26T10:36:56.000+0000",
 };
 
+export const issueServiceTokenTxResult = {
+  "height": 1207317,
+  "txhash": "2C981A65B9A2F4DF6EC8CC5E084905A9C2C8488F7E533C9F71394F254D76F039",
+  "codespace": null,
+  "code": 0,
+  "index": 0,
+  "data": null,
+  "logs": [{
+    "msgIndex": 0,
+    "log": "",
+    "events": [{
+      "type": "grant_perm",
+      "attributes": [{
+        "key": "to",
+        "value": "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558"
+      }, {
+        "key": "contract_id",
+        "value": "9be17165"
+      }, {
+        "key": "perm",
+        "value": "modify"
+      }, {
+        "key": "to",
+        "value": "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558"
+      }, {
+        "key": "contract_id",
+        "value": "9be17165"
+      }, {
+        "key": "perm",
+        "value": "mint"
+      }, {
+        "key": "to",
+        "value": "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558"
+      }, {
+        "key": "contract_id",
+        "value": "9be17165"
+      }, {
+        "key": "perm",
+        "value": "burn"
+      }]
+    }, {
+      "type": "issue",
+      "attributes": [{
+        "key": "contract_id",
+        "value": "9be17165"
+      }, {
+        "key": "name",
+        "value": "Gamja"
+      }, {
+        "key": "symbol",
+        "value": "GAMJA"
+      }, {
+        "key": "owner",
+        "value": "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558"
+      }, {
+        "key": "to",
+        "value": "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558"
+      }, {
+        "key": "amount",
+        "value": "987654321"
+      }, {
+        "key": "mintable",
+        "value": "true"
+      }, {
+        "key": "decimals",
+        "value": "6"
+      }]
+    }, {
+      "type": "message",
+      "attributes": [{
+        "key": "action",
+        "value": "issue_token"
+      }, {
+        "key": "module",
+        "value": "token"
+      }, {
+        "key": "sender",
+        "value": "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558"
+      }]
+    }]
+  }],
+  "info": null,
+  "gasWanted": 102620,
+  "gasUsed": 84423,
+  "tx": {
+    "type": "cosmos-sdk/StdTx",
+    "value": {
+      "msg": [{
+        "type": "token/MsgIssue",
+        "value": {
+          "owner": "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558",
+          "to": "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558",
+          "name": "Gamja",
+          "meta": "",
+          "symbol": "GAMJA",
+          "imgUri": "https://obs-beta.line-scdn.net/0hCAEtmD62HG54DTUrwzdjOUdQGgEPIw5sAzkNV0MKQlpdOls4RW5WDFwPRVlROg8xR2tSTVxfRgoAaF9t/f100x100",
+          "amount": "987654321",
+          "mintable": true,
+          "decimals": "6"
+        }
+      }],
+      "fee": {
+        "gas": 102620,
+        "amount": []
+      },
+      "memo": "",
+      "signatures": [{
+        "pub_key": {
+          "type": "tendermint/PubKeySecp256k1",
+          "value": "Az3MnK6Qnud9q/16GEd/5LWc4Hy30gy2gPSY9oZoIfbJ"
+        },
+        "signature": "WeVI3uyU0dFuA9pc0/BFUOYgZR2T2acym0fG1WddKsEUHTMi4lHFPEj4t3/CR4DW6y2cJVFGYEgeDXEpbfUBcg=="
+      }]
+    }
+  },
+  "timestamp": "2020-03-26T10:36:56.000+0000"
+}
+
 export const serviceTokenMintTxResult = {
   height: 151837,
   txhash: "36C7142946D9CDC93AADFCD7326EAE95CFB7670F93D8469C8669A0E4656B5EAF",
@@ -797,6 +915,46 @@ export const serviceTokenBurnTxResult = {
   },
   timestamp: "2020-03-20T07:31:50.000+0000",
 };
+
+export const serviceTokenBurnFromTxResult = {
+  "height": 1221266,
+  "txhash": "05AFA2C5247EC3DFB1E6617977B01822C775D158082A8025EB4A5E7DFEFC6CAE",
+  "codespace": "token",
+  "code": 23,
+  "index": 1,
+  "data": null,
+  "logs": null,
+  "info": null,
+  "gasWanted": 440000,
+  "gasUsed": 35313,
+  "tx": {
+    "type": "cosmos-sdk/StdTx",
+    "value": {
+      "msg": [{
+        "type": "token/MsgBurnFrom",
+        "value": {
+          "proxy": "tlink1zl4zgr446curnyf9jv07775529axdnu3kxnkex",
+          "contractId": "3336b76f",
+          "from": "tlink1jvsldpv083tu0xd58vrtp54j3q8s84av35k6ax",
+          "amount": "2"
+        }
+      }],
+      "fee": {
+        "gas": 440000,
+        "amount": []
+      },
+      "memo": "",
+      "signatures": [{
+        "pub_key": {
+          "type": "tendermint/PubKeySecp256k1",
+          "value": "Axk3kE9+A6XbAwjS34NvWR3/AtXcDtX602dfl0kps9zU"
+        },
+        "signature": "p5eW6aEhpT2kCO1jQ7Yhhr6ir1CydLbQfBUEsHPSiY463IswySRkHeENC64yRwlbC6xXB2yCutzWr/K3CB+cNQ=="
+      }]
+    }
+  },
+  "timestamp": "2020-03-25T07:33:35.000+0000"
+}
 
 export const serviceTokenTransferTxResult = {
   height: 65183,
@@ -2387,4 +2545,152 @@ export const burnFromNonFungibleTxResult =
     }
   },
   "timestamp": "2020-03-26T10:16:30.000+0000"
+}
+
+export const multiMintNonFungibleTxResult = {
+  "height": 183068,
+  "txhash": "5FD523F2E890687835F2031DD474AFF04117688DDD22791631538DC91E96625B",
+  "codespace": "",
+  "code": 0,
+  "index": 0,
+  "data": "",
+  "logs": [{
+    "msgIndex": 0,
+    "log": "",
+    "events": [{
+      "type": "message",
+      "attributes": [{
+        "key": "module",
+        "value": "collection"
+      },
+      {
+        "key": "sender",
+        "value": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"
+      },
+      {
+        "key": "action",
+        "value": "mint_nft"
+      }
+      ]
+    },
+    {
+      "type": "mint_nft",
+      "attributes": [{
+        "key": "contract_id",
+        "value": "61e14383"
+      },
+      {
+        "key": "name",
+        "value": "Name"
+      },
+      {
+        "key": "token_id",
+        "value": "100000010000000a"
+      },
+      {
+        "key": "from",
+        "value": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"
+      },
+      {
+        "key": "to",
+        "value": "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww"
+      }
+      ]
+    }
+    ]
+  },
+  {
+    "msgIndex": 1,
+    "log": "",
+    "events": [{
+      "type": "message",
+      "attributes": [{
+        "key": "module",
+        "value": "collection"
+      },
+      {
+        "key": "sender",
+        "value": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"
+      },
+      {
+        "key": "action",
+        "value": "mint_nft"
+      }
+      ]
+    },
+    {
+      "type": "mint_nft",
+      "attributes": [{
+        "key": "contract_id",
+        "value": "61e14383"
+      },
+      {
+        "key": "name",
+        "value": "Name2"
+      },
+      {
+        "key": "token_id",
+        "value": "1000000200000001"
+      },
+      {
+        "key": "from",
+        "value": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"
+      },
+      {
+        "key": "to",
+        "value": "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww"
+      }
+      ]
+    }
+    ]
+  }
+  ],
+  "info": "",
+  "gasWanted": 100000000,
+  "gasUsed": 432463,
+  "tx": {
+    "type": "cosmos-sdk/StdTx",
+    "value": {
+      "msg": [{
+        "type": "collection/MsgMintNFT",
+        "value": {
+          "from": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+          "contractId": "61e14383",
+          "to": "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww",
+          "params": [{
+            "name": "Name",
+            "meta": "Meta",
+            "tokenType": "10000001"
+          }]
+        }
+      },
+      {
+        "type": "collection/MsgMintNFT",
+        "value": {
+          "from": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+          "contractId": "61e14383",
+          "to": "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww",
+          "params": [{
+            "name": "Name2",
+            "meta": "",
+            "tokenType": "10000002"
+          }]
+        }
+      }
+      ],
+      "fee": {
+        "gas": 100000000,
+        "amount": []
+      },
+      "memo": "",
+      "signatures": [{
+        "pubKey": {
+          "type": "tendermint/PubKeySecp256k1",
+          "value": "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy"
+        },
+        "signature": "3XbW5kY10P4bVvvDscJruKG+1sNjrNhrw57ATfSS27tKUOPgScad6WDEaDM8vNRYza7Mfa7fW1ytn0L+2q1hIQ=="
+      }]
+    }
+  },
+  "timestamp": "2020-03-25T07:33:35.000+0000"
 }
