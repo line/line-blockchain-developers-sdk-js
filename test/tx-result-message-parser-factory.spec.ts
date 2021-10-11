@@ -52,17 +52,16 @@ import {
 
 describe("txResultMessageParserFactory-test", () => {
     it("test parsing to ServiceTokenModifyMessage", () => {
+        const expectedChanges = [{ field: "name", value: "STname" }, { field: "meta", value: "meta" }];
+
         const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_MODIFY);
         const serviceTokenModifyMessage =
             parser.parse(serviceTokenModifyTxResult,) as ServiceTokenModifyMessage;
+
         expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(serviceTokenModifyMessage.from);
         expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(serviceTokenModifyMessage.owner);
         expect("9636a07e").to.equal(serviceTokenModifyMessage.contractId);
 
-        const expectedChanges = [
-            { field: "name", value: "STname" },
-            { field: "meta", value: "meta" },
-        ];
         const changes = serviceTokenModifyMessage.changes;
         expectedChanges.forEach((it, index) => {
             expect(it.field).to.equal(changes[index].field);
