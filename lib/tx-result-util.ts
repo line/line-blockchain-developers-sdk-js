@@ -11,6 +11,7 @@ import {
     IssuedFungibleToken,
     MintedNonFungibleToken,
     NonFungibleToken,
+    BaseCoinAmount,
 } from "./transaction-messages";
 
 export class TxResultUtil {
@@ -349,6 +350,15 @@ export class TxResultUtil {
             "",
         );
     }
+
+    static findBaseCoinAmount(txResultResponse: TxResultResponse): BaseCoinAmount {
+        const amount = txResultResponse.tx.value.msg[0].value.amount[0]
+        return new BaseCoinAmount(
+            amount["denom"],
+            amount["amount"].toString(),
+        )
+    }
+
 
     static findValueFromMessagesWithDefaultValue(
         txResultResponse: TxResultResponse,

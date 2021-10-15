@@ -23,7 +23,8 @@ import {
     NonFungibleTokenIssueMessage,
     NonFungibleTokenMintMessage,
     NonFungibleTokenBurnMessage,
-    NonFungibleTokenBurnFromMessage
+    NonFungibleTokenBurnFromMessage,
+    BaseCoinTransferMessage
 } from "./transaction-messages";
 
 // TODO this interface, and just parse directly
@@ -594,6 +595,32 @@ export class NonFungibleTokenBurnFromMessageParser
     }
 }
 
+export class BaseCoinSendMessageParser
+    implements TxResultMessageParser<BaseCoinTransferMessage> {
+    parse(txResultResponse: TxResultResponse): BaseCoinTransferMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): BaseCoinTransferMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): BaseCoinTransferMessage {
+        return new BaseCoinTransferMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findSenderFromLogEvents(txResultResponse),
+            TxResultUtil.findToWalletAddress(txResultResponse),
+            TxResultUtil.findBaseCoinAmount(txResultResponse)
+        );
+    }
+}
 
 export class TxResultMessageParserFactory {
     static create(
@@ -659,13 +686,10 @@ export class TxResultMessageParserFactory {
             case MessageType.ITEM_TOKEN_BURN_FROM_NFT:
                 txResultMessageParser = new NonFungibleTokenBurnFromMessageParser();
                 break;
-            // case MessageType.SERVICE_TOKEN_MODIFY:
-            //     txResultMessageParser = new class implements TxResultMessageParser<ServiceTokenModifyMessage> {
-            //         parse(txResultResponse: TxResultResponse): ServiceTokenModifyMessage {
-            //             return null;
-            //         }
-            //     }
-            //     break;
+
+            case MessageType.COIN_SEND:
+                txResultMessageParser = new BaseCoinSendMessageParser();
+                break;
             default:
                 return null;
         }

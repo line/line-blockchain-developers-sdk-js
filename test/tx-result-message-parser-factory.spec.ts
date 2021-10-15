@@ -21,7 +21,8 @@ import {
     NonFungibleTokenIssueMessage,
     NonFungibleTokenMintMessage,
     NonFungibleTokenBurnMessage,
-    NonFungibleTokenBurnFromMessage
+    NonFungibleTokenBurnFromMessage,
+    BaseCoinTransferMessage
 } from "../lib/transaction-messages";
 
 import {
@@ -47,7 +48,8 @@ import {
     mintNonFungibleTxResult,
     burnNonFungibleTxResult,
     burnFromNonFungibleTxResult,
-    multiMintNonFungibleTxResult
+    multiMintNonFungibleTxResult,
+    baseCoinTransferTxResult
 } from "./test-data";
 
 describe("txResultMessageParserFactory-test", () => {
@@ -360,6 +362,20 @@ describe("txResultMessageParserFactory-test", () => {
         expect("61e14383").to.equal(itemTokenBurnFromMessage.burnedNonFungibleToken.contractId);
         expect("10000001").to.equal(itemTokenBurnFromMessage.burnedNonFungibleToken.tokenType);
         expect("00000005").to.equal(itemTokenBurnFromMessage.burnedNonFungibleToken.tokenIndex);
+    });
+
+    it("test parsing to baseCoinSendTx", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.COIN_SEND);
+        const baseCoinTransferMessage =
+            parser.parse(baseCoinTransferTxResult) as BaseCoinTransferMessage;
+
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(baseCoinTransferMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(baseCoinTransferMessage.sender);
+
+        expect("tcony").to.equal(baseCoinTransferMessage.baseCoinAmount.contractId);
+        expect("1").to.equal(baseCoinTransferMessage.baseCoinAmount.amount);
+
+
     });
 
 });

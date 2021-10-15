@@ -597,7 +597,7 @@ export class BaseCoinTransferMessage extends TxResultMessage {
         height: number,
         txHash: string,
         from: string,
-        readonly owner: string, // from
+        readonly sender: string, // from
         readonly to: string,
         readonly baseCoinAmount: BaseCoinAmount,
     ) {

@@ -2694,3 +2694,93 @@ export const multiMintNonFungibleTxResult = {
   },
   "timestamp": "2020-03-25T07:33:35.000+0000"
 }
+
+// transfer
+export const baseCoinTransferTxResult = {
+  "height": 53310,
+  "txhash": "2EE95DCAD67DDEC124AB57B21AA5F82653A2CE5D7E5ACA5ECEFA47B2F561518D",
+  "codespace": "",
+  "code": 0,
+  "index": 0,
+  "data": "",
+  "logs": [
+    {
+      "msgIndex": 0,
+      "log": "",
+      "events": [
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "module",
+              "value": "bank"
+            },
+            {
+              "key": "sender",
+              "value": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"
+            },
+            {
+              "key": "action",
+              "value": "send"
+            }
+          ]
+        },
+        {
+          "type": "transfer",
+          "attributes": [
+            {
+              "key": "sender",
+              "value": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"
+            },
+            {
+              "key": "recipient",
+              "value": "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww"
+            },
+            {
+              "key": "amount",
+              "value": "1tcony"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": "",
+  "gasWanted": 100000000,
+  "gasUsed": 23150,
+  "tx": {
+    "type": "cosmos-sdk/StdTx",
+    "value": {
+      "msg": [
+        {
+          "type": "coin/MsgSend",
+          "value": {
+            "from": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            "to": "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww",
+            "amount": [
+              {
+                "denom": "tcony",
+                "amount": 1
+              }
+            ]
+          }
+        }
+      ],
+      "fee": {
+        "gas": 100000000,
+        "amount": []
+      },
+      "memo": "",
+      "signatures": [
+        {
+          "pubKey": {
+            "type": "tendermint/PubKeySecp256k1",
+            "value": "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy"
+          },
+          "signature": "AF71IQpmzGaJLrv8EJ0tCtrUNQdyo5vsgDpPNyLIePhqNnzObEo00efm+9ACLbXdI4ETEGe3DQ+B0AHt70sC4A=="
+        }
+      ]
+    }
+  },
+  "timestamp": "2020-03-16T07:54:22.000+0000"
+}
