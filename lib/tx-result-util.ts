@@ -5,6 +5,7 @@ import { TxResultResponse } from "./response";
 import {
     TokenChange,
     IssuedServiceToken,
+    CreatedItemToken,
     MintedFungibleToken,
     BurnedFungibleToken,
     IssuedNonFungibleToken,
@@ -67,7 +68,7 @@ export class TxResultUtil {
 
     static findContractId(txResultResponse: TxResultResponse): string {
         const contractId =
-            TxResultUtil.findValueFromMessagesWithDefaultValue(txResultResponse, "contractId", "",);
+            TxResultUtil.findValueFromMessagesWithDefaultValue(txResultResponse, "contractId", "");
 
         if (contractId && contractId.length > 1) {
             return contractId
@@ -89,13 +90,41 @@ export class TxResultUtil {
         }
     }
 
+    static findCreatedItemToken(txResultResponse: TxResultResponse): CreatedItemToken {
+        return new CreatedItemToken(
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findOwnerWalletAddress(txResultResponse),
+            TxResultUtil.findTokenName(txResultResponse),
+            TxResultUtil.findTokenMeta(txResultResponse),
+            TxResultUtil.findBaseImgUri(txResultResponse)
+        );
+    }
+
+    static findBaseImgUri(txResultResponse: TxResultResponse): string {
+        const baseImgUri = TxResultUtil.findValueFromMessagesWithDefaultValue(txResultResponse, "base_img_uri", "");
+        if (!baseImgUri || baseImgUri.length < 1) {
+            return TxResultUtil.findValueFromMessagesWithDefaultValue(txResultResponse, "baseImgUri", "");
+        } else {
+            return baseImgUri
+        }
+    }
+
+    static findImgUri(txResultResponse: TxResultResponse): string {
+        const imgUri = TxResultUtil.findValueFromMessagesWithDefaultValue(txResultResponse, "img_uri", "");
+        if (!imgUri || imgUri.length < 1) {
+            return TxResultUtil.findValueFromMessagesWithDefaultValue(txResultResponse, "imgUri", "");
+        } else {
+            return imgUri
+        }
+    }
+
     static findIssuedServiceToken(txResultResponse: TxResultResponse): IssuedServiceToken {
         return new IssuedServiceToken(
             TxResultUtil.findContractId(txResultResponse),
             TxResultUtil.findTokenName(txResultResponse),
             TxResultUtil.findTokenSymbol(txResultResponse),
             TxResultUtil.findTokenMeta(txResultResponse),
-            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findBaseImgUri(txResultResponse),
             TxResultUtil.findTokenDecimals(txResultResponse)
         );
     }

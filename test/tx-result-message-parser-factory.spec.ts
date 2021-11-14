@@ -10,6 +10,7 @@ import {
     ServiceTokenBurnFromMessage,
     ServiceTokenTransferMessage,
     ServiceTokenTransferFromMessage,
+    ItemTokenCreateMessage,
     ItemTokenModifyMessage,
     NonFungibleTokenAttachMessage,
     NonFungibleTokenAttachFromMessage,
@@ -34,6 +35,7 @@ import {
     serviceTokenBurnFromTxResult,
     serviceTokenTransferTxResult,
     serviceTokenTransferFromTxResult,
+    itemTokenCreateTxResult,
     fungibleTokenModifyTxResult,
     nonFungibleTokenTypeModifyTxResult,
     nonFungibleTokenModifyTxResult,
@@ -156,6 +158,20 @@ describe("txResultMessageParserFactory-test", () => {
         expect("tlink1r3nl5pm7a8effx39hvac09uxz8eay8jlhyj3us").to.equal(serviceTokenTransferMessage.to);
         expect("9be17165").to.equal(serviceTokenTransferMessage.contractId);
         expect("1").to.equal(serviceTokenTransferMessage.amount);
+    });
+
+    it("test parsing to itemTokenCreateTxResult", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_CREATE);
+        const itemTokenCreateMessage =
+            parser.parse(itemTokenCreateTxResult) as ItemTokenCreateMessage;
+
+        expect("link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz").to.equal(itemTokenCreateMessage.from);
+        expect("link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz").to.equal(itemTokenCreateMessage.sender);
+        expect("link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz").to.equal(itemTokenCreateMessage.createdItemToken.owner);
+        expect("fee15a74").to.equal(itemTokenCreateMessage.createdItemToken.contractId);
+        expect("test").to.equal(itemTokenCreateMessage.createdItemToken.name);
+        expect("").to.equal(itemTokenCreateMessage.createdItemToken.meta);
+        expect("http://test-image-server.com").to.equal(itemTokenCreateMessage.createdItemToken.baseImgUri);
     });
 
     it("test parsing to fungibleTokenModifyTxResult", () => {

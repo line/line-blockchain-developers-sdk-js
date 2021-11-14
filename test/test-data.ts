@@ -1142,6 +1142,120 @@ export const serviceTokenTransferFromTxResult = {
 };
 
 // item token tx-result
+export const itemTokenCreateTxResult = {
+  "height": 1208188,
+  "txhash": "DA712AFD9A6A4B403B712C573169DFF95A405D058C235717400E7D5AFBE8CEB7",
+  "codespace": null,
+  "code": 0,
+  "index": 2,
+  "data": null,
+  "logs": [
+    {
+      "msgIndex": 0,
+      "log": "",
+      "events": [
+        {
+          "type": "create_collection",
+          "attributes": [
+            {
+              "key": "contract_id",
+              "value": "fee15a74"
+            },
+            {
+              "key": "name",
+              "value": "BW Card"
+            },
+            {
+              "key": "owner",
+              "value": "link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz"
+            }
+          ]
+        },
+        {
+          "type": "grant_perm",
+          "attributes": [
+            {
+              "key": "to",
+              "value": "link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz"
+            },
+            {
+              "key": "contract_id",
+              "value": "fee15a74"
+            },
+            {
+              "key": "perm",
+              "value": "issue"
+            },
+            {
+              "key": "perm",
+              "value": "mint"
+            },
+            {
+              "key": "perm",
+              "value": "burn"
+            },
+            {
+              "key": "perm",
+              "value": "modify"
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "action",
+              "value": "create_collection"
+            },
+            {
+              "key": "module",
+              "value": "collection"
+            },
+            {
+              "key": "sender",
+              "value": "link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": null,
+  "gasWanted": 100000000,
+  "gasUsed": 17748,
+  "tx": {
+    "type": "cosmos-sdk/StdTx",
+    "value": {
+      "msg": [
+        {
+          "type": "collection/MsgCreate",
+          "value": {
+            "owner": "link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz",
+            "name": "test",
+            "meta": "",
+            "base_img_uri": "http://test-image-server.com"
+          }
+        }
+      ],
+      "fee": {
+        "gas": 87811,
+        "amount": []
+      },
+      "memo": "",
+      "signatures": [
+        {
+          "pub_key": {
+            "type": "tendermint/PubKeySecp256k1",
+            "value": "AuP7XzFCVfejnMtr52DS42s9mjmd5kGZVeyaURsa0sAm"
+          },
+          "signature": "IyD2+sxxFU4MV035yx3hLKkXOIABSzcTEO4I/YkqU/VXbrvms4a0WJELed924vZZuM0fSkcbg2vrLWayQTimzQ=="
+        }
+      ]
+    }
+  },
+  "timestamp": "2020-03-24T10:15:38.000+0000"
+}
+
 export const fungibleTokenModifyTxResult = {
   "height": 171161,
   "txhash": "835A9B3D4012319A085D8104F81CE282181EF0E1D99B2B803BF0FE2FFE789233",
@@ -2784,3 +2898,4 @@ export const baseCoinTransferTxResult = {
   },
   "timestamp": "2020-03-16T07:54:22.000+0000"
 }
+

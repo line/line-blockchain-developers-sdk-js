@@ -11,6 +11,8 @@ import {
     ServiceTokenBurnFromMessage,
     ServiceTokenTransferMessage,
     ServiceTokenTransferFromMessage,
+    ItemTokenCreateMessage,
+    CreatedItemToken,
     ItemTokenModifyMessage,
     NonFungibleTokenAttachMessage,
     NonFungibleTokenAttachFromMessage,
@@ -225,6 +227,32 @@ export class ServiceTokenTransferFromMessageParser
             TxResultUtil.findContractId(txResultResponse),
             TxResultUtil.findToWalletAddress(txResultResponse),
             TxResultUtil.findAmount(txResultResponse),
+        );
+    }
+}
+
+export class ItemTokenCreateMessageParser
+    implements TxResultMessageParser<ItemTokenCreateMessage> {
+    parse(txResultResponse: TxResultResponse): ItemTokenCreateMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): ItemTokenCreateMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): ItemTokenCreateMessage {
+        return new ItemTokenCreateMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            // TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findSenderFromLogEvents(txResultResponse),
+            TxResultUtil.findCreatedItemToken(txResultResponse)
         );
     }
 }
@@ -648,6 +676,9 @@ export class TxResultMessageParserFactory {
                 break;
             case MessageType.SERVICE_TOKEN_TRANSFER_FROM:
                 txResultMessageParser = new ServiceTokenTransferFromMessageParser();
+                break;
+            case MessageType.ITEM_TOKEN_CREATE:
+                txResultMessageParser = new ItemTokenCreateMessageParser();
                 break;
             case MessageType.ITEM_TOKEN_MODIFY:
                 txResultMessageParser = new ItemTokenModifyMessageParser();

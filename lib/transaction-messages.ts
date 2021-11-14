@@ -9,7 +9,7 @@ export enum MessageType {
     SERVICE_TOKEN_TRANSFER_FROM = "token/MsgTransferFrom",
 
     // ITEM TOKEN MESSAGE TYPES
-    // ITEM_TOKEN_CREATE = "collection/MsgCreate",
+    ITEM_TOKEN_CREATE = "collection/MsgCreate",
     ITEM_TOKEN_MODIFY = "collection/MsgModify",
     ITEM_TOKEN_APPROVE = "collection/MsgApprove",
     ITEM_TOKEN_DISAPPROVE = "collection/MsgDisapprove",
@@ -65,6 +65,7 @@ export class IssuedServiceToken {
 export class CreatedItemToken {
     constructor(
         readonly contractId: string,
+        readonly owner: string,
         readonly name: string,
         readonly meta: string,
         readonly baseImgUri: string,
@@ -284,11 +285,10 @@ export class ItemTokenCreateMessage extends TxResultMessage {
     constructor(
         height: number,
         txHash: string,
-        from: string,
-        readonly owner: string, // from
+        readonly sender: string,
         readonly createdItemToken: CreatedItemToken,
     ) {
-        super(height, txHash, from);
+        super(height, txHash, sender);
     }
 }
 
