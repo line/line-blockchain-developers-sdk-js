@@ -7,6 +7,7 @@ export enum MessageType {
     SERVICE_TOKEN_BURN_FROM = "token/MsgBurnFrom",
     SERVICE_TOKEN_TRANSFER = "token/MsgTransfer",
     SERVICE_TOKEN_TRANSFER_FROM = "token/MsgTransferFrom",
+    SERVICE_TOKEN_PROXY_APPROVED = "token/MsgApprove",
 
     // ITEM TOKEN MESSAGE TYPES
     ITEM_TOKEN_CREATE = "collection/MsgCreate",
@@ -281,6 +282,19 @@ export class ServiceTokenTransferFromMessage extends TxResultMessage {
     }
 }
 
+export class ServiceTokenApprovedMessage extends TxResultMessage {
+    constructor(
+        height: number,
+        txHash: string,
+        readonly sender: string,
+        proxy: string,
+        readonly approver: string,
+        readonly contractId: string
+    ) {
+        super(height, txHash, sender, proxy);
+    }
+}
+
 export class ItemTokenCreateMessage extends TxResultMessage {
     constructor(
         height: number,
@@ -426,7 +440,6 @@ export class FungibleTokenBurnFromMessage extends TxResultMessage {
         txHash: string,
         from: string,
         proxy: string,
-        readonly owner: string, // from
         readonly contractId: string,
         readonly burnedFungibleTokens: Array<BurnedFungibleToken>,
     ) {

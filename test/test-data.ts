@@ -1141,6 +1141,90 @@ export const serviceTokenTransferFromTxResult = {
   timestamp: "2020-03-17T03:31:43.000+0000",
 };
 
+export const serviceTokenProxyApprovedTxResult = {
+  "height": 1449998,
+  "txhash": "666C1C8B614D382A570D592CA278878F7C3B8AB8E1E02CCFBF712DA6D7711CCF",
+  "codespace": null,
+  "code": 0,
+  "index": 0,
+  "data": null,
+  "logs": [
+    {
+      "msgIndex": 0,
+      "log": "",
+      "events": [
+        {
+          "type": "approve_token",
+          "attributes": [
+            {
+              "key": "contract_id",
+              "value": "f38bb8a6"
+            },
+            {
+              "key": "proxy",
+              "value": "link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu"
+            },
+            {
+              "key": "approver",
+              "value": "link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd"
+            }
+          ]
+        },
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "action",
+              "value": "approve_token"
+            },
+            {
+              "key": "module",
+              "value": "token"
+            },
+            {
+              "key": "sender",
+              "value": "link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": null,
+  "gasWanted": 62178,
+  "gasUsed": 50599,
+  "tx": {
+    "type": "cosmos-sdk/StdTx",
+    "value": {
+      "msg": [
+        {
+          "type": "token/MsgApprove",
+          "value": {
+            "approver": "link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd",
+            "contractId": "f38bb8a6",
+            "proxy": "link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu"
+          }
+        }
+      ],
+      "fee": {
+        "gas": 48886,
+        "amount": []
+      },
+      "memo": "",
+      "signatures": [
+        {
+          "pub_key": {
+            "type": "tendermint/PubKeySecp256k1",
+            "value": "AiIrcNL3/Rda9zUMlg3/ocwuvfkne5usVNjfO+oEtYua"
+          },
+          "signature": "GvPVC4eJg1WxkMEJq3PlRJ1EkjI42NLuejBDZkEPjeYKOkl93NowEKNn43Cg6no4g6Goe2RciQmkLUykspb2qg=="
+        }
+      ]
+    }
+  },
+  "timestamp": "2020-03-20T07:31:50.000+0000",
+}
+
 // item token tx-result
 export const itemTokenCreateTxResult = {
   "height": 1208188,
@@ -2291,6 +2375,55 @@ export const burnFungibleTxResult = {
   "timestamp": "2020-03-24T06:38:05.000+0000"
 }
 
+export const burnFromFungibleTxResult = {
+  "height": 168958,
+  "txhash": "B522B0959DDAF915F1F2841025B2FC4B3A35DA21E85B71C7FB165D1222DC8693",
+  "codespace": "",
+  "code": 0,
+  "index": 0,
+  "data": "",
+  "logs": null,
+  "info": "",
+  "gasWanted": 100000000,
+  "gasUsed": 132821,
+  "tx": {
+    "type": "cosmos-sdk/StdTx",
+    "value": {
+      "msg": [
+        {
+          "type": "collection/MsgBurnFTFrom",
+          "value": {
+            "proxy": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            "from": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            "contractId": "61e14383",
+            "amount": [
+              {
+                "tokenId": "0000000100000000",
+                "amount": 1
+              }
+            ]
+          }
+        }
+      ],
+      "fee": {
+        "gas": 100000000,
+        "amount": []
+      },
+      "memo": "",
+      "signatures": [
+        {
+          "pubKey": {
+            "type": "tendermint/PubKeySecp256k1",
+            "value": "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy"
+          },
+          "signature": "wdIVwwikR9Dc8XTr8+lHvDtJlDTFimMABFpKPGvwPN4fSHC2dyHDxOvdwT5e7E2fK1GyaeJaq7uTHfSczuC5hg=="
+        }
+      ]
+    }
+  },
+  "timestamp": "2020-03-24T06:38:05.000+0000"
+}
+
 
 export const issueNonFungibleTypeTxResult = {
   "height": 170448,
@@ -2898,4 +3031,5 @@ export const baseCoinTransferTxResult = {
   },
   "timestamp": "2020-03-16T07:54:22.000+0000"
 }
+
 

@@ -40,13 +40,37 @@ export class TxResultUtil {
             "",
         );
         if (!proxyAddress || proxyAddress.length < 1) {
-            return TxResultUtil.findValueFromMessagesWithDefaultValue(
+            return TxResultUtil.findValueFromLogEvents(
                 txResultResponse,
-                "proxy",
-                "",
+                "proxy"
             );
         } else {
             return proxyAddress;
+        }
+    }
+
+    static findSenderWalletAddress(txResultResponse: TxResultResponse): any {
+        const senderAddress = TxResultUtil.findValueFromMessagesWithDefaultValue(
+            txResultResponse,
+            "sender",
+            "",
+        );
+        if (!senderAddress || senderAddress.length < 1) {
+            return TxResultUtil.findValueFromLogEvents(txResultResponse, "sender");
+        } else {
+            return senderAddress;
+        }
+    }
+    static findApproverWalletAddress(txResultResponse: TxResultResponse): string {
+        const approverAddress = TxResultUtil.findValueFromMessagesWithDefaultValue(
+            txResultResponse,
+            "approver",
+            "",
+        );
+        if (!approverAddress || approverAddress.length < 1) {
+            return TxResultUtil.findValueFromLogEvents(txResultResponse, "approver");
+        } else {
+            return approverAddress;
         }
     }
 
@@ -196,7 +220,7 @@ export class TxResultUtil {
         const tokenIndex = TokenUtil.tokenIndexFrom(tokenId)
         return new MintedNonFungibleToken(
             TxResultUtil.findFromWalletAddress(txResultResponse),
-            TxResultUtil.findSenderFromLogEvents(txResultResponse),
+            TxResultUtil.findSenderWalletAddress(txResultResponse),
             TxResultUtil.findToWalletAddress(txResultResponse),
             TxResultUtil.findContractId(txResultResponse),
             tokenType,
@@ -418,10 +442,6 @@ export class TxResultUtil {
                 return null;
             }
         }
-    }
-
-    static findSenderFromLogEvents(txResultResponse: TxResultResponse): any {
-        return TxResultUtil.findValueFromLogEvents(txResultResponse, "sender");
     }
 
     static findValueFromLogEvents(

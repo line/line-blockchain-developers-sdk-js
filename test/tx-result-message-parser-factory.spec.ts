@@ -10,6 +10,7 @@ import {
     ServiceTokenBurnFromMessage,
     ServiceTokenTransferMessage,
     ServiceTokenTransferFromMessage,
+    ServiceTokenApprovedMessage,
     ItemTokenCreateMessage,
     ItemTokenModifyMessage,
     NonFungibleTokenAttachMessage,
@@ -19,6 +20,7 @@ import {
     FungibleTokenIssueMessage,
     FungibleTokenMintMessage,
     FungibleTokenBurnMessage,
+    FungibleTokenBurnFromMessage,
     NonFungibleTokenIssueMessage,
     NonFungibleTokenMintMessage,
     NonFungibleTokenBurnMessage,
@@ -35,6 +37,7 @@ import {
     serviceTokenBurnFromTxResult,
     serviceTokenTransferTxResult,
     serviceTokenTransferFromTxResult,
+    serviceTokenProxyApprovedTxResult,
     itemTokenCreateTxResult,
     fungibleTokenModifyTxResult,
     nonFungibleTokenTypeModifyTxResult,
@@ -46,6 +49,7 @@ import {
     issueFungibleTxResult,
     mintFungibleTxResult,
     burnFungibleTxResult,
+    burnFromFungibleTxResult,
     issueNonFungibleTypeTxResult,
     mintNonFungibleTxResult,
     burnNonFungibleTxResult,
@@ -148,16 +152,16 @@ describe("txResultMessageParserFactory-test", () => {
         expect("1").to.equal(serviceTokenTransferMessage.amount);
     });
 
-    it("test parsing to serviceTokenTransferFromMessage", () => {
-        const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_TRANSFER_FROM);
-        const serviceTokenTransferMessage =
-            parser.parse(serviceTokenTransferFromTxResult) as ServiceTokenTransferFromMessage;
+    it("test parsing to ServiceTokenApprovedMessage", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.SERVICE_TOKEN_PROXY_APPROVED);
+        const serviceTokenApprovedMessage =
+            parser.parse(serviceTokenProxyApprovedTxResult) as ServiceTokenApprovedMessage;
 
-        expect("tlink149nz34tch6wc5xslljt0q2j8rfnxg27dxrneyd").to.equal(serviceTokenTransferMessage.from);
-        expect("tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9").to.equal(serviceTokenTransferMessage.proxy);
-        expect("tlink1r3nl5pm7a8effx39hvac09uxz8eay8jlhyj3us").to.equal(serviceTokenTransferMessage.to);
-        expect("9be17165").to.equal(serviceTokenTransferMessage.contractId);
-        expect("1").to.equal(serviceTokenTransferMessage.amount);
+        expect("link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd").to.equal(serviceTokenApprovedMessage.from);
+        expect("link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd").to.equal(serviceTokenApprovedMessage.sender);
+        expect("link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu").to.equal(serviceTokenApprovedMessage.proxy);
+        expect("link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd").to.equal(serviceTokenApprovedMessage.approver);
+        expect("f38bb8a6").to.equal(serviceTokenApprovedMessage.contractId);
     });
 
     it("test parsing to itemTokenCreateTxResult", () => {
@@ -307,6 +311,17 @@ describe("txResultMessageParserFactory-test", () => {
 
         expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.from);
         expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.sender);
+        expect("61e14383").to.equal(itemTokenBurnMessage.contractId);
+        expect("61e14383").to.equal(itemTokenBurnMessage.burnedFungibleTokens[0].contractId);
+        expect("1").to.equal(itemTokenBurnMessage.burnedFungibleTokens[0].amount);
+    });
+
+    it("test parsing to fungibleTokenBurnFromTxResult", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_BURN_FROM_FT);
+        const itemTokenBurnMessage = parser.parse(burnFromFungibleTxResult) as FungibleTokenBurnFromMessage
+
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(itemTokenBurnMessage.proxy);
         expect("61e14383").to.equal(itemTokenBurnMessage.contractId);
         expect("61e14383").to.equal(itemTokenBurnMessage.burnedFungibleTokens[0].contractId);
         expect("1").to.equal(itemTokenBurnMessage.burnedFungibleTokens[0].amount);
