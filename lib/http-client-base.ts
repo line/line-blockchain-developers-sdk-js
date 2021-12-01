@@ -1,6 +1,11 @@
 import { LoggerFactory } from "./logger-factory";
 import _ from "lodash";
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, AxiosError } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  AxiosRequestConfig,
+  AxiosError,
+} from "axios";
 import { HTTPError, ReadError, RequestError } from "./exceptions";
 import cryptoRandomString from "crypto-random-string";
 import {
@@ -28,7 +33,7 @@ import {
   Memo,
   TokenMediaResourceUpdateResponse,
   FungibleTokenMediaResourceUpdateStatusResponse,
-  NonFungibleTokenMediaResourceUpdateStatusResponse
+  NonFungibleTokenMediaResourceUpdateStatusResponse,
 } from "./response";
 import {
   RequestType,
@@ -64,12 +69,13 @@ import {
   MemoRequest,
   MultiFungibleTokenMediaResourcesUpdateRequest,
   MultiNonFungibleTokenMediaResourcesUpdateRequest,
+  NonFungibleTokenMultiMintMultiReceiversRequest,
 } from "./request";
 import { SignatureGenerator } from "./signature-generator";
 import { Constant } from "./constants";
 
 declare module "axios" {
-  interface AxiosResponse<T = any> extends Promise<T> { }
+  interface AxiosResponse<T = any> extends Promise<T> {}
 }
 
 export class HttpClient {
@@ -378,6 +384,14 @@ export class HttpClient {
     request: NonFungibleTokenMultiMintRequest,
   ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/multi-mint`;
+    return this.instance.post(path, request);
+  }
+
+  public multiMintWithMultiReceiversNonFungibleToken(
+    contractId: string,
+    request: NonFungibleTokenMultiMintMultiReceiversRequest,
+  ): Promise<GenericResponse<TxHashResponse>> {
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/multi-recipients/multi-mint`;
     return this.instance.post(path, request);
   }
 
@@ -766,7 +780,9 @@ export class HttpClient {
   public fungibleTokenMediaResourcesUpdateStatus(
     contractId: string,
     requestId: string,
-  ): Promise<GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>> {
+  ): Promise<
+    GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>
+  > {
     const path = `/v1/item-tokens/${contractId}/fungible/icon/${requestId}/status`;
     return this.instance.get(path);
   }
@@ -774,7 +790,9 @@ export class HttpClient {
   public nonFungibleTokenMediaResourcesUpdateStatus(
     contractId: string,
     requestId: string,
-  ): Promise<GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>> {
+  ): Promise<
+    GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>
+  > {
     const path = `/v1/item-tokens/${contractId}/non-fungible/icon/${requestId}/status`;
     return this.instance.get(path);
   }

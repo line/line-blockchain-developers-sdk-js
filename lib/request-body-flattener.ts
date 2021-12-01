@@ -21,9 +21,11 @@ export class RequestBodyFlattener {
             const flatKey = `${key}.${subKey}`;
             const flatRawValue = elem[subKey] ? elem[subKey] : EMPTY;
             const prevFlatValue = flatPair[flatKey];
-            flatPair[flatKey] = _.isUndefined(prevFlatValue)
-              ? flatRawValue
-              : `${prevFlatValue},${flatRawValue}`;
+            if (_.isUndefined(prevFlatValue)) {
+              flatPair[flatKey] = flatRawValue;
+            } else {
+              flatPair[flatKey] = `${prevFlatValue},${flatRawValue}`;
+            }
           });
         });
       } else {
