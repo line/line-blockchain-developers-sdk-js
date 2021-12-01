@@ -15,6 +15,7 @@ import {
     ItemTokenCreateMessage,
     ItemTokenModifyMessage,
     ItemTokenApproveMessage,
+    ItemTokenDisapproveMessage,
     NonFungibleTokenAttachMessage,
     NonFungibleTokenAttachFromMessage,
     NonFungibleTokenDetachMessage,
@@ -25,11 +26,14 @@ import {
     FungibleTokenBurnMessage,
     FungibleTokenBurnFromMessage,
     FungibleTokenTransferMessage,
+    FungibleTokenTransferFromMessage,
     TransferredFungibleTokenAmount,
     NonFungibleTokenIssueMessage,
     NonFungibleTokenMintMessage,
     NonFungibleTokenBurnMessage,
     NonFungibleTokenBurnFromMessage,
+    NonFungibleTokenTransferMessage,
+    NonFungibleTokenTransferFromMessage,
     BaseCoinTransferMessage
 } from "./transaction-messages";
 
@@ -351,6 +355,33 @@ export class ItemTokenApproveMessageParser
     }
 }
 
+export class ItemTokenDisapproveMessageParser
+    implements TxResultMessageParser<ItemTokenDisapproveMessage> {
+    parse(txResultResponse: TxResultResponse): ItemTokenDisapproveMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): ItemTokenDisapproveMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): ItemTokenDisapproveMessage {
+        return new ItemTokenDisapproveMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findApproverWalletAddress(txResultResponse),
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findProxyWalletAddress(txResultResponse)
+        );
+    }
+}
+
 export class NFTAttachMessageParser
     implements TxResultMessageParser<NonFungibleTokenAttachMessage> {
     parse(txResultResponse: TxResultResponse): NonFungibleTokenAttachMessage {
@@ -600,6 +631,34 @@ export class FungibleTransferMessageParser
         );
     }
 }
+export class FungibleTransferFromMessageParser
+    implements TxResultMessageParser<FungibleTokenTransferFromMessage> {
+    parse(txResultResponse: TxResultResponse): FungibleTokenTransferFromMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): FungibleTokenTransferFromMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): FungibleTokenTransferFromMessage {
+        return new FungibleTokenTransferFromMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findProxyWalletAddress(txResultResponse),
+            TxResultUtil.findSenderWalletAddress(txResultResponse),
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findToWalletAddress(txResultResponse),
+            TxResultUtil.findTransferredFungibleTokenAmount(txResultResponse),
+        );
+    }
+}
 export class BurnFromFungibleMessageParser
     implements TxResultMessageParser<FungibleTokenBurnFromMessage> {
     parse(txResultResponse: TxResultResponse): FungibleTokenBurnFromMessage {
@@ -734,6 +793,56 @@ export class NonFungibleTokenBurnFromMessageParser
         );
     }
 }
+export class NonFungibleTokenTransferMessageParser
+    implements TxResultMessageParser<NonFungibleTokenTransferMessage> {
+    parse(txResultResponse: TxResultResponse): NonFungibleTokenTransferMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): NonFungibleTokenTransferMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): NonFungibleTokenTransferMessage {
+        return new NonFungibleTokenTransferMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findTransferredNonFungibleToken(txResultResponse)
+        );
+    }
+}
+
+export class NonFungibleTokenTransferFromMessageParser
+    implements TxResultMessageParser<NonFungibleTokenTransferFromMessage> {
+    parse(txResultResponse: TxResultResponse): NonFungibleTokenTransferFromMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): NonFungibleTokenTransferFromMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): NonFungibleTokenTransferFromMessage {
+        return new NonFungibleTokenTransferFromMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findProxyWalletAddress(txResultResponse),
+            TxResultUtil.findTransferredFromNonFungibleTokens(txResultResponse)
+        );
+    }
+}
 
 export class BaseCoinSendMessageParser
     implements TxResultMessageParser<BaseCoinTransferMessage> {
@@ -801,7 +910,9 @@ export class TxResultMessageParserFactory {
             case MessageType.ITEM_TOKEN_APPROVE:
                 txResultMessageParser = new ItemTokenApproveMessageParser();
                 break;
-
+            case MessageType.ITEM_TOKEN_DISAPPROVE:
+                txResultMessageParser = new ItemTokenDisapproveMessageParser();
+                break;
             case MessageType.ITEM_TOKEN_ATTACH:
                 txResultMessageParser = new NFTAttachMessageParser();
                 break;
@@ -829,6 +940,9 @@ export class TxResultMessageParserFactory {
             case MessageType.ITEM_TOKEN_TRANSFER_FT:
                 txResultMessageParser = new FungibleTransferMessageParser();
                 break;
+            case MessageType.ITEM_TOKEN_TRANSFER_FROM_FT:
+                txResultMessageParser = new FungibleTransferFromMessageParser();
+                break;
             case MessageType.ITEM_TOKEN_ISSUE_NFT:
                 txResultMessageParser = new NonFungibleTokenIssueMessageParser();
                 break;
@@ -841,7 +955,12 @@ export class TxResultMessageParserFactory {
             case MessageType.ITEM_TOKEN_BURN_FROM_NFT:
                 txResultMessageParser = new NonFungibleTokenBurnFromMessageParser();
                 break;
-
+            case MessageType.ITEM_TOKEN_TRANSFER_NFT:
+                txResultMessageParser = new NonFungibleTokenTransferMessageParser();
+                break;
+            case MessageType.ITEM_TOKEN_TRANSFER_FROM_NFT:
+                txResultMessageParser = new NonFungibleTokenTransferFromMessageParser();
+                break;
             case MessageType.COIN_SEND:
                 txResultMessageParser = new BaseCoinSendMessageParser();
                 break;

@@ -267,6 +267,48 @@ export class TxResultUtil {
     }
 
     static findBurnedNonFungibleToken(txResultResponse: TxResultResponse): NonFungibleToken {
+        return TxResultUtil.findNonFungibleToken(txResultResponse)
+    }
+
+    static findTransferredNonFungibleToken(txResultResponse: TxResultResponse): Array<NonFungibleToken> {
+        const contractId = TxResultUtil.findContractId(txResultResponse);
+        const tokenIdList = TxResultUtil.findMultiTokenIds(txResultResponse)
+
+        return tokenIdList.map((it, _) => {
+            const tokenType = TokenUtil.tokenTypeFrom(it)
+            const tokenIndex = TokenUtil.tokenIndexFrom(it)
+            return new NonFungibleToken(
+                contractId,
+                tokenType,
+                tokenIndex
+            )
+        })
+    }
+
+    static findTransferredFromNonFungibleTokens(txResultResponse: TxResultResponse): Array<NonFungibleToken> {
+        const tokenIdList = jsonpath.query(txResultResponse.logs, `$..[?(@.key === 'token_id')].value`);
+        const contractId = TxResultUtil.findContractId(txResultResponse);
+        return tokenIdList.map((it, _) => {
+            const tokenType = TokenUtil.tokenTypeFrom(it)
+            const tokenIndex = TokenUtil.tokenIndexFrom(it)
+            return new NonFungibleToken(
+                contractId,
+                tokenType,
+                tokenIndex
+            )
+        })
+
+    }
+
+    static findMultiTokenIds(txResultResponse: TxResultResponse): Array<string> {
+        return TxResultUtil.findValueFromMessagesWithDefaultValue(
+            txResultResponse,
+            "tokenIds",
+            [],
+        )
+    }
+
+    static findNonFungibleToken(txResultResponse: TxResultResponse): NonFungibleToken {
         const tokenId = TxResultUtil.findTokenIdList(txResultResponse)[0];
         const tokenType = TokenUtil.tokenTypeFrom(tokenId)
         const tokenIndex = TokenUtil.tokenIndexFrom(tokenId)

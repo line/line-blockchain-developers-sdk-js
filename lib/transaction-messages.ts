@@ -531,8 +531,7 @@ export class NonFungibleTokenTransferMessage extends TxResultMessage {
         height: number,
         txHash: string,
         from: string,
-        readonly owner: string, // from
-        readonly transferredNonFungibleToken: NonFungibleToken,
+        readonly transferredNonFungibleTokens: Array<NonFungibleToken>,
     ) {
         super(height, txHash, from);
     }
@@ -544,8 +543,7 @@ export class NonFungibleTokenTransferFromMessage extends TxResultMessage {
         txHash: string,
         from: string,
         proxy: string,
-        readonly owner: string, // from
-        readonly transferredNonFungibleToken: NonFungibleToken,
+        readonly transferredNonFungibleTokens: Array<NonFungibleToken>,
     ) {
         super(height, txHash, from, proxy);
     }

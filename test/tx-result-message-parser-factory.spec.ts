@@ -14,6 +14,7 @@ import {
     ItemTokenCreateMessage,
     ItemTokenModifyMessage,
     ItemTokenApproveMessage,
+    ItemTokenDisapproveMessage,
     NonFungibleTokenAttachMessage,
     NonFungibleTokenAttachFromMessage,
     NonFungibleTokenDetachMessage,
@@ -28,6 +29,9 @@ import {
     NonFungibleTokenBurnFromMessage,
     BaseCoinTransferMessage,
     FungibleTokenTransferMessage,
+    FungibleTokenTransferFromMessage,
+    NonFungibleTokenTransferMessage,
+    NonFungibleTokenTransferFromMessage
 } from "../lib/transaction-messages";
 
 import {
@@ -42,6 +46,7 @@ import {
     serviceTokenProxyApprovedTxResult,
     itemTokenCreateTxResult,
     itemTokenApproveTxResult,
+    itemTokenDisapproveTxResult,
     fungibleTokenModifyTxResult,
     nonFungibleTokenTypeModifyTxResult,
     nonFungibleTokenModifyTxResult,
@@ -60,6 +65,9 @@ import {
     multiMintNonFungibleTxResult,
     baseCoinTransferTxResult,
     fungibleTokenTransferTxResult,
+    fungibleTokenTransferFromTxResult,
+    transferNonFungibleTxResult,
+    transferFromNonFungibleTxResult
 } from "./test-data";
 
 describe("txResultMessageParserFactory-test", () => {
@@ -202,6 +210,16 @@ describe("txResultMessageParserFactory-test", () => {
         expect("link1ygceu3trpkkz9gcyr7m3zzv8n82zd3fawea59p").to.equal(itemTokenApproveMessage.approver);
         expect("link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz").to.equal(itemTokenApproveMessage.proxy);
         expect("fee15a74").to.equal(itemTokenApproveMessage.contractId);
+    });
+
+    it("test parsing to itemTokenDisapproveTxResult", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_DISAPPROVE);
+        const itemTokenDisapproveMessage =
+            parser.parse(itemTokenDisapproveTxResult) as ItemTokenDisapproveMessage;
+
+        expect("link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd").to.equal(itemTokenDisapproveMessage.approver);
+        expect("link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu").to.equal(itemTokenDisapproveMessage.proxy);
+        expect("bf365bab").to.equal(itemTokenDisapproveMessage.contractId);
     });
 
     it("test parsing to nonFungibleTokenTypeModifyTxResult", () => {
@@ -356,6 +374,21 @@ describe("txResultMessageParserFactory-test", () => {
 
     });
 
+    it("test parsing to fungibleTokenTransferFromTxResult", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_TRANSFER_FROM_FT);
+        const fungibleTokenTransferFromMessage = parser.parse(fungibleTokenTransferFromTxResult) as FungibleTokenTransferFromMessage
+
+        expect("link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd").to.equal(fungibleTokenTransferFromMessage.from);
+        expect("link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu").to.equal(fungibleTokenTransferFromMessage.proxy);
+        expect("link137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p").to.equal(fungibleTokenTransferFromMessage.to);
+        expect("bf365bab").to.equal(fungibleTokenTransferFromMessage.contractId);
+
+        expect("bf365bab").to.equal(fungibleTokenTransferFromMessage.transferredFungibleTokenAmount.contractId);
+        expect("00000001").to.equal(fungibleTokenTransferFromMessage.transferredFungibleTokenAmount.tokenType);
+        expect("50").to.equal(fungibleTokenTransferFromMessage.transferredFungibleTokenAmount.amount);
+
+    });
+
     it("test parsing to nonFungibleTypeIssueTx", () => {
         const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_ISSUE_NFT);
         const itemTokenBurnMessage =
@@ -423,6 +456,38 @@ describe("txResultMessageParserFactory-test", () => {
         expect("10000001").to.equal(itemTokenBurnFromMessage.burnedNonFungibleToken.tokenType);
         expect("00000005").to.equal(itemTokenBurnFromMessage.burnedNonFungibleToken.tokenIndex);
     });
+
+    it("test parsing to nonFungibleTypeTransferTx", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_TRANSFER_NFT);
+        const itemTokenTransferMessage =
+            parser.parse(transferNonFungibleTxResult) as NonFungibleTokenTransferMessage;
+
+        expect("link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu").to.equal(itemTokenTransferMessage.from);
+
+        expect("bf365bab").to.equal(itemTokenTransferMessage.transferredNonFungibleTokens[0].contractId);
+        expect("bf365bab").to.equal(itemTokenTransferMessage.transferredNonFungibleTokens[1].contractId);
+        expect("10000006").to.equal(itemTokenTransferMessage.transferredNonFungibleTokens[0].tokenType);
+        expect("10000006").to.equal(itemTokenTransferMessage.transferredNonFungibleTokens[1].tokenType);
+        expect("00000005").to.equal(itemTokenTransferMessage.transferredNonFungibleTokens[0].tokenIndex);
+        expect("00000006").to.equal(itemTokenTransferMessage.transferredNonFungibleTokens[1].tokenIndex);
+    });
+
+    it("test parsing to nonFungibleTypeTransferFromTx", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_TRANSFER_FROM_NFT);
+        const itemTokenTransferFromMessage =
+            parser.parse(transferFromNonFungibleTxResult) as NonFungibleTokenTransferFromMessage;
+
+        expect("link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd").to.equal(itemTokenTransferFromMessage.from);
+        expect("link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu").to.equal(itemTokenTransferFromMessage.proxy);
+
+        expect("bf365bab").to.equal(itemTokenTransferFromMessage.transferredNonFungibleTokens[0].contractId);
+        expect("bf365bab").to.equal(itemTokenTransferFromMessage.transferredNonFungibleTokens[1].contractId);
+        expect("10000001").to.equal(itemTokenTransferFromMessage.transferredNonFungibleTokens[0].tokenType);
+        expect("10000001").to.equal(itemTokenTransferFromMessage.transferredNonFungibleTokens[1].tokenType);
+        expect("0000000e").to.equal(itemTokenTransferFromMessage.transferredNonFungibleTokens[0].tokenIndex);
+        expect("0000000f").to.equal(itemTokenTransferFromMessage.transferredNonFungibleTokens[1].tokenIndex);
+    });
+
 
     it("test parsing to baseCoinSendTx", () => {
         const parser = TxResultMessageParserFactory.create(MessageType.COIN_SEND);
