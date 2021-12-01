@@ -153,7 +153,9 @@ describe("tx-result-util test with tx message", () => {
   //   });
 
   it("given service-token-burn-from message, find contractId", () => {
-    const senderWalletAddress = TxResultUtil.findContractId(serviceTokenBurnFromTxResult);
+    const senderWalletAddress = TxResultUtil.findContractId(
+      serviceTokenBurnFromTxResult,
+    );
     expect("3336b76f").to.equal(senderWalletAddress);
   });
 });

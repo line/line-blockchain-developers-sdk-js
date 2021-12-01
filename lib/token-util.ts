@@ -1,6 +1,6 @@
 export class TokenUtil {
   private static FUNGIBLE_TOKEN_INDEX = "00000000";
-  private constructor() { }
+  private constructor() {}
 
   static tokenIndexFrom(tokenId: string): string {
     let tokenIndex = "";
@@ -19,6 +19,6 @@ export class TokenUtil {
   }
 
   static isFungible(tokenType: string): boolean {
-    return (tokenType && tokenType.startsWith("0"))
+    return tokenType && tokenType.startsWith("0");
   }
 }
