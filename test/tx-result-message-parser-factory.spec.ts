@@ -13,6 +13,7 @@ import {
     ServiceTokenApprovedMessage,
     ItemTokenCreateMessage,
     ItemTokenModifyMessage,
+    ItemTokenApproveMessage,
     NonFungibleTokenAttachMessage,
     NonFungibleTokenAttachFromMessage,
     NonFungibleTokenDetachMessage,
@@ -25,7 +26,8 @@ import {
     NonFungibleTokenMintMessage,
     NonFungibleTokenBurnMessage,
     NonFungibleTokenBurnFromMessage,
-    BaseCoinTransferMessage
+    BaseCoinTransferMessage,
+    FungibleTokenTransferMessage,
 } from "../lib/transaction-messages";
 
 import {
@@ -39,6 +41,7 @@ import {
     serviceTokenTransferFromTxResult,
     serviceTokenProxyApprovedTxResult,
     itemTokenCreateTxResult,
+    itemTokenApproveTxResult,
     fungibleTokenModifyTxResult,
     nonFungibleTokenTypeModifyTxResult,
     nonFungibleTokenModifyTxResult,
@@ -55,7 +58,8 @@ import {
     burnNonFungibleTxResult,
     burnFromNonFungibleTxResult,
     multiMintNonFungibleTxResult,
-    baseCoinTransferTxResult
+    baseCoinTransferTxResult,
+    fungibleTokenTransferTxResult,
 } from "./test-data";
 
 describe("txResultMessageParserFactory-test", () => {
@@ -188,6 +192,16 @@ describe("txResultMessageParserFactory-test", () => {
         expect("61e14383").to.equal(itemTokenModifyMessage.contractId);
         expect(true).to.equal(itemTokenModifyMessage.isFungible);
         expect("00000001").to.equal(itemTokenModifyMessage.tokenType);
+    });
+
+    it("test parsing to itemTokenApproveTxResult", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_APPROVE);
+        const itemTokenApproveMessage =
+            parser.parse(itemTokenApproveTxResult) as ItemTokenApproveMessage;
+
+        expect("link1ygceu3trpkkz9gcyr7m3zzv8n82zd3fawea59p").to.equal(itemTokenApproveMessage.approver);
+        expect("link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz").to.equal(itemTokenApproveMessage.proxy);
+        expect("fee15a74").to.equal(itemTokenApproveMessage.contractId);
     });
 
     it("test parsing to nonFungibleTokenTypeModifyTxResult", () => {
@@ -325,6 +339,21 @@ describe("txResultMessageParserFactory-test", () => {
         expect("61e14383").to.equal(itemTokenBurnMessage.contractId);
         expect("61e14383").to.equal(itemTokenBurnMessage.burnedFungibleTokens[0].contractId);
         expect("1").to.equal(itemTokenBurnMessage.burnedFungibleTokens[0].amount);
+    });
+
+    it("test parsing to fungibleTokenTransferTxResult", () => {
+        const parser = TxResultMessageParserFactory.create(MessageType.ITEM_TOKEN_TRANSFER_FT);
+        const fungibleTokenTransferMessage = parser.parse(fungibleTokenTransferTxResult) as FungibleTokenTransferMessage
+
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(fungibleTokenTransferMessage.from);
+        expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(fungibleTokenTransferMessage.sender);
+        expect("tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww").to.equal(fungibleTokenTransferMessage.to);
+        expect("61e14383").to.equal(fungibleTokenTransferMessage.contractId);
+
+        expect("61e14383").to.equal(fungibleTokenTransferMessage.transferredFungibleTokenAmount.contractId);
+        expect("00000001").to.equal(fungibleTokenTransferMessage.transferredFungibleTokenAmount.tokenType);
+        expect("1").to.equal(fungibleTokenTransferMessage.transferredFungibleTokenAmount.amount);
+
     });
 
     it("test parsing to nonFungibleTypeIssueTx", () => {

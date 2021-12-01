@@ -452,7 +452,7 @@ export class FungibleTokenTransferMessage extends TxResultMessage {
         height: number,
         txHash: string,
         from: string,
-        readonly owner: string, // from
+        readonly sender: string, // from
         readonly contractId: string,
         readonly to: string,
         readonly transferredFungibleTokenAmount: TransferredFungibleTokenAmount,

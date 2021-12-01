@@ -13,6 +13,7 @@ import {
     MintedNonFungibleToken,
     NonFungibleToken,
     BaseCoinAmount,
+    TransferredFungibleTokenAmount,
 } from "./transaction-messages";
 
 export class TxResultUtil {
@@ -124,6 +125,17 @@ export class TxResultUtil {
         );
     }
 
+    static findTransferredFungibleTokenAmount(txResultResponse: TxResultResponse): TransferredFungibleTokenAmount {
+        const amounts = TxResultUtil.findValueFromMessagesWithDefaultValue(txResultResponse, "amount", []);
+        const tokenId = amounts[0]["tokenId"]
+        const amount = amounts[0]["amount"]
+        return new TransferredFungibleTokenAmount(
+            TxResultUtil.findContractId(txResultResponse),
+            TokenUtil.tokenTypeFrom(tokenId),
+            (amount || "0").toString()
+        )
+    }
+
     static findBaseImgUri(txResultResponse: TxResultResponse): string {
         const baseImgUri = TxResultUtil.findValueFromMessagesWithDefaultValue(txResultResponse, "base_img_uri", "");
         if (!baseImgUri || baseImgUri.length < 1) {
@@ -167,7 +179,7 @@ export class TxResultUtil {
             return new MintedFungibleToken(
                 TxResultUtil.findContractId(txResultResponse),
                 tokenType,
-                it["amount"].toString(),
+                (it["amount"] || "0").toString(),
             );
         });
     }
@@ -186,7 +198,7 @@ export class TxResultUtil {
             return new BurnedFungibleToken(
                 TxResultUtil.findContractId(txResultResponse),
                 tokenType,
-                it["amount"].toString(),
+                (it["amount"] || "0").toString(),
             );
         });
     }
@@ -408,7 +420,7 @@ export class TxResultUtil {
         const amount = txResultResponse.tx.value.msg[0].value.amount[0]
         return new BaseCoinAmount(
             amount["denom"],
-            amount["amount"].toString(),
+            (amount["amount"] || "0").toString(),
         )
     }
 

@@ -14,6 +14,7 @@ import {
     ServiceTokenApprovedMessage,
     ItemTokenCreateMessage,
     ItemTokenModifyMessage,
+    ItemTokenApproveMessage,
     NonFungibleTokenAttachMessage,
     NonFungibleTokenAttachFromMessage,
     NonFungibleTokenDetachMessage,
@@ -23,6 +24,8 @@ import {
     FungibleTokenMintMessage,
     FungibleTokenBurnMessage,
     FungibleTokenBurnFromMessage,
+    FungibleTokenTransferMessage,
+    TransferredFungibleTokenAmount,
     NonFungibleTokenIssueMessage,
     NonFungibleTokenMintMessage,
     NonFungibleTokenBurnMessage,
@@ -321,6 +324,33 @@ export class ItemTokenModifyMessageParser
     }
 }
 
+export class ItemTokenApproveMessageParser
+    implements TxResultMessageParser<ItemTokenApproveMessage> {
+    parse(txResultResponse: TxResultResponse): ItemTokenApproveMessage {
+        return this.createMessage(txResultResponse);
+    }
+
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): ItemTokenApproveMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): ItemTokenApproveMessage {
+        return new ItemTokenApproveMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findApproverWalletAddress(txResultResponse),
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findProxyWalletAddress(txResultResponse)
+        );
+    }
+}
+
 export class NFTAttachMessageParser
     implements TxResultMessageParser<NonFungibleTokenAttachMessage> {
     parse(txResultResponse: TxResultResponse): NonFungibleTokenAttachMessage {
@@ -543,7 +573,33 @@ export class BurnFungibleMessageParser
         );
     }
 }
+export class FungibleTransferMessageParser
+    implements TxResultMessageParser<FungibleTokenTransferMessage> {
+    parse(txResultResponse: TxResultResponse): FungibleTokenTransferMessage {
+        return this.createMessage(txResultResponse);
+    }
 
+    parseGenericTxResultResponse(
+        response: GenericResponse<TxResultResponse>,
+    ): FungibleTokenTransferMessage {
+        const txResultResponse = response.responseData;
+        return this.createMessage(txResultResponse);
+    }
+
+    private createMessage(
+        txResultResponse: TxResultResponse,
+    ): FungibleTokenTransferMessage {
+        return new FungibleTokenTransferMessage(
+            txResultResponse.height,
+            txResultResponse.txhash,
+            TxResultUtil.findFromWalletAddress(txResultResponse),
+            TxResultUtil.findSenderWalletAddress(txResultResponse),
+            TxResultUtil.findContractId(txResultResponse),
+            TxResultUtil.findToWalletAddress(txResultResponse),
+            TxResultUtil.findTransferredFungibleTokenAmount(txResultResponse),
+        );
+    }
+}
 export class BurnFromFungibleMessageParser
     implements TxResultMessageParser<FungibleTokenBurnFromMessage> {
     parse(txResultResponse: TxResultResponse): FungibleTokenBurnFromMessage {
@@ -742,6 +798,10 @@ export class TxResultMessageParserFactory {
             case MessageType.ITEM_TOKEN_MODIFY:
                 txResultMessageParser = new ItemTokenModifyMessageParser();
                 break;
+            case MessageType.ITEM_TOKEN_APPROVE:
+                txResultMessageParser = new ItemTokenApproveMessageParser();
+                break;
+
             case MessageType.ITEM_TOKEN_ATTACH:
                 txResultMessageParser = new NFTAttachMessageParser();
                 break;
@@ -765,6 +825,9 @@ export class TxResultMessageParserFactory {
                 break;
             case MessageType.ITEM_TOKEN_BURN_FROM_FT:
                 txResultMessageParser = new BurnFromFungibleMessageParser();
+                break;
+            case MessageType.ITEM_TOKEN_TRANSFER_FT:
+                txResultMessageParser = new FungibleTransferMessageParser();
                 break;
             case MessageType.ITEM_TOKEN_ISSUE_NFT:
                 txResultMessageParser = new NonFungibleTokenIssueMessageParser();
