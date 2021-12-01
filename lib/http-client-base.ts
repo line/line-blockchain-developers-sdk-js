@@ -767,7 +767,7 @@ export class HttpClient {
     contractId: string,
     requestId: string,
   ): Promise<GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>> {
-    const path = `/v1/item-tokens/${contractId}/fungible/icon/${requestId}/status`;
+    const path = `/v1/item-tokens/${contractId}/fungibles/icon/${requestId}/status`;
     return this.instance.get(path);
   }
 
@@ -775,7 +775,7 @@ export class HttpClient {
     contractId: string,
     requestId: string,
   ): Promise<GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>> {
-    const path = `/v1/item-tokens/${contractId}/non-fungible/icon/${requestId}/status`;
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/icon/${requestId}/status`;
     return this.instance.get(path);
   }
 
