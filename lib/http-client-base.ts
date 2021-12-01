@@ -75,7 +75,7 @@ import { SignatureGenerator } from "./signature-generator";
 import { Constant } from "./constants";
 
 declare module "axios" {
-  interface AxiosResponse<T = any> extends Promise<T> {}
+  interface AxiosResponse<T = any> extends Promise<T> { }
 }
 
 export class HttpClient {
@@ -780,20 +780,16 @@ export class HttpClient {
   public fungibleTokenMediaResourcesUpdateStatus(
     contractId: string,
     requestId: string,
-  ): Promise<
-    GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>
-  > {
-    const path = `/v1/item-tokens/${contractId}/fungible/icon/${requestId}/status`;
+  ): Promise<GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>> {
+    const path = `/v1/item-tokens/${contractId}/fungibles/icon/${requestId}/status`;
     return this.instance.get(path);
   }
 
   public nonFungibleTokenMediaResourcesUpdateStatus(
     contractId: string,
     requestId: string,
-  ): Promise<
-    GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>
-  > {
-    const path = `/v1/item-tokens/${contractId}/non-fungible/icon/${requestId}/status`;
+  ): Promise<GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>> {
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/icon/${requestId}/status`;
     return this.instance.get(path);
   }
 
