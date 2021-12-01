@@ -11,7 +11,13 @@ import _ from "lodash";
 import { HttpClient } from "../lib/http-client-base";
 import { Constant } from "../lib/constants";
 import { TransactionMsgTypes } from "../lib/constants";
-import { PageRequest, OrderBy, TokenId, RequestType } from "../lib/request";
+import {
+  PageRequest,
+  OrderBy,
+  TokenId,
+  RequestType,
+  CursorPageRequest,
+} from "../lib/request";
 import { transactionResult, singleTransactionResult } from "./test-data";
 
 describe("http-client-base test", () => {
@@ -2067,6 +2073,68 @@ describe("http-client-base test", () => {
     expect(response["responseData"][0]["tokenIndex"]).to.equal(testTokenIndex);
   });
 
+  it("non-fungible-token balances with type of user api test", async () => {
+    const testUserId = "U556719f559479aab8b8f74c488bf6317";
+    const pageRequest = new CursorPageRequest("", 10, OrderBy.DESC);
+    const testContractId = "9636a07e";
+    const testTokenId = "1000000100000021";
+    const testTokenType = "10000001";
+    const receivedData = {
+      responseTime: 1637929777140,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: {
+        list: [
+          {
+            type: {
+              tokenType: testTokenType,
+              name: "test-type",
+              meta: "",
+              createdAt: 1628843776947,
+              totalSupply: "35",
+              totalMint: "35",
+              totalBurn: "0",
+            },
+            token: {
+              name: "Test",
+              tokenId: testTokenId,
+              meta: "test-meta",
+              createdAt: 1630925137769,
+              burnedAt: 0,
+            },
+          },
+        ],
+        prePageToken:
+          "eJxtzk0PgjAMBuD/0jMHESXoDQETYoJGd9ATWbYuEnDAmAQk/HfnZzzYU/ukfdMBKOcKm8aXPCilVpTp2HRFgUxnpUyEXmeFRgXL4bMKS9BFJnM7rx1Ptfx661rnush7wRhdVBd0WYVdPavPSL2uBQvYN9nc2p4n3LkjYLSgVBzVqjcabBOy9wOSxmEaRocgJdtNlKTktIt+5zgJo+MTTCwV78f+51ugyxwl6St88ORZ9odjybEz/uKpDeN4BzAdV4M=",
+        nextPageToken:
+          "eJxtjssOgjAQRf9l1iwE1AA7REyICRrtQlekaaeRgAVqIaDh363PuHBWc09mTu4NKOcKL5dQ8qiSWlGmE7OVJTKdVzIVepWXGhUEt88pBKDLXBZ20bie6nh77Tu39YtBMEb9+oxzVmPfTJsTUq/vwAL2NZtf2/PEfOYKGC2oFEe1GAyNNinZhRHJkmUW7qOMbNZxmpHjNv6JSbqMD49snFS8W/2XW6CrAiUZanzgyXPsD04kx97wF3YcGMc7LXNWrA==",
+      },
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub
+      .onGet(
+        `/v1/users/${testUserId}/item-tokens/${testContractId}/non-fungibles/with-type`,
+      )
+      .reply(config => {
+        assertHeaders(config.headers);
+        // assertPageParameters(config.params, pageRequest);
+        return [200, receivedData];
+      });
+
+    const response = await httpClient.nonFungibleTokenBalancesWithTypeOfUser(
+      testUserId,
+      testContractId,
+      pageRequest,
+    );
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response.responseData.list[0].type.tokenType).to.equal(
+      testTokenType,
+    );
+    expect(response.responseData.list[0].token.tokenId).to.equal(testTokenId);
+  });
+
   it("non-fungible-token balances by type of user api test", async () => {
     const testUserId = "U556719f559479aab8b8f74c488bf6317";
     const pageRequest = new PageRequest(0, 10, OrderBy.DESC);
@@ -2663,28 +2731,31 @@ describe("http-client-base test", () => {
       statusMessage: "Success",
       responseData: [
         {
-          "tokenType": "00000001",
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}`,
-          "status": "COMPLETED",
+          tokenType: "00000001",
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}`,
+          status: "COMPLETED",
         },
         {
-          "tokenType": "00000002",
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}`,
-          "status": "COMPLETED",
-          "detailStatus": "-",
-        }
+          tokenType: "00000002",
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}`,
+          status: "COMPLETED",
+          detailStatus: "-",
+        },
       ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    const path = `/v1/item-tokens/${testContractId}/fungible/icon/${testRequestId}/status`;
+    const path = `/v1/item-tokens/${testContractId}/fungibles/icon/${testRequestId}/status`;
     stub.onGet(path).reply(config => {
       assertHeaders(config.headers);
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(testContractId, testRequestId);
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(
+      testContractId,
+      testRequestId,
+    );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
@@ -2702,34 +2773,36 @@ describe("http-client-base test", () => {
       statusMessage: "Success",
       responseData: [
         {
-          "tokenType": testTokenType1,
-          "tokenIndex": testTokenIndex1,
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}${testTokenIndex1}`,
-          "status": "COMPLETED",
+          tokenType: testTokenType1,
+          tokenIndex: testTokenIndex1,
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}${testTokenIndex1}`,
+          status: "COMPLETED",
         },
         {
-          "tokenType": testTokenType2,
-          "tokenIndex": testTokenIndex2,
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}${testTokenIndex2}`,
-          "status": "COMPLETED",
-          "detailStatus": "-",
-        }
+          tokenType: testTokenType2,
+          tokenIndex: testTokenIndex2,
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}${testTokenIndex2}`,
+          status: "COMPLETED",
+          detailStatus: "-",
+        },
       ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    const path = `/v1/item-tokens/${testContractId}/fungible/icon/${testRequestId}/status`;
+    const path = `/v1/item-tokens/${testContractId}/fungibles/icon/${testRequestId}/status`;
     stub.onGet(path).reply(config => {
       assertHeaders(config.headers);
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(testContractId, testRequestId);
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(
+      testContractId,
+      testRequestId,
+    );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
-
 });
 
 function assertHeaders(headers: any) {

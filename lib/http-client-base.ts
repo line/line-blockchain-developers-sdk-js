@@ -1,6 +1,11 @@
 import { LoggerFactory } from "./logger-factory";
 import _ from "lodash";
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, AxiosError } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  AxiosRequestConfig,
+  AxiosError,
+} from "axios";
 import { HTTPError, ReadError, RequestError } from "./exceptions";
 import cryptoRandomString from "crypto-random-string";
 import {
@@ -28,7 +33,8 @@ import {
   Memo,
   TokenMediaResourceUpdateResponse,
   FungibleTokenMediaResourceUpdateStatusResponse,
-  NonFungibleTokenMediaResourceUpdateStatusResponse
+  NonFungibleTokenMediaResourceUpdateStatusResponse,
+  CursorPaginatedNonFungibleBalanceWithTypes,
 } from "./response";
 import {
   RequestType,
@@ -40,6 +46,7 @@ import {
   MintServiceTokenRequest,
   BurnFromServiceTokenRequest,
   PageRequest,
+  CursorPageRequest,
   OptionalTransactionSearchParameters,
   FungibleTokenCreateUpdateRequest,
   FungibleTokenMintRequest,
@@ -69,7 +76,7 @@ import { SignatureGenerator } from "./signature-generator";
 import { Constant } from "./constants";
 
 declare module "axios" {
-  interface AxiosResponse<T = any> extends Promise<T> { }
+  interface AxiosResponse<T = any> extends Promise<T> {}
 }
 
 export class HttpClient {
@@ -661,6 +668,16 @@ export class HttpClient {
     return this.instance.get(path, requestConfig);
   }
 
+  public nonFungibleTokenBalancesWithTypeOfUser(
+    userId: string,
+    contractId: string,
+    cursorPageRequest: CursorPageRequest,
+  ): Promise<GenericResponse<CursorPaginatedNonFungibleBalanceWithTypes>> {
+    const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles/with-type`;
+    const requestConfig = this.cursorPageRequestConfig(cursorPageRequest);
+    return this.instance.get(path, requestConfig);
+  }
+
   public nonFungibleTokenBalancesByTypeOfUser(
     userId: string,
     contractId: string,
@@ -766,7 +783,9 @@ export class HttpClient {
   public fungibleTokenMediaResourcesUpdateStatus(
     contractId: string,
     requestId: string,
-  ): Promise<GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>> {
+  ): Promise<
+    GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>
+  > {
     const path = `/v1/item-tokens/${contractId}/fungibles/icon/${requestId}/status`;
     return this.instance.get(path);
   }
@@ -774,7 +793,9 @@ export class HttpClient {
   public nonFungibleTokenMediaResourcesUpdateStatus(
     contractId: string,
     requestId: string,
-  ): Promise<GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>> {
+  ): Promise<
+    GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>
+  > {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/icon/${requestId}/status`;
     return this.instance.get(path);
   }
@@ -878,6 +899,19 @@ export class HttpClient {
       }
     }
 
+    return {
+      params: Object.keys(pagingParams)
+        .sort()
+        .reduce((r, k) => ((r[k] = pagingParams[k]), r), {}),
+    };
+  }
+
+  private cursorPageRequestConfig(cursorPageRequest: CursorPageRequest) {
+    var pagingParams = {
+      limit: cursorPageRequest.limit,
+      pageToken: cursorPageRequest.pageToken,
+      orderBy: cursorPageRequest.orderBy,
+    };
     return {
       params: Object.keys(pagingParams)
         .sort()
