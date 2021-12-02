@@ -771,20 +771,30 @@ export class HttpClient {
   public fungibleTokenMediaResourcesUpdateStatuses(
     contractId: string,
     requestId: string,
+<<<<<<< HEAD
   ): Promise<
     GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>
   > {
     const path = `/v1/item-tokens/${contractId}/fungible/icon/${requestId}/status`;
+=======
+  ): Promise<GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>> {
+    const path = `/v1/item-tokens/${contractId}/fungibles/icon/${requestId}/status`;
+>>>>>>> 305f03b4df2a646683e510e294324daca218d491
     return this.instance.get(path);
   }
 
   public nonFungibleTokenMediaResourcesUpdateStatuses(
     contractId: string,
     requestId: string,
+<<<<<<< HEAD
   ): Promise<
     GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>
   > {
     const path = `/v1/item-tokens/${contractId}/non-fungible/icon/${requestId}/status`;
+=======
+  ): Promise<GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>> {
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/icon/${requestId}/status`;
+>>>>>>> 305f03b4df2a646683e510e294324daca218d491
     return this.instance.get(path);
   }
 
