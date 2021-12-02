@@ -401,7 +401,7 @@ export class PageRequest {
   constructor(
     readonly page: number = 0,
     readonly limit: number = 10,
-    readonly orderBy: OrderBy = OrderBy.ASC,
+    readonly orderBy: OrderBy = OrderBy.DESC,
   ) { }
 }
 
