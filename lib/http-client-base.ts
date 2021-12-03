@@ -34,6 +34,7 @@ import {
   TokenMediaResourceUpdateResponse,
   FungibleTokenMediaResourceUpdateStatusResponse,
   NonFungibleTokenMediaResourceUpdateStatusResponse,
+  CursorPaginatedNonFungibleBalanceWithTypes,
 } from "./response";
 import {
   RequestType,
@@ -45,6 +46,7 @@ import {
   MintServiceTokenRequest,
   BurnFromServiceTokenRequest,
   PageRequest,
+  CursorPageRequest,
   OptionalTransactionSearchParameters,
   FungibleTokenCreateUpdateRequest,
   FungibleTokenMintRequest,
@@ -675,6 +677,16 @@ export class HttpClient {
     return this.instance.get(path, requestConfig);
   }
 
+  public nonFungibleTokenBalancesWithTypeOfUser(
+    userId: string,
+    contractId: string,
+    cursorPageRequest: CursorPageRequest,
+  ): Promise<GenericResponse<CursorPaginatedNonFungibleBalanceWithTypes>> {
+    const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles/with-type`;
+    const requestConfig = this.cursorPageRequestConfig(cursorPageRequest);
+    return this.instance.get(path, requestConfig);
+  }
+
   public nonFungibleTokenBalancesByTypeOfUser(
     userId: string,
     contractId: string,
@@ -780,7 +792,9 @@ export class HttpClient {
   public fungibleTokenMediaResourcesUpdateStatus(
     contractId: string,
     requestId: string,
-  ): Promise<GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>> {
+  ): Promise<
+    GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>
+  > {
     const path = `/v1/item-tokens/${contractId}/fungibles/icon/${requestId}/status`;
     return this.instance.get(path);
   }
@@ -788,7 +802,9 @@ export class HttpClient {
   public nonFungibleTokenMediaResourcesUpdateStatus(
     contractId: string,
     requestId: string,
-  ): Promise<GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>> {
+  ): Promise<
+    GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>
+  > {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/icon/${requestId}/status`;
     return this.instance.get(path);
   }
@@ -892,6 +908,19 @@ export class HttpClient {
       }
     }
 
+    return {
+      params: Object.keys(pagingParams)
+        .sort()
+        .reduce((r, k) => ((r[k] = pagingParams[k]), r), {}),
+    };
+  }
+
+  private cursorPageRequestConfig(cursorPageRequest: CursorPageRequest) {
+    var pagingParams = {
+      limit: cursorPageRequest.limit,
+      pageToken: cursorPageRequest.pageToken,
+      orderBy: cursorPageRequest.orderBy,
+    };
     return {
       params: Object.keys(pagingParams)
         .sort()
