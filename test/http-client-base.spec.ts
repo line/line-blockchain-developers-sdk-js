@@ -1036,6 +1036,55 @@ describe("http-client-base test", () => {
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
 
+  it("multi-mint with multi-receivers non-fungible-token api test", async () => {
+    const testContractId = "9636a07e";
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const request = {
+      ownerAddress: testAddress,
+      ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
+      mintList: [
+        {
+          tokenType: "10000001",
+          name: "WGk",
+          meta: "5y4bh",
+          toAddress: testAddress,
+        },
+        {
+          tokenType: "10000001",
+          name: "aoU",
+          toAddress: testAddress,
+        },
+      ],
+    };
+
+    const testTxHash =
+      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const receivedData = {
+      responseTime: 1585467711877,
+      statusCode: 1002,
+      statusMessage: "Accepted",
+      responseData: {
+        txHash: testTxHash,
+      },
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    const path = `/v1/item-tokens/${testContractId}/non-fungibles/multi-recipients/multi-mint`;
+    stub.onPost(path).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.multiMintWithMultiReceiversNonFungibleToken(
+      testContractId,
+      request,
+    );
+    expect(response["statusCode"]).to.equal(1002);
+    expect(response["responseData"]["txHash"]).to.equal(testTxHash);
+  });
+
   it("burn non-fungible-token api test", async () => {
     const testContractId = "9636a07e";
     const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
@@ -2663,16 +2712,16 @@ describe("http-client-base test", () => {
       statusMessage: "Success",
       responseData: [
         {
-          "tokenType": "00000001",
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}`,
-          "status": "COMPLETED",
+          tokenType: "00000001",
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}`,
+          status: "COMPLETED",
         },
         {
-          "tokenType": "00000002",
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}`,
-          "status": "COMPLETED",
-          "detailStatus": "-",
-        }
+          tokenType: "00000002",
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}`,
+          status: "COMPLETED",
+          detailStatus: "-",
+        },
       ],
     };
 
@@ -2684,7 +2733,10 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(testContractId, testRequestId);
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(
+      testContractId,
+      testRequestId,
+    );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
@@ -2702,18 +2754,18 @@ describe("http-client-base test", () => {
       statusMessage: "Success",
       responseData: [
         {
-          "tokenType": testTokenType1,
-          "tokenIndex": testTokenIndex1,
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}${testTokenIndex1}`,
-          "status": "COMPLETED",
+          tokenType: testTokenType1,
+          tokenIndex: testTokenIndex1,
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}${testTokenIndex1}`,
+          status: "COMPLETED",
         },
         {
-          "tokenType": testTokenType2,
-          "tokenIndex": testTokenIndex2,
-          "url": `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}${testTokenIndex2}`,
-          "status": "COMPLETED",
-          "detailStatus": "-",
-        }
+          tokenType: testTokenType2,
+          tokenIndex: testTokenIndex2,
+          url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}${testTokenIndex2}`,
+          status: "COMPLETED",
+          detailStatus: "-",
+        },
       ],
     };
 
@@ -2725,11 +2777,13 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(testContractId, testRequestId);
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(
+      testContractId,
+      testRequestId,
+    );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
-
 });
 
 function assertHeaders(headers: any) {

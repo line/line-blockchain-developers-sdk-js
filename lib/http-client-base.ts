@@ -1,6 +1,11 @@
 import { LoggerFactory } from "./logger-factory";
 import _ from "lodash";
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, AxiosError } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  AxiosRequestConfig,
+  AxiosError,
+} from "axios";
 import { HTTPError, ReadError, RequestError } from "./exceptions";
 import cryptoRandomString from "crypto-random-string";
 import {
@@ -28,7 +33,7 @@ import {
   Memo,
   TokenMediaResourceUpdateResponse,
   FungibleTokenMediaResourceUpdateStatusResponse,
-  NonFungibleTokenMediaResourceUpdateStatusResponse
+  NonFungibleTokenMediaResourceUpdateStatusResponse,
 } from "./response";
 import {
   RequestType,
@@ -64,6 +69,7 @@ import {
   MemoRequest,
   MultiFungibleTokenMediaResourcesUpdateRequest,
   MultiNonFungibleTokenMediaResourcesUpdateRequest,
+  NonFungibleTokenMultiMintMultiReceiversRequest,
 } from "./request";
 import { SignatureGenerator } from "./signature-generator";
 import { Constant } from "./constants";
@@ -378,6 +384,14 @@ export class HttpClient {
     request: NonFungibleTokenMultiMintRequest,
   ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/multi-mint`;
+    return this.instance.post(path, request);
+  }
+
+  public multiMintWithMultiReceiversNonFungibleToken(
+    contractId: string,
+    request: NonFungibleTokenMultiMintMultiReceiversRequest,
+  ): Promise<GenericResponse<TxHashResponse>> {
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/multi-recipients/multi-mint`;
     return this.instance.post(path, request);
   }
 
