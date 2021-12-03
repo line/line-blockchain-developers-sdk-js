@@ -71,12 +71,13 @@ import {
   MemoRequest,
   MultiFungibleTokenMediaResourcesUpdateRequest,
   MultiNonFungibleTokenMediaResourcesUpdateRequest,
+  NonFungibleTokenMultiMintMultiReceiversRequest,
 } from "./request";
 import { SignatureGenerator } from "./signature-generator";
 import { Constant } from "./constants";
 
 declare module "axios" {
-  interface AxiosResponse<T = any> extends Promise<T> {}
+  interface AxiosResponse<T = any> extends Promise<T> { }
 }
 
 export class HttpClient {
@@ -385,6 +386,14 @@ export class HttpClient {
     request: NonFungibleTokenMultiMintRequest,
   ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/multi-mint`;
+    return this.instance.post(path, request);
+  }
+
+  public multiMintWithMultiReceiversNonFungibleToken(
+    contractId: string,
+    request: NonFungibleTokenMultiMintMultiReceiversRequest,
+  ): Promise<GenericResponse<TxHashResponse>> {
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/multi-recipients/multi-mint`;
     return this.instance.post(path, request);
   }
 

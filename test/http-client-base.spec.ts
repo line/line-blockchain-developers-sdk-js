@@ -1042,6 +1042,55 @@ describe("http-client-base test", () => {
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
 
+  it("multi-mint with multi-receivers non-fungible-token api test", async () => {
+    const testContractId = "9636a07e";
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const request = {
+      ownerAddress: testAddress,
+      ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
+      mintList: [
+        {
+          tokenType: "10000001",
+          name: "WGk",
+          meta: "5y4bh",
+          toAddress: testAddress,
+        },
+        {
+          tokenType: "10000001",
+          name: "aoU",
+          toAddress: testAddress,
+        },
+      ],
+    };
+
+    const testTxHash =
+      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const receivedData = {
+      responseTime: 1585467711877,
+      statusCode: 1002,
+      statusMessage: "Accepted",
+      responseData: {
+        txHash: testTxHash,
+      },
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    const path = `/v1/item-tokens/${testContractId}/non-fungibles/multi-recipients/multi-mint`;
+    stub.onPost(path).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.multiMintWithMultiReceiversNonFungibleToken(
+      testContractId,
+      request,
+    );
+    expect(response["statusCode"]).to.equal(1002);
+    expect(response["responseData"]["txHash"]).to.equal(testTxHash);
+  });
+
   it("burn non-fungible-token api test", async () => {
     const testContractId = "9636a07e";
     const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
