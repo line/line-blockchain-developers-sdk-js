@@ -287,7 +287,7 @@ export class NonFungibleTokenMintRequest extends AbstractTransactionRequest {
     readonly ownerAddress: string,
     readonly ownerSecret: string,
     readonly name: string,
-    readonly meta: string,
+    readonly meta?: string,
     toAddress?: string,
     toUserId?: string,
   ) {
