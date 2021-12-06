@@ -34,6 +34,7 @@ import {
   TokenMediaResourceUpdateResponse,
   FungibleTokenMediaResourceUpdateStatusResponse,
   NonFungibleTokenMediaResourceUpdateStatusResponse,
+  CursorPaginatedNonFungibleBalanceWithTypes,
 } from "./response";
 import {
   RequestType,
@@ -45,6 +46,7 @@ import {
   MintServiceTokenRequest,
   BurnFromServiceTokenRequest,
   PageRequest,
+  CursorPageRequest,
   OptionalTransactionSearchParameters,
   FungibleTokenCreateUpdateRequest,
   FungibleTokenMintRequest,
@@ -69,12 +71,13 @@ import {
   MemoRequest,
   MultiFungibleTokenMediaResourcesUpdateRequest,
   MultiNonFungibleTokenMediaResourcesUpdateRequest,
+  NonFungibleTokenMultiMintMultiReceiversRequest,
 } from "./request";
 import { SignatureGenerator } from "./signature-generator";
 import { Constant } from "./constants";
 
 declare module "axios" {
-  interface AxiosResponse<T = any> extends Promise<T> {}
+  interface AxiosResponse<T = any> extends Promise<T> { }
 }
 
 export class HttpClient {
@@ -386,6 +389,14 @@ export class HttpClient {
     return this.instance.post(path, request);
   }
 
+  public multiMintWithMultiReceiversNonFungibleToken(
+    contractId: string,
+    request: NonFungibleTokenMultiMintMultiReceiversRequest,
+  ): Promise<GenericResponse<TxHashResponse>> {
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/multi-recipients/multi-mint`;
+    return this.instance.post(path, request);
+  }
+
   public burnNonFungibleToken(
     contractId: string,
     tokenType: string,
@@ -666,6 +677,16 @@ export class HttpClient {
     return this.instance.get(path, requestConfig);
   }
 
+  public nonFungibleTokenBalancesWithTypeOfUser(
+    userId: string,
+    contractId: string,
+    cursorPageRequest: CursorPageRequest,
+  ): Promise<GenericResponse<CursorPaginatedNonFungibleBalanceWithTypes>> {
+    const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles/with-type`;
+    const requestConfig = this.cursorPageRequestConfig(cursorPageRequest);
+    return this.instance.get(path, requestConfig);
+  }
+
   public nonFungibleTokenBalancesByTypeOfUser(
     userId: string,
     contractId: string,
@@ -768,33 +789,23 @@ export class HttpClient {
     return this.instance.put(path, request);
   }
 
-  public fungibleTokenMediaResourcesUpdateStatuses(
+  public fungibleTokenMediaResourcesUpdateStatus(
     contractId: string,
     requestId: string,
-<<<<<<< HEAD
   ): Promise<
     GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>
   > {
-    const path = `/v1/item-tokens/${contractId}/fungible/icon/${requestId}/status`;
-=======
-  ): Promise<GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>> {
     const path = `/v1/item-tokens/${contractId}/fungibles/icon/${requestId}/status`;
->>>>>>> 305f03b4df2a646683e510e294324daca218d491
     return this.instance.get(path);
   }
 
-  public nonFungibleTokenMediaResourcesUpdateStatuses(
+  public nonFungibleTokenMediaResourcesUpdateStatus(
     contractId: string,
     requestId: string,
-<<<<<<< HEAD
   ): Promise<
     GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>
   > {
-    const path = `/v1/item-tokens/${contractId}/non-fungible/icon/${requestId}/status`;
-=======
-  ): Promise<GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/icon/${requestId}/status`;
->>>>>>> 305f03b4df2a646683e510e294324daca218d491
     return this.instance.get(path);
   }
 
@@ -897,6 +908,19 @@ export class HttpClient {
       }
     }
 
+    return {
+      params: Object.keys(pagingParams)
+        .sort()
+        .reduce((r, k) => ((r[k] = pagingParams[k]), r), {}),
+    };
+  }
+
+  private cursorPageRequestConfig(cursorPageRequest: CursorPageRequest) {
+    var pagingParams = {
+      limit: cursorPageRequest.limit,
+      pageToken: cursorPageRequest.pageToken,
+      orderBy: cursorPageRequest.orderBy,
+    };
     return {
       params: Object.keys(pagingParams)
         .sort()

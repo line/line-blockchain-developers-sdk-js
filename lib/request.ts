@@ -306,13 +306,33 @@ export class NonFungibleTokenMultiMintRequest extends AbstractTransactionRequest
     super(toAddress, toUserId);
   }
 }
-
 export class MultiMintNonFungible {
   constructor(
     readonly tokenType: string,
     readonly name: string,
     readonly meta?: string,
   ) {}
+}
+export class NonFungibleTokenMultiMintMultiReceiversRequest {
+  constructor(
+    readonly ownerAddress: string,
+    readonly ownerSecret: string,
+    readonly mintList: Array<MultiMintNonFungibleWithReceiver>,
+  ) { }
+}
+
+export class MultiMintNonFungibleWithReceiver {
+  constructor(
+    readonly tokenType: string,
+    readonly name: string,
+    readonly meta?: string,
+    readonly toAddress?: string,
+    readonly toUserId?: string,
+  ) {
+    if (!toUserId && !toAddress) {
+      throw new Error("toAddress or toUserId, one of them is required");
+    }
+  }
 }
 
 export class NonFungibleTokenBurnRequest extends AbstractTokenBurnTransactionRequest {
@@ -402,6 +422,14 @@ export enum RequestType {
 export class PageRequest {
   constructor(
     readonly page: number = 0,
+    readonly limit: number = 10,
+    readonly orderBy: OrderBy = OrderBy.DESC,
+  ) { }
+}
+
+export class CursorPageRequest {
+  constructor(
+    readonly pageToken: string = "",
     readonly limit: number = 10,
     readonly orderBy: OrderBy = OrderBy.ASC,
   ) {}

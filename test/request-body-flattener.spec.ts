@@ -30,4 +30,33 @@ describe("request-body-flatten test", () => {
     let flatten = RequestBodyFlattener.flatten(req_params);
     expect(flatten).to.equal(flatten_req_params);
   });
+
+  it("flatten request body with mint-list with multi receivers test", () => {
+    const req_params = {
+      ownerAddress: "tlink145knu8tlpjmx9gsf0dxxfdcr68a4sapv5x6tk7",
+      ownerSecret: "vPnwd8QBC/M4ZgKAYAJjiBEskLvbWvpkysQl1WQtthc=",
+      mintList: [
+        {
+          toAddress: "tlink145knu8tlpjmx9gsf0dxxfdcr68a4sapv5x6tk7",
+          tokenType: "10000001",
+          name: "aiEw",
+          meta: "viz23",
+        },
+        {
+          toUserId: "U9cd1b4384f912279b17765e0b1847c99",
+          tokenType: "10000001",
+          name: "IEjfz",
+          meta: "viz23",
+        },
+      ],
+    };
+
+    const flatten_req_params =
+      "mintList.meta=viz23,viz23&mintList.name=aiEw,IEjfz&mintList.toAddress=tlink145knu8tlpjmx9gsf0dxxfdcr68a4sapv5x6tk7,&mintList.toUserId=,U9cd1b4384f912279b17765e0b1847c99&mintList.tokenType=10000001,10000001&ownerAddress=tlink145knu8tlpjmx9gsf0dxxfdcr68a4sapv5x6tk7&ownerSecret=vPnwd8QBC/M4ZgKAYAJjiBEskLvbWvpkysQl1WQtthc=";
+    // const flatten_req_params =
+    //   "mintList.meta=viz23,viz23&mintList.name=aiEw,IEjfz&mintList.toAddress=tlink145knu8tlpjmx9gsf0dxxfdcr68a4sapv5x6tk7&mintList.toUserId=,U9cd1b4384f912279b17765e0b1847c99&mintList.tokenType=10000001,10000001&ownerAddress=tlink145knu8tlpjmx9gsf0dxxfdcr68a4sapv5x6tk7&ownerSecret=vPnwd8QBC/M4ZgKAYAJjiBEskLvbWvpkysQl1WQtthc=";
+
+    const flatten = RequestBodyFlattener.flatten(req_params);
+    expect(flatten).to.equal(flatten_req_params);
+  });
 });
