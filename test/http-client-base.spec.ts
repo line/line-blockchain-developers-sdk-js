@@ -2801,7 +2801,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatuses(
       testContractId,
       testRequestId,
     );
@@ -2845,7 +2845,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatuses(
       testContractId,
       testRequestId,
     );

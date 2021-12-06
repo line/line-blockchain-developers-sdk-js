@@ -22,7 +22,7 @@ export class UpdateServiceTokenRequest {
     readonly ownerSecret: string,
     readonly name: string,
     readonly meta?: string,
-  ) { }
+  ) {}
 }
 
 export class BurnFromServiceTokenRequest extends AbstractTokenBurnTransactionRequest {
@@ -54,7 +54,7 @@ export class MemoRequest {
     readonly memo: string,
     readonly walletAddress: string,
     readonly walletSecret: string,
-  ) { }
+  ) {}
 }
 
 export class TransferBaseCoinRequest extends AbstractTransactionRequest {
@@ -159,15 +159,15 @@ export class BatchTransferNonFungibleTokenProxyRequest extends AbstractTransacti
 }
 
 export class MultiFungibleTokenMediaResourcesUpdateRequest {
-  constructor(readonly updateList: Array<TokenType>) { }
+  constructor(readonly updateList: Array<TokenType>) {}
 }
 
 export class MultiNonFungibleTokenMediaResourcesUpdateRequest {
-  constructor(readonly updateList: Array<TokenTypeAndIndex>) { }
+  constructor(readonly updateList: Array<TokenTypeAndIndex>) {}
 }
 
 export class TokenType {
-  private constructor(readonly tokenType: string) { }
+  private constructor(readonly tokenType: string) {}
   static readonly tokenTypeFormat = new RegExp("\\d{8}");
   static readonly tokenTypeLength = 8;
   static from(value: string): TokenType {
@@ -190,7 +190,7 @@ export class TokenType {
 }
 
 export class TokenId {
-  private constructor(readonly tokenId: string) { }
+  private constructor(readonly tokenId: string) {}
   static readonly tokenIdFormat = new RegExp("\\d{8}\\d{8}");
   static readonly tokenIdLength = 16;
   static from(value: string): TokenId {
@@ -219,7 +219,7 @@ export class TokenId {
 }
 
 export class TokenTypeAndIndex {
-  constructor(readonly tokenType: string, readonly tokenIndex: string) { }
+  constructor(readonly tokenType: string, readonly tokenIndex: string) {}
 
   static from(value: string): TokenTypeAndIndex {
     if (value.length != TokenId.tokenIdLength) {
@@ -246,7 +246,7 @@ export class FungibleTokenCreateUpdateRequest {
     readonly ownerSecret: string,
     readonly name: string,
     readonly meta?: string,
-  ) { }
+  ) {}
 }
 
 export class FungibleTokenMintRequest extends AbstractTransactionRequest {
@@ -279,7 +279,7 @@ export class NonFungibleTokenCreateUpdateRequest {
     readonly ownerSecret: string,
     readonly name: string,
     readonly meta?: string,
-  ) { }
+  ) {}
 }
 
 export class NonFungibleTokenMintRequest extends AbstractTransactionRequest {
@@ -311,7 +311,7 @@ export class MultiMintNonFungible {
     readonly tokenType: string,
     readonly name: string,
     readonly meta?: string,
-  ) { }
+  ) {}
 }
 export class NonFungibleTokenMultiMintMultiReceiversRequest {
   constructor(
@@ -406,7 +406,7 @@ export class IssueTransferSessionTokenRequest extends AbstractTransactionRequest
 }
 
 export class UserProxyRequest {
-  constructor(readonly ownerAddress: string, readonly landingUri: string) { }
+  constructor(readonly ownerAddress: string, readonly landingUri: string) {}
 }
 
 export enum OrderBy {
@@ -432,7 +432,7 @@ export class CursorPageRequest {
     readonly pageToken: string = "",
     readonly limit: number = 10,
     readonly orderBy: OrderBy = OrderBy.ASC,
-  ) { }
+  ) {}
 }
 
 /*
@@ -445,5 +445,5 @@ export class OptionalTransactionSearchParameters {
     readonly after?: number,
     readonly before?: number,
     readonly msgType?: string,
-  ) { }
+  ) {}
 }

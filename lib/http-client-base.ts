@@ -789,7 +789,7 @@ export class HttpClient {
     return this.instance.put(path, request);
   }
 
-  public fungibleTokenMediaResourcesUpdateStatus(
+  public fungibleTokenMediaResourcesUpdateStatuses(
     contractId: string,
     requestId: string,
   ): Promise<
@@ -799,7 +799,7 @@ export class HttpClient {
     return this.instance.get(path);
   }
 
-  public nonFungibleTokenMediaResourcesUpdateStatus(
+  public nonFungibleTokenMediaResourcesUpdateStatuses(
     contractId: string,
     requestId: string,
   ): Promise<
