@@ -11,7 +11,13 @@ import _ from "lodash";
 import { HttpClient } from "../lib/http-client-base";
 import { Constant } from "../lib/constants";
 import { TransactionMsgTypes } from "../lib/constants";
-import { PageRequest, OrderBy, TokenId, RequestType } from "../lib/request";
+import {
+  PageRequest,
+  OrderBy,
+  TokenId,
+  RequestType,
+  CursorPageRequest,
+} from "../lib/request";
 import { transactionResult, singleTransactionResult } from "./test-data";
 
 describe("http-client-base test", () => {
@@ -1029,6 +1035,55 @@ describe("http-client-base test", () => {
     });
 
     const response = await httpClient.multiMintNonFungibleToken(
+      testContractId,
+      request,
+    );
+    expect(response["statusCode"]).to.equal(1002);
+    expect(response["responseData"]["txHash"]).to.equal(testTxHash);
+  });
+
+  it("multi-mint with multi-receivers non-fungible-token api test", async () => {
+    const testContractId = "9636a07e";
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const request = {
+      ownerAddress: testAddress,
+      ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
+      mintList: [
+        {
+          tokenType: "10000001",
+          name: "WGk",
+          meta: "5y4bh",
+          toAddress: testAddress,
+        },
+        {
+          tokenType: "10000001",
+          name: "aoU",
+          toAddress: testAddress,
+        },
+      ],
+    };
+
+    const testTxHash =
+      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const receivedData = {
+      responseTime: 1585467711877,
+      statusCode: 1002,
+      statusMessage: "Accepted",
+      responseData: {
+        txHash: testTxHash,
+      },
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    const path = `/v1/item-tokens/${testContractId}/non-fungibles/multi-recipients/multi-mint`;
+    stub.onPost(path).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.multiMintWithMultiReceiversNonFungibleToken(
       testContractId,
       request,
     );
@@ -2067,6 +2122,68 @@ describe("http-client-base test", () => {
     expect(response["responseData"][0]["tokenIndex"]).to.equal(testTokenIndex);
   });
 
+  it("non-fungible-token balances with type of user api test", async () => {
+    const testUserId = "U556719f559479aab8b8f74c488bf6317";
+    const pageRequest = new CursorPageRequest("", 10, OrderBy.DESC);
+    const testContractId = "9636a07e";
+    const testTokenId = "1000000100000021";
+    const testTokenType = "10000001";
+    const receivedData = {
+      responseTime: 1637929777140,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: {
+        list: [
+          {
+            type: {
+              tokenType: testTokenType,
+              name: "test-type",
+              meta: "",
+              createdAt: 1628843776947,
+              totalSupply: "35",
+              totalMint: "35",
+              totalBurn: "0",
+            },
+            token: {
+              name: "Test",
+              tokenId: testTokenId,
+              meta: "test-meta",
+              createdAt: 1630925137769,
+              burnedAt: 0,
+            },
+          },
+        ],
+        prePageToken:
+          "eJxtzk0PgjAMBuD/0jMHESXoDQETYoJGd9ATWbYuEnDAmAQk/HfnZzzYU/ukfdMBKOcKm8aXPCilVpTp2HRFgUxnpUyEXmeFRgXL4bMKS9BFJnM7rx1Ptfx661rnush7wRhdVBd0WYVdPavPSL2uBQvYN9nc2p4n3LkjYLSgVBzVqjcabBOy9wOSxmEaRocgJdtNlKTktIt+5zgJo+MTTCwV78f+51ugyxwl6St88ORZ9odjybEz/uKpDeN4BzAdV4M=",
+        nextPageToken:
+          "eJxtjssOgjAQRf9l1iwE1AA7REyICRrtQlekaaeRgAVqIaDh363PuHBWc09mTu4NKOcKL5dQ8qiSWlGmE7OVJTKdVzIVepWXGhUEt88pBKDLXBZ20bie6nh77Tu39YtBMEb9+oxzVmPfTJsTUq/vwAL2NZtf2/PEfOYKGC2oFEe1GAyNNinZhRHJkmUW7qOMbNZxmpHjNv6JSbqMD49snFS8W/2XW6CrAiUZanzgyXPsD04kx97wF3YcGMc7LXNWrA==",
+      },
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub
+      .onGet(
+        `/v1/users/${testUserId}/item-tokens/${testContractId}/non-fungibles/with-type`,
+      )
+      .reply(config => {
+        assertHeaders(config.headers);
+        // assertPageParameters(config.params, pageRequest);
+        return [200, receivedData];
+      });
+
+    const response = await httpClient.nonFungibleTokenBalancesWithTypeOfUser(
+      testUserId,
+      testContractId,
+      pageRequest,
+    );
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response.responseData.list[0].type.tokenType).to.equal(
+      testTokenType,
+    );
+    expect(response.responseData.list[0].token.tokenId).to.equal(testTokenId);
+  });
+
   it("non-fungible-token balances by type of user api test", async () => {
     const testUserId = "U556719f559479aab8b8f74c488bf6317";
     const pageRequest = new PageRequest(0, 10, OrderBy.DESC);
@@ -2678,13 +2795,13 @@ describe("http-client-base test", () => {
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    const path = `/v1/item-tokens/${testContractId}/fungible/icon/${testRequestId}/status`;
+    const path = `/v1/item-tokens/${testContractId}/fungibles/icon/${testRequestId}/status`;
     stub.onGet(path).reply(config => {
       assertHeaders(config.headers);
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatuses(
       testContractId,
       testRequestId,
     );
@@ -2722,13 +2839,13 @@ describe("http-client-base test", () => {
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    const path = `/v1/item-tokens/${testContractId}/fungible/icon/${testRequestId}/status`;
+    const path = `/v1/item-tokens/${testContractId}/fungibles/icon/${testRequestId}/status`;
     stub.onGet(path).reply(config => {
       assertHeaders(config.headers);
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatus(
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatuses(
       testContractId,
       testRequestId,
     );

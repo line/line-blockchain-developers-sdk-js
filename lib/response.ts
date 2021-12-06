@@ -202,6 +202,40 @@ export class NonFungibleBalance {
   ) { }
 }
 
+export class CursorPaginatedNonFungibleBalanceWithTypes {
+  constructor(
+    readonly list: Array<NonFungibleBalanceWithType>,
+    readonly prePageToken: string,
+    readonly nextPageToken: string,
+  ) { }
+}
+export class NonFungibleBalanceWithType {
+  constructor(
+    readonly type: NonFungibleType,
+    readonly token: NonFungibleToken,
+  ) { }
+}
+export class NonFungibleType {
+  constructor(
+    readonly tokenType: string,
+    readonly name: string,
+    readonly meta: string,
+    readonly totalSupply: string,
+    readonly totalMint: string,
+    readonly totalBurn: string,
+  ) { }
+}
+
+export class NonFungibleToken {
+  constructor(
+    readonly name: string,
+    readonly tokenId: string,
+    readonly meta: string,
+    readonly createdAt: number,
+    readonly burnedAt?: number,
+  ) { }
+}
+
 export class TokenIndex {
   constructor(
     readonly tokenIndex: string,

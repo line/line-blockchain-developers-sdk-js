@@ -25,7 +25,7 @@
     "prettier": "prettier --parser typescript --trailing-comma all --arrow-parens avoid \"{lib,test}/**/*.ts\"",
     "format": "npm run prettier -- --write",
     "format:check": "npm run prettier -- -l",
-    "pretest": "npm run format && npm run build",
+    "pretest": "npm run build",
     "clean": "rm -rf dist/*",
     "build": "tsc -p tsconfig.json",
     "test-api": "mocha test/http-client-base.spec.ts -r ts-node/register",
