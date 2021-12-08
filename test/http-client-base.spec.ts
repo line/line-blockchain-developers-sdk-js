@@ -12,6 +12,7 @@ import { HttpClient } from "../lib/http-client-base";
 import { Constant } from "../lib/constants";
 import { TransactionMsgTypes } from "../lib/constants";
 import {
+  DEFAULT_PAGE_REQUEST,
   PageRequest,
   OrderBy,
   TokenId,
@@ -2852,6 +2853,41 @@ describe("http-client-base test", () => {
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
+
+  it("test default-paging-request when not page-request-is given", async () => {
+    const testContractId = "9636a07e";
+    const pageRequest = { "page": null, "limit": null, "orderBy": null };
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const receivedData = {
+      responseTime: 1585467715916,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          address: testAddress,
+          userId: null,
+          amount: "1066",
+        },
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/service-tokens/${testContractId}/holders`).reply(config => {
+      assertHeaders(config.headers);
+      assertPageParameters(config.params, DEFAULT_PAGE_REQUEST);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.serviceTokenHolders(
+      testContractId,
+      pageRequest,
+    );
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0]["address"]).to.equal(testAddress);
+  });
+
+  //pagingParams
 });
 
 function assertHeaders(headers: any) {

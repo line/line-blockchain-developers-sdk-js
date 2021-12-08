@@ -37,6 +37,7 @@ import {
   CursorPaginatedNonFungibleBalanceWithTypes,
 } from "./response";
 import {
+  DEFAULT_PAGE_REQUEST,
   RequestType,
   TokenType,
   TokenTypeAndIndex,
@@ -72,6 +73,7 @@ import {
   MultiFungibleTokenMediaResourcesUpdateRequest,
   MultiNonFungibleTokenMediaResourcesUpdateRequest,
   NonFungibleTokenMultiMintMultiReceiversRequest,
+  OrderBy,
 } from "./request";
 import { SignatureGenerator } from "./signature-generator";
 import { Constant } from "./constants";
@@ -890,12 +892,14 @@ export class HttpClient {
     pageRequest: PageRequest,
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
   ): AxiosRequestConfig {
+    const _pageRequest = pageRequest || DEFAULT_PAGE_REQUEST
     // paging parameters sorted by its key when generating signature
     var pagingParams = {
-      limit: pageRequest.limit,
-      page: pageRequest.page,
-      orderBy: pageRequest.orderBy,
+      limit: _pageRequest.limit || 10,
+      page: _pageRequest.page || 0,
+      orderBy: _pageRequest.orderBy || OrderBy.DESC,
     };
+
     if (optionalTransactionSearchParameters) {
       if (optionalTransactionSearchParameters.before) {
         pagingParams["before"] = optionalTransactionSearchParameters.before;
