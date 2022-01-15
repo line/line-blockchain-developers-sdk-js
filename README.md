@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/github/license/line/line-blockchain-developers-sdk-js)](https://github.com/line/line-blockchain-developers-sdk-js)
 [![NPM version](https://img.shields.io/npm/v/@line/lbd-sdk-js.svg)](https://www.npmjs.com/package/@line/lbd-sdk-js)
-[![NPM downloads](https://img.shields.io/npm/dm/@line/lbd-sdk-js.svg)](https://www.npmjs.com/package/@line/bot-sdk)
+[![NPM downloads](https://img.shields.io/npm/dm/@line/lbd-sdk-js.svg)](https://www.npmjs.com/package/@line/lbd-sdk-js)
 [![CircleCI](https://circleci.com/gh/line/line-blockchain-developers-sdk-js.svg?style=shield)](https://circleci.com/gh/line/line-blockchain-developers-sdk-js)
 
 
