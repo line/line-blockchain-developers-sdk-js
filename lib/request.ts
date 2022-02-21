@@ -240,6 +240,14 @@ export class TokenTypeAndIndex {
   }
 }
 
+export class CreateItemTokenContractRequest {
+  constructor(
+    readonly ownerAddress: string,
+    readonly ownerSecret: string,
+    readonly baseImgUri: string,
+  ) { }
+}
+
 export class FungibleTokenCreateUpdateRequest {
   constructor(
     readonly ownerAddress: string,

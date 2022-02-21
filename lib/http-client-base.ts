@@ -74,6 +74,7 @@ import {
   MultiNonFungibleTokenMediaResourcesUpdateRequest,
   NonFungibleTokenMultiMintMultiReceiversRequest,
   OrderBy,
+  CreateItemTokenContractRequest
 } from "./request";
 import { SignatureGenerator } from "./signature-generator";
 import { Constant } from "./constants";
@@ -233,6 +234,13 @@ export class HttpClient {
   public itemToken(contractId: string): Promise<GenericResponse<ItemToken>> {
     const path = `/v1/item-tokens/${contractId}`;
     return this.instance.get(path);
+  }
+
+  public createItemTokenContract(
+    request: CreateItemTokenContractRequest,
+  ): Promise<GenericResponse<TxHashResponse>> {
+    const path = `/v1/item-tokens`;
+    return this.instance.post(path, request);
   }
 
   public fungibleTokens(
