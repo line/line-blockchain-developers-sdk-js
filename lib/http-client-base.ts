@@ -74,7 +74,8 @@ import {
   MultiNonFungibleTokenMediaResourcesUpdateRequest,
   NonFungibleTokenMultiMintMultiReceiversRequest,
   OrderBy,
-  CreateItemTokenContractRequest
+  CreateItemTokenContractRequest,
+  IssueServiceTokenRequest,
 } from "./request";
 import { SignatureGenerator } from "./signature-generator";
 import { Constant } from "./constants";
@@ -500,6 +501,13 @@ export class HttpClient {
   ): Promise<GenericResponse<BaseCoinBalance>> {
     const path = `/v1/wallets/${walletAddress}/base-coin`;
     return this.instance.get(path);
+  }
+
+  public issueServiceToken(
+    request: IssueServiceTokenRequest,
+  ): Promise<GenericResponse<TxHashResponse>> {
+    const path = `/v1/service-tokens`;
+    return this.instance.post(path, request);
   }
 
   public serviceTokenBalancesOfWallet(

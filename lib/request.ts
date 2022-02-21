@@ -18,20 +18,20 @@ export class AbstractTransactionRequest {
 
 export class IssueServiceTokenRequest {
   constructor(
-    readonly ownerAddress: string,
-    readonly ownerSecret: string,
+    readonly serviceWalletAddress: string,
+    readonly serviceWalletSecret: string,
     readonly name: string,
     readonly symbol: string,
     readonly initialSupply: string,
     readonly recipientWalletAddress: string,
     readonly imgUri: string,
   ) {
-    if (RequestParameterValidator.isValidWalletAddress(ownerAddress)) {
-      throw new Error(`Invalid ownerAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
+    if (RequestParameterValidator.isValidWalletAddress(serviceWalletAddress)) {
+      throw new Error(`Invalid serviceWalletAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
     }
 
-    if (_.isEmpty(ownerSecret)) {
-      throw new Error("Empty ownerSecret is not allowed");
+    if (_.isEmpty(serviceWalletSecret)) {
+      throw new Error("Empty serviceWalletSecret is not allowed");
     }
 
     if (!RequestParameterValidator.isValidTokenName(name)) {
@@ -55,6 +55,7 @@ export class IssueServiceTokenRequest {
     }
   }
 }
+
 export class UpdateServiceTokenRequest {
   constructor(
     readonly ownerAddress: string,
@@ -281,10 +282,22 @@ export class TokenTypeAndIndex {
 
 export class CreateItemTokenContractRequest {
   constructor(
-    readonly ownerAddress: string,
-    readonly ownerSecret: string,
+    readonly serviceWalletAddress: string,
+    readonly serviceWalletSecret: string,
     readonly baseImgUri: string,
-  ) { }
+  ) {
+    if (RequestParameterValidator.isValidWalletAddress(serviceWalletAddress)) {
+      throw new Error(`Invalid serviceWalletAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
+    }
+
+    if (_.isEmpty(serviceWalletSecret)) {
+      throw new Error("Empty serviceWalletSecret is not allowed");
+    }
+
+    if (!RequestParameterValidator.isValidBaseUri(baseImgUri)) {
+      throw new Error(`Invalid baseImgUri of item token - valid pattern: ${RequestParameterValidator.validBaseUriPattern()}`);
+    }
+  }
 }
 
 export class FungibleTokenCreateUpdateRequest {
