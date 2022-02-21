@@ -2956,6 +2956,39 @@ describe("http-client-base test", () => {
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
+
+  it("issued-service-tokens-by-txHash api test", async () => {
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661"
+    const receivedData = {
+      responseTime: 1585467715136,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          contractId: "9636a07e",
+          ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+          name: "skt1",
+          symbol: "SYNPH",
+          imgUri: "https://sample.image",
+          meta: "",
+          decimals: 6,
+          createdAt: 1584070098000,
+          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
+        },
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/service-tokens/by-txHash/${testTxHash}`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.issuedServiceTokenByTxHash(testTxHash);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+  });
 });
 
 function assertHeaders(headers: any) {

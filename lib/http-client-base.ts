@@ -35,7 +35,9 @@ import {
   FungibleTokenMediaResourceUpdateStatusResponse,
   NonFungibleTokenMediaResourceUpdateStatusResponse,
   CursorPaginatedNonFungibleBalanceWithTypes,
+  IssuedServiceToken,
 } from "./response";
+
 import {
   DEFAULT_PAGE_REQUEST,
   RequestType,
@@ -508,6 +510,16 @@ export class HttpClient {
   ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/service-tokens`;
     return this.instance.post(path, request);
+  }
+
+  public issuedServiceTokenByTxHash(
+    txHash: string,
+  ): Promise<GenericResponse<IssuedServiceToken>> {
+    if (_.isEmpty(txHash)) {
+      throw new Error("Invalid txHash - empty not allowed")
+    }
+    const path = `/v1/service-tokens/by-txHash/${txHash}`;
+    return this.instance.get(path);
   }
 
   public serviceTokenBalancesOfWallet(
