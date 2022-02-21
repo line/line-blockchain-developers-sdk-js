@@ -1,5 +1,5 @@
 import _ from "lodash";
-
+import { RequestParameterValidator } from "./request-parameter-validator";
 export class AbstractTokenBurnTransactionRequest {
   constructor(readonly fromUserId?: string, readonly fromAddress?: string) {
     if (!fromUserId && !fromAddress) {
@@ -16,6 +16,45 @@ export class AbstractTransactionRequest {
   }
 }
 
+export class IssueServiceTokenRequest {
+  constructor(
+    readonly ownerAddress: string,
+    readonly ownerSecret: string,
+    readonly name: string,
+    readonly symbol: string,
+    readonly initialSupply: string,
+    readonly recipientWalletAddress: string,
+    readonly imgUri: string,
+  ) {
+    if (RequestParameterValidator.isValidWalletAddress(ownerAddress)) {
+      throw new Error(`Invalid ownerAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
+    }
+
+    if (_.isEmpty(ownerSecret)) {
+      throw new Error("Empty ownerSecret is not allowed");
+    }
+
+    if (!RequestParameterValidator.isValidTokenName(name)) {
+      throw new Error(`Invalid name of service token - valid pattern: ${RequestParameterValidator.validTokenNamePattern()}`);
+    }
+
+    if (!RequestParameterValidator.isValidSymbol(symbol)) {
+      throw new Error(`Invalid symbol of service token - valid pattern: ${RequestParameterValidator.validTokenSymbolPattern()}`);
+    }
+
+    if (!RequestParameterValidator.isValidInitialSupply(initialSupply)) {
+      throw new Error(`Invalid initialSupply of service token - valid pattern: ${RequestParameterValidator.validTokenInitialSupplyPattern()}`);
+    }
+
+    if (RequestParameterValidator.isValidWalletAddress(recipientWalletAddress)) {
+      throw new Error(`Invalid recipientWalletAddress of service token - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
+    }
+
+    if (!RequestParameterValidator.isValidBaseUri(imgUri)) {
+      throw new Error(`Invalid imgUri of service token - valid pattern: ${RequestParameterValidator.validBaseUriPattern()}`);
+    }
+  }
+}
 export class UpdateServiceTokenRequest {
   constructor(
     readonly ownerAddress: string,

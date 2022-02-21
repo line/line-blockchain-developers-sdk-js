@@ -2892,7 +2892,7 @@ describe("http-client-base test", () => {
     const request = {
       ownerAddress: testAddress,
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      baseImgUri: "https://image-base-uri/",
+      baseImgUri: "https://image-base-uri.com/",
     };
 
     const testTxHash =
