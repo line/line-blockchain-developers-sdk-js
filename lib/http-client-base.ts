@@ -36,6 +36,7 @@ import {
   NonFungibleTokenMediaResourceUpdateStatusResponse,
   CursorPaginatedNonFungibleBalanceWithTypes,
   IssuedServiceToken,
+  CreatedItemToken,
 } from "./response";
 
 import {
@@ -244,6 +245,18 @@ export class HttpClient {
   ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens`;
     return this.instance.post(path, request);
+  }
+
+  public createdItemTokenContract(
+    txHash: string,
+    isOnlyContractId: boolean = false,
+  ): Promise<GenericResponse<CreatedItemToken>> {
+    if (_.isEmpty(txHash)) {
+      throw new Error("Invalid txHash - empty not allowed")
+    }
+    const path = `/v1/item-tokens`;
+    const queryParamConfig = this.txHashAndIsOnlyContractIdRequestConfig(txHash, isOnlyContractId)
+    return this.instance.get(path, queryParamConfig);
   }
 
   public fungibleTokens(
@@ -514,12 +527,14 @@ export class HttpClient {
 
   public issuedServiceTokenByTxHash(
     txHash: string,
+    isOnlyContractId: boolean = false,
   ): Promise<GenericResponse<IssuedServiceToken>> {
     if (_.isEmpty(txHash)) {
       throw new Error("Invalid txHash - empty not allowed")
     }
     const path = `/v1/service-tokens/by-txHash/${txHash}`;
-    return this.instance.get(path);
+    const queryParamConfig = this.isOnlyContractIdRequestConfig(isOnlyContractId)
+    return this.instance.get(path, queryParamConfig);
   }
 
   public serviceTokenBalancesOfWallet(
@@ -944,6 +959,26 @@ export class HttpClient {
       params: Object.keys(pagingParams)
         .sort()
         .reduce((r, k) => ((r[k] = pagingParams[k]), r), {}),
+    };
+  }
+
+  private isOnlyContractIdRequestConfig(isOnlyContractId: boolean): AxiosRequestConfig {
+    return {
+      params: {
+        isOnlyContractId: isOnlyContractId,
+      },
+    };
+  }
+
+  private txHashAndIsOnlyContractIdRequestConfig(
+    txHash: string,
+    isOnlyContractId: boolean
+  ): AxiosRequestConfig {
+    return {
+      params: {
+        txHash: txHash,
+        isOnlyContractId: isOnlyContractId,
+      },
     };
   }
 

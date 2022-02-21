@@ -2985,9 +2985,102 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.issuedServiceTokenByTxHash(testTxHash);
+    const response = await httpClient.issuedServiceTokenByTxHash(testTxHash, false);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+  });
+
+  it("issued-service-tokens-by-txHash api test with isOnlyContractId true", async () => {
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661"
+    const receivedData = {
+      responseTime: 1585467715136,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          contractId: "9636a07e",
+          ownerAddress: null,
+          name: null,
+          symbol: null,
+          imgUri: null,
+          meta: null,
+          decimals: null,
+          createdAt: null,
+          serviceId: null
+        },
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/service-tokens/by-txHash/${testTxHash}`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.issuedServiceTokenByTxHash(testTxHash, false);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+    expect(response["responseData"][0]["imgUri"]).to.equal(null);
+  });
+
+  it("created-item-token api test", async () => {
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661"
+    const receivedData = {
+      responseTime: 1585467715136,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          contractId: "9636a07e",
+          ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+          baseImgUri: "https://sample.image",
+          createdAt: 1584070098000,
+          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
+        },
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/item-tokens`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.createdItemTokenContract(testTxHash, true);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+  });
+
+  it("created-item-token api test with isOnlyContractId true", async () => {
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661"
+    const receivedData = {
+      responseTime: 1585467715136,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          contractId: "9636a07e",
+          ownerAddress: null,
+          baseImgUri: null,
+          createdAt: null,
+          serviceId: null,
+        },
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/item-tokens`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.createdItemTokenContract(testTxHash, true);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+    expect(response["responseData"][0]["baseImgUri"]).to.equal(null);
   });
 });
 
