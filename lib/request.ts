@@ -282,22 +282,11 @@ export class TokenTypeAndIndex {
 
 export class CreateItemTokenContractRequest {
   constructor(
+    readonly name: string,
     readonly serviceWalletAddress: string,
     readonly serviceWalletSecret: string,
     readonly baseImgUri: string,
-  ) {
-    if (RequestParameterValidator.isValidWalletAddress(serviceWalletAddress)) {
-      throw new Error(`Invalid serviceWalletAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
-    }
-
-    if (_.isEmpty(serviceWalletSecret)) {
-      throw new Error("Empty serviceWalletSecret is not allowed");
-    }
-
-    if (!RequestParameterValidator.isValidBaseUri(baseImgUri)) {
-      throw new Error(`Invalid baseImgUri of item token - valid pattern: ${RequestParameterValidator.validBaseUriPattern()}`);
-    }
-  }
+  ) { }
 }
 
 export class FungibleTokenCreateUpdateRequest {

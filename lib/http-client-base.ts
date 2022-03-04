@@ -1,5 +1,6 @@
 import { LoggerFactory } from "./logger-factory";
 import _ from "lodash";
+import { RequestParameterValidator } from "./request-parameter-validator";
 import axios, {
   AxiosInstance,
   AxiosResponse,
@@ -243,19 +244,37 @@ export class HttpClient {
   public createItemTokenContract(
     request: CreateItemTokenContractRequest,
   ): Promise<GenericResponse<TxHashResponse>> {
+    if (request.name.length <= 0) {
+      throw new Error("Invalid token name - empty token name")
+    }
+    if (!RequestParameterValidator.isValidTokenName(request.name)) {
+      throw new Error(`Invalid token name - valid pattern: ${RequestParameterValidator.validTokenNamePattern()}`);
+    }
+
+    if (!RequestParameterValidator.isValidWalletAddress(request.serviceWalletAddress)) {
+      throw new Error(`Invalid serviceWalletAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
+    }
+
+    if (_.isEmpty(request.serviceWalletSecret)) {
+      throw new Error("Empty serviceWalletSecret is not allowed");
+    }
+
+    if (!RequestParameterValidator.isValidBaseUri(request.baseImgUri)) {
+      throw new Error(`Invalid baseImgUri of item token - valid pattern: ${RequestParameterValidator.validBaseUriPattern()}`);
+    }
     const path = `/v1/item-tokens`;
     return this.instance.post(path, request);
   }
 
   public createdItemTokenContract(
-    txHash: string,
+    txHash?: string,
     isOnlyContractId: boolean = false,
   ): Promise<GenericResponse<CreatedItemToken>> {
-    if (_.isEmpty(txHash)) {
-      throw new Error("Invalid txHash - empty not allowed")
+    if (!_.isNil(txHash) && _.isEmpty(txHash)) {
+      throw new Error("Invalid txHash - empty not allowed");
     }
     const path = `/v1/item-tokens`;
-    const queryParamConfig = this.txHashAndIsOnlyContractIdRequestConfig(txHash, isOnlyContractId)
+    const queryParamConfig = this.txHashAndIsOnlyContractIdRequestConfig(txHash, isOnlyContractId);
     return this.instance.get(path, queryParamConfig);
   }
 
@@ -971,15 +990,23 @@ export class HttpClient {
   }
 
   private txHashAndIsOnlyContractIdRequestConfig(
-    txHash: string,
-    isOnlyContractId: boolean
+    txHash?: string,
+    isOnlyContractId?: boolean
   ): AxiosRequestConfig {
-    return {
-      params: {
-        txHash: txHash,
-        isOnlyContractId: isOnlyContractId,
-      },
-    };
+    if (_.isNil(txHash)) {
+      return {
+        params: {
+          isOnlyContractId: isOnlyContractId || false
+        }
+      };
+    } else {
+      return {
+        params: {
+          txHash: txHash,
+          isOnlyContractId: isOnlyContractId,
+        },
+      };
+    }
   }
 
   private cursorPageRequestConfig(cursorPageRequest: CursorPageRequest) {
