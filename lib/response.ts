@@ -24,6 +24,19 @@ export enum RequestSessionTokenStatus {
   Authorized,
   Unauthorized,
 }
+export class IssuedServiceToken {
+  constructor(
+    readonly contractId: string,
+    readonly ownerAddress?: string,
+    readonly createdAt?: number,
+    readonly serviceId?: string,
+    readonly decimals?: number,
+    readonly name?: string,
+    readonly symbol?: string,
+    readonly meta?: string,
+    readonly imgUri?: string,
+  ) { }
+}
 
 export class ServiceToken {
   constructor(
@@ -251,6 +264,16 @@ export class ItemToken {
     readonly ownerAddress: string,
     readonly serviceId: string,
     readonly createdAt: number,
+  ) { }
+}
+
+export class CreatedItemToken {
+  constructor(
+    readonly contractId: string,
+    readonly baseImgUri?: string,
+    readonly ownerAddress?: string,
+    readonly serviceId?: string,
+    readonly createdAt?: number,
   ) { }
 }
 

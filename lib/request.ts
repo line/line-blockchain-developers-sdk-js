@@ -1,5 +1,5 @@
 import _ from "lodash";
-
+import { RequestParameterValidator } from "./request-parameter-validator";
 export class AbstractTokenBurnTransactionRequest {
   constructor(readonly fromUserId?: string, readonly fromAddress?: string) {
     if (!fromUserId && !fromAddress) {
@@ -12,6 +12,46 @@ export class AbstractTransactionRequest {
   constructor(readonly toAddress?: string, readonly toUserId?: string) {
     if (!toUserId && !toAddress) {
       throw new Error("toAddress or toUserId, one of them is required");
+    }
+  }
+}
+
+export class IssueServiceTokenRequest {
+  constructor(
+    readonly serviceWalletAddress: string,
+    readonly serviceWalletSecret: string,
+    readonly name: string,
+    readonly symbol: string,
+    readonly initialSupply: string,
+    readonly recipientWalletAddress: string,
+    readonly imgUri: string,
+  ) {
+    if (RequestParameterValidator.isValidWalletAddress(serviceWalletAddress)) {
+      throw new Error(`Invalid serviceWalletAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
+    }
+
+    if (_.isEmpty(serviceWalletSecret)) {
+      throw new Error("Empty serviceWalletSecret is not allowed");
+    }
+
+    if (!RequestParameterValidator.isValidTokenName(name)) {
+      throw new Error(`Invalid name of service token - valid pattern: ${RequestParameterValidator.validTokenNamePattern()}`);
+    }
+
+    if (!RequestParameterValidator.isValidSymbol(symbol)) {
+      throw new Error(`Invalid symbol of service token - valid pattern: ${RequestParameterValidator.validTokenSymbolPattern()}`);
+    }
+
+    if (!RequestParameterValidator.isValidInitialSupply(initialSupply)) {
+      throw new Error(`Invalid initialSupply of service token - valid pattern: ${RequestParameterValidator.validTokenInitialSupplyPattern()}`);
+    }
+
+    if (RequestParameterValidator.isValidWalletAddress(recipientWalletAddress)) {
+      throw new Error(`Invalid recipientWalletAddress of service token - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
+    }
+
+    if (!RequestParameterValidator.isValidBaseUri(imgUri)) {
+      throw new Error(`Invalid imgUri of service token - valid pattern: ${RequestParameterValidator.validBaseUriPattern()}`);
     }
   }
 }
@@ -238,6 +278,15 @@ export class TokenTypeAndIndex {
   static fromMulti(values: Array<string>): Array<TokenTypeAndIndex> {
     return _.map(values, value => TokenTypeAndIndex.from(value));
   }
+}
+
+export class CreateItemTokenContractRequest {
+  constructor(
+    readonly name: string,
+    readonly serviceWalletAddress: string,
+    readonly serviceWalletSecret: string,
+    readonly baseImgUri: string,
+  ) { }
 }
 
 export class FungibleTokenCreateUpdateRequest {

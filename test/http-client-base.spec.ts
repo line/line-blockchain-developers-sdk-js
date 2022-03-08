@@ -20,6 +20,7 @@ import {
   CursorPageRequest,
 } from "../lib/request";
 import { transactionResult, singleTransactionResult } from "./test-data";
+import { doesNotMatch } from "assert";
 
 describe("http-client-base test", () => {
   let stub: MockAdapter;
@@ -2887,7 +2888,321 @@ describe("http-client-base test", () => {
     expect(response["responseData"][0]["address"]).to.equal(testAddress);
   });
 
-  //pagingParams
+  it("create item-token-contract api test", async () => {
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const request = {
+      name: "test",
+      serviceWalletAddress: testAddress,
+      serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
+      baseImgUri: "https://image-base-uri.com/",
+    };
+
+    const testTxHash =
+      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const receivedData = {
+      responseTime: 1585467711877,
+      statusCode: 1002,
+      statusMessage: "Accepted",
+      responseData: {
+        txHash: testTxHash,
+      },
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    const path = `/v1/item-tokens`;
+    stub.onPost(path).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.createItemTokenContract(request);
+    expect(response["statusCode"]).to.equal(1002);
+    expect(response["responseData"]["txHash"]).to.equal(testTxHash);
+  });
+
+  it("create item-token-contract api should throw error when test with empty name", async () => {
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const request = {
+      name: "",
+      serviceWalletAddress: testAddress,
+      serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
+      baseImgUri: "https://image-base-uri.com/",
+    };
+
+    try {
+      await httpClient.createItemTokenContract(request);
+    } catch (error) {
+      expect(error.message).to.equal("Invalid token name - empty token name")
+    }
+  });
+
+  it("create item-token-contract api should throw error when test with invalid name", async () => {
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const request = {
+      name: "a",
+      serviceWalletAddress: testAddress,
+      serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
+      baseImgUri: "https://image-base-uri.com/",
+    };
+
+    try {
+      await httpClient.createItemTokenContract(request);
+    } catch (error) {
+      expect(error.message).to.contains("Invalid token name - valid pattern")
+    }
+  });
+
+  it("create item-token-contract api should throw error when test with invalid address", async () => {
+    const testAddress = "tlinkxxx";
+    const request = {
+      name: "test",
+      serviceWalletAddress: testAddress,
+      serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
+      baseImgUri: "https://image-base-uri.com/",
+    };
+
+    try {
+      await httpClient.createItemTokenContract(request);
+    } catch (error) {
+      expect(error.message).to.contains("Invalid serviceWalletAddress")
+    }
+  });
+
+  it("create item-token-contract api should throw error when test with empty secret", async () => {
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const request = {
+      name: "test",
+      serviceWalletAddress: testAddress,
+      serviceWalletSecret: "",
+      baseImgUri: "https://image-base-uri.com/",
+    };
+
+    try {
+      await httpClient.createItemTokenContract(request);
+    } catch (error) {
+      expect(error.message).to.contains("Empty serviceWalletSecret is not allowed")
+    }
+  });
+
+  it("create item-token-contract api should throw error when test with invalid baseImgUri", async () => {
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const request = {
+      name: "test",
+      serviceWalletAddress: testAddress,
+      serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
+      baseImgUri: "https://"
+    };
+
+    try {
+      await httpClient.createItemTokenContract(request);
+    } catch (error) {
+      expect(error.message).to.contains("Invalid baseImgUri of item token")
+    }
+  });
+
+  it("issue service-token-contract api test", async () => {
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const request = {
+      serviceWalletAddress: testAddress,
+      serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
+      name: "Test",
+      symbol: "TEST",
+      initialSupply: "1000",
+      recipientWalletAddress: testAddress,
+      imgUri: "https://image-base-uri.com/",
+    };
+
+    const testTxHash =
+      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const receivedData = {
+      responseTime: 1585467711877,
+      statusCode: 1002,
+      statusMessage: "Accepted",
+      responseData: {
+        txHash: testTxHash,
+      },
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    const path = `/v1/service-tokens`;
+    stub.onPost(path).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.issueServiceToken(request);
+    expect(response["statusCode"]).to.equal(1002);
+    expect(response["responseData"]["txHash"]).to.equal(testTxHash);
+  });
+
+  it("issued-service-tokens-by-txHash api test", async () => {
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661"
+    const receivedData = {
+      responseTime: 1585467715136,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          contractId: "9636a07e",
+          ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+          name: "skt1",
+          symbol: "SYNPH",
+          imgUri: "https://sample.image",
+          meta: "",
+          decimals: 6,
+          createdAt: 1584070098000,
+          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
+        },
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/service-tokens/by-txHash/${testTxHash}`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.issuedServiceTokenByTxHash(testTxHash, false);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+  });
+
+  it("issued-service-tokens-by-txHash api test with isOnlyContractId true", async () => {
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661"
+    const receivedData = {
+      responseTime: 1585467715136,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          contractId: "9636a07e",
+          ownerAddress: null,
+          name: null,
+          symbol: null,
+          imgUri: null,
+          meta: null,
+          decimals: null,
+          createdAt: null,
+          serviceId: null
+        },
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/service-tokens/by-txHash/${testTxHash}`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.issuedServiceTokenByTxHash(testTxHash, false);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+    expect(response["responseData"][0]["imgUri"]).to.equal(null);
+  });
+
+  it("created-item-token api test", async () => {
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661"
+    const receivedData = {
+      responseTime: 1585467715136,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          contractId: "9636a07e",
+          ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+          baseImgUri: "https://sample.image",
+          createdAt: 1584070098000,
+          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
+        },
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/item-tokens`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.createdItemTokenContract(testTxHash, true);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+  });
+
+  it("created-item-token api test with isOnlyContractId true", async () => {
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661"
+    const receivedData = {
+      responseTime: 1585467715136,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          contractId: "9636a07e",
+          ownerAddress: null,
+          baseImgUri: null,
+          createdAt: null,
+          serviceId: null,
+        },
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/item-tokens`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.createdItemTokenContract(testTxHash, true);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+    expect(response["responseData"][0]["baseImgUri"]).to.equal(null);
+  });
+
+  it("created-item-token api test with isOnlyContractId true, without tx-hash", async () => {
+    const testTxHash = null;
+    const receivedData = {
+      responseTime: 1585467715136,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: [
+        {
+          contractId: "9636a07e",
+          ownerAddress: null,
+          baseImgUri: null,
+          createdAt: null,
+          serviceId: null,
+        },
+      ],
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/item-tokens`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.createdItemTokenContract(testTxHash, true);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+    expect(response["responseData"][0]["baseImgUri"]).to.equal(null);
+  });
+
+  it("created-item-token api test with isOnlyContractId true, with empty tx-hash", async () => {
+    const testTxHash = "";
+    try {
+      await httpClient.createdItemTokenContract(testTxHash, true)
+    } catch (error) {
+      expect(error.message).to.equal("Invalid txHash - empty not allowed")
+    }
+  });
 });
 
 function assertHeaders(headers: any) {

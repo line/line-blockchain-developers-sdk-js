@@ -8,6 +8,7 @@ export class RequestError extends Error {
   constructor(
     message: string,
     public code: string,
+    public detailErrorMessage: string,
     private originalError: Error,
   ) {
     super(message);
@@ -25,6 +26,7 @@ export class HTTPError extends Error {
     message: string,
     public statusCode: number,
     public statusMessage: string,
+    public detailErrorMessage: string,
     public originalError: any,
   ) {
     super(message);

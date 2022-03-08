@@ -1,5 +1,6 @@
 import { LoggerFactory } from "./logger-factory";
 import _ from "lodash";
+import { RequestParameterValidator } from "./request-parameter-validator";
 import axios, {
   AxiosInstance,
   AxiosResponse,
@@ -35,7 +36,10 @@ import {
   FungibleTokenMediaResourceUpdateStatusResponse,
   NonFungibleTokenMediaResourceUpdateStatusResponse,
   CursorPaginatedNonFungibleBalanceWithTypes,
+  IssuedServiceToken,
+  CreatedItemToken,
 } from "./response";
+
 import {
   DEFAULT_PAGE_REQUEST,
   RequestType,
@@ -74,6 +78,8 @@ import {
   MultiNonFungibleTokenMediaResourcesUpdateRequest,
   NonFungibleTokenMultiMintMultiReceiversRequest,
   OrderBy,
+  CreateItemTokenContractRequest,
+  IssueServiceTokenRequest,
 } from "./request";
 import { SignatureGenerator } from "./signature-generator";
 import { Constant } from "./constants";
@@ -124,7 +130,9 @@ export class HttpClient {
     return data;
   };
   protected _handleError = (error: any) => {
-    return Promise.reject(this.wrapError(error));
+    const wrappedError = this.wrapError(error);
+    // console.log(wrappedError);
+    return Promise.reject(wrappedError);
   };
 
   private _handleRequest = (config: AxiosRequestConfig) => {
@@ -143,10 +151,11 @@ export class HttpClient {
         err.message,
         err.response.status,
         err.response.statusText,
+        err.response.data.statusMessage || "",
         err,
       );
     } else if (err.code) {
-      return new RequestError(err.message, err.code, err);
+      return new RequestError(err.message, err.code, err.response.data.statusMessage || "", err);
     } else if (err.config) {
       // unknown, but from axios
       return new ReadError(err);
@@ -233,6 +242,43 @@ export class HttpClient {
   public itemToken(contractId: string): Promise<GenericResponse<ItemToken>> {
     const path = `/v1/item-tokens/${contractId}`;
     return this.instance.get(path);
+  }
+
+  public createItemTokenContract(
+    request: CreateItemTokenContractRequest,
+  ): Promise<GenericResponse<TxHashResponse>> {
+    if (request.name.length <= 0) {
+      throw new Error("Invalid token name - empty token name")
+    }
+    if (!RequestParameterValidator.isValidTokenName(request.name)) {
+      throw new Error(`Invalid token name - valid pattern: ${RequestParameterValidator.validTokenNamePattern()}`);
+    }
+
+    if (!RequestParameterValidator.isValidWalletAddress(request.serviceWalletAddress)) {
+      throw new Error(`Invalid serviceWalletAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
+    }
+
+    if (_.isEmpty(request.serviceWalletSecret)) {
+      throw new Error("Empty serviceWalletSecret is not allowed");
+    }
+
+    if (!RequestParameterValidator.isValidBaseUri(request.baseImgUri)) {
+      throw new Error(`Invalid baseImgUri of item token - valid pattern: ${RequestParameterValidator.validBaseUriPattern()}`);
+    }
+    const path = `/v1/item-tokens`;
+    return this.instance.post(path, request);
+  }
+
+  public createdItemTokenContract(
+    txHash?: string,
+    isOnlyContractId: boolean = false,
+  ): Promise<GenericResponse<CreatedItemToken>> {
+    if (!_.isNil(txHash) && _.isEmpty(txHash)) {
+      throw new Error("Invalid txHash - empty not allowed");
+    }
+    const path = `/v1/item-tokens`;
+    const queryParamConfig = this.txHashAndIsOnlyContractIdRequestConfig(txHash, isOnlyContractId);
+    return this.instance.get(path, queryParamConfig);
   }
 
   public fungibleTokens(
@@ -492,6 +538,25 @@ export class HttpClient {
   ): Promise<GenericResponse<BaseCoinBalance>> {
     const path = `/v1/wallets/${walletAddress}/base-coin`;
     return this.instance.get(path);
+  }
+
+  public issueServiceToken(
+    request: IssueServiceTokenRequest,
+  ): Promise<GenericResponse<TxHashResponse>> {
+    const path = `/v1/service-tokens`;
+    return this.instance.post(path, request);
+  }
+
+  public issuedServiceTokenByTxHash(
+    txHash: string,
+    isOnlyContractId: boolean = false,
+  ): Promise<GenericResponse<IssuedServiceToken>> {
+    if (_.isEmpty(txHash)) {
+      throw new Error("Invalid txHash - empty not allowed")
+    }
+    const path = `/v1/service-tokens/by-txHash/${txHash}`;
+    const queryParamConfig = this.isOnlyContractIdRequestConfig(isOnlyContractId)
+    return this.instance.get(path, queryParamConfig);
   }
 
   public serviceTokenBalancesOfWallet(
@@ -917,6 +982,34 @@ export class HttpClient {
         .sort()
         .reduce((r, k) => ((r[k] = pagingParams[k]), r), {}),
     };
+  }
+
+  private isOnlyContractIdRequestConfig(isOnlyContractId: boolean): AxiosRequestConfig {
+    return {
+      params: {
+        isOnlyContractId: isOnlyContractId,
+      },
+    };
+  }
+
+  private txHashAndIsOnlyContractIdRequestConfig(
+    txHash?: string,
+    isOnlyContractId?: boolean
+  ): AxiosRequestConfig {
+    if (_.isNil(txHash)) {
+      return {
+        params: {
+          isOnlyContractId: isOnlyContractId || false
+        }
+      };
+    } else {
+      return {
+        params: {
+          txHash: txHash,
+          isOnlyContractId: isOnlyContractId,
+        },
+      };
+    }
   }
 
   private cursorPageRequestConfig(cursorPageRequest: CursorPageRequest) {
