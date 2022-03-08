@@ -130,7 +130,9 @@ export class HttpClient {
     return data;
   };
   protected _handleError = (error: any) => {
-    return Promise.reject(this.wrapError(error));
+    const wrappedError = this.wrapError(error);
+    // console.log(wrappedError);
+    return Promise.reject(wrappedError);
   };
 
   private _handleRequest = (config: AxiosRequestConfig) => {
@@ -149,10 +151,11 @@ export class HttpClient {
         err.message,
         err.response.status,
         err.response.statusText,
+        err.response.data.statusMessage || "",
         err,
       );
     } else if (err.code) {
-      return new RequestError(err.message, err.code, err);
+      return new RequestError(err.message, err.code, err.response.data.statusMessage || "", err);
     } else if (err.config) {
       // unknown, but from axios
       return new ReadError(err);
