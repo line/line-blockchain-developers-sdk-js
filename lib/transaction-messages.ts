@@ -35,6 +35,9 @@ export enum MessageType {
 
   //BASE COIN - CASHEW ONLY
   COIN_SEND = "coin/MsgSend",
+
+  // Account
+  ACCOUNT_MSG_EMPTY = "account/MsgEmpty",
 }
 
 // data classes(value objects) from tx-results
@@ -45,7 +48,7 @@ export abstract class TxResultMessage {
     readonly txHash: string,
     readonly from: string,
     readonly proxy?: string, // transaction come from proxy wallet
-  ) {}
+  ) { }
 
   isProxyTransaction(): boolean {
     return !!this.proxy;
@@ -60,7 +63,7 @@ export class IssuedServiceToken {
     readonly meta: string,
     readonly imUri: string,
     readonly decimal: number,
-  ) {}
+  ) { }
 }
 
 export class CreatedItemToken {
@@ -70,11 +73,11 @@ export class CreatedItemToken {
     readonly name: string,
     readonly meta: string,
     readonly baseImgUri: string,
-  ) {}
+  ) { }
 }
 
 export class FungibleToken {
-  constructor(readonly contractId: string, readonly tokenType: string) {}
+  constructor(readonly contractId: string, readonly tokenType: string) { }
 }
 
 export class IssuedFungibleToken extends FungibleToken {
@@ -112,11 +115,11 @@ export class NonFungibleToken {
     readonly contractId: string,
     readonly tokenType: string,
     readonly tokenIndex?: string,
-  ) {}
+  ) { }
 }
 
 export class BaseCoinAmount {
-  constructor(readonly contractId: string, readonly amount: string) {}
+  constructor(readonly contractId: string, readonly amount: string) { }
 }
 
 export class IssuedNonFungibleToken extends NonFungibleToken {
@@ -156,7 +159,7 @@ export class TransferredNonFungibleToken extends NonFungibleToken {
 }
 
 export class TokenChange {
-  constructor(readonly field: string, readonly value: string) {}
+  constructor(readonly field: string, readonly value: string) { }
 }
 
 export class ServiceTokenIssueMessage extends TxResultMessage {
@@ -615,3 +618,15 @@ export class BaseCoinTransferMessage extends TxResultMessage {
     super(height, txHash, from);
   }
 }
+
+
+export class AccountMsgEmptyMessage extends TxResultMessage {
+  constructor(
+    height: number,
+    txHash: string,
+    from: string,
+  ) {
+    super(height, txHash, from);
+  }
+}
+

@@ -1,3 +1,5 @@
+import exp from "constants";
+
 export const transactionResult = {
   responseTime: 1585467706110,
   statusCode: 1000,
@@ -2048,227 +2050,227 @@ export const nonFungibleTokenModifyTxResult = {
 };
 
 export const attachNFTTxResult =
-  // collection/MsgAttach
-  {
-    height: 199344,
-    txhash: "5F2C29B4A058CF21E858AF1890E1E76DA5F24F264975D768DC2E486BAC6B9422",
-    codespace: "",
-    code: 0,
-    index: 0,
-    data: "",
-    logs: [
-      {
-        msgIndex: 0,
-        log: "",
-        events: [
-          {
-            type: "attach",
-            attributes: [
-              {
-                key: "contract_id",
-                value: "61e14383",
-              },
-              {
-                key: "from",
-                value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              },
-              {
-                key: "to_token_id",
-                value: "100000080000000f",
-              },
-              {
-                key: "token_id",
-                value: "100000080000000e",
-              },
-              {
-                key: "old_root_token_id",
-                value: "100000080000000e",
-              },
-              {
-                key: "new_root_token_id",
-                value: "100000080000000f",
-              },
-            ],
-          },
-          {
-            type: "message",
-            attributes: [
-              {
-                key: "module",
-                value: "collection",
-              },
-              {
-                key: "sender",
-                value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              },
-              {
-                key: "action",
-                value: "attach",
-              },
-            ],
-          },
-          {
-            type: "operation_root_changed",
-            attributes: [
-              {
-                key: "token_id",
-                value: "100000080000000e",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    info: "",
-    gasWanted: 100000000,
-    gasUsed: 24438,
-    tx: {
-      type: "cosmos-sdk/StdTx",
-      value: {
-        msg: [
-          {
-            type: "collection/MsgAttach",
-            value: {
-              from: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              contractId: "61e14383",
-              toTokenId: "100000080000000f",
-              tokenId: "100000080000000e",
+// collection/MsgAttach
+{
+  height: 199344,
+  txhash: "5F2C29B4A058CF21E858AF1890E1E76DA5F24F264975D768DC2E486BAC6B9422",
+  codespace: "",
+  code: 0,
+  index: 0,
+  data: "",
+  logs: [
+    {
+      msgIndex: 0,
+      log: "",
+      events: [
+        {
+          type: "attach",
+          attributes: [
+            {
+              key: "contract_id",
+              value: "61e14383",
             },
-          },
-        ],
-        fee: {
-          gas: 100000000,
-          amount: [],
+            {
+              key: "from",
+              value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            },
+            {
+              key: "to_token_id",
+              value: "100000080000000f",
+            },
+            {
+              key: "token_id",
+              value: "100000080000000e",
+            },
+            {
+              key: "old_root_token_id",
+              value: "100000080000000e",
+            },
+            {
+              key: "new_root_token_id",
+              value: "100000080000000f",
+            },
+          ],
         },
-        memo: "",
-        signatures: [
-          {
-            pubKey: {
-              type: "tendermint/PubKeySecp256k1",
-              value: "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy",
+        {
+          type: "message",
+          attributes: [
+            {
+              key: "module",
+              value: "collection",
             },
-            signature:
-              "4MRKtMIK3gazQUzzGEMt2KnRuIWeSs1opwUjIxrsHLtdCOP+3M7v6lYN2E49//qthaNDNKOJQiJ5pQMZwmw9Jg==",
-          },
-        ],
-      },
+            {
+              key: "sender",
+              value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            },
+            {
+              key: "action",
+              value: "attach",
+            },
+          ],
+        },
+        {
+          type: "operation_root_changed",
+          attributes: [
+            {
+              key: "token_id",
+              value: "100000080000000e",
+            },
+          ],
+        },
+      ],
     },
-    timestamp: 1618370726000,
-  };
+  ],
+  info: "",
+  gasWanted: 100000000,
+  gasUsed: 24438,
+  tx: {
+    type: "cosmos-sdk/StdTx",
+    value: {
+      msg: [
+        {
+          type: "collection/MsgAttach",
+          value: {
+            from: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            contractId: "61e14383",
+            toTokenId: "100000080000000f",
+            tokenId: "100000080000000e",
+          },
+        },
+      ],
+      fee: {
+        gas: 100000000,
+        amount: [],
+      },
+      memo: "",
+      signatures: [
+        {
+          pubKey: {
+            type: "tendermint/PubKeySecp256k1",
+            value: "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy",
+          },
+          signature:
+            "4MRKtMIK3gazQUzzGEMt2KnRuIWeSs1opwUjIxrsHLtdCOP+3M7v6lYN2E49//qthaNDNKOJQiJ5pQMZwmw9Jg==",
+        },
+      ],
+    },
+  },
+  timestamp: 1618370726000,
+};
 
 export const attachFromNFTTxResult =
-  // collection/MsgAttachFrom
-  {
-    height: 199366,
-    txhash: "C3A89E0DA50C9D73A9D0727970040504A49987D6789FC9B8B52C615749F58E06",
-    codespace: "",
-    code: 0,
-    index: 0,
-    data: "",
-    logs: [
-      {
-        msgIndex: 0,
-        log: "",
-        events: [
-          {
-            type: "attach_from",
-            attributes: [
-              {
-                key: "contract_id",
-                value: "61e14383",
-              },
-              {
-                key: "proxy",
-                value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              },
-              {
-                key: "from",
-                value: "tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph",
-              },
-              {
-                key: "to_token_id",
-                value: "100000010000000c",
-              },
-              {
-                key: "token_id",
-                value: "100000010000000b",
-              },
-              {
-                key: "old_root_token_id",
-                value: "100000010000000b",
-              },
-              {
-                key: "new_root_token_id",
-                value: "100000010000000c",
-              },
-            ],
-          },
-          {
-            type: "message",
-            attributes: [
-              {
-                key: "module",
-                value: "collection",
-              },
-              {
-                key: "sender",
-                value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              },
-              {
-                key: "action",
-                value: "attach_from",
-              },
-            ],
-          },
-          {
-            type: "operation_root_changed",
-            attributes: [
-              {
-                key: "token_id",
-                value: "100000010000000b",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    info: "",
-    gasWanted: 100000000,
-    gasUsed: 25583,
-    tx: {
-      type: "cosmos-sdk/StdTx",
-      value: {
-        msg: [
-          {
-            type: "collection/MsgAttachFrom",
-            value: {
-              proxy: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              contractId: "61e14383",
-              from: "tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph",
-              toTokenId: "100000010000000c",
-              tokenId: "100000010000000b",
+// collection/MsgAttachFrom
+{
+  height: 199366,
+  txhash: "C3A89E0DA50C9D73A9D0727970040504A49987D6789FC9B8B52C615749F58E06",
+  codespace: "",
+  code: 0,
+  index: 0,
+  data: "",
+  logs: [
+    {
+      msgIndex: 0,
+      log: "",
+      events: [
+        {
+          type: "attach_from",
+          attributes: [
+            {
+              key: "contract_id",
+              value: "61e14383",
             },
-          },
-        ],
-        fee: {
-          gas: 100000000,
-          amount: [],
+            {
+              key: "proxy",
+              value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            },
+            {
+              key: "from",
+              value: "tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph",
+            },
+            {
+              key: "to_token_id",
+              value: "100000010000000c",
+            },
+            {
+              key: "token_id",
+              value: "100000010000000b",
+            },
+            {
+              key: "old_root_token_id",
+              value: "100000010000000b",
+            },
+            {
+              key: "new_root_token_id",
+              value: "100000010000000c",
+            },
+          ],
         },
-        memo: "",
-        signatures: [
-          {
-            pubKey: {
-              type: "tendermint/PubKeySecp256k1",
-              value: "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy",
+        {
+          type: "message",
+          attributes: [
+            {
+              key: "module",
+              value: "collection",
             },
-            signature:
-              "pnuJr65omjGaVKX66GnK7O32nRLznhiBQTsW0+5muLVwbGO5AHWI2meUg63Z95pEz1YB/wAaHxdC57ocUr0t9A==",
-          },
-        ],
-      },
+            {
+              key: "sender",
+              value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            },
+            {
+              key: "action",
+              value: "attach_from",
+            },
+          ],
+        },
+        {
+          type: "operation_root_changed",
+          attributes: [
+            {
+              key: "token_id",
+              value: "100000010000000b",
+            },
+          ],
+        },
+      ],
     },
-    timestamp: 1618370726000,
-  };
+  ],
+  info: "",
+  gasWanted: 100000000,
+  gasUsed: 25583,
+  tx: {
+    type: "cosmos-sdk/StdTx",
+    value: {
+      msg: [
+        {
+          type: "collection/MsgAttachFrom",
+          value: {
+            proxy: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            contractId: "61e14383",
+            from: "tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph",
+            toTokenId: "100000010000000c",
+            tokenId: "100000010000000b",
+          },
+        },
+      ],
+      fee: {
+        gas: 100000000,
+        amount: [],
+      },
+      memo: "",
+      signatures: [
+        {
+          pubKey: {
+            type: "tendermint/PubKeySecp256k1",
+            value: "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy",
+          },
+          signature:
+            "pnuJr65omjGaVKX66GnK7O32nRLznhiBQTsW0+5muLVwbGO5AHWI2meUg63Z95pEz1YB/wAaHxdC57ocUr0t9A==",
+        },
+      ],
+    },
+  },
+  timestamp: 1618370726000,
+};
 
 export const detachNFTTxResult = {
   height: 199446,
@@ -3015,201 +3017,201 @@ export const mintNonFungibleTxResult = {
 };
 
 export const burnNonFungibleTxResult =
-  // collection/MsgBurnNFT
-  {
-    height: 183737,
-    txhash: "40CBB20B0C78A61864184EF11F05EA2EDBB582D08700C7DFAE4AE5495D63BC56",
-    codespace: "",
-    code: 0,
-    index: 0,
-    data: "",
-    logs: [
-      {
-        msgIndex: 0,
-        log: "",
-        events: [
-          {
-            type: "burn_nft",
-            attributes: [
-              {
-                key: "contract_id",
-                value: "61e14383",
-              },
-              {
-                key: "from",
-                value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              },
-              {
-                key: "token_id",
-                value: "1000000100000003",
-              },
-            ],
-          },
-          {
-            type: "message",
-            attributes: [
-              {
-                key: "module",
-                value: "collection",
-              },
-              {
-                key: "sender",
-                value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              },
-              {
-                key: "action",
-                value: "burn_nft",
-              },
-            ],
-          },
-          {
-            type: "operation_burn_nft",
-            attributes: [
-              {
-                key: "token_id",
-                value: "1000000100000003",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    info: "",
-    gasWanted: 100000000,
-    gasUsed: 280717,
-    tx: {
-      type: "cosmos-sdk/StdTx",
-      value: {
-        msg: [
-          {
-            type: "collection/MsgBurnNFT",
-            value: {
-              from: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              contractId: "61e14383",
-              tokenIds: ["1000000100000003"],
+// collection/MsgBurnNFT
+{
+  height: 183737,
+  txhash: "40CBB20B0C78A61864184EF11F05EA2EDBB582D08700C7DFAE4AE5495D63BC56",
+  codespace: "",
+  code: 0,
+  index: 0,
+  data: "",
+  logs: [
+    {
+      msgIndex: 0,
+      log: "",
+      events: [
+        {
+          type: "burn_nft",
+          attributes: [
+            {
+              key: "contract_id",
+              value: "61e14383",
             },
-          },
-        ],
-        fee: {
-          gas: 100000000,
-          amount: [],
+            {
+              key: "from",
+              value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            },
+            {
+              key: "token_id",
+              value: "1000000100000003",
+            },
+          ],
         },
-        memo: "",
-        signatures: [
-          {
-            pubKey: {
-              type: "tendermint/PubKeySecp256k1",
-              value: "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy",
+        {
+          type: "message",
+          attributes: [
+            {
+              key: "module",
+              value: "collection",
             },
-            signature:
-              "eqWCFeKzSnJkTwq45JeUkjTPngofQNiRL0xMsvICv6QLb1o7fa8towGS/Vk02TY6Yh1c/JdP1flGp+9fZn+pFw==",
-          },
-        ],
-      },
+            {
+              key: "sender",
+              value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            },
+            {
+              key: "action",
+              value: "burn_nft",
+            },
+          ],
+        },
+        {
+          type: "operation_burn_nft",
+          attributes: [
+            {
+              key: "token_id",
+              value: "1000000100000003",
+            },
+          ],
+        },
+      ],
     },
-    timestamp: 1618370726000,
-  };
+  ],
+  info: "",
+  gasWanted: 100000000,
+  gasUsed: 280717,
+  tx: {
+    type: "cosmos-sdk/StdTx",
+    value: {
+      msg: [
+        {
+          type: "collection/MsgBurnNFT",
+          value: {
+            from: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            contractId: "61e14383",
+            tokenIds: ["1000000100000003"],
+          },
+        },
+      ],
+      fee: {
+        gas: 100000000,
+        amount: [],
+      },
+      memo: "",
+      signatures: [
+        {
+          pubKey: {
+            type: "tendermint/PubKeySecp256k1",
+            value: "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy",
+          },
+          signature:
+            "eqWCFeKzSnJkTwq45JeUkjTPngofQNiRL0xMsvICv6QLb1o7fa8towGS/Vk02TY6Yh1c/JdP1flGp+9fZn+pFw==",
+        },
+      ],
+    },
+  },
+  timestamp: 1618370726000,
+};
 
 export const burnFromNonFungibleTxResult =
-  // collection/MsgBurnNFTFrom
-  {
-    height: 199298,
-    txhash: "5B4205FF4D039695053DDBA026AB007E20F62747C22C3A5F2A79A80BC993A91E",
-    codespace: "",
-    code: 0,
-    index: 0,
-    data: "",
-    logs: [
-      {
-        msgIndex: 0,
-        log: "",
-        events: [
-          {
-            type: "burn_nft_from",
-            attributes: [
-              {
-                key: "contract_id",
-                value: "61e14383",
-              },
-              {
-                key: "proxy",
-                value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              },
-              {
-                key: "from",
-                value: "tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph",
-              },
-              {
-                key: "token_id",
-                value: "1000000100000005",
-              },
-            ],
-          },
-          {
-            type: "message",
-            attributes: [
-              {
-                key: "module",
-                value: "collection",
-              },
-              {
-                key: "sender",
-                value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              },
-              {
-                key: "action",
-                value: "burn_nft_from",
-              },
-            ],
-          },
-          {
-            type: "operation_burn_nft",
-            attributes: [
-              {
-                key: "token_id",
-                value: "1000000100000005",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    info: "",
-    gasWanted: 100000000,
-    gasUsed: 357429,
-    tx: {
-      type: "cosmos-sdk/StdTx",
-      value: {
-        msg: [
-          {
-            type: "collection/MsgBurnNFTFrom",
-            value: {
-              proxy: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-              contractId: "61e14383",
-              from: "tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph",
-              tokenIds: ["1000000100000005"],
+// collection/MsgBurnNFTFrom
+{
+  height: 199298,
+  txhash: "5B4205FF4D039695053DDBA026AB007E20F62747C22C3A5F2A79A80BC993A91E",
+  codespace: "",
+  code: 0,
+  index: 0,
+  data: "",
+  logs: [
+    {
+      msgIndex: 0,
+      log: "",
+      events: [
+        {
+          type: "burn_nft_from",
+          attributes: [
+            {
+              key: "contract_id",
+              value: "61e14383",
             },
-          },
-        ],
-        fee: {
-          gas: 100000000,
-          amount: [],
+            {
+              key: "proxy",
+              value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            },
+            {
+              key: "from",
+              value: "tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph",
+            },
+            {
+              key: "token_id",
+              value: "1000000100000005",
+            },
+          ],
         },
-        memo: "",
-        signatures: [
-          {
-            pubKey: {
-              type: "tendermint/PubKeySecp256k1",
-              value: "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy",
+        {
+          type: "message",
+          attributes: [
+            {
+              key: "module",
+              value: "collection",
             },
-            signature:
-              "Fd71AF+PmRWdGVg6Kgbdhnnyz0th/rKahzP0Yv9vrqVEtWD1WlCngrjRA23LVMVfEmULtGlKSy7Sac9Ni6+P6g==",
-          },
-        ],
-      },
+            {
+              key: "sender",
+              value: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            },
+            {
+              key: "action",
+              value: "burn_nft_from",
+            },
+          ],
+        },
+        {
+          type: "operation_burn_nft",
+          attributes: [
+            {
+              key: "token_id",
+              value: "1000000100000005",
+            },
+          ],
+        },
+      ],
     },
-    timestamp: 1618370726000,
-  };
+  ],
+  info: "",
+  gasWanted: 100000000,
+  gasUsed: 357429,
+  tx: {
+    type: "cosmos-sdk/StdTx",
+    value: {
+      msg: [
+        {
+          type: "collection/MsgBurnNFTFrom",
+          value: {
+            proxy: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+            contractId: "61e14383",
+            from: "tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph",
+            tokenIds: ["1000000100000005"],
+          },
+        },
+      ],
+      fee: {
+        gas: 100000000,
+        amount: [],
+      },
+      memo: "",
+      signatures: [
+        {
+          pubKey: {
+            type: "tendermint/PubKeySecp256k1",
+            value: "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy",
+          },
+          signature:
+            "Fd71AF+PmRWdGVg6Kgbdhnnyz0th/rKahzP0Yv9vrqVEtWD1WlCngrjRA23LVMVfEmULtGlKSy7Sac9Ni6+P6g==",
+        },
+      ],
+    },
+  },
+  timestamp: 1618370726000,
+};
 
 export const multiMintNonFungibleTxResult = {
   height: 183068,
@@ -3621,3 +3623,73 @@ export const baseCoinTransferTxResult = {
   },
   timestamp: 1618370726000,
 };
+
+
+export const accountMsgEmptyTxResult = {
+  "height": 1207045,
+  "txhash": "D52BA2668EA528C05C130DAFB19AF9877AFB4456117DE68287BF69367429A811",
+  "codespace": null,
+  "code": 0,
+  "index": 0,
+  "data": null,
+  "logs": [
+    {
+      "msgIndex": 0,
+      "log": "",
+      "events": [
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "action",
+              "value": "empty"
+            },
+            {
+              "key": "sender",
+              "value": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"
+            },
+            {
+              "key": "module",
+              "value": "account"
+            },
+            {
+              "key": "action",
+              "value": "empty"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": null,
+  "gasWanted": 46886,
+  "gasUsed": 37978,
+  "tx": {
+    "type": "cosmos-sdk/StdTx",
+    "value": {
+      "msg": [
+        {
+          "type": "account/MsgEmpty",
+          "value": {
+            "from": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"
+          }
+        }
+      ],
+      "fee": {
+        "gas": 46886,
+        "amount": []
+      },
+      "memo": "{\"timestamp\":1618360844000,\"summaryHash\":\"sha256:760404110fa9a4514139a89e58ffed2bca808d7745d0568538ef458beb5cf981\"}",
+      "signatures": [
+        {
+          "pub_key": {
+            "type": "tendermint/PubKeySecp256k1",
+            "value": "A6IdZQqI/OAcFpzeUEvyeI8XVkpqArJoJZPmAPEhCrkq"
+          },
+          "signature": "VmrwtQeQ+hk6XU4snLuOUjQPpwRN3ypA34jJ6w0xh1IhmxlMdLtLNad358OoUQii2/mWug2h9lk9Inkujzyj1g=="
+        }
+      ]
+    }
+  },
+  "timestamp": 1618360858000
+}

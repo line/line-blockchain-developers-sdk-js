@@ -68,6 +68,7 @@ import {
   fungibleTokenTransferFromTxResult,
   transferNonFungibleTxResult,
   transferFromNonFungibleTxResult,
+  accountMsgEmptyTxResult,
 } from "./test-data";
 
 describe("txResultMessageParserFactory-test", () => {
@@ -884,5 +885,16 @@ describe("txResultMessageParserFactory-test", () => {
 
     expect("tcony").to.equal(baseCoinTransferMessage.baseCoinAmount.contractId);
     expect("1").to.equal(baseCoinTransferMessage.baseCoinAmount.amount);
+  });
+
+  it("test parsing to accountMsgEmpty", () => {
+    const parser = TxResultMessageParserFactory.create(MessageType.ACCOUNT_MSG_EMPTY);
+    const accountMsgEmptyMessage = parser.parse(
+      accountMsgEmptyTxResult,
+    ) as BaseCoinTransferMessage;
+
+    expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
+      accountMsgEmptyMessage.from,
+    );
   });
 });
