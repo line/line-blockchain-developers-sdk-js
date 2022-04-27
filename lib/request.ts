@@ -208,7 +208,7 @@ export class MultiNonFungibleTokenMediaResourcesUpdateRequest {
 
 export class TokenType {
   private constructor(readonly tokenType: string) { }
-  static readonly tokenTypeFormat = new RegExp("\\d{8}");
+  static readonly tokenTypeFormat = new RegExp("\\w{8}");
   static readonly tokenTypeLength = 8;
   static from(value: string): TokenType {
     if (value.length != TokenType.tokenTypeLength) {
