@@ -1,6 +1,7 @@
 import { GenericResponse, TxResultResponse } from "./response";
 import { TxResultUtil } from "./tx-result-util";
 import { TokenUtil } from "./token-util";
+import { TxResultCodeMappingsProvider } from "./tx-result-codes";
 import {
   MessageType,
   TxResultMessage,
@@ -41,9 +42,7 @@ import {
 // TODO this interface, and just parse directly
 export interface TxResultMessageParser<T extends TxResultMessage> {
   parse(txResultResponse: TxResultResponse): T;
-  parseGenericTxResultResponse(
-    txResultResponse: GenericResponse<TxResultResponse>,
-  ): T;
+  parseGenericTxResultResponse(txResultResponse: GenericResponse<TxResultResponse>): T;
 }
 
 export class ServiceTokenIssueMessageParser
@@ -63,6 +62,7 @@ export class ServiceTokenIssueMessageParser
     txResultResponse: TxResultResponse,
   ): ServiceTokenIssueMessage {
     return new ServiceTokenIssueMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findOwnerWalletAddress(txResultResponse),
@@ -91,6 +91,7 @@ export class ServiceTokenModifyMessageParser
     txResultResponse: TxResultResponse,
   ): ServiceTokenModifyMessage {
     return new ServiceTokenModifyMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findSenderWalletAddress(txResultResponse),
@@ -118,6 +119,7 @@ export class ServiceTokenMintMessageParser
     txResultResponse: TxResultResponse,
   ): ServiceTokenMintMessage {
     return new ServiceTokenMintMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -146,6 +148,7 @@ export class ServiceTokenBurnMessageParser
     txResultResponse: TxResultResponse,
   ): ServiceTokenBurnMessage {
     return new ServiceTokenBurnMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -173,6 +176,7 @@ export class ServiceTokenBurnFromMessageParser
     txResultResponse: TxResultResponse,
   ): ServiceTokenBurnFromMessage {
     return new ServiceTokenBurnFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -200,6 +204,7 @@ export class ServiceTokenTransferMessageParser
     txResultResponse: TxResultResponse,
   ): ServiceTokenTransferMessage {
     return new ServiceTokenTransferMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -228,6 +233,7 @@ export class ServiceTokenTransferFromMessageParser
     txResultResponse: TxResultResponse,
   ): ServiceTokenTransferFromMessage {
     return new ServiceTokenTransferFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -257,6 +263,7 @@ export class ServiceTokenApprovedMessageParser
     txResultResponse: TxResultResponse,
   ): ServiceTokenApprovedMessage {
     return new ServiceTokenApprovedMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findSenderWalletAddress(txResultResponse),
@@ -284,6 +291,7 @@ export class ItemTokenCreateMessageParser
     txResultResponse: TxResultResponse,
   ): ItemTokenCreateMessage {
     return new ItemTokenCreateMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       // TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -314,6 +322,7 @@ export class ItemTokenModifyMessageParser
     const isFungible = TokenUtil.isFungible(tokenType);
     const tokenId = TxResultUtil.findTokenId(txResultResponse);
     return new ItemTokenModifyMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -346,6 +355,7 @@ export class ItemTokenApproveMessageParser
     txResultResponse: TxResultResponse,
   ): ItemTokenApproveMessage {
     return new ItemTokenApproveMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -373,6 +383,7 @@ export class ItemTokenDisapproveMessageParser
     txResultResponse: TxResultResponse,
   ): ItemTokenDisapproveMessage {
     return new ItemTokenDisapproveMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -406,6 +417,7 @@ export class NFTAttachMessageParser
     const tokenId = TxResultUtil.findTokenId(txResultResponse);
     const tokenIndex = TokenUtil.tokenIndexFrom(tokenId);
     return new NonFungibleTokenAttachMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -439,6 +451,7 @@ export class NFTAttachFromMessageParser
     const tokenId = TxResultUtil.findTokenId(txResultResponse);
     const tokenIndex = TokenUtil.tokenIndexFrom(tokenId);
     return new NonFungibleTokenAttachFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -475,6 +488,7 @@ export class NFTDetachMessageParser
     const tokenId = TxResultUtil.findTokenId(txResultResponse);
     const tokenIndex = TokenUtil.tokenIndexFrom(tokenId);
     return new NonFungibleTokenDetachMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -510,6 +524,7 @@ export class NFTDetachFromMessageParser
     const tokenId = TxResultUtil.findTokenId(txResultResponse);
     const tokenIndex = TokenUtil.tokenIndexFrom(tokenId);
     return new NonFungibleTokenDetachFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -540,6 +555,7 @@ export class IssueFungibleMessageParser
     const tokenId = TxResultUtil.findTokenIdFromEvents(txResultResponse);
     const tokenType = TokenUtil.tokenTypeFrom(tokenId);
     return new FungibleTokenIssueMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findSenderWalletAddress(txResultResponse),
@@ -571,6 +587,7 @@ export class MintFungibleMessageParser
       txResultResponse,
     );
     return new FungibleTokenMintMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -600,6 +617,7 @@ export class BurnFungibleMessageParser
       txResultResponse,
     );
     return new FungibleTokenBurnMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -626,6 +644,7 @@ export class FungibleTransferMessageParser
     txResultResponse: TxResultResponse,
   ): FungibleTokenTransferMessage {
     return new FungibleTokenTransferMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -653,6 +672,7 @@ export class FungibleTransferFromMessageParser
     txResultResponse: TxResultResponse,
   ): FungibleTokenTransferFromMessage {
     return new FungibleTokenTransferFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -684,6 +704,7 @@ export class BurnFromFungibleMessageParser
       txResultResponse,
     );
     return new FungibleTokenBurnFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -711,6 +732,7 @@ export class NonFungibleTokenIssueMessageParser
     txResultResponse: TxResultResponse,
   ): NonFungibleTokenIssueMessage {
     return new NonFungibleTokenIssueMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findSenderWalletAddress(txResultResponse),
@@ -737,6 +759,7 @@ export class NonFungibleTokenMintMessageParser
     txResultResponse: TxResultResponse,
   ): NonFungibleTokenMintMessage {
     return new NonFungibleTokenMintMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       "",
@@ -762,6 +785,7 @@ export class NonFungibleTokenBurnMessageParser
     txResultResponse: TxResultResponse,
   ): NonFungibleTokenBurnMessage {
     return new NonFungibleTokenBurnMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -789,6 +813,7 @@ export class NonFungibleTokenBurnFromMessageParser
     txResultResponse: TxResultResponse,
   ): NonFungibleTokenBurnFromMessage {
     return new NonFungibleTokenBurnFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -816,6 +841,7 @@ export class NonFungibleTokenTransferMessageParser
     txResultResponse: TxResultResponse,
   ): NonFungibleTokenTransferMessage {
     return new NonFungibleTokenTransferMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -843,6 +869,7 @@ export class NonFungibleTokenTransferFromMessageParser
     txResultResponse: TxResultResponse,
   ): NonFungibleTokenTransferFromMessage {
     return new NonFungibleTokenTransferFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -869,6 +896,7 @@ export class BaseCoinSendMessageParser
     txResultResponse: TxResultResponse,
   ): BaseCoinTransferMessage {
     return new BaseCoinTransferMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -896,6 +924,7 @@ export class AccountMsgEmptyMessageParser
     txResultResponse: TxResultResponse,
   ): AccountMsgEmptyMessage {
     return new AccountMsgEmptyMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),

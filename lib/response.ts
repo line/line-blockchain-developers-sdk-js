@@ -372,3 +372,14 @@ export class SessionTokenResponse {
 export class RequestSessionStatus {
   constructor(readonly status: RequestSessionTokenStatus) { }
 }
+
+export class ProxyApprovedResponse {
+  constructor(readonly isApproved: boolean) { }
+}
+
+export class IssueProxyResponse {
+  constructor(
+    readonly requestSessionToken: string,
+    readonly redirectUri?: string
+  ) { }
+}

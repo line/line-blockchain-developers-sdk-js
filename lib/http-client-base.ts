@@ -38,6 +38,8 @@ import {
   CursorPaginatedNonFungibleBalanceWithTypes,
   IssuedServiceToken,
   CreatedItemToken,
+  ProxyApprovedResponse,
+  IssueProxyResponse,
 } from "./response";
 
 import {
@@ -897,15 +899,31 @@ export class HttpClient {
     return this.instance.post(path, request, requestTypeParam);
   }
 
+  public isServiceTokenProxyApproved(
+    userId: string,
+    contractId: string,
+  ): Promise<GenericResponse<ProxyApprovedResponse>> {
+    const path = `/v1/users/${userId}/service-tokens/${contractId}/proxy`;
+    return this.instance.get(path);
+  }
+
   public issueServiceTokenProxyRequest(
     userId: string,
     contractId: string,
     requestType: RequestType,
     request: UserProxyRequest,
-  ) {
+  ): Promise<GenericResponse<IssueProxyResponse>> {
     const path = `/v1/users/${userId}/service-tokens/${contractId}/request-proxy`;
     const requestTypeParam = this.requestTypeParam(requestType);
     return this.instance.post(path, request, requestTypeParam);
+  }
+
+  public isItemTokenProxyApproved(
+    userId: string,
+    contractId: string,
+  ): Promise<GenericResponse<ProxyApprovedResponse>> {
+    const path = `/v1/users/${userId}/item-tokens/${contractId}/proxy`;
+    return this.instance.get(path);
   }
 
   public issueItemTokenProxyRequest(
@@ -913,7 +931,7 @@ export class HttpClient {
     contractId: string,
     requestType: RequestType,
     request: UserProxyRequest,
-  ) {
+  ): Promise<GenericResponse<IssueProxyResponse>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/request-proxy`;
     const requestTypeParam = this.requestTypeParam(requestType);
     return this.instance.post(path, request, requestTypeParam);
