@@ -3203,6 +3203,54 @@ describe("http-client-base test", () => {
       expect(error.message).to.equal("Invalid txHash - empty not allowed")
     }
   });
+
+  it("query proxy approvement of service-token", async () => {
+    const testContractId = "9636a07e";
+    const testUserId = "U556719f559479aab8b8f74c488bf6317";
+    const receivedData = {
+      responseTime: 1585467715136,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: {
+        isApproved: true,
+      }
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/users/${testUserId}/service-tokens/${testContractId}/proxy`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.isServiceTokenProxyApproved(testUserId, testContractId);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"]["isApproved"]).to.equal(true);
+  });
+
+  it("query proxy approvement of item-token", async () => {
+    const testContractId = "9636a07e";
+    const testUserId = "U556719f559479aab8b8f74c488bf6317";
+    const receivedData = {
+      responseTime: 1585467715136,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: {
+        isApproved: true,
+      }
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub.onGet(`/v1/users/${testUserId}/item-tokens/${testContractId}/proxy`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.isItemTokenProxyApproved(testUserId, testContractId);
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"]["isApproved"]).to.equal(true);
+  });
 });
 
 function assertHeaders(headers: any) {
