@@ -37,6 +37,9 @@ export enum MessageType {
 
   //BASE COIN - CASHEW ONLY
   COIN_SEND = "coin/MsgSend",
+
+  // Account
+  ACCOUNT_MSG_EMPTY = "account/MsgEmpty",
 }
 
 // data classes(value objects) from tx-results
@@ -652,3 +655,16 @@ export class BaseCoinTransferMessage extends TxResultMessage {
     super(txResultCode, height, txHash, from);
   }
 }
+
+
+export class AccountMsgEmptyMessage extends TxResultMessage {
+  constructor(
+    txResultCode: TxResultCode,
+    height: number,
+    txHash: string,
+    from: string,
+  ) {
+    super(txResultCode, height, txHash, from);
+  }
+}
+

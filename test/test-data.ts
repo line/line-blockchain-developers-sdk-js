@@ -1,3 +1,5 @@
+import exp from "constants";
+
 export const transactionResult = {
   responseTime: 1585467706110,
   statusCode: 1000,
@@ -3621,6 +3623,76 @@ export const baseCoinTransferTxResult = {
   },
   timestamp: 1618370726000,
 };
+
+
+export const accountMsgEmptyTxResult = {
+  "height": 1207045,
+  "txhash": "D52BA2668EA528C05C130DAFB19AF9877AFB4456117DE68287BF69367429A811",
+  "codespace": null,
+  "code": 0,
+  "index": 0,
+  "data": null,
+  "logs": [
+    {
+      "msgIndex": 0,
+      "log": "",
+      "events": [
+        {
+          "type": "message",
+          "attributes": [
+            {
+              "key": "action",
+              "value": "empty"
+            },
+            {
+              "key": "sender",
+              "value": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"
+            },
+            {
+              "key": "module",
+              "value": "account"
+            },
+            {
+              "key": "action",
+              "value": "empty"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "info": null,
+  "gasWanted": 46886,
+  "gasUsed": 37978,
+  "tx": {
+    "type": "cosmos-sdk/StdTx",
+    "value": {
+      "msg": [
+        {
+          "type": "account/MsgEmpty",
+          "value": {
+            "from": "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"
+          }
+        }
+      ],
+      "fee": {
+        "gas": 46886,
+        "amount": []
+      },
+      "memo": "{\"timestamp\":1618360844000,\"summaryHash\":\"sha256:760404110fa9a4514139a89e58ffed2bca808d7745d0568538ef458beb5cf981\"}",
+      "signatures": [
+        {
+          "pub_key": {
+            "type": "tendermint/PubKeySecp256k1",
+            "value": "A6IdZQqI/OAcFpzeUEvyeI8XVkpqArJoJZPmAPEhCrkq"
+          },
+          "signature": "VmrwtQeQ+hk6XU4snLuOUjQPpwRN3ypA34jJ6w0xh1IhmxlMdLtLNad358OoUQii2/mWug2h9lk9Inkujzyj1g=="
+        }
+      ]
+    }
+  },
+  "timestamp": 1618360858000
+}
 
 export const failedTransferFromNonFungibleTxResult = {
   height: 1449984,

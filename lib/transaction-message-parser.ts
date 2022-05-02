@@ -36,6 +36,7 @@ import {
   NonFungibleTokenTransferMessage,
   NonFungibleTokenTransferFromMessage,
   BaseCoinTransferMessage,
+  AccountMsgEmptyMessage,
 } from "./transaction-messages";
 
 // TODO this interface, and just parse directly
@@ -906,6 +907,32 @@ export class BaseCoinSendMessageParser
   }
 }
 
+export class AccountMsgEmptyMessageParser
+  implements TxResultMessageParser<AccountMsgEmptyMessage> {
+  parse(txResultResponse: TxResultResponse): AccountMsgEmptyMessage {
+    return this.createMessage(txResultResponse);
+  }
+
+  parseGenericTxResultResponse(
+    response: GenericResponse<TxResultResponse>,
+  ): AccountMsgEmptyMessage {
+    const txResultResponse = response.responseData;
+    return this.createMessage(txResultResponse);
+  }
+
+  private createMessage(
+    txResultResponse: TxResultResponse,
+  ): AccountMsgEmptyMessage {
+    return new AccountMsgEmptyMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
+      txResultResponse.height,
+      txResultResponse.txhash,
+      TxResultUtil.findFromWalletAddress(txResultResponse),
+    );
+  }
+}
+
+
 export class TxResultMessageParserFactory {
   static create(
     messageType: MessageType,
@@ -998,6 +1025,9 @@ export class TxResultMessageParserFactory {
         break;
       case MessageType.COIN_SEND:
         txResultMessageParser = new BaseCoinSendMessageParser();
+        break;
+      case MessageType.ACCOUNT_MSG_EMPTY:
+        txResultMessageParser = new AccountMsgEmptyMessageParser();
         break;
       default:
         return null;
