@@ -224,7 +224,7 @@ import { GenericResponse, TxResultResponse } from './lib/response';
 ```
 
 ### `SignatureGenerator`
-This class provides a functionality to [generate signatures](https://docs-blockchain.line.biz/api-guide/Generating-Signature) for a request.
+This class provides a functionality to [generate signatures](https://docs-blockchain.line.biz/api-guide/Authentication#generating-signature) for a request.
 
 All API requests, except for the endpoint to retrieve the server time, must pass authentication information and be signed. Signing is a bit annoying, but never mind, fortunately, `HttpClient` itself will import this and generate signatures before sending a request. 
 
