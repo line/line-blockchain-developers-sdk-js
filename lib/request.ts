@@ -231,7 +231,7 @@ export class TokenType {
 
 export class TokenId {
   private constructor(readonly tokenId: string) { }
-  static readonly tokenIdFormat = new RegExp("\\d{8}\\d{8}");
+  static readonly tokenIdFormat = new RegExp("\\w{8}\\d{8}");
   static readonly tokenIdLength = 16;
   static from(value: string): TokenId {
     if (value.length != TokenId.tokenIdLength) {
