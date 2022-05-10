@@ -129,11 +129,13 @@ export class HttpClient {
   };
 
   private _handleResponse = ({ data }: AxiosResponse) => {
+    this.logger.debug("Response data", JSON.stringify(data));
     return data;
   };
   protected _handleError = (error: any) => {
     const wrappedError = this.wrapError(error);
     // console.log(wrappedError);
+    this.logger.error("Fail to call API, cause:", wrappedError.toString());
     return Promise.reject(wrappedError);
   };
 
@@ -143,6 +145,7 @@ export class HttpClient {
       config.data = _.omitBy(config.data, _.isNil);
     }
     this.addRequestHeaders(config);
+    this.logger.debug(`API Request - url: ${config.url},headers: ${JSON.stringify(config.headers)}, data: ${config.data || "empty"}`)
 
     return config;
   };
@@ -151,7 +154,7 @@ export class HttpClient {
     if (err.response) {
       return new HTTPError(
         err.message,
-        err.response.status,
+        err.response.data.statusCode,
         err.response.statusText,
         err.response.data.statusMessage || "",
         err,
