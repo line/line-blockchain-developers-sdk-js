@@ -13,11 +13,19 @@ export class RequestError extends Error {
   ) {
     super(message);
   }
+
+  public toString = (): string => {
+    return `RequestError - message: ${this.message}, code: ${this.code}, detailErrorMessage: ${this.detailErrorMessage}`
+  }
 }
 
 export class ReadError extends Error {
   constructor(private originalError: Error) {
     super(originalError.message);
+  }
+
+  public toString = (): string => {
+    return `ReadError - error: ${this.originalError}`
   }
 }
 
@@ -30,5 +38,9 @@ export class HTTPError extends Error {
     public originalError: any,
   ) {
     super(message);
+  }
+
+  public toString = (): string => {
+    return `HTTPError - message: ${this.message}, statusCode: ${this.statusCode}, statusMessage: ${this.statusMessage}, detailErrorMessage: ${this.detailErrorMessage}`
   }
 }
