@@ -841,7 +841,7 @@ export class HttpClient {
     contractId: string,
     tokenTypes: Array<string>,
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
-    const path = `/v1/item-tokens/${contractId}/fungibles/icon`;
+    const path = `/v1/item-tokens/${contractId}/fungibles/media-resources`;
     const updateList = TokenType.fromMulti(tokenTypes);
     const request = new MultiFungibleTokenMediaResourcesUpdateRequest(
       updateList,
@@ -853,7 +853,7 @@ export class HttpClient {
     contractId: string,
     tokenIds: Array<string>,
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
-    const path = `/v1/item-tokens/${contractId}/non-fungibles/icon`;
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/media-resources`;
     const updateList = TokenTypeAndIndex.fromMulti(tokenIds);
     const request = new MultiNonFungibleTokenMediaResourcesUpdateRequest(
       updateList,
@@ -861,13 +861,68 @@ export class HttpClient {
     return this.instance.put(path, request);
   }
 
+  public updateTokenThumbnailResources(
+    contractId: string,
+    tokenIdentifiers: Array<string>,
+    isFungibleRequest: boolean = true,
+  ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
+    if (isFungibleRequest) {
+      return this.updateFungibleTokenThumbnailResources(
+        contractId,
+        tokenIdentifiers,
+      );
+    } else {
+      return this.updateNonFungibleTokenThumbnailResources(
+        contractId,
+        tokenIdentifiers,
+      );
+    }
+  }
+
+  public updateFungibleTokenThumbnailResources(
+    contractId: string,
+    tokenTypes: Array<string>,
+  ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
+    const path = `/v1/item-tokens/${contractId}/fungibles/thumbnail`;
+    const updateList = TokenType.fromMulti(tokenTypes);
+    const request = new MultiFungibleTokenMediaResourcesUpdateRequest(
+      updateList,
+    );
+    return this.instance.put(path, request);
+  }
+
+
+  public updateNonFungibleTokenThumbnailResources(
+    contractId: string,
+    tokenIds: Array<string>,
+  ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/thumbnail`;
+    const updateList = TokenTypeAndIndex.fromMulti(tokenIds);
+    const request = new MultiNonFungibleTokenMediaResourcesUpdateRequest(
+      updateList,
+    );
+    return this.instance.put(path, request);
+  }
+
+
   public fungibleTokenMediaResourcesUpdateStatuses(
     contractId: string,
     requestId: string,
   ): Promise<
     GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>
   > {
-    const path = `/v1/item-tokens/${contractId}/fungibles/icon/${requestId}/status`;
+    const path = `/v1/item-tokens/${contractId}/fungibles/media-resources/${requestId}/status`;
+    return this.instance.get(path);
+  }
+
+
+  public fungibleTokenThumbnailResourcesUpdateStatuses(
+    contractId: string,
+    requestId: string,
+  ): Promise<
+    GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>
+  > {
+    const path = `/v1/item-tokens/${contractId}/fungibles/thumbnails/${requestId}/status`;
     return this.instance.get(path);
   }
 
@@ -877,7 +932,17 @@ export class HttpClient {
   ): Promise<
     GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>
   > {
-    const path = `/v1/item-tokens/${contractId}/non-fungibles/icon/${requestId}/status`;
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/media-resources/${requestId}/status`;
+    return this.instance.get(path);
+  }
+
+  public nonFungibleTokenThumbnailResourcesUpdateStatuses(
+    contractId: string,
+    requestId: string,
+  ): Promise<
+    GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>
+  > {
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/thumbnails/${requestId}/status`;
     return this.instance.get(path);
   }
 
