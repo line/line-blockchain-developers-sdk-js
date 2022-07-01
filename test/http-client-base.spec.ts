@@ -2791,7 +2791,7 @@ describe("http-client-base test", () => {
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    const path = `/v1/item-tokens/${testContractId}/fungibles/thumbnail`;
+    const path = `/v1/item-tokens/${testContractId}/fungibles/thumbnails`;
     stub.onPut(path).reply(config => {
       assertHeaders(config.headers);
       expect(config.data).to.equal(JSON.stringify(expectedRequest));
@@ -2836,7 +2836,7 @@ describe("http-client-base test", () => {
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    const path = `/v1/item-tokens/${testContractId}/non-fungibles/thumbnail`;
+    const path = `/v1/item-tokens/${testContractId}/non-fungibles/thumbnails`;
     stub.onPut(path).reply(config => {
       assertHeaders(config.headers);
       expect(config.data).to.equal(JSON.stringify(expectedRequest));

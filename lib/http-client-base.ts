@@ -883,7 +883,7 @@ export class HttpClient {
     contractId: string,
     tokenTypes: Array<string>,
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
-    const path = `/v1/item-tokens/${contractId}/fungibles/thumbnail`;
+    const path = `/v1/item-tokens/${contractId}/fungibles/thumbnails`;
     const updateList = TokenType.fromMulti(tokenTypes);
     const request = new MultiFungibleTokenMediaResourcesUpdateRequest(
       updateList,
@@ -896,7 +896,7 @@ export class HttpClient {
     contractId: string,
     tokenIds: Array<string>,
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
-    const path = `/v1/item-tokens/${contractId}/non-fungibles/thumbnail`;
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/thumbnails`;
     const updateList = TokenTypeAndIndex.fromMulti(tokenIds);
     const request = new MultiNonFungibleTokenMediaResourcesUpdateRequest(
       updateList,
