@@ -218,8 +218,8 @@ export class NonFungibleBalance {
 export class CursorPaginatedNonFungibleBalanceWithTypes {
   constructor(
     readonly list: Array<NonFungibleBalanceWithType>,
-    readonly prePageToken: string,
-    readonly nextPageToken: string,
+    readonly prePageToken?: string,
+    readonly nextPageToken?: string,
   ) { }
 }
 export class NonFungibleBalanceWithType {
