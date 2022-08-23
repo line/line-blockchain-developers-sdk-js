@@ -74,8 +74,8 @@ export class TokenMediaResourceUpdateResponse {
 export class FungibleTokenMediaResourceUpdateStatusResponse {
   constructor(
     readonly tokenType: string,
-    readonly url: string,
     readonly status: TokenMediaResourceUpdateStatus,
+    readonly url?: string,
     readonly detailStatus?: string,
   ) { }
 }
@@ -84,8 +84,8 @@ export class NonFungibleTokenMediaResourceUpdateStatusResponse {
   constructor(
     readonly tokenType: string,
     readonly tokenIndex: string,
-    readonly url: string,
     readonly status: TokenMediaResourceUpdateStatus,
+    readonly url?: string,
     readonly detailStatus?: string,
   ) { }
 }
