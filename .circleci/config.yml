@@ -19,13 +19,6 @@ jobs:
       - run: |
           npm install
           npm run test
-  integration-test:
-    executor: node12-executor
-    steps:
-      - checkout
-      - run: |
-          npm install
-          npm run test:integration
 
 workflows:
   push-workflow:
