@@ -318,7 +318,7 @@ export class NonFungibleTokenType {
     readonly totalMint: number,
     readonly totalBurn: number,
     readonly createdAt: number,
-    readonly tokens: Array<NonFungibleIndex>,
+    readonly token: Array<NonFungibleIndex>,
   ) { }
 }
 
