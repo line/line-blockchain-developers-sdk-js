@@ -44,6 +44,7 @@
     "axios": "^0.21.1",
     "crypto-js": "^4.0.0",
     "crypto-random-string": "^3.3.0",
+    "js-base64": "^3.7.3",
     "jsonpath": "^1.1.1",
     "lodash": "^4.17.20",
     "tslog": "^3.0.2",
