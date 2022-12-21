@@ -6,20 +6,16 @@ export class RawTransactionResult {
         readonly height: number,
         readonly index: number,
         readonly code: number,
-        readonly codeSpace: string,
-        readonly txHash: string,
+        readonly txhash: string,
         readonly timestamp: number,
         readonly gasWanted: number,
         readonly gasUsed: number,
         readonly logs: Array<RawTransactionLog>,
         readonly tx: RawTransactionRequest,
-        readonly data?: string,
-        readonly info?: string,
+        readonly codespace?: string | null,
+        readonly data?: string | null,
+        readonly info?: string | null,
     ) { }
-    // TODO getSignerAddresses
-    getSignerAddresses(hrpPrefix: string): Array<string> {
-        return RawTransactionSignerAddressUtil.getSignerAddresses(hrpPrefix, this.tx);
-    }
 }
 
 export class RawTransactionSignerAddressUtil {
@@ -46,11 +42,17 @@ export class RawTransactionEvent {
         readonly type: string,
         readonly attributes: Array<RawTransactionEventAttribute>,
     ) { }
+}
 
-    findAttributeNotNull = function (
-        attributeType: EventAttributeType, defaultValue: String
+export class RawTransactionEventUtil {
+    private constructor() { }
+
+    public static findAttributeNotNull(
+        rawTransactionEvent: RawTransactionEvent,
+        attributeType: EventAttributeType,
+        defaultValue: String
     ) {
-        let foundAttributeValue = _.head(_.filter(this.attributes, it => attributeType.matches(it.key)));
+        let foundAttributeValue = _.head(_.filter(rawTransactionEvent.attributes, it => attributeType.matches(it.key)));
         if (foundAttributeValue) {
             return foundAttributeValue.value
         } else {
@@ -99,7 +101,6 @@ export class RawTransactionRequestPubKey {
 
 export class RawTransactionRequestMessage {
     constructor(
-        readonly msgIndex: number,
         readonly type: string,
         readonly value: any,
     ) { }

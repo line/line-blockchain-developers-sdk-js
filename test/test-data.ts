@@ -3682,7 +3682,7 @@ export const accountMsgEmptyTxResult = {
       "memo": "{\"timestamp\":1618360844000,\"summaryHash\":\"sha256:760404110fa9a4514139a89e58ffed2bca808d7745d0568538ef458beb5cf981\"}",
       "signatures": [
         {
-          "pub_key": {
+          "pubKey": {
             "type": "tendermint/PubKeySecp256k1",
             "value": "A6IdZQqI/OAcFpzeUEvyeI8XVkpqArJoJZPmAPEhCrkq"
           },

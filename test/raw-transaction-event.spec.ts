@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { RawTransactionEvent, RawTransactionEventAttribute, EventAttributeType, EventAttributeUtil, EventAttributeTypes } from "../lib/tx-raw-models";
+import { RawTransactionEvent, RawTransactionEventUtil, RawTransactionEventAttribute, EventAttributeType, EventAttributeUtil, EventAttributeTypes } from "../lib/tx-raw-models";
 
 describe("RawTransactionEvent test", () => {
     it("test findAttributeNotNull with unknown eventAttributeType", () => {
@@ -18,7 +18,7 @@ describe("RawTransactionEvent test", () => {
             }
         }
 
-        let actualValue = rawTransactionEvent.findAttributeNotNull(testEventAttributeType, defaultValue);
+        let actualValue = RawTransactionEventUtil.findAttributeNotNull(rawTransactionEvent, testEventAttributeType, defaultValue);
         let expectedValue = defaultValue;
         expect(expectedValue).to.equal(actualValue);
     });
@@ -31,7 +31,7 @@ describe("RawTransactionEvent test", () => {
         )
 
         let testEventAttributeType = EventAttributeTypes.getInstance().Amount;
-        let actualValue = rawTransactionEvent.findAttributeNotNull(testEventAttributeType, "")
+        let actualValue = RawTransactionEventUtil.findAttributeNotNull(rawTransactionEvent, testEventAttributeType, "")
         let expectedValue = "120000"
         expect(expectedValue).to.equal(actualValue);
     });
@@ -44,7 +44,7 @@ describe("RawTransactionEvent test", () => {
         )
 
         let testEventAttributeType = EventAttributeTypes.getInstance().From;
-        let actualValue = rawTransactionEvent.findAttributeNotNull(testEventAttributeType, "")
+        let actualValue = RawTransactionEventUtil.findAttributeNotNull(rawTransactionEvent, testEventAttributeType, "")
         let expectedValue = "test-from-address"
         expect(expectedValue).to.equal(actualValue);
     });
@@ -57,7 +57,7 @@ describe("RawTransactionEvent test", () => {
         )
 
         let testEventAttributeType = EventAttributeTypes.getInstance().Approver;
-        let actualValue = rawTransactionEvent.findAttributeNotNull(testEventAttributeType, "")
+        let actualValue = RawTransactionEventUtil.findAttributeNotNull(rawTransactionEvent, testEventAttributeType, "")
         let expectedValue = "test-approver-address"
         expect(expectedValue).to.equal(actualValue);
     });
