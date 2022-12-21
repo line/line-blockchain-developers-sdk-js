@@ -1,6 +1,6 @@
 import { Base64 } from "js-base64";
 import _ from "lodash";
-
+import { pubkeyToAddress } from "@cosmjs/amino";
 export class RawTransactionResult {
     constructor(
         readonly height: number,
@@ -17,10 +17,23 @@ export class RawTransactionResult {
         readonly info?: string,
     ) { }
     // TODO getSignerAddresses
-    // getSignerAddresses(hrpPrefix: string): Array<string> {
-    //     // TODO Implement
-    //     return [...""]
-    // }
+    getSignerAddresses(hrpPrefix: string): Array<string> {
+        let signerAddresses = _.map(this.tx.value.signatures, it => {
+            return pubkeyToAddress(it.pubKey, hrpPrefix)
+        });
+        return signerAddresses
+    }
+}
+
+export class RawTransactionSignerAddressUtil {
+    private constructor() { }
+
+    public static getSignerAddresses(hrpPrefix: string, tx: RawTransactionRequest): Array<string> {
+        let signerAddresses = _.map(tx.value.signatures, it => {
+            return pubkeyToAddress(it.pubKey, hrpPrefix)
+        });
+        return signerAddresses
+    }
 }
 
 export class RawTransactionLog {
@@ -59,7 +72,7 @@ export class RawTransactionEventAttribute {
 export class RawTransactionRequest {
     constructor(
         readonly type: string,
-        readonly readonlyue: RawTransactionRequestValue,
+        readonly value: RawTransactionRequestValue,
     ) { }
 }
 
