@@ -18,10 +18,7 @@ export class RawTransactionResult {
     ) { }
     // TODO getSignerAddresses
     getSignerAddresses(hrpPrefix: string): Array<string> {
-        let signerAddresses = _.map(this.tx.value.signatures, it => {
-            return pubkeyToAddress(it.pubKey, hrpPrefix)
-        });
-        return signerAddresses
+        return RawTransactionSignerAddressUtil.getSignerAddresses(hrpPrefix, this.tx);
     }
 }
 
