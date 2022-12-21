@@ -16,7 +16,7 @@ export class RawTransactionResult {
         readonly data?: string,
         readonly info?: string,
     ) { }
-
+    // TODO getSignerAddresses
     // getSignerAddresses(hrpPrefix: string): Array<string> {
     //     // TODO Implement
     //     return [...""]
@@ -267,15 +267,127 @@ export class EventAttributeUtil {
     public static hasMatchedAttriute(names: Array<string>, matchedAttrName: string): boolean {
         return _.head(_.filter(names, it => it === matchedAttrName)) != null
     }
-
 }
 
-// extension functions
-/*
-fun RawTransactionEvent.findAttributeNotNull(
-    attributeType: EventAttributeType,
-    defaultValue: String = StringUtils.EMPTY,
-): String {
-    return this.attributes.firstOrNull { attributeType.values.contains(it.key) }?.value ?: defaultValue
+export type RawEventType = {
+    type: string,
+    eventName: string,
+    candidateEventName: Array<string>
 }
-*/
+
+export class RawEventTypes {
+    private static instance: RawEventTypes
+
+    private constructor() { }
+
+    public static getInstance() {
+        if (!RawEventTypes.instance) {
+            RawEventTypes.instance = new RawEventTypes();
+        }
+        return RawEventTypes.instance;
+    }
+
+    // types 
+    AccountMsgCreateAccount: RawEventType = {
+        type: "account/MsgCreateAccount",
+        eventName: "create_account",
+        candidateEventName: ["amount"]
+    }
+
+    AccountMsgEmpty: RawEventType = { type: "account/MsgEmpty", eventName: "message", candidateEventName: [] }
+
+    // coin
+    CoinMsgSend: RawEventType = { type: "coin/MsgSend", eventName: "transfer", candidateEventName: [] }
+
+    // token
+    TokenMsgIssue: RawEventType = { type: "token/MsgIssue", eventName: "issue", candidateEventName: [] }
+    TokenMsgMint: RawEventType = { type: "token/MsgMint", eventName: "mint", candidateEventName: [] }
+    TokenMsgBurn: RawEventType = { type: "token/MsgBurn", eventName: "burn", candidateEventName: [] }
+    TokenMsgBurnFrom: RawEventType = { type: "token/MsgBurnFrom", eventName: "burn_from", candidateEventName: [] }
+    TokenMsgTransfer: RawEventType = { type: "token/MsgTransfer", eventName: "transfer", candidateEventName: [] }
+    TokenMsgTransferFrom: RawEventType = { type: "token/MsgTransferFrom", eventName: "transfer_from", candidateEventName: [] }
+    TokenMsgModify: RawEventType = { type: "token/MsgModify", eventName: "modify_token", candidateEventName: [] }
+    TokenMsgApprove: RawEventType = { type: "token/MsgApprove", eventName: "approve_token", candidateEventName: [] }
+    TokenMsgGrantPermission: RawEventType = { type: "token/MsgGrantPermission", eventName: "", candidateEventName: [] }
+    TokenMsgRevokePermission: RawEventType = { type: "token/MsgRevokePermission", eventName: "", candidateEventName: [] }
+
+    // permission
+    GrantPermission: RawEventType = { type: "", eventName: "grant_perm", candidateEventName: [] }
+
+    // collection
+    CollectionMsgCreate: RawEventType = { type: "collection/MsgCreate", eventName: "create_collection", candidateEventName: [] }
+    CollectionMsgIssueFT: RawEventType = { type: "collection/MsgIssueFT", eventName: "issue_ft", candidateEventName: [] }
+    CollectionMsgIssueNFT: RawEventType = { type: "collection/MsgIssueNFT", eventName: "issue_nft", candidateEventName: [] }
+    CollectionMsgMintFT: RawEventType = { type: "collection/MsgMintFT", eventName: "mint_ft", candidateEventName: [] }
+    CollectionMsgMintNFT: RawEventType = { type: "collection/MsgMintNFT", eventName: "mint_nft", candidateEventName: [] }
+    CollectionMsgBurnFT: RawEventType = { type: "collection/MsgBurnFT", eventName: "burn_ft", candidateEventName: [] }
+    CollectionMsgBurnFTFrom: RawEventType = { type: "collection/MsgBurnFTFrom", eventName: "burn_ft_from", candidateEventName: [] }
+    CollectionMsgBurnNFT: RawEventType = { type: "collection/MsgBurnNFT", eventName: "burn_nft", candidateEventName: [] }
+    CollectionMsgBurnNFTFrom: RawEventType = { type: "collection/MsgBurnNFTFrom", eventName: "burn_nft_from", candidateEventName: [] }
+    CollectionMsgTransferFT: RawEventType = { type: "collection/MsgTransferFT", eventName: "transfer_ft", candidateEventName: [] }
+    CollectionMsgTransferFTFrom: RawEventType = { type: "collection/MsgTransferFTFrom", eventName: "transfer_ft_from", candidateEventName: [] }
+    CollectionMsgTransferNFT: RawEventType = { type: "collection/MsgTransferNFT", eventName: "transfer_nft", candidateEventName: [] }
+    CollectionMsgTransferNFTFrom: RawEventType = { type: "collection/MsgTransferNFTFrom", eventName: "transfer_nft_from", candidateEventName: [] }
+    CollectionMsgAttach: RawEventType = { type: "collection/MsgAttach", eventName: "attach", candidateEventName: [] }
+    CollectionMsgAttachFrom: RawEventType = { type: "collection/MsgAttachFrom", eventName: "attach_from", candidateEventName: [] }
+    CollectionMsgDetach: RawEventType = { type: "collection/MsgDetach", eventName: "detach", candidateEventName: [] }
+    CollectionMsgDetachFrom: RawEventType = { type: "collection/MsgDetachFrom", eventName: "detach_from", candidateEventName: [] }
+    CollectionMsgApprove: RawEventType = { type: "collection/MsgApprove", eventName: "approve_collection", candidateEventName: [] }
+    CollectionMsgModify: RawEventType = {
+        type: "collection/MsgModify",
+        eventName: "modify_collection",
+        candidateEventName: ["modify_token", "modify_token_type"]
+    }
+    CollectionMsgDisapprove: RawEventType = { type: "collection/MsgDisapprove", eventName: "disapprove_collection", candidateEventName: [] }
+    CollectionMsgGrantPermission: RawEventType = { type: "collection/MsgGrantPermission", eventName: "", candidateEventName: [] }
+    CollectionMsgRevokePermission: RawEventType = { type: "collection/MsgRevokePermission", eventName: "", candidateEventName: [] }
+
+
+    getAllType(): Array<RawEventType> {
+        return [
+            RawEventTypes.getInstance().AccountMsgCreateAccount,
+            RawEventTypes.getInstance().AccountMsgEmpty,
+            RawEventTypes.getInstance().CoinMsgSend,
+            RawEventTypes.getInstance().TokenMsgIssue,
+            RawEventTypes.getInstance().TokenMsgMint,
+            RawEventTypes.getInstance().TokenMsgBurn,
+            RawEventTypes.getInstance().TokenMsgBurnFrom,
+            RawEventTypes.getInstance().TokenMsgTransfer,
+            RawEventTypes.getInstance().TokenMsgTransferFrom,
+            RawEventTypes.getInstance().TokenMsgModify,
+            RawEventTypes.getInstance().TokenMsgApprove,
+            RawEventTypes.getInstance().TokenMsgGrantPermission,
+            RawEventTypes.getInstance().TokenMsgRevokePermission,
+            RawEventTypes.getInstance().GrantPermission,
+            RawEventTypes.getInstance().CollectionMsgCreate,
+            RawEventTypes.getInstance().CollectionMsgIssueFT,
+            RawEventTypes.getInstance().CollectionMsgIssueNFT,
+            RawEventTypes.getInstance().CollectionMsgMintFT,
+            RawEventTypes.getInstance().CollectionMsgMintNFT,
+            RawEventTypes.getInstance().CollectionMsgBurnFT,
+            RawEventTypes.getInstance().CollectionMsgBurnFTFrom,
+            RawEventTypes.getInstance().CollectionMsgBurnNFT,
+            RawEventTypes.getInstance().CollectionMsgBurnNFTFrom,
+            RawEventTypes.getInstance().CollectionMsgTransferFT,
+            RawEventTypes.getInstance().CollectionMsgTransferFTFrom,
+            RawEventTypes.getInstance().CollectionMsgTransferNFT,
+            RawEventTypes.getInstance().CollectionMsgTransferNFTFrom,
+            RawEventTypes.getInstance().CollectionMsgAttach,
+            RawEventTypes.getInstance().CollectionMsgAttachFrom,
+            RawEventTypes.getInstance().CollectionMsgDetach,
+            RawEventTypes.getInstance().CollectionMsgDetachFrom,
+            RawEventTypes.getInstance().CollectionMsgApprove,
+            RawEventTypes.getInstance().CollectionMsgModify,
+            RawEventTypes.getInstance().CollectionMsgDisapprove,
+            RawEventTypes.getInstance().CollectionMsgGrantPermission,
+            RawEventTypes.getInstance().CollectionMsgRevokePermission
+        ];
+    }
+}
+export class RawEventTypesUtil {
+    private constructor() { }
+
+    public static convertToEventType(matchedTypeValue: string): RawEventType {
+        return _.head(_.filter(RawEventTypes.getInstance().getAllType(), it => it.type == matchedTypeValue))
+    }
+}
