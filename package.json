@@ -38,12 +38,14 @@
     "release": "npm run build && npm publish --access public"
   },
   "dependencies": {
+    "@cosmjs/amino": "^0.29.5",
     "@types/crypto-js": "^4.0.1",
     "@types/jsonpath": "^0.2.0",
     "@types/lodash": "^4.14.165",
     "axios": "^0.21.1",
     "crypto-js": "^4.0.0",
     "crypto-random-string": "^3.3.0",
+    "js-base64": "^3.7.3",
     "jsonpath": "^1.1.1",
     "lodash": "^4.17.20",
     "tslog": "^3.0.2",
