@@ -218,7 +218,7 @@ import { GenericResponse, TxResultResponse } from './lib/response';
 
 (async() => {
   const request = new MemoRequest('my first memo', walletAddress, walletSecret);
-  let response: GenericResponse<TxResultResponse> = await httpClient.createMemo(servcieId);
+  let response: GenericResponse<TxResultResponse> = await httpClient.createMemo(request);
   console.log(response.responseData.txhash);
 })();
 ```
