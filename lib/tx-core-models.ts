@@ -67,3 +67,20 @@ export class TxResult {
         }
     }
 }
+
+// events
+export class UnknownTransactionEvent implements TransactionEvent {
+    constructor(
+        readonly type: string,
+        readonly attributes: Array<string>,
+        readonly extraMessage: string
+    ) {
+        if (!attributes) {
+            this.attributes = [];
+        }
+        if (!extraMessage) {
+            this.extraMessage = "";
+        }
+    }
+    eventName: string = "UnknownTransactionEvent";
+}
