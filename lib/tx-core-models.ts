@@ -142,21 +142,19 @@ export class ServiceTokenEvent implements TransactionEvent {
     eventName: string = "";
 }
 
-export class EventTokenBurned extends ServiceTokenEvent {
+export class EventTokenBurned implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
         readonly amount: string,
         readonly fromAddress: string,
         readonly proxyAddress?: string,
-    ) {
-        super(msgIndex, contractId);
-    }
+    ) { }
 
     eventName: string = "EventTokenBurned";
 }
 
-export class EventTokenIssued extends ServiceTokenEvent {
+export class EventTokenIssued implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -167,7 +165,6 @@ export class EventTokenIssued extends ServiceTokenEvent {
         readonly decimals: number,
         readonly amount: string,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventTokenIssued";
@@ -181,7 +178,7 @@ export class TokenAttribute {
     }
 }
 
-export class EventTokenMinted extends ServiceTokenEvent {
+export class EventTokenMinted implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -189,13 +186,12 @@ export class EventTokenMinted extends ServiceTokenEvent {
         readonly minterAddress: string,
         readonly toAddress: string,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventTokenMinted";
 }
 
-export class EventTokenModified extends ServiceTokenEvent {
+export class EventTokenModified implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -203,7 +199,6 @@ export class EventTokenModified extends ServiceTokenEvent {
         readonly minterAddress: string,
         readonly tokenAttributes: Set<TokenAttribute>,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventTokenModified";
@@ -216,7 +211,7 @@ enum TokenPermission {
     TOKEN_BURN = "TOKEN_BURN"
 }
 
-export class EventTokenPermissionGranted extends ServiceTokenEvent {
+export class EventTokenPermissionGranted implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -224,52 +219,48 @@ export class EventTokenPermissionGranted extends ServiceTokenEvent {
         readonly granteeAddress: string,
         readonly granterAddress: string,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventTokenPermissionGranted";
 }
 
-export class EventTokenPermissionRenounced extends ServiceTokenEvent {
+export class EventTokenPermissionRenounced implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
         readonly permission: TokenPermission,
         readonly granteeAddress: string,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventTokenPermissionRenounced";
 }
 
-export class EventTokenProxyApproved extends ServiceTokenEvent {
+export class EventTokenProxyApproved implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
         readonly approverAddress: TokenPermission,
         readonly proxyAddress: string,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventTokenProxyApproved";
 }
 
-export class EventTokenProxyDisapproved extends ServiceTokenEvent {
+export class EventTokenProxyDisapproved implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
         readonly approverAddress: TokenPermission,
         readonly proxyAddress: string,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventTokenProxyDisapproved";
 }
 
-export class EventTokenTransferred extends ServiceTokenEvent {
+export class EventTokenTransferred implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -278,8 +269,8 @@ export class EventTokenTransferred extends ServiceTokenEvent {
         readonly toAddress: string,
         readonly proxyAddress?: string,
     ) {
-        super(msgIndex, contractId);
     }
+  eventName: string = "EventTokenTransferred";
 }
 
 // item token events
@@ -292,39 +283,6 @@ enum ItemTokenPermission {
     COLLECTION_BURN = "COLLECTION_BURN",
 }
 
-export class ItemTokenEvent implements TransactionEvent {
-    constructor(
-        readonly msgIndex: number,
-        readonly contractId: string,
-    ) {
-    }
-
-    eventName: string = "";
-}
-
-
-export class ItemFungibleTokenEvent extends ItemTokenEvent {
-    constructor(
-        readonly msgIndex: number,
-        readonly contractId: string,
-        readonly tokenType: string,
-    ) {
-        super(msgIndex, contractId);
-    }
-
-    eventName: string = "";
-}
-
-export class ItemNonFungibleTokenEvent extends ItemTokenEvent {
-    constructor(
-        readonly msgIndex: number,
-        readonly contractId: string,
-        readonly tokenTypes: Set<string>,
-        readonly tokenIndices: Set<string>,
-    ) {
-        super(msgIndex, contractId);
-    }
-}
 
 export class CollectionAttribute {
     constructor(
@@ -334,48 +292,46 @@ export class CollectionAttribute {
     }
 }
 
-export class EventCollectionCreated extends ItemTokenEvent {
+export class EventCollectionCreated implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
         readonly name: string,
         readonly creatorAddress: string,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventCollectionCreated";
 }
 
-export class EventCollectionModified extends ItemTokenEvent {
+export class EventCollectionModified implements TransactionEvent  {
     constructor(
         readonly contractId: string,
         readonly tokenAttributes: Set<CollectionAttribute>,
         readonly modifierAddress: string,
         readonly msgIndex: number,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventCollectionModified";
 }
 
-export class EventCollectionFtBurned extends ItemFungibleTokenEvent {
+export class EventCollectionFtBurned implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
+        readonly tokenType: string,
         readonly tokenId: string,
         readonly amount: string,
         readonly fromAddress: string,
         readonly proxyAddress?: string,
     ) {
-        super(msgIndex, contractId, TokenUtil.tokenTypeFrom(tokenId));
     }
 
     eventName: string = "EventCollectionFtBurned";
 }
 
-export class EventCollectionFtIssued extends ItemFungibleTokenEvent {
+export class EventCollectionFtIssued implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -386,29 +342,28 @@ export class EventCollectionFtIssued extends ItemFungibleTokenEvent {
         readonly issuerAddress: string,
         readonly receiverAddress: string,
     ) {
-        super(msgIndex, contractId, tokenType);
     }
 
     eventName: string = "EventCollectionFtIssued";
 }
 
 
-export class EventCollectionFtMinted extends ItemFungibleTokenEvent {
+export class EventCollectionFtMinted implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
+        readonly tokenType: string,
         readonly tokenId: string,
         readonly amount: string,
         readonly toAddress: string,
         readonly minterAddress: string,
     ) {
-        super(msgIndex, contractId, TokenUtil.tokenTypeFrom(tokenId));
     }
 
     eventName: string = "EventCollectionFtMinted";
 }
 
-export class EventCollectionFtModified extends ItemFungibleTokenEvent {
+export class EventCollectionFtModified implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -416,30 +371,29 @@ export class EventCollectionFtModified extends ItemFungibleTokenEvent {
         readonly tokenAttributes: Set<CollectionAttribute>,
         readonly modifierAddress: string,
     ) {
-        super(msgIndex, contractId, tokenType);
     }
 
     eventName: string = "EventCollectionFtModified";
 }
 
-export class EventCollectionFtTransferred extends ItemFungibleTokenEvent {
+export class EventCollectionFtTransferred implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
+        readonly tokenType: string,
         readonly tokenId: string,
         readonly amount: string,
         readonly fromAddress: string,
         readonly toAddress: string,
         readonly proxyAddress?: string,
     ) {
-        super(msgIndex, contractId, TokenUtil.tokenTypeFrom(tokenId));
     }
 
     eventName: string = "EventCollectionFtTransferred";
 }
 
 
-export class EventCollectionNftAttached extends ItemNonFungibleTokenEvent {
+export class EventCollectionNftAttached implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -448,19 +402,13 @@ export class EventCollectionNftAttached extends ItemNonFungibleTokenEvent {
         readonly holderAddress: string,
         readonly proxyAddress?: string
     ) {
-        super(
-            msgIndex,
-            contractId,
-            new Set([TokenUtil.tokenTypeFrom(childTokenId)]),
-            new Set([TokenUtil.tokenIndexFrom(childTokenId)])
-        );
     }
 
     eventName: string = "EventCollectionNftAttached";
 }
 
 
-export class EventCollectionNftBurned extends ItemNonFungibleTokenEvent {
+export class EventCollectionNftBurned implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -468,18 +416,12 @@ export class EventCollectionNftBurned extends ItemNonFungibleTokenEvent {
         readonly fromAddress: string,
         readonly proxyAddress?: string,
     ) {
-        super(
-            msgIndex,
-            contractId,
-            TokenUtil.tokenTypes(tokenIds),
-            TokenUtil.tokenIndices(tokenIds)
-        );
     }
 
     eventName: string = "EventCollectionNftBurned";
 }
 
-export class EventCollectionNftDetached extends ItemNonFungibleTokenEvent {
+export class EventCollectionNftDetached implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -488,18 +430,12 @@ export class EventCollectionNftDetached extends ItemNonFungibleTokenEvent {
         readonly holderAddress: string,
         readonly proxyAddress?: string
     ) {
-        super(
-            msgIndex,
-            contractId,
-            new Set([TokenUtil.tokenTypeFrom(exChildTokenId)]),
-            new Set([TokenUtil.tokenIndexFrom(exChildTokenId)])
-        );
     }
 
     eventName: string = "EventCollectionNftDetached";
 }
 
-export class EventCollectionNftHolderChanged extends ItemNonFungibleTokenEvent {
+export class EventCollectionNftHolderChanged implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -507,31 +443,24 @@ export class EventCollectionNftHolderChanged extends ItemNonFungibleTokenEvent {
         readonly fromAddress: string,
         readonly toAddress: string,
     ) {
-        super(
-            msgIndex,
-            contractId,
-            TokenUtil.tokenTypes(tokenIds),
-            TokenUtil.tokenIndices(tokenIds)
-        );
     }
 
     eventName: string = "EventCollectionNftHolderChanged";
 }
 
-export class EventCollectionNftIssued extends ItemNonFungibleTokenEvent {
+export class EventCollectionNftIssued implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
         readonly tokenType: string,
         readonly issuerAddress: string,
     ) {
-        super(msgIndex, contractId, new Set([tokenType]), EMPTY_SET);
     }
 
     eventName: string = "EventCollectionNftIssued";
 }
 
-export class EventCollectionNftMinted extends ItemNonFungibleTokenEvent {
+export class EventCollectionNftMinted implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -539,18 +468,12 @@ export class EventCollectionNftMinted extends ItemNonFungibleTokenEvent {
         readonly toAddress: string,
         readonly minterAddress: string,
     ) {
-        super(
-            msgIndex,
-            contractId,
-            TokenUtil.tokenTypes(tokenIds),
-            TokenUtil.tokenIndices(tokenIds)
-        );
     }
 
     eventName: string = "EventCollectionNftMinted";
 }
 
-export class EventCollectionNftModified extends ItemNonFungibleTokenEvent {
+export class EventCollectionNftModified implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -558,17 +481,12 @@ export class EventCollectionNftModified extends ItemNonFungibleTokenEvent {
         readonly tokenAttributes: Set<CollectionAttribute>,
         readonly modifierAddress: string,
     ) {
-        super(
-            msgIndex,
-            contractId,
-            new Set([TokenUtil.tokenTypeFrom(tokenId)]),
-            new Set([TokenUtil.tokenIndexFrom(tokenId)]));
     }
 
     eventName: string = "EventCollectionNftModified";
 }
 
-export class EventCollectionNftRootChanged extends ItemNonFungibleTokenEvent {
+export class EventCollectionNftRootChanged implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -576,18 +494,12 @@ export class EventCollectionNftRootChanged extends ItemNonFungibleTokenEvent {
         readonly oldRootTokenId: string,
         readonly newRootTokenId: string,
     ) {
-        super(
-            msgIndex,
-            contractId,
-            TokenUtil.tokenTypes(tokenIds),
-            TokenUtil.tokenIndices(tokenIds)
-        );
     }
 
     eventName: string = "EventCollectionNftRootChanged";
 }
 
-export class EventCollectionNftTransferred extends ItemNonFungibleTokenEvent {
+export class EventCollectionNftTransferred implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -596,19 +508,13 @@ export class EventCollectionNftTransferred extends ItemNonFungibleTokenEvent {
         readonly toAddress: string,
         readonly proxyAddress?: string
     ) {
-        super(
-            msgIndex,
-            contractId,
-            TokenUtil.tokenTypes(tokenIds),
-            TokenUtil.tokenIndices(tokenIds)
-        );
     }
 
     eventName: string = "EventCollectionNftTransferred";
 
 }
 
-export class EventCollectionNftTypeModified extends ItemNonFungibleTokenEvent {
+export class EventCollectionNftTypeModified implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -616,13 +522,12 @@ export class EventCollectionNftTypeModified extends ItemNonFungibleTokenEvent {
         readonly tokenAttributes: Set<CollectionAttribute>,
         readonly modifierAddress: string,
     ) {
-        super(msgIndex, contractId, new Set([tokenType]), EMPTY_SET);
     }
 
     eventName: string = "EventCollectionNftTypeModified";
 }
 
-export class EventCollectionPermissionGranted extends ItemTokenEvent {
+export class EventCollectionPermissionGranted implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -630,47 +535,43 @@ export class EventCollectionPermissionGranted extends ItemTokenEvent {
         readonly granteeAddress: string,
         readonly granterAddress?: string
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventCollectionPermissionGranted";
 
 }
 
-export class EventCollectionPermissionRenounced extends ItemTokenEvent {
+export class EventCollectionPermissionRenounced implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
         readonly permission: ItemTokenPermission,
         readonly granteeAddress: string,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventCollectionPermissionRenounced";
 }
 
-export class EventCollectionProxyApproved extends ItemTokenEvent {
+export class EventCollectionProxyApproved implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
         readonly approverAddress: string,
         readonly proxyAddress: string,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventCollectionProxyApproved";
 }
 
-export class EventCollectionProxyDisapproved extends ItemTokenEvent {
+export class EventCollectionProxyDisapproved implements TransactionEvent  {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
         readonly approverAddress: string,
         readonly proxyAddress: string,
     ) {
-        super(msgIndex, contractId);
     }
 
     eventName: string = "EventCollectionProxyDisapproved";
