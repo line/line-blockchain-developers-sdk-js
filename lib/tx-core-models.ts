@@ -196,7 +196,6 @@ export class EventTokenModified implements TransactionEvent {
         readonly msgIndex: number,
         readonly contractId: string,
         readonly modifierAddress: string,
-        readonly minterAddress: string,
         readonly tokenAttributes: Set<TokenAttribute>,
     ) {
     }
@@ -240,7 +239,7 @@ export class EventTokenProxyApproved implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
-        readonly approverAddress: TokenPermission,
+        readonly approverAddress: string,
         readonly proxyAddress: string,
     ) {
     }
@@ -264,7 +263,7 @@ export class EventTokenTransferred implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
-        readonly amount: TokenPermission,
+        readonly amount: string,
         readonly fromAddress: string,
         readonly toAddress: string,
         readonly proxyAddress?: string,
