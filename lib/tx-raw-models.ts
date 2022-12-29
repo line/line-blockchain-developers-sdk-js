@@ -581,6 +581,8 @@ export class RawMessageEventKeyTypeUtil {
     private constructor() { }
 
     public static convertToEventType(matchedTypeValue: string): RawMessageEventKeyType {
-        return _.head(_.filter(RawMessageEventKeyTypes.getInstance().getAllType(), it => it.type == matchedTypeValue))
+        return _.head(_.filter(RawMessageEventKeyTypes.getInstance().getAllType(), it => {
+            return it.type === matchedTypeValue;
+        }));
     }
 }
