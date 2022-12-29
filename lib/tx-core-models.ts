@@ -130,33 +130,6 @@ export class EventCoinTransferred implements TransactionEvent {
 
     eventName: string = "EventCoinTransferred";
 }
-
-<<<<<<< HEAD
-// service token events
-export class ServiceTokenEvent implements TransactionEvent {
-    constructor(
-        readonly msgIndex: number,
-        readonly contractId: string,
-    ) {
-    }
-
-    eventName: string = "";
-}
-
-export class EventTokenBurned implements TransactionEvent {
-    constructor(
-        readonly msgIndex: number,
-        readonly contractId: string,
-        readonly amount: string,
-        readonly fromAddress: string,
-        readonly proxyAddress?: string,
-    ) { }
-
-    eventName: string = "EventTokenBurned";
-}
-=======
->>>>>>> 228f910 (feat: account, baseCoin, token event handling)
-
 export class EventTokenIssued implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
@@ -173,7 +146,6 @@ export class EventTokenIssued implements TransactionEvent {
     eventName: string = "EventTokenIssued";
 }
 
-<<<<<<< HEAD
 export class TokenAttribute {
     constructor(
         readonly key: string,
@@ -182,8 +154,6 @@ export class TokenAttribute {
     }
 }
 
-=======
->>>>>>> 228f910 (feat: account, baseCoin, token event handling)
 export class EventTokenMinted implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
@@ -197,8 +167,6 @@ export class EventTokenMinted implements TransactionEvent {
     eventName: string = "EventTokenMinted";
 }
 
-<<<<<<< HEAD
-=======
 export class EventTokenBurned implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
@@ -211,7 +179,6 @@ export class EventTokenBurned implements TransactionEvent {
     eventName: string = "EventTokenBurned";
 }
 
->>>>>>> 228f910 (feat: account, baseCoin, token event handling)
 export class EventTokenModified implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
@@ -224,7 +191,6 @@ export class EventTokenModified implements TransactionEvent {
     eventName: string = "EventTokenModified";
 }
 
-<<<<<<< HEAD
 enum TokenPermission {
     UNDEFINED = "UNDEFINED",
     TOKEN_MODIFY = "TOKEN_MODIFY",
@@ -281,8 +247,6 @@ export class EventTokenProxyDisapproved implements TransactionEvent {
     eventName: string = "EventTokenProxyDisapproved";
 }
 
-=======
->>>>>>> 228f910 (feat: account, baseCoin, token event handling)
 export class EventTokenTransferred implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
@@ -290,17 +254,12 @@ export class EventTokenTransferred implements TransactionEvent {
         readonly amount: string,
         readonly fromAddress: string,
         readonly toAddress: string,
-<<<<<<< HEAD
-        readonly proxyAddress?: string,
-=======
         readonly proxyAddress: string = null,
->>>>>>> 228f910 (feat: account, baseCoin, token event handling)
     ) {
     }
     eventName: string = "EventTokenTransferred";
 }
 
-<<<<<<< HEAD
 // item token events
 enum ItemTokenPermission {
     UNDEFINED = "UNDEFINED",
@@ -313,18 +272,12 @@ enum ItemTokenPermission {
 
 
 export class CollectionAttribute {
-=======
-
-export class TokenAttribute {
->>>>>>> 228f910 (feat: account, baseCoin, token event handling)
     constructor(
         readonly key: string,
         readonly value: any,
     ) {
     }
 }
-
-<<<<<<< HEAD
 export class EventCollectionCreated implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
@@ -609,11 +562,3 @@ export class EventCollectionProxyDisapproved implements TransactionEvent {
 
     eventName: string = "EventCollectionProxyDisapproved";
 }
-=======
-enum TokenPermission {
-    UNDEFINED = "UNDEFINED",
-    TOKEN_MODIFY = "TOKEN_MODIFY",
-    TOKEN_MINT = "TOKEN_MINT",
-    TOKEN_BURN = "TOKEN_BURN"
-}
->>>>>>> 228f910 (feat: account, baseCoin, token event handling)
