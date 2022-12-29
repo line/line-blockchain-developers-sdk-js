@@ -10,4 +10,5 @@ describe("RawEventTypesUtil tests", () => {
         let expectedValue: RawMessageEventKeyType = RawMessageEventKeyTypes.AccountMsgCreateAccount;
         expect(expectedValue).to.equal(actualValue);
     });
+
 });

@@ -1,4 +1,4 @@
-import _ from "lodash";
+import _, { compact } from "lodash";
 import { HrpPrefix } from "./constants";
 import { TxResultResponse } from "./response";
 import {
@@ -15,8 +15,12 @@ import {
   RawTransactionLogUtil,
   RawMessageEventKeyType,
   RawTransactionEvent,
-  RawTransactionLog, RawTransactionEventUtil, EventAttributeTypes, RawMessageEventKeyTypes,
+  RawMessageEventKeyTypes,
+  RawTransactionLog,
+  RawTransactionEventUtil,
+  EventAttributeTypes,
 } from "./tx-raw-models";
+
 import {
   EventAccountCreated,
   EventCoinTransferred,
@@ -35,6 +39,7 @@ import {
   UnknownTransactionEvent
 } from "./tx-core-models";
 import { StringUtil } from "./string-util";
+
 
 export interface TxResultAdapter<T, R> {
   adapt(input: T): R

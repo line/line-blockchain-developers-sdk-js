@@ -198,7 +198,7 @@ export class EventAttributeTypes {
     }
 
     static To: EventAttributeType = {
-        names: ["sender"],
+        names: ["to"],
         matches(attributeName: string): boolean {
             return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
         }
