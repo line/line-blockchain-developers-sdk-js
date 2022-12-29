@@ -51,3 +51,5 @@ export class Validations {
 export enum HrpPrefix {
   MAIN_NET = "link", TEST_NET = "tlink",
 }
+
+export const EMPTY_SET: Set<string> = new Set();
