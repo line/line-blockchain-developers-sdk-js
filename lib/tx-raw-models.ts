@@ -1,6 +1,7 @@
 import { Base64 } from "js-base64";
 import _ from "lodash";
 import { pubkeyToAddress } from "@cosmjs/amino";
+import { EMPTY_STRING_ARRAY } from "./constants";
 export class RawTransactionResult {
     constructor(
         readonly height: number,
@@ -79,6 +80,9 @@ export class RawTransactionEventUtil {
         rawTransactionEvent: RawTransactionEvent,
         attributeType: EventAttributeType,
     ) {
+        if (!rawTransactionEvent) {
+            return null;
+        }
         let foundAttributeValue = _.head(_.filter(rawTransactionEvent.attributes, it => attributeType.matches(it.key)));
         if (foundAttributeValue) {
             return foundAttributeValue.value
@@ -93,6 +97,18 @@ export class RawTransactionEventUtil {
         defaultValue: string = ""
     ) {
         return RawTransactionEventUtil.findAttributeNotNull(rawTransactionEvent, attributeType, defaultValue);
+    }
+
+    public static findAttributes(
+        rawTransactionEvent: RawTransactionEvent,
+        attributeType: EventAttributeType,
+    ): Array<string> {
+        if (!rawTransactionEvent.attributes) {
+            return EMPTY_STRING_ARRAY;
+        } else {
+            let foundAttributeValues = _.filter(rawTransactionEvent.attributes, it => attributeType.matches(it.key));
+            return _.map(foundAttributeValues, it => it.value);
+        }
     }
 
     public static attributesExclude(event: RawTransactionEvent, ...eventTypesToExclude: EventAttributeType[]): Set<RawTransactionEventAttribute> {

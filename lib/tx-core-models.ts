@@ -310,7 +310,7 @@ export class EventCollectionFtBurned implements TransactionEvent {
         readonly tokenId: string,
         readonly amount: string,
         readonly fromAddress: string,
-        readonly proxyAddress?: string,
+        readonly proxyAddress: string = null,
     ) {
     }
 
@@ -371,7 +371,7 @@ export class EventCollectionFtTransferred implements TransactionEvent {
         readonly amount: string,
         readonly fromAddress: string,
         readonly toAddress: string,
-        readonly proxyAddress?: string,
+        readonly proxyAddress: string = null,
     ) {
     }
 
@@ -386,7 +386,7 @@ export class EventCollectionNftAttached implements TransactionEvent {
         readonly childTokenId: string,
         readonly parentTokenId: string,
         readonly holderAddress: string,
-        readonly proxyAddress?: string
+        readonly proxyAddress: string = null
     ) {
     }
 
@@ -400,7 +400,7 @@ export class EventCollectionNftBurned implements TransactionEvent {
         readonly contractId: string,
         readonly tokenIds: Set<string>,
         readonly fromAddress: string,
-        readonly proxyAddress?: string,
+        readonly proxyAddress: string = null
     ) {
     }
 
@@ -414,7 +414,7 @@ export class EventCollectionNftDetached implements TransactionEvent {
         readonly exChildTokenId: string,
         readonly exParentTokenId: string,
         readonly holderAddress: string,
-        readonly proxyAddress?: string
+        readonly proxyAddress: string = null
     ) {
     }
 
@@ -492,7 +492,7 @@ export class EventCollectionNftTransferred implements TransactionEvent {
         readonly tokenIds: Set<string>,
         readonly fromAddress: string,
         readonly toAddress: string,
-        readonly proxyAddress?: string
+        readonly proxyAddress: string = null
     ) {
     }
 

@@ -11,3 +11,17 @@ export class DenomAmount {
         )
     }
 }
+
+export class TokenIdAmount {
+    constructor(
+        readonly amount: string,
+        readonly tokenId: string,
+    ) { }
+
+    public static create(obj: any): TokenIdAmount {
+        return new TokenIdAmount(
+            obj["amount"],
+            obj["tokenId"]
+        )
+    }
+}
