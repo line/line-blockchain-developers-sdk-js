@@ -1,5 +1,5 @@
 import _, { compact } from "lodash";
-import { HrpPrefix } from "./constants";
+import { EMPTY_SET, HrpPrefix } from "./constants";
 import { TxResultResponse } from "./response";
 import {
   RawTransactionResult,
@@ -40,6 +40,7 @@ import {
 } from "./tx-core-models";
 import { StringUtil } from "./string-util";
 
+export const EMPTY_TX_EVENTS: Set<TransactionEvent> = new Set();
 
 export interface TxResultAdapter<T, R> {
   adapt(input: T): R
@@ -176,13 +177,12 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
   adapt(input: RawTransactionResult): Set<TransactionEvent> {
     let logs = input.logs;
 
-    if (input.code !== 0 || _(logs).isEmpty) {
-      // TODO create const empty
-      return new Set();
+    if (input.code !== 0 || _(logs).isEmpty()) {
+      return EMPTY_TX_EVENTS;
     } else {
       let events = _.flatMap(logs, log => {
         let msgIndex = log.msgIndex;
-        let eventType = RawMessageEventKeyTypeUtil.convertToEventType(input.tx.value.msg[msgIndex].value);
+        let eventType = RawMessageEventKeyTypeUtil.convertToEventType(input.tx.value.msg[msgIndex].type);
         let event = RawTransactionLogUtil.findEvent(log, eventType)
         if (!event) {
           return [this.unknownTransactionEvent(eventType.name)]
@@ -199,9 +199,6 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
     event: RawTransactionEvent,
     log: RawTransactionLog,
   ): ReadonlyArray<TransactionEvent> {
-    console.log("eventType", eventType);
-    console.log("event", event);
-    console.log("log", log);
     // TODO resolving events
     switch (eventType) {
       case RawMessageEventKeyTypes.AccountMsgCreateAccount:
