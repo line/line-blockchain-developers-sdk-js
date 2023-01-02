@@ -242,7 +242,7 @@ Old(current) transaction result ---> raw-transaction result ---> new structured 
 ```
 
 #### How to adapt old one to new one.
-##### Adapting(covnerting) to raw-transaction result
+##### Adapting(converting) to raw-transaction result
 
 ```
 ...
