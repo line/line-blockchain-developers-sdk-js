@@ -34,6 +34,7 @@ export class TransactionMsgTypes {
   static COLLECTION_MSGDETACHFROM = "collection/MsgDetachFrom";
   static COLLECTION_MSGAPPROVE = "collection/MsgApprove";
   static COLLECTION_MSGMODIFY = "collection/MsgModify";
+  static ACCOUNT_CREATE = "account/MsgCreateAccount";
   static ACCOUNT_MSGEMPTY = "account/MsgEmpty";
 }
 
