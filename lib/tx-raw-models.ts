@@ -1,6 +1,9 @@
 import { Base64 } from "js-base64";
 import _ from "lodash";
 import { pubkeyToAddress } from "@cosmjs/amino";
+import {
+  TransactionMsgTypes
+} from "./constants";
 export class RawTransactionResult {
     constructor(
         readonly height: number,
@@ -41,8 +44,8 @@ export class RawTransactionLogUtil {
     private constructor() { }
 
     public static findEvent(rawTransactionLog: RawTransactionLog, rawMessageEventKeyType: RawMessageEventKeyType): RawTransactionEvent {
-        return _(rawTransactionLog.events).find(it => {
-            return it.type === rawMessageEventKeyType.type || _(rawMessageEventKeyType.candidateEventName).includes(it.type)
+        return _.find(rawTransactionLog.events, it => {
+            return it.type === rawMessageEventKeyType.eventName || _(rawMessageEventKeyType.candidateEventName).includes(it.type)
         });
     }
 }
@@ -68,6 +71,50 @@ export class RawTransactionEventUtil {
         } else {
             return defaultValue
         }
+    }
+
+    public static createAccountTarget(
+      rawTransactionEvent: RawTransactionEvent,
+      defaultValue: String,
+    ) {
+      return this.findAttributeNotNull(
+        rawTransactionEvent,
+        EventAttributeTypes.getInstance().CreateAccountTarget,
+        defaultValue,
+      );
+    }
+
+    public static senderAddress(
+      rawTransactionEvent: RawTransactionEvent,
+      defaultValue: String,
+    ) {
+      return this.findAttributeNotNull(
+        rawTransactionEvent,
+        EventAttributeTypes.getInstance().Sender,
+        defaultValue,
+      );
+    }
+
+    public static recipientAddress(
+      rawTransactionEvent: RawTransactionEvent,
+      defaultValue: String,
+    ) {
+      return this.findAttributeNotNull(
+        rawTransactionEvent,
+        EventAttributeTypes.getInstance().Recipient,
+        defaultValue,
+      );
+    }
+
+    public static amount(
+      rawTransactionEvent: RawTransactionEvent,
+      defaultValue: String,
+    ) {
+      return this.findAttributeNotNull(
+        rawTransactionEvent,
+        EventAttributeTypes.getInstance().Amount,
+        defaultValue,
+      );
     }
 }
 
@@ -309,17 +356,17 @@ export class RawMessageEventKeyTypes {
         return RawMessageEventKeyTypes.instance;
     }
 
-    // types 
+    // types
     AccountMsgCreateAccount: RawMessageEventKeyType = {
-        name: "AccountMsgCreateAccount",
-        type: "account/MsgCreateAccount",
+        name: "RawMessageEventKeyType",
+        type: TransactionMsgTypes.ACCOUNT_CREATE,
         eventName: "create_account",
         candidateEventName: ["amount"]
     }
 
     AccountMsgEmpty: RawMessageEventKeyType = {
         name: "AccountMsgEmpty",
-        type: "account/MsgEmpty",
+        type: TransactionMsgTypes.ACCOUNT_MSGEMPTY,
         eventName: "message",
         candidateEventName: []
     }
