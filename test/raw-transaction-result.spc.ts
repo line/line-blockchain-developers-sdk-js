@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import { RawTransactionResult } from "../lib/tx-raw-models";
-import { baseCoinTransferTxResult, accountMsgEmptyTxResult } from "./test-data";
+import { accountEmptyMsgTxResult, baseCoinTransferTxResult } from "./test-data";
 
 
 describe("RawTransactionResult test", () => {
@@ -12,7 +12,7 @@ describe("RawTransactionResult test", () => {
     });
 
     it("test accountMsgEmptyTxResult", () => {
-        let rawTransactionResult: RawTransactionResult = accountMsgEmptyTxResult;
+        let rawTransactionResult: RawTransactionResult = accountEmptyMsgTxResult;
         expect(1207045).to.equal(rawTransactionResult.height);
     });
 });
