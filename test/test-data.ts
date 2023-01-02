@@ -1,5 +1,3 @@
-import exp from "constants";
-
 export const transactionResult = {
   responseTime: 1585467706110,
   statusCode: 1000,
@@ -3624,8 +3622,90 @@ export const baseCoinTransferTxResult = {
   timestamp: 1618370726000,
 };
 
+export const accountCreateMsgTxResult = {
+  height: 430069,
+  txhash: "DA6DC65B2141E104A69A5F0F93C9E965EE796496385DC993FEEF79B91854B108",
+  codespace: "",
+  code: 0,
+  index: 0,
+  data: "",
+  logs: [
+    {
+      msgIndex: 0,
+      log: "",
+      events: [
+        {
+          type: "create_account",
+          attributes: [
+            {
+              key: "create_account_from",
+              value: "link1e9xfq4gkjdredmyka98qes3m4g6xtzqn403vf9",
+            },
+            {
+              key: "create_account_target",
+              value: "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd",
+            }
+          ]
+        },
+        {
+          type: "message",
+          attributes: [
+            {
+              key: "action",
+              value: "create_account",
+            },
+            {
+              key: "sender",
+              value: "link1e9xfq4gkjdredmyka98qes3m4g6xtzqn403vf9",
+            },
+            {
+              key: "action",
+              value: "create_account",
+            },
+            {
+              key: "module",
+              value: "account",
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  info: "",
+  gasWanted: 200000,
+  gasUsed: 42114,
+  tx: {
+    type: "cosmos-sdk/StdTx",
+    value: {
+      msg: [
+        {
+          type: "account/MsgCreateAccount",
+          value: {
+            from: "link1e9xfq4gkjdredmyka98qes3m4g6xtzqn403vf9",
+            target: "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd",
+          }
+        }
+      ],
+      fee: {
+        gas: 200000,
+        amount: [],
+      },
+      memo: "",
+      signatures: [
+        {
+          pubKey: {
+            type: "tendermint/PubKeySecp256k1",
+            value: "AhwH4dCM7+mIVM2GQxnijhhSQ5SUkZ4nQDo0+kitOHEF",
+          },
+          signature: "uD0IoeIOYG2uP8nd3AnLDpL0RSQxfd8hp43crSif0fYSP+T8tLOxUQMAK3lQ6IqpH6sRBCCFaRkMqenIXi8Uiw==",
+        },
+      ],
+    },
+  },
+  timestamp: 1616561548000,
+};
 
-export const accountMsgEmptyTxResult = {
+export const accountEmptyMsgTxResult = {
   "height": 1207045,
   "txhash": "D52BA2668EA528C05C130DAFB19AF9877AFB4456117DE68287BF69367429A811",
   "codespace": null,
