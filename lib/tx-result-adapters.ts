@@ -1,23 +1,28 @@
 import _ from "lodash";
-import { HrpPrefix } from "./constants";
+import { HrpPrefix, TransactionMsgTypes } from "./constants";
 import { TxResultResponse } from "./response";
 import {
-  RawTransactionResult,
+  RawMessageEventKeyType,
+  RawMessageEventKeyTypeUtil,
+  RawTransactionEvent,
+  RawTransactionEventAttribute,
+  RawTransactionEventUtil,
+  RawTransactionLog,
+  RawTransactionLogUtil,
   RawTransactionRequest,
+  RawTransactionRequestAmount,
   RawTransactionRequestFee,
   RawTransactionRequestMessage,
-  RawTransactionRequestValue,
-  RawTransactionRequestAmount,
-  RawTxSignature,
   RawTransactionRequestPubKey,
+  RawTransactionRequestValue,
+  RawTransactionResult,
   RawTransactionSignerAddressUtil,
-  RawMessageEventKeyTypeUtil,
-  RawTransactionLogUtil,
-  RawMessageEventKeyType,
-  RawTransactionEvent,
-  RawTransactionLog,
+  RawTxSignature
 } from "./tx-raw-models";
 import {
+  EventAccountCreated,
+  EventCoinTransferred,
+  EventEmptyMsgCreated,
   TransactionEvent,
   TxMessage,
   TxResult,
@@ -28,52 +33,70 @@ import {
 } from "./tx-core-models";
 
 export interface TxResultAdapter<T, R> {
-  adapt(input: T): R
+  adapt(input: T): R;
 }
 
 // TODO adapting to RawTransactionResult
 export class V1JsonRawTransactionResultAdapter implements TxResultAdapter<string, RawTransactionResult> {
   public adapt(input: string): any {
-    return JSON.parse(input)
+    return JSON.parse(input);
   }
 }
 
 // TODO adapting to RawTransactionResult
 export class RawTransactionResultAdapter implements TxResultAdapter<TxResultResponse, RawTransactionResult> {
   public adapt(input: TxResultResponse) {
-    let txMessages = _(input.tx.value.msg).map(it => {
+    let txMessages = _.map(input.tx.value.msg, it => {
       return new RawTransactionRequestMessage(
         it.type,
         it.value
-      )
-    }).toArray;
-    let txFeeAmounts = _(input.tx.value.fee.amount).map(it => {
+      );
+    });
+    let txFeeAmounts = _.map(input.tx.value.fee.amount, it => {
       return new RawTransactionRequestAmount(
         it.denom,
         it.amount.toString()
-      )
-    }).toArray;
-    let rawTxSignatures = _(input.tx.value.signatures).map(it => {
+      );
+    });
+    let rawTxSignatures = _.map(input.tx.value.signatures, it => {
       return new RawTxSignature(
         new RawTransactionRequestPubKey(
           it.pubKey.type,
           it.pubKey.value
         ),
         it.signature
-      )
-    }).toArray
+      );
+    });
+
     let rawTransactionRequest: RawTransactionRequest = new RawTransactionRequest(
       input.tx.type,
-      new RawTransactionRequestValue(
-        _.toArray(txMessages),
+      new RawTransactionRequestValue(txMessages,
         new RawTransactionRequestFee(
           input.tx.value.fee.gas,
-          _.toArray(txFeeAmounts)
+          txFeeAmounts
         ),
-        input.tx.value.memo,
-        _.toArray(rawTxSignatures)
+        input.tx.value.memo, rawTxSignatures
       )
-    )
+    );
+
+    let rawTransactionLogs = _.map(input.logs, log => {
+      return new RawTransactionLog(
+        log.msgIndex,
+        log.log,
+        _.map(log.events, event => {
+          return new RawTransactionEvent(
+            event.type,
+            _.map(event.attributes, att => {
+              return new RawTransactionEventAttribute(
+                att.key,
+                att.value
+              );
+            })
+          );
+        })
+      );
+    });
+
     return new RawTransactionResult(
       input.height,
       input.index,
@@ -82,7 +105,7 @@ export class RawTransactionResultAdapter implements TxResultAdapter<TxResultResp
       input.timestamp,
       input.gasWanted,
       input.gasUsed,
-      [],
+      rawTransactionLogs,
       rawTransactionRequest,
       input.codespace,
       input.data,
@@ -100,7 +123,7 @@ export class LbdTxResultAdapterV1 implements TxResultAdapter<RawTransactionResul
     readonly hrpPrefix: HrpPrefix,
     txResultSummaryAdapter?: TxResultAdapter<RawTransactionResult, TxResultSummary>,
     txResultMessagesAdapter?: TxResultAdapter<RawTransactionResult, Set<TxMessage>>,
-    txResultEventsAdapter?: TxResultAdapter<RawTransactionResult, Set<TransactionEvent>>,
+    txResultEventsAdapter?: TxResultAdapter<RawTransactionResult, Set<TransactionEvent>>
   ) {
     this.txResultSummaryAdapter = txResultSummaryAdapter ?? new LbdTxSummaryAdapterV1(hrpPrefix);
     this.txResultMessagesAdapter = txResultMessagesAdapter ?? new LbdTxMessageAdapterV1();
@@ -117,7 +140,7 @@ export class LbdTxResultAdapterV1 implements TxResultAdapter<RawTransactionResul
       txResultSummary,
       txResultMessages,
       txResultEvents
-    )
+    );
   }
 }
 
@@ -128,8 +151,8 @@ export class LbdTxSummaryAdapterV1 implements TxResultAdapter<RawTransactionResu
   adapt(input: RawTransactionResult): TxResultSummary {
     let signerAddresses = RawTransactionSignerAddressUtil.getSignerAddresses(this.hrpPrefix, input.tx);
     let signers = _.map(signerAddresses, it => {
-      return new TxSigner(it)
-    })
+      return new TxSigner(it);
+    });
     return new TxResultSummary(
       input.height,
       input.index,
@@ -139,7 +162,7 @@ export class LbdTxSummaryAdapterV1 implements TxResultAdapter<RawTransactionResu
         input.code,
         input.codespace
       )
-    )
+    );
   }
 }
 
@@ -151,7 +174,7 @@ export class LbdTxMessageAdapterV1 implements TxResultAdapter<RawTransactionResu
       let type = rawMessage.type;
       return new TxMessage(index, type, rawMessage.value);
     });
-    return new Set(txMessages)
+    return new Set(txMessages);
   }
 }
 
@@ -187,19 +210,38 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
   private resolveTransactionEvents(
     eventType: RawMessageEventKeyType,
     event: RawTransactionEvent,
-    log: RawTransactionLog,
+    log: RawTransactionLog
   ): Array<TransactionEvent> {
     console.log("eventType", eventType);
     console.log("event", event);
     console.log("log", log);
-    // TODO resolving events
-    return [];
+
+    let transactionEvents = new Array<TransactionEvent>();
+
+    switch (eventType.type) {
+      // account
+      case TransactionMsgTypes.ACCOUNT_CREATE:
+        transactionEvents.push(this.txEVentConverter.eventAccountCreate(log.msgIndex, event));
+        break;
+      case TransactionMsgTypes.ACCOUNT_MSGEMPTY:
+        transactionEvents.push(this.txEVentConverter.eventAccountEmpty(log.msgIndex, event));
+        break;
+      // coin
+      case TransactionMsgTypes.COIN_MSGSEND:
+        transactionEvents.push(this.txEVentConverter.eventCoinTransferred(log.msgIndex, event));
+        break;
+      default:
+        let eventUnknown = this.unknownTransactionEvent(eventType.name);
+        transactionEvents.push(eventUnknown);
+        break;
+
+    }
+    return transactionEvents;
   }
 
   private unknownTransactionEvent(type: string, extraMessage?: string): UnknownTransactionEvent {
-    return new UnknownTransactionEvent(type, [], extraMessage)
+    return new UnknownTransactionEvent(type, [], extraMessage);
   }
-
 }
 
 export class LbdTxEventConverterV1 {
@@ -207,4 +249,27 @@ export class LbdTxEventConverterV1 {
   }
 
   // TOOD add convertings of events
+  public eventAccountCreate(msgIndex: number, event: RawTransactionEvent): EventAccountCreated {
+    let createdAddress = RawTransactionEventUtil.createAccountTarget(event, "not found createdAddress");
+    return new EventAccountCreated(createdAddress.toString(), msgIndex);
+  }
+
+  public eventAccountEmpty(msgIndex: number, event: RawTransactionEvent): EventEmptyMsgCreated {
+    let senderAddress = RawTransactionEventUtil.senderAddress(event, "not found senderAddress");
+    return new EventEmptyMsgCreated(senderAddress.toString(), msgIndex);
+  }
+
+  public eventCoinTransferred(msgIndex: number, event: RawTransactionEvent): EventCoinTransferred {
+    let amount = RawTransactionEventUtil.amount(event, "0error"); // TODO more appropriate default value?
+    let amountPair = this.parseAmount(amount);
+
+    let sender = RawTransactionEventUtil.senderAddress(event, "not found sender");
+    let recipient = RawTransactionEventUtil.recipientAddress(event, "not found recipient");
+
+    return new EventCoinTransferred(amountPair[1], amountPair[0], sender.toString(), recipient.toString(), msgIndex);
+  }
+
+  private parseAmount(baseCoinAmount: String): string[] {
+    return baseCoinAmount.match(/\d+|\w+/gi);
+  }
 }
