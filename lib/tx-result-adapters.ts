@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { HrpPrefix, TransactionMsgTypes } from "./constants";
-import { TxResultResponse } from "./response";
+import { LogResponse, TxResultResponse } from "./response";
 import {
   RawMessageEventKeyType,
   RawMessageEventKeyTypeUtil,
@@ -83,17 +83,7 @@ export class RawTransactionResultAdapter implements TxResultAdapter<TxResultResp
       return new RawTransactionLog(
         log.msgIndex,
         log.log,
-        _.map(log.events, event => {
-          return new RawTransactionEvent(
-            event.type,
-            _.map(event.attributes, att => {
-              return new RawTransactionEventAttribute(
-                att.key,
-                att.value
-              );
-            })
-          );
-        })
+        this.extractEvents(log),
       );
     });
 
@@ -111,6 +101,20 @@ export class RawTransactionResultAdapter implements TxResultAdapter<TxResultResp
       input.data,
       input.info
     );
+  }
+
+  private extractEvents(log: LogResponse): Array<RawTransactionEvent> {
+    return _.map(log.events, event => {
+      return new RawTransactionEvent(
+        event.type,
+        _.map(event.attributes, att => {
+          return new RawTransactionEventAttribute(
+            att.key,
+            att.value
+          );
+        })
+      );
+    })
   }
 }
 
