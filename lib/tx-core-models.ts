@@ -99,8 +99,8 @@ export class UnknownTransactionEvent implements TransactionEvent {
 
 export class EventAccountCreated implements TransactionEvent {
     constructor(
-        readonly createdAddress: string,
         readonly msgIndex: number,
+        readonly createdAddress: string,
     ) {
     }
 
@@ -109,8 +109,8 @@ export class EventAccountCreated implements TransactionEvent {
 
 export class EventEmptyMsgCreated implements TransactionEvent {
     constructor(
-        readonly senderAddress: string,
         readonly msgIndex: number,
+        readonly senderAddress: string,
     ) {
     }
 
@@ -120,11 +120,11 @@ export class EventEmptyMsgCreated implements TransactionEvent {
 // bank events
 export class EventCoinTransferred implements TransactionEvent {
     constructor(
+        readonly msgIndex: number,
         readonly denomination: string,
         readonly amount: string,
         readonly fromAddress: string,
         readonly toAddress: string,
-        readonly msgIndex: number,
     ) {
     }
 
@@ -154,7 +154,7 @@ export class EventTokenBurned implements TransactionEvent {
     eventName: string = "EventTokenBurned";
 }
 
-export class EventTokenIssued implements TransactionEvent  {
+export class EventTokenIssued implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -178,7 +178,7 @@ export class TokenAttribute {
     }
 }
 
-export class EventTokenMinted implements TransactionEvent  {
+export class EventTokenMinted implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -191,7 +191,7 @@ export class EventTokenMinted implements TransactionEvent  {
     eventName: string = "EventTokenMinted";
 }
 
-export class EventTokenModified implements TransactionEvent  {
+export class EventTokenModified implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -211,7 +211,7 @@ enum TokenPermission {
     TOKEN_BURN = "TOKEN_BURN"
 }
 
-export class EventTokenPermissionGranted implements TransactionEvent  {
+export class EventTokenPermissionGranted implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -224,7 +224,7 @@ export class EventTokenPermissionGranted implements TransactionEvent  {
     eventName: string = "EventTokenPermissionGranted";
 }
 
-export class EventTokenPermissionRenounced implements TransactionEvent  {
+export class EventTokenPermissionRenounced implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -236,7 +236,7 @@ export class EventTokenPermissionRenounced implements TransactionEvent  {
     eventName: string = "EventTokenPermissionRenounced";
 }
 
-export class EventTokenProxyApproved implements TransactionEvent  {
+export class EventTokenProxyApproved implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -248,7 +248,7 @@ export class EventTokenProxyApproved implements TransactionEvent  {
     eventName: string = "EventTokenProxyApproved";
 }
 
-export class EventTokenProxyDisapproved implements TransactionEvent  {
+export class EventTokenProxyDisapproved implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -260,7 +260,7 @@ export class EventTokenProxyDisapproved implements TransactionEvent  {
     eventName: string = "EventTokenProxyDisapproved";
 }
 
-export class EventTokenTransferred implements TransactionEvent  {
+export class EventTokenTransferred implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -270,7 +270,7 @@ export class EventTokenTransferred implements TransactionEvent  {
         readonly proxyAddress?: string,
     ) {
     }
-  eventName: string = "EventTokenTransferred";
+    eventName: string = "EventTokenTransferred";
 }
 
 // item token events
@@ -292,7 +292,7 @@ export class CollectionAttribute {
     }
 }
 
-export class EventCollectionCreated implements TransactionEvent  {
+export class EventCollectionCreated implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -304,19 +304,19 @@ export class EventCollectionCreated implements TransactionEvent  {
     eventName: string = "EventCollectionCreated";
 }
 
-export class EventCollectionModified implements TransactionEvent  {
+export class EventCollectionModified implements TransactionEvent {
     constructor(
+        readonly msgIndex: number,
         readonly contractId: string,
         readonly tokenAttributes: Set<CollectionAttribute>,
         readonly modifierAddress: string,
-        readonly msgIndex: number,
     ) {
     }
 
     eventName: string = "EventCollectionModified";
 }
 
-export class EventCollectionFtBurned implements TransactionEvent  {
+export class EventCollectionFtBurned implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -331,7 +331,7 @@ export class EventCollectionFtBurned implements TransactionEvent  {
     eventName: string = "EventCollectionFtBurned";
 }
 
-export class EventCollectionFtIssued implements TransactionEvent  {
+export class EventCollectionFtIssued implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -348,7 +348,7 @@ export class EventCollectionFtIssued implements TransactionEvent  {
 }
 
 
-export class EventCollectionFtMinted implements TransactionEvent  {
+export class EventCollectionFtMinted implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -363,7 +363,7 @@ export class EventCollectionFtMinted implements TransactionEvent  {
     eventName: string = "EventCollectionFtMinted";
 }
 
-export class EventCollectionFtModified implements TransactionEvent  {
+export class EventCollectionFtModified implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -376,7 +376,7 @@ export class EventCollectionFtModified implements TransactionEvent  {
     eventName: string = "EventCollectionFtModified";
 }
 
-export class EventCollectionFtTransferred implements TransactionEvent  {
+export class EventCollectionFtTransferred implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -393,7 +393,7 @@ export class EventCollectionFtTransferred implements TransactionEvent  {
 }
 
 
-export class EventCollectionNftAttached implements TransactionEvent  {
+export class EventCollectionNftAttached implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -408,7 +408,7 @@ export class EventCollectionNftAttached implements TransactionEvent  {
 }
 
 
-export class EventCollectionNftBurned implements TransactionEvent  {
+export class EventCollectionNftBurned implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -421,7 +421,7 @@ export class EventCollectionNftBurned implements TransactionEvent  {
     eventName: string = "EventCollectionNftBurned";
 }
 
-export class EventCollectionNftDetached implements TransactionEvent  {
+export class EventCollectionNftDetached implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -435,7 +435,7 @@ export class EventCollectionNftDetached implements TransactionEvent  {
     eventName: string = "EventCollectionNftDetached";
 }
 
-export class EventCollectionNftHolderChanged implements TransactionEvent  {
+export class EventCollectionNftHolderChanged implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -448,7 +448,7 @@ export class EventCollectionNftHolderChanged implements TransactionEvent  {
     eventName: string = "EventCollectionNftHolderChanged";
 }
 
-export class EventCollectionNftIssued implements TransactionEvent  {
+export class EventCollectionNftIssued implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -460,7 +460,7 @@ export class EventCollectionNftIssued implements TransactionEvent  {
     eventName: string = "EventCollectionNftIssued";
 }
 
-export class EventCollectionNftMinted implements TransactionEvent  {
+export class EventCollectionNftMinted implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -473,7 +473,7 @@ export class EventCollectionNftMinted implements TransactionEvent  {
     eventName: string = "EventCollectionNftMinted";
 }
 
-export class EventCollectionNftModified implements TransactionEvent  {
+export class EventCollectionNftModified implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -486,7 +486,7 @@ export class EventCollectionNftModified implements TransactionEvent  {
     eventName: string = "EventCollectionNftModified";
 }
 
-export class EventCollectionNftRootChanged implements TransactionEvent  {
+export class EventCollectionNftRootChanged implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -499,7 +499,7 @@ export class EventCollectionNftRootChanged implements TransactionEvent  {
     eventName: string = "EventCollectionNftRootChanged";
 }
 
-export class EventCollectionNftTransferred implements TransactionEvent  {
+export class EventCollectionNftTransferred implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -514,7 +514,7 @@ export class EventCollectionNftTransferred implements TransactionEvent  {
 
 }
 
-export class EventCollectionNftTypeModified implements TransactionEvent  {
+export class EventCollectionNftTypeModified implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -527,7 +527,7 @@ export class EventCollectionNftTypeModified implements TransactionEvent  {
     eventName: string = "EventCollectionNftTypeModified";
 }
 
-export class EventCollectionPermissionGranted implements TransactionEvent  {
+export class EventCollectionPermissionGranted implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -541,7 +541,7 @@ export class EventCollectionPermissionGranted implements TransactionEvent  {
 
 }
 
-export class EventCollectionPermissionRenounced implements TransactionEvent  {
+export class EventCollectionPermissionRenounced implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -553,7 +553,7 @@ export class EventCollectionPermissionRenounced implements TransactionEvent  {
     eventName: string = "EventCollectionPermissionRenounced";
 }
 
-export class EventCollectionProxyApproved implements TransactionEvent  {
+export class EventCollectionProxyApproved implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
@@ -565,7 +565,7 @@ export class EventCollectionProxyApproved implements TransactionEvent  {
     eventName: string = "EventCollectionProxyApproved";
 }
 
-export class EventCollectionProxyDisapproved implements TransactionEvent  {
+export class EventCollectionProxyDisapproved implements TransactionEvent {
     constructor(
         readonly msgIndex: number,
         readonly contractId: string,
