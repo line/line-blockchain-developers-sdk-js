@@ -1,65 +1,3 @@
-# LINE Blockchain Developers SDK for JavaScript
-
-[![License](https://img.shields.io/github/license/line/line-blockchain-developers-sdk-js)](https://github.com/line/line-blockchain-developers-sdk-js)
-[![NPM version](https://img.shields.io/npm/v/@line/lbd-sdk-js.svg)](https://www.npmjs.com/package/@line/lbd-sdk-js)
-[![NPM downloads](https://img.shields.io/npm/dm/@line/lbd-sdk-js.svg)](https://www.npmjs.com/package/@line/lbd-sdk-js)
-[![CircleCI](https://circleci.com/gh/line/line-blockchain-developers-sdk-js.svg?style=shield)](https://circleci.com/gh/line/line-blockchain-developers-sdk-js)
-
-
-## Table of Contents
-* [Introduction](#introduction)
-* [Getting Started](#getting-Started)
-* [Key objects and usage](#key-objects-and-usage)
-
-## Introduction
-The LINE Blockchain Developers SDK for JavaScript makes it easy to develop a service(dApp) using [LINE Blockchain Developers API](https://docs-blockchain.line.biz/api-guide/), and there are no worries about generating signature for each request.
-
-### Documentation
-See the official LINE Blockchain Developers API documentation for more information.
-* English: https://docs-blockchain.line.biz/api-guide/
-* Japanese: https://docs-blockchain.line.biz/ja/api-guide/
-* Korean: https://docs-blockchain.line.biz/ko/api-guide/
-
-### Requirements
-* Node.js 10 or higher
-
-### Installation
-Before getting started, you need to install the library to your project. 
-To make installation easy, use package managers as follows:
-
-Using [npm](https://www.npmjs.com/?target=_blank):
-
-`npm install @line/lbd-sdk-js`
-
-Using [yarn](https://yarnpkg.com/?target=_blank)
-
-`yarn add @line/lbd-sdk-js`
-
-### Versioning
-This project respects [semantic versioning](http://semver.org/?target=_blank).
-
-See http://semver.org/
-
-### Contributing
-Please check [CONTRIBUTING](https://github.com/line/line-blockchain-developers-sdk-js/blob/master/CONTRIBUTING.md) before making a contribution.
-
-### License
-```
-Copyright (C) 2021 LINE Corp.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    https://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
-
 ## Getting Started
 ### Requirements
 * Node.js >= 10
@@ -70,7 +8,7 @@ limitations under the License.
 Other dependencies are installed via npm(or yarn), and do not need to be pre-installed.
 
 ### Install
-All the dependencies can be install via [npm](https://www.npmjs.com/?target=_blank) or [yarn](https://yarnpkg.com/?target=_blank)
+All the dependencies can be installed via [npm](https://www.npmjs.com/?target=_blank) or [yarn](https://yarnpkg.com/?target=_blank)
 
 * [npm](https://www.npmjs.com/?target=_blank)
   ```
@@ -229,3 +167,105 @@ This class provides a functionality to [generate signatures](https://docs-blockc
 All API requests, except for the endpoint to retrieve the server time, must pass authentication information and be signed. Signing is a bit annoying, but never mind, fortunately, `HttpClient` itself will import this and generate signatures before sending a request. 
 
 If you do want to study how LINE Blockchain signature created, it's okay to dive into the source code.
+
+
+### New transaction result
+LINE Blockchain Developers provide custom transaction result that is independent from on-chain transaction result, and it is more simple and understand. The new transaction result has summary, messages and events in following structure. For more details, please visit [LINE Blockchain Docs](https://docs-blockchain.line.biz/api-guide/Callback-Response)
+
+```
+{
+    "summary": {
+        "height": number,
+        "txIndex" : number,
+        "txHash"": string,
+        "signers": Array<string>,
+        "result: {
+            "code": number,
+            "codeSpace": string,
+            "result": string ("SUCCEEDED", or "FAILED")
+        }
+    },
+    "txMessages": [
+        {
+            "msgIndex": number,
+            "requestType": string,
+            "details": any (* object)
+        }
+    ],
+    "txEvents": [
+        "eventName": string,
+        "msgIndex": number,
+        ... // more properties depending on each concrete event
+    ],
+}
+```
+
+#### Summary
+"summary" has `height`, `txIndex`, `txHash`, `signers` and `result`. More details on each property are as followings.
+* height: block height
+* txIndex: this means n-th transaction in a block
+* txHash: hash string for a transaction
+* signers: wallet addresses of those who signs a transaction
+* result: this has `code`, `codeSpace` and `result`.
+  * code: this is a sort of error code, and if it is not `0`, then it means the transaction has been failed.
+  * codeSpace: Namespace of `code`
+  * Status of the transaction confirmation displayed as either of the following.
+    * SUCCEEDED: Confirmation successful
+    * FAILED: Confirmation failed
+
+
+### txMessages
+There could be messages more than one in a transaction, and a message is what a client wants to mutate such as transfer coin or token, mint, burn and so on.
+A message has `msgIndex`, `requestType` and `details`. More details on each property are as followings.
+* msgIndex: Index number of the message in a transaction
+* requestType: Type of the message. For example, "collection/MsgTransferNFT"
+* details: Value included in the message. Properties vary, depending on the type of the message. 
+  
+> Note
+>
+> `details` in each message isn't a fixed object, since it's hard to provide a concrete type of data when we support smart contract. With smart contracts, developers or owners of the smart contract can define their own messages with custom properties, which are not known to LINE Blockchain Developers.
+
+### txEvents
+Event refers to a change in status, triggered by a confirmed transaction. Events are distinguished as base coin related events, service token related events and item token related events. Refer to [LINE Blockchain Docs](https://lbddocs-alpha.website.line-apps-dev.com/api-guide/Callback-Response#event) for event names and their properties for each type.
+
+By they way, all events basically have `msgIndex` and `eventName` properties.
+* msgIndex: Index number of the message caused events.
+* eventName: Name of an event such as `EventCoinTransferred`, `EventTokenIssued` and so on.
+
+### Adapting to new transaction result
+We need a way to adapt(convert) old transaction result in sort of raw format, which is very dependent on the chain's to new structured transaction result. 
+
+#### Basic adapting flow
+Adapting flow is simple as below.
+```
+Old(current) transaction result ---> raw-transaction result ---> new structured transaction result.
+```
+
+#### How to adapt old one to new one.
+##### Adapting(converting) to raw-transaction result
+
+```
+...
+const rawTransactionResultAdapter: TxResultAdapter<TxResultResponse, RawTransactionResult> = new RawTransactionResultAdapter();
+// using default adapters for summary, messages and events
+const lbdTxResultAdapter: TxResultAdapter<RawTransactionResult, TxResult>  = new LbdTxEventsAdapterV1(HrpPrefix.TEST_NET);
+
+/*
+We can use custom adapters for summy, messages and events
+const customTxResultSummaryAdapter: TxResultAdapter<RawTransactionResult, TxResultSummary> = new CustomTxSummaryAdapterV1();
+const customTxMessagesAdapter: TxResultAdapter<RawTransactionResult, Set<TxMessage>>  = new CustomTxMessageAdapterV1();
+const customTxEventsAdapter: TxResultAdapter<RawTransactionResult, Set<TransactionEvent>>  = new CustomTxMessageAdapterV1();
+
+const lbdTxResultAdapter: TxResultAdapter<RawTransactionResult, TxResult>  = new LbdTxEventsAdapterV1(
+   HrpPrefix.TEST_NET,
+   customTxResultSummaryAdapter ,
+   customTxMessagesAdapter,
+   customTxEventsAdapter
+);
+*/
+
+let txResultResponse = lbdHttpClient.transactionResult(txHash);
+let rawTransactionResult = rawTransactionResultAdapter.adapt(txResultResponse.responseData);
+let newTransactionResult =  lbdTxResultAdapter.adapt(rawTransactionResult);
+...
+```
