@@ -9,3 +9,4 @@ package-lock.json
 *.env
 dist
 *.tsbuildinfo
+.DS_Store
