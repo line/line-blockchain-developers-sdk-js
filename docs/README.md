@@ -8,7 +8,7 @@
 Other dependencies are installed via npm(or yarn), and do not need to be pre-installed.
 
 ### Install
-All the dependencies can be install via [npm](https://www.npmjs.com/?target=_blank) or [yarn](https://yarnpkg.com/?target=_blank)
+All the dependencies can be installed via [npm](https://www.npmjs.com/?target=_blank) or [yarn](https://yarnpkg.com/?target=_blank)
 
 * [npm](https://www.npmjs.com/?target=_blank)
   ```
@@ -226,11 +226,11 @@ A message has `msgIndex`, `requestType` and `details`. More details on each prop
 > `details` in each message isn't a fixed object, since it's hard to provide a concrete type of data when we support smart contract. With smart contracts, developers or owners of the smart contract can define their own messages with custom properties, which are not known to LINE Blockchain Developers.
 
 ### txEvents
-Event refers to a change in status, triggered by a confirmed transaction. Events are distinguished as base coin related events, service token related events and item token related events. Refer to [LINE Blochain Docs](https://lbddocs-alpha.website.line-apps-dev.com/api-guide/Callback-Response#event) for event names and their properties for each type.
+Event refers to a change in status, triggered by a confirmed transaction. Events are distinguished as base coin related events, service token related events and item token related events. Refer to [LINE Blockchain Docs](https://lbddocs-alpha.website.line-apps-dev.com/api-guide/Callback-Response#event) for event names and their properties for each type.
 
 By they way, all events basically have `msgIndex` and `eventName` properties.
 * msgIndex: Index number of the message caused events.
-* eventName: Name of a event such as `EventCoinTransferred`, `EventTokenIssued` and so on.
+* eventName: Name of an event such as `EventCoinTransferred`, `EventTokenIssued` and so on.
 
 ### Adapting to new transaction result
 We need a way to adapt(convert) old transaction result in sort of raw format, which is very dependent on the chain's to new structured transaction result. 
