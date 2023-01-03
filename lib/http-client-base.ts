@@ -1,4 +1,5 @@
 import { LoggerFactory } from "./logger-factory";
+import { LoggerWrapper } from "./logger-wrapper";
 import _ from "lodash";
 import { RequestParameterValidator } from "./request-parameter-validator";
 import axios, {
@@ -92,7 +93,7 @@ declare module "axios" {
 }
 
 export class HttpClient {
-  private logger = LoggerFactory.logger("HttpClient");
+  private logger: LoggerWrapper = LoggerFactory.logger("HttpClient");
 
   protected readonly instance: AxiosInstance;
   private readonly serviceApiKey: string;
@@ -111,6 +112,14 @@ export class HttpClient {
       "application/json;charset=UTF-8";
 
     this._initializeResponseInterceptor();
+  }
+
+  public logOn(): void {
+    this.logger.logOn();
+  }
+
+  public logOff(): void {
+    this.logger.logOff();
   }
 
   // for test
