@@ -1,24 +1,25 @@
-import _, { compact } from "lodash";
-import { EMPTY_SET, HrpPrefix } from "./constants";
-import { TxResultResponse } from "./response";
+import _ from "lodash";
+import { HrpPrefix } from "./constants";
+import { LogResponse, TxResultResponse } from "./response";
 import {
-  RawTransactionResult,
+  EventAttributeTypes,
+  RawMessageEventKeyType,
+  RawMessageEventKeyTypes,
+  RawMessageEventKeyTypeUtil,
+  RawTransactionEvent,
+  RawTransactionEventAttribute,
+  RawTransactionEventUtil,
+  RawTransactionLog,
+  RawTransactionLogUtil,
   RawTransactionRequest,
+  RawTransactionRequestAmount,
   RawTransactionRequestFee,
   RawTransactionRequestMessage,
-  RawTransactionRequestValue,
-  RawTransactionRequestAmount,
-  RawTxSignature,
   RawTransactionRequestPubKey,
+  RawTransactionRequestValue,
+  RawTransactionResult,
   RawTransactionSignerAddressUtil,
-  RawMessageEventKeyTypeUtil,
-  RawTransactionLogUtil,
-  RawMessageEventKeyType,
-  RawTransactionEvent,
-  RawMessageEventKeyTypes,
-  RawTransactionLog,
-  RawTransactionEventUtil,
-  EventAttributeTypes,
+  RawTxSignature
 } from "./tx-raw-models";
 
 import {
@@ -45,7 +46,8 @@ import {
   EventCollectionProxyApproved,
   EventCollectionProxyDisapproved,
   EventEmptyMsgCreated,
-  EventTokenBurned, EventTokenIssued,
+  EventTokenBurned,
+  EventTokenIssued,
   EventTokenMinted,
   EventTokenModified,
   EventTokenProxyApproved,
@@ -78,19 +80,19 @@ export class V1JsonRawTransactionResultAdapter implements TxResultAdapter<string
 // TODO adapting to RawTransactionResult
 export class RawTransactionResultAdapter implements TxResultAdapter<TxResultResponse, RawTransactionResult> {
   public adapt(input: TxResultResponse) {
-    let txMessages = _(input.tx.value.msg).map(it => {
+    let txMessages = _.map(input.tx.value.msg, it => {
       return new RawTransactionRequestMessage(
         it.type,
         it.value
       )
-    }).toArray;
-    let txFeeAmounts = _(input.tx.value.fee.amount).map(it => {
+    });
+    let txFeeAmounts = _.map(input.tx.value.fee.amount, it => {
       return new RawTransactionRequestAmount(
         it.denom,
         it.amount.toString()
       )
-    }).toArray;
-    let rawTxSignatures = _(input.tx.value.signatures).map(it => {
+    });
+    let rawTxSignatures = _.map(input.tx.value.signatures, it => {
       return new RawTxSignature(
         new RawTransactionRequestPubKey(
           it.pubKey.type,
@@ -98,19 +100,26 @@ export class RawTransactionResultAdapter implements TxResultAdapter<TxResultResp
         ),
         it.signature
       )
-    }).toArray
+    })
     let rawTransactionRequest: RawTransactionRequest = new RawTransactionRequest(
       input.tx.type,
       new RawTransactionRequestValue(
-        _.toArray(txMessages),
+        txMessages,
         new RawTransactionRequestFee(
           input.tx.value.fee.gas,
-          _.toArray(txFeeAmounts)
+          txFeeAmounts,
         ),
         input.tx.value.memo,
-        _.toArray(rawTxSignatures)
+        rawTxSignatures,
       )
     )
+    let rawTransactionLogs = _.map(input.logs, log => {
+      return new RawTransactionLog(
+        log.msgIndex,
+        log.log,
+        this.extractEvents(log),
+      );
+    });
     return new RawTransactionResult(
       input.height,
       input.index,
@@ -119,12 +128,26 @@ export class RawTransactionResultAdapter implements TxResultAdapter<TxResultResp
       input.timestamp,
       input.gasWanted,
       input.gasUsed,
-      [],
+      rawTransactionLogs,
       rawTransactionRequest,
       input.codespace,
       input.data,
       input.info
     );
+  }
+
+  private extractEvents(log: LogResponse): Array<RawTransactionEvent> {
+    return _.map(log.events, event => {
+      return new RawTransactionEvent(
+        event.type,
+        _.map(event.attributes, att => {
+          return new RawTransactionEventAttribute(
+            att.key,
+            att.value
+          );
+        })
+      );
+    })
   }
 }
 
