@@ -7,7 +7,8 @@ describe("RawEventTypesUtil tests", () => {
         let matchedTypeValue = "account/MsgCreateAccount";
         let actualValue: RawMessageEventKeyType = RawMessageEventKeyTypeUtil.convertToEventType(matchedTypeValue);
 
-        let expectedValue: RawMessageEventKeyType = RawMessageEventKeyTypes.getInstance().AccountMsgCreateAccount;
+        let expectedValue: RawMessageEventKeyType = RawMessageEventKeyTypes.AccountMsgCreateAccount;
         expect(expectedValue).to.equal(actualValue);
     });
+
 });

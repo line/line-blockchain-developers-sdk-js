@@ -30,7 +30,7 @@ describe("RawTransactionEvent test", () => {
             attributes
         )
 
-        let testEventAttributeType = EventAttributeTypes.getInstance().Amount;
+        let testEventAttributeType = EventAttributeTypes.Amount;
         let actualValue = RawTransactionEventUtil.findAttributeNotNull(rawTransactionEvent, testEventAttributeType, "")
         let expectedValue = "120000"
         expect(expectedValue).to.equal(actualValue);
@@ -43,7 +43,7 @@ describe("RawTransactionEvent test", () => {
             attributes
         )
 
-        let testEventAttributeType = EventAttributeTypes.getInstance().From;
+        let testEventAttributeType = EventAttributeTypes.From;
         let actualValue = RawTransactionEventUtil.findAttributeNotNull(rawTransactionEvent, testEventAttributeType, "")
         let expectedValue = "test-from-address"
         expect(expectedValue).to.equal(actualValue);
@@ -56,7 +56,7 @@ describe("RawTransactionEvent test", () => {
             attributes
         )
 
-        let testEventAttributeType = EventAttributeTypes.getInstance().Approver;
+        let testEventAttributeType = EventAttributeTypes.Approver;
         let actualValue = RawTransactionEventUtil.findAttributeNotNull(rawTransactionEvent, testEventAttributeType, "")
         let expectedValue = "test-approver-address"
         expect(expectedValue).to.equal(actualValue);

@@ -53,3 +53,5 @@ export enum HrpPrefix {
 }
 
 export const EMPTY_SET: Set<string> = new Set();
+
+export const EMPTY_STRING_ARRAY: Array<string> = [];
