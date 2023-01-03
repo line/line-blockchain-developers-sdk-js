@@ -3,8 +3,8 @@ import { expect } from "chai";
 import { describe, it } from "mocha";
 import { HrpPrefix } from "../lib/constants";
 import {
-  TxResultAdapter,
-  LbdTxResultAdapterV1
+  LbdTxResultAdapterV1,
+  TxResultAdapter
 } from "../lib/tx-result-adapters";
 import { RawTransactionResult } from "../lib/tx-raw-models";
 import { TxResult, TxSigner } from "../lib/tx-core-models";
@@ -22,6 +22,6 @@ describe("LbdTxResultAdapterV1 test", () => {
     expect(lbdTxResult.summary.signers).to.deep.include(new TxSigner("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"));
     expect(lbdTxResult.txMessages).to.be.not.empty;
     expect(lbdTxResult.txEvents).to.be.not.empty;
-    expect(_.first(Array.from(lbdTxResult.txEvents))["type"]).to.equal("CoinMsgSend");
+    expect(_.first(Array.from(lbdTxResult.txEvents))["eventName"]).to.equal("EventCoinTransferred");
   });
 });
