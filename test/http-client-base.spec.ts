@@ -21,6 +21,7 @@ import {
 } from "../lib/request";
 import { transactionResult, singleTransactionResult } from "./test-data";
 import { doesNotMatch } from "assert";
+import { HttpTestUtil } from "./http-test-util";
 
 describe("http-client-base test", () => {
   let stub: MockAdapter;
@@ -2976,7 +2977,7 @@ describe("http-client-base test", () => {
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
 
-    it("query non-fungible-token thumbnail resource update status", async () => {
+  it("query non-fungible-token thumbnail resource update status", async () => {
     const testContractId = "9636a07e";
     const testRequestId = "test-request-id";
     const testTokenType1 = "10000001";
@@ -3419,22 +3420,13 @@ describe("http-client-base test", () => {
 });
 
 function assertHeaders(headers: any) {
-  expect(headers).to.have.any.keys(Constant.SERVICE_API_KEY_HEADER);
-  expect(headers).to.have.any.keys(Constant.NONCE_HEADER);
-  expect(headers).to.have.any.keys(Constant.SIGNATURE_HEADER);
-  expect(headers).to.have.any.keys(Constant.TIMESTAMP_HEADER);
+  HttpTestUtil.assertHeaders(headers);
 }
 
 function assertPageParameters(pageParameters: any, pageRequest: PageRequest) {
-  expect(pageParameters["page"]).to.equal(pageRequest.page);
-  expect(pageParameters["limit"]).to.equal(pageRequest.limit);
-  expect(pageParameters["orderBy"]).to.equal(pageRequest.orderBy);
+  HttpTestUtil.assertPageParameters(pageParameters, pageRequest);
 }
 
 function assertParameters(configParams: any, params: any) {
-  console.log("configParams: " + JSON.stringify(configParams));
-  _.forOwn(params, (value, key) => {
-    console.log(`key:${key}, value: ${value}`);
-    expect(configParams[key]).to.equal(value);
-  });
+  HttpTestUtil.assertParameters(configParams, params);
 }
