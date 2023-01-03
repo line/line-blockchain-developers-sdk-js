@@ -1,10 +1,10 @@
 import { Logger } from "tslog";
 import _ from "lodash";
-import { LoggerController } from "./logger-controller"
+import { LoggerWrapper } from "./logger-wrapper"
 
 const DEFAULT_LOG_LEVEL = process.env.log_level || "debug";
 export class LoggerFactory {
-  static logger(name: string, config: object = {}): LoggerController {
+  static logger(name: string, config: object = {}): LoggerWrapper {
     const loggerConfig = config
       ? _.cloneDeep(config)
       : {
@@ -14,6 +14,6 @@ export class LoggerFactory {
         minLevel: DEFAULT_LOG_LEVEL,
       };
     loggerConfig["name"] = name;
-    return new LoggerController(new Logger(loggerConfig))
+    return new LoggerWrapper(new Logger(loggerConfig))
   }
 }

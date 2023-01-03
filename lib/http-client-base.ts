@@ -1,5 +1,5 @@
 import { LoggerFactory } from "./logger-factory";
-import { LoggerController } from "./logger-controller";
+import { LoggerWrapper } from "./logger-wrapper";
 import _ from "lodash";
 import { RequestParameterValidator } from "./request-parameter-validator";
 import axios, {
@@ -93,7 +93,7 @@ declare module "axios" {
 }
 
 export class HttpClient {
-  private logger: LoggerController = LoggerFactory.logger("HttpClient");
+  private logger: LoggerWrapper = LoggerFactory.logger("HttpClient");
 
   protected readonly instance: AxiosInstance;
   private readonly serviceApiKey: string;
@@ -139,13 +139,13 @@ export class HttpClient {
   };
 
   private _handleResponse = ({ data }: AxiosResponse) => {
-    this.logger.exec().debug("Response data", JSON.stringify(data));
+    this.logger.debug("Response data", JSON.stringify(data));
     return data;
   };
   protected _handleError = (error: any) => {
     const wrappedError = this.wrapError(error);
     // console.log(wrappedError);
-    this.logger.exec().error("Fail to call API, cause:", wrappedError.toString());
+    this.logger.error("Fail to call API, cause:", wrappedError.toString());
     return Promise.reject(wrappedError);
   };
 
@@ -155,7 +155,7 @@ export class HttpClient {
       config.data = _.omitBy(config.data, _.isNil);
     }
     this.addRequestHeaders(config);
-    this.logger.exec().debug(`API Request - url: ${config.url},headers: ${JSON.stringify(config.headers)}, data: ${config.data || "empty"}`)
+    this.logger.debug(`API Request - url: ${config.url},headers: ${JSON.stringify(config.headers)}, data: ${config.data || "empty"}`)
 
     return config;
   };
@@ -1169,7 +1169,7 @@ export class HttpClient {
 
   private assertTransactionRequest(request: AbstractTransactionRequest) {
     if (!request.toUserId && !request.toAddress) {
-      this.logger.exec().error("toAddress or toUserId, one of them is required");
+      this.logger.error("toAddress or toUserId, one of them is required");
       throw new Error("toAddress or toUserId, one of them is required");
     }
   }
@@ -1178,7 +1178,7 @@ export class HttpClient {
     request: AbstractTokenBurnTransactionRequest,
   ) {
     if (!request.fromUserId && !request.fromAddress) {
-      this.logger.exec().error("fromAddress or fromUserId, one of them is required");
+      this.logger.error("fromAddress or fromUserId, one of them is required");
       throw new Error("fromAddress or fromUserId, one of them is required");
     }
   }
