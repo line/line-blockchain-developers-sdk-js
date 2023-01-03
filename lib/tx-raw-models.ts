@@ -1,7 +1,7 @@
-import { Base64 } from "js-base64";
 import _ from "lodash";
 import { pubkeyToAddress } from "@cosmjs/amino";
 import { EMPTY_STRING_ARRAY } from "./constants";
+
 export class RawTransactionResult {
     constructor(
         readonly height: number,
@@ -43,7 +43,7 @@ export class RawTransactionLogUtil {
 
     public static findEvent(rawTransactionLog: RawTransactionLog, rawMessageEventKeyType: RawMessageEventKeyType): RawTransactionEvent {
         return _(rawTransactionLog.events).find(it => {
-            return it.type === rawMessageEventKeyType.type || _(rawMessageEventKeyType.candidateEventName).includes(it.type)
+            return it.type === rawMessageEventKeyType.eventName || _(rawMessageEventKeyType.candidateEventName).includes(it.type)
         });
     }
 }
