@@ -247,7 +247,9 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
     // TODO resolving events
     switch (eventType) {
       case RawMessageEventKeyTypes.AccountMsgCreateAccount:
-        return [this.txEVentConverter.accountCreated(event, log.msgIndex)];
+        return [this.txEVentConverter.accountCreated(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.AccountMsgEmpty:
+        return [this.txEVentConverter.emptyMsgCreated(log.msgIndex, event)];
       case RawMessageEventKeyTypes.CoinMsgSend:
         return [this.txEVentConverter.coinTransferred(log.msgIndex, event)];
       default:
@@ -265,7 +267,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
 export class LbdTxEventConverterV1 {
   constructor() { }
 
-  public accountCreated(event: RawTransactionEvent, msgIndex: number): TransactionEvent {
+  public accountCreated(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
     let createdAccountAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.CreateAccountTarget);
     return new EventAccountCreated(msgIndex, createdAccountAddress);
   }

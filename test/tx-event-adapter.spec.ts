@@ -1,8 +1,40 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { CoinResponse } from "../lib/response";
-import { CollectionAttribute, EventAccountCreated, EventCoinTransferred, EventCollectionCreated, EventCollectionFtBurned, EventCollectionFtIssued, EventCollectionFtMinted, EventCollectionFtModified, EventCollectionFtTransferred, EventCollectionModified, EventCollectionNftAttached, EventCollectionNftBurned, EventCollectionNftDetached, EventCollectionNftHolderChanged, EventCollectionNftIssued, EventCollectionNftMinted, EventCollectionNftModified, EventCollectionNftRootChanged, EventCollectionNftTransferred, EventCollectionNftTypeModified, EventCollectionProxyApproved, EventCollectionProxyDisapproved, EventEmptyMsgCreated, EventTokenBurned, EventTokenIssued, EventTokenMinted, EventTokenModified, EventTokenTransferred, TokenAttribute } from "../lib/tx-core-models";
-import { RawTransactionEvent, RawTransactionEventAttribute } from "../lib/tx-raw-models";
+import {
+  CollectionAttribute,
+  EventAccountCreated,
+  EventCoinTransferred,
+  EventCollectionCreated,
+  EventCollectionFtBurned,
+  EventCollectionFtIssued,
+  EventCollectionFtMinted,
+  EventCollectionFtModified,
+  EventCollectionFtTransferred,
+  EventCollectionModified,
+  EventCollectionNftAttached,
+  EventCollectionNftBurned,
+  EventCollectionNftDetached,
+  EventCollectionNftHolderChanged,
+  EventCollectionNftIssued,
+  EventCollectionNftMinted,
+  EventCollectionNftModified,
+  EventCollectionNftRootChanged,
+  EventCollectionNftTransferred,
+  EventCollectionNftTypeModified,
+  EventCollectionProxyApproved,
+  EventCollectionProxyDisapproved,
+  EventEmptyMsgCreated,
+  EventTokenBurned,
+  EventTokenIssued,
+  EventTokenMinted,
+  EventTokenModified,
+  EventTokenTransferred,
+  TokenAttribute
+} from "../lib/tx-core-models";
+import {
+  RawTransactionEvent,
+  RawTransactionEventAttribute
+} from "../lib/tx-raw-models";
 import { LbdTxEventConverterV1 } from "../lib/tx-result-adapters";
 
 describe("LbdTxEventConverterV1 tests", () => {
@@ -29,7 +61,7 @@ describe("LbdTxEventConverterV1 tests", () => {
                 new RawTransactionEventAttribute("create_account_target", "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd"),
             ]
         )
-        let actualValue = underTest.accountCreated(createAccountRawTxResultEvent, 0);
+        let actualValue = underTest.accountCreated(0, createAccountRawTxResultEvent);
         let expectedValue = new EventAccountCreated(0, "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd");
         expect(expectedValue).to.deep.equal(actualValue);
     });
