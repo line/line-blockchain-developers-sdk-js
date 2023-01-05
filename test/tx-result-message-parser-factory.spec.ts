@@ -1,74 +1,76 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
-import { TxResultMessageParserFactory } from "../lib/transaction-message-parser";
 import {
-  MessageType,
-  ServiceTokenIssueMessage,
-  ServiceTokenModifyMessage,
-  ServiceTokenMintMessage,
-  ServiceTokenBurnMessage,
-  ServiceTokenBurnFromMessage,
-  ServiceTokenTransferMessage,
-  ServiceTokenTransferFromMessage,
-  ServiceTokenApprovedMessage,
-  ItemTokenCreateMessage,
-  ItemTokenModifyMessage,
-  ItemTokenApproveMessage,
-  ItemTokenDisapproveMessage,
-  NonFungibleTokenAttachMessage,
-  NonFungibleTokenAttachFromMessage,
-  NonFungibleTokenDetachMessage,
-  NonFungibleTokenDetachFromMessage,
+  TxResultMessageParserFactory
+} from "../lib/transaction-message-parser";
+import {
+  BaseCoinTransferMessage,
+  FungibleTokenBurnFromMessage,
+  FungibleTokenBurnMessage,
   FungibleTokenIssueMessage,
   FungibleTokenMintMessage,
-  FungibleTokenBurnMessage,
-  FungibleTokenBurnFromMessage,
+  FungibleTokenTransferFromMessage,
+  FungibleTokenTransferMessage,
+  ItemTokenApproveMessage,
+  ItemTokenCreateMessage,
+  ItemTokenDisapproveMessage,
+  ItemTokenModifyMessage,
+  MessageType,
+  NonFungibleTokenAttachFromMessage,
+  NonFungibleTokenAttachMessage,
+  NonFungibleTokenBurnFromMessage,
+  NonFungibleTokenBurnMessage,
+  NonFungibleTokenDetachFromMessage,
+  NonFungibleTokenDetachMessage,
   NonFungibleTokenIssueMessage,
   NonFungibleTokenMintMessage,
-  NonFungibleTokenBurnMessage,
-  NonFungibleTokenBurnFromMessage,
-  BaseCoinTransferMessage,
-  FungibleTokenTransferMessage,
-  FungibleTokenTransferFromMessage,
-  NonFungibleTokenTransferMessage,
   NonFungibleTokenTransferFromMessage,
+  NonFungibleTokenTransferMessage,
+  ServiceTokenApprovedMessage,
+  ServiceTokenBurnFromMessage,
+  ServiceTokenBurnMessage,
+  ServiceTokenIssueMessage,
+  ServiceTokenMintMessage,
+  ServiceTokenModifyMessage,
+  ServiceTokenTransferFromMessage,
+  ServiceTokenTransferMessage
 } from "../lib/transaction-messages";
 
 import {
-  issueServiceTokenTxResult,
-  serviceTokenMintTxResult,
-  serviceTokenModifyTxResult,
-  genericServiceTokenModifyTxResultResponse,
-  serviceTokenBurnTxResult,
-  serviceTokenBurnFromTxResult,
-  serviceTokenTransferTxResult,
-  serviceTokenTransferFromTxResult,
-  serviceTokenProxyApprovedTxResult,
-  itemTokenCreateTxResult,
-  itemTokenApproveTxResult,
-  itemTokenDisapproveTxResult,
-  fungibleTokenModifyTxResult,
-  nonFungibleTokenTypeModifyTxResult,
-  nonFungibleTokenModifyTxResult,
+  accountMsgEmptyTxResult,
   attachFromNFTTxResult,
   attachNFTTxResult,
-  detachNFTTxResult,
-  detachNFTFromTxResult,
-  issueFungibleTxResult,
-  mintFungibleTxResult,
-  burnFungibleTxResult,
-  burnFromFungibleTxResult,
-  issueNonFungibleTypeTxResult,
-  mintNonFungibleTxResult,
-  burnNonFungibleTxResult,
-  burnFromNonFungibleTxResult,
-  multiMintNonFungibleTxResult,
   baseCoinTransferTxResult,
-  fungibleTokenTransferTxResult,
+  burnFromFungibleTxResult,
+  burnFromNonFungibleTxResult,
+  burnFungibleTxResult,
+  burnNonFungibleTxResult,
+  detachNFTFromTxResult,
+  detachNFTTxResult,
+  fungibleTokenModifyTxResult,
   fungibleTokenTransferFromTxResult,
-  transferNonFungibleTxResult,
+  fungibleTokenTransferTxResult,
+  genericServiceTokenModifyTxResultResponse,
+  issueFungibleTxResult,
+  issueNonFungibleTypeTxResult,
+  issueServiceTokenTxResult,
+  itemTokenApproveTxResult,
+  itemTokenCreateTxResult,
+  itemTokenDisapproveTxResult,
+  mintFungibleTxResult,
+  mintNonFungibleTxResult,
+  multiMintNonFungibleTxResult,
+  nonFungibleTokenModifyTxResult,
+  nonFungibleTokenTypeModifyTxResult,
+  serviceTokenBurnFromTxResult,
+  serviceTokenBurnTxResult,
+  serviceTokenMintTxResult,
+  serviceTokenModifyTxResult,
+  serviceTokenProxyApprovedTxResult,
+  serviceTokenTransferFromTxResult,
+  serviceTokenTransferTxResult,
   transferFromNonFungibleTxResult,
-  accountMsgEmptyTxResult,
+  transferNonFungibleTxResult
 } from "./test-data";
 
 describe("txResultMessageParserFactory-test", () => {
@@ -174,14 +176,14 @@ describe("txResultMessageParserFactory-test", () => {
       serviceTokenBurnFromTxResult,
     ) as ServiceTokenBurnFromMessage;
 
-    expect("tlink1jvsldpv083tu0xd58vrtp54j3q8s84av35k6ax").to.equal(
+    expect("link16mk739rd3r3q8a8dw7zr3h50xunxcq0wp80gtu").to.equal(
       serviceTokenBurnFromMessage.from,
     );
-    expect("tlink1zl4zgr446curnyf9jv07775529axdnu3kxnkex").to.equal(
+    expect("link17gx76scz3pe7gtqq8rmf46favtmxn3sgs6qa49").to.equal(
       serviceTokenBurnFromMessage.proxy,
     );
-    expect("3336b76f").to.equal(serviceTokenBurnFromMessage.contractId);
-    expect("2").to.equal(serviceTokenBurnFromMessage.amount);
+    expect("678c146a").to.equal(serviceTokenBurnFromMessage.contractId);
+    expect("1").to.equal(serviceTokenBurnFromMessage.amount);
   });
 
   it("test parsing to serviceTokenTransferMessage", () => {
