@@ -596,17 +596,17 @@ describe("txResultMessageParserFactory-test", () => {
       burnFromFungibleTxResult,
     ) as FungibleTokenBurnFromMessage;
 
-    expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
+    expect("link1yhjrm7zxn97eu5tnz76j32r76sfq02mtmjttuq").to.equal(
       itemTokenBurnMessage.from,
     );
-    expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(
+    expect("link1z9x3cnadjdvxlrlyl9myrau2uxqrpd0hfwslu4").to.equal(
       itemTokenBurnMessage.proxy,
     );
-    expect("61e14383").to.equal(itemTokenBurnMessage.contractId);
-    expect("61e14383").to.equal(
+    expect("2d8be688").to.equal(itemTokenBurnMessage.contractId);
+    expect("2d8be688").to.equal(
       itemTokenBurnMessage.burnedFungibleTokens[0].contractId,
     );
-    expect("1").to.equal(itemTokenBurnMessage.burnedFungibleTokens[0].amount);
+    expect("500").to.equal(itemTokenBurnMessage.burnedFungibleTokens[0].amount);
   });
 
   it("test parsing to fungibleTokenTransferTxResult", () => {
@@ -813,23 +813,23 @@ describe("txResultMessageParserFactory-test", () => {
       transferNonFungibleTxResult,
     ) as NonFungibleTokenTransferMessage;
 
-    expect("link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu").to.equal(
+    expect("tlink1uly93jzy4qlpf6k803uz4tke6auwl3ukhns90t").to.equal(
       itemTokenTransferMessage.from,
     );
 
-    expect("bf365bab").to.equal(
+    expect("803820e6").to.equal(
       itemTokenTransferMessage.transferredNonFungibleTokens[0].contractId,
     );
-    expect("bf365bab").to.equal(
+    expect("803820e6").to.equal(
       itemTokenTransferMessage.transferredNonFungibleTokens[1].contractId,
     );
-    expect("10000006").to.equal(
+    expect("10000001").to.equal(
       itemTokenTransferMessage.transferredNonFungibleTokens[0].tokenType,
     );
-    expect("10000006").to.equal(
+    expect("10000001").to.equal(
       itemTokenTransferMessage.transferredNonFungibleTokens[1].tokenType,
     );
-    expect("00000005").to.equal(
+    expect("00000004").to.equal(
       itemTokenTransferMessage.transferredNonFungibleTokens[0].tokenIndex,
     );
     expect("00000006").to.equal(

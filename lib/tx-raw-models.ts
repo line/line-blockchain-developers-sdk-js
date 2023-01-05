@@ -499,6 +499,12 @@ export class RawMessageEventKeyTypes {
         eventName: "burn_nft_from",
         candidateEventName: []
     }
+    static CollectionOperationBurnNFT: RawMessageEventKeyType = {
+      name: "CollectionOperationBurnNFT",
+      type: "",
+      eventName: "operation_burn_nft",
+      candidateEventName: []
+    }
     static CollectionMsgTransferFT: RawMessageEventKeyType = {
         name: "CollectionMsgTransferFT",
         type: "collection/MsgTransferFT",
@@ -523,6 +529,12 @@ export class RawMessageEventKeyTypes {
         eventName: "transfer_nft_from",
         candidateEventName: []
     }
+    static CollectionOperationTransferNFT: RawMessageEventKeyType = {
+      name: "CollectionOperationTransferNFT",
+      type: "",
+      eventName: "operation_transfer_nft",
+      candidateEventName: []
+    }
     static CollectionMsgAttach: RawMessageEventKeyType = {
         name: "CollectionMsgAttach",
         type: "collection/MsgAttach",
@@ -546,6 +558,12 @@ export class RawMessageEventKeyTypes {
         type: "collection/MsgDetachFrom",
         eventName: "detach_from",
         candidateEventName: []
+    }
+    static CollectionOperationRootChanged: RawMessageEventKeyType = {
+      name: "CollectionOperationRootChanged",
+      type: "",
+      eventName: "operation_root_changed",
+      candidateEventName: []
     }
     static CollectionMsgApprove: RawMessageEventKeyType = {
         name: "CollectionMsgApprove",

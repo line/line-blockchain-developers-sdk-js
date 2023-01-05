@@ -244,7 +244,6 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
     event: RawTransactionEvent,
     log: RawTransactionLog,
   ): ReadonlyArray<TransactionEvent> {
-    // TODO resolving events
     switch (eventType) {
       // account
       case RawMessageEventKeyTypes.AccountMsgCreateAccount:
@@ -265,18 +264,102 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
         return [this.txEVentConverter.tokenBurned(log.msgIndex, event)];
       case RawMessageEventKeyTypes.TokenMsgBurnFrom:
         return [this.txEVentConverter.tokenBurned(log.msgIndex, event)];
-      case RawMessageEventKeyTypes.TokenMsgModify:
-        let messageEvent = _.find(log.events, it => it.type == "message")
+      case RawMessageEventKeyTypes.TokenMsgModify: {
+        let messageEvent = _.find(log.events, it => it.type == "message");
         return [this.txEVentConverter.tokenModified(log.msgIndex, messageEvent, event)];
+      }
       case RawMessageEventKeyTypes.TokenMsgTransfer:
         return [this.txEVentConverter.tokenTransferred(log.msgIndex, event)];
       case RawMessageEventKeyTypes.TokenMsgTransferFrom:
         return [this.txEVentConverter.tokenTransferred(log.msgIndex, event)];
       case RawMessageEventKeyTypes.TokenMsgApprove:
         return [this.txEVentConverter.tokenProxyApproved(log.msgIndex, event)];
+
+      // collection
+      case RawMessageEventKeyTypes.CollectionMsgCreate: {
+        let eventGrantPermission = RawTransactionLogUtil.findEvent(log, RawMessageEventKeyTypes.GrantPermission)
+        return [this.txEVentConverter.collectionCreated(log.msgIndex, event, eventGrantPermission)];
+      }
+      case RawMessageEventKeyTypes.CollectionMsgIssueFT:
+        return [this.txEVentConverter.collectionFtIssued(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.CollectionMsgIssueNFT: {
+        let messageEvent = _.find(log.events, it => it.type == "message");
+        let senderAddress = RawTransactionEventUtil.findAttribute(messageEvent, EventAttributeTypes.Sender)
+        return [this.txEVentConverter.collectionNftIssued(log.msgIndex, event, senderAddress)];
+      }
+      case RawMessageEventKeyTypes.CollectionMsgMintFT:
+        return [this.txEVentConverter.collectionFtMinted(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.CollectionMsgMintNFT:
+        return [this.txEVentConverter.collectionNftMinted(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.CollectionMsgBurnFT:
+        return [this.txEVentConverter.collectionFtBurned(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.CollectionMsgBurnFTFrom:
+        return [this.txEVentConverter.collectionFtBurned(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.CollectionMsgBurnNFT: {
+        let eventOperationBurnNft = RawTransactionLogUtil.findEvent(log, RawMessageEventKeyTypes.CollectionOperationBurnNFT)
+        return [this.txEVentConverter.collectionNftBurned(log.msgIndex, event, eventOperationBurnNft)];
+      }
+      case RawMessageEventKeyTypes.CollectionMsgBurnNFTFrom: {
+        let eventOperationBurnNft = RawTransactionLogUtil.findEvent(log, RawMessageEventKeyTypes.CollectionOperationBurnNFT)
+        return [this.txEVentConverter.collectionNftBurned(log.msgIndex, event, eventOperationBurnNft)];
+      }
+      case RawMessageEventKeyTypes.CollectionMsgModify: {
+        let messageEvent = _.find(log.events, it => it.type == "message");
+        let senderAddress = RawTransactionEventUtil.findAttribute(messageEvent, EventAttributeTypes.Sender)
+        return [this.txEVentConverter.collectionModified(log.msgIndex, event, senderAddress)];
+      }
+      case RawMessageEventKeyTypes.CollectionMsgTransferFT:
+        return [this.txEVentConverter.collectionFtTransferred(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.CollectionMsgTransferFTFrom:
+        return [this.txEVentConverter.collectionFtTransferred(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.CollectionMsgTransferNFT: {
+        let eventOperationTransferNFT = RawTransactionLogUtil.findEvent(log, RawMessageEventKeyTypes.CollectionOperationTransferNFT)
+        return [
+          this.txEVentConverter.collectionNftTransferred(log.msgIndex, event),
+          this.txEVentConverter.collectionNftHolderChanged(log.msgIndex, event, eventOperationTransferNFT)
+        ];
+      }
+      case RawMessageEventKeyTypes.CollectionMsgTransferNFTFrom: {
+        let eventOperationTransferNFT = RawTransactionLogUtil.findEvent(log, RawMessageEventKeyTypes.CollectionOperationTransferNFT)
+        return [
+          this.txEVentConverter.collectionNftTransferred(log.msgIndex, event),
+          this.txEVentConverter.collectionNftHolderChanged(log.msgIndex, event, eventOperationTransferNFT)
+        ];
+      }
+      case RawMessageEventKeyTypes.CollectionMsgAttach: {
+        let eventOperationRootChanged = RawTransactionLogUtil.findEvent(log, RawMessageEventKeyTypes.CollectionOperationRootChanged)
+        return [
+          this.txEVentConverter.collectionNftAttached(log.msgIndex, event),
+          this.txEVentConverter.collectionNftRootChanged(log.msgIndex, event, eventOperationRootChanged)
+        ];
+      }
+      case RawMessageEventKeyTypes.CollectionMsgAttachFrom: {
+        let eventOperationRootChanged = RawTransactionLogUtil.findEvent(log, RawMessageEventKeyTypes.CollectionOperationRootChanged)
+        return [
+          this.txEVentConverter.collectionNftAttached(log.msgIndex, event),
+          this.txEVentConverter.collectionNftRootChanged(log.msgIndex, event, eventOperationRootChanged)
+        ];
+      }
+      case RawMessageEventKeyTypes.CollectionMsgDetach: {
+        let eventOperationRootChanged = RawTransactionLogUtil.findEvent(log, RawMessageEventKeyTypes.CollectionOperationRootChanged)
+        return [
+          this.txEVentConverter.collectionNftDetached(log.msgIndex, event),
+          this.txEVentConverter.collectionNftRootChanged(log.msgIndex, event, eventOperationRootChanged)
+        ];
+      }
+      case RawMessageEventKeyTypes.CollectionMsgDetachFrom: {
+        let eventOperationRootChanged = RawTransactionLogUtil.findEvent(log, RawMessageEventKeyTypes.CollectionOperationRootChanged)
+        return [
+          this.txEVentConverter.collectionNftDetached(log.msgIndex, event),
+          this.txEVentConverter.collectionNftRootChanged(log.msgIndex, event, eventOperationRootChanged)
+        ];
+      }
+      case RawMessageEventKeyTypes.CollectionMsgApprove:
+        return [this.txEVentConverter.collectionProxyApproved(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.CollectionMsgDisapprove:
+        return [this.txEVentConverter.collectionProxyDisapproved(log.msgIndex, event)];
       default:
         return [];
-
     }
   }
 
@@ -484,7 +567,6 @@ export class LbdTxEventConverterV1 {
     let tokenIdAmount = StringUtil.parseTokenIdAmount(amount);
     let tokenId = tokenIdAmount.tokenId;
 
-    let decimals = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Decimals);
     let minterAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
     let toAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.To);
 
@@ -494,8 +576,8 @@ export class LbdTxEventConverterV1 {
       TokenUtil.tokenTypeFrom(tokenId),
       tokenId,
       tokenIdAmount.amount,
+      toAddress,
       minterAddress,
-      toAddress
     )
   }
 
