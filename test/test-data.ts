@@ -1,5 +1,3 @@
-import exp from "constants";
-
 export const transactionResult = {
   responseTime: 1585467706110,
   statusCode: 1000,
@@ -664,7 +662,7 @@ export const issueServiceTokenTxResult = {
       memo: "",
       signatures: [
         {
-          pub_key: {
+          pubKey: {
             type: "tendermint/PubKeySecp256k1",
             value: "Az3MnK6Qnud9q/16GEd/5LWc4Hy30gy2gPSY9oZoIfbJ",
           },
@@ -954,16 +952,61 @@ export const serviceTokenBurnTxResult = {
 };
 
 export const serviceTokenBurnFromTxResult = {
-  height: 1221266,
-  txhash: "05AFA2C5247EC3DFB1E6617977B01822C775D158082A8025EB4A5E7DFEFC6CAE",
-  codespace: "token",
-  code: 23,
-  index: 1,
-  data: null,
-  logs: null,
-  info: null,
-  gasWanted: 440000,
-  gasUsed: 35313,
+  height: 435956,
+  txhash: "B81C3B9E918F8A30A0192F4186414C5CF3BEEC06D4BCD252C513C954BA69B524",
+  codespace: "",
+  code: 0,
+  index: 4,
+  data: "",
+  logs: [
+    {
+      msgIndex: 0,
+      log: "",
+      events: [
+        {
+          type: "burn_from",
+          attributes: [
+            {
+              key: "contract_id",
+              value: "678c146a"
+            },
+            {
+              key: "proxy",
+              value: "link17gx76scz3pe7gtqq8rmf46favtmxn3sgs6qa49"
+            },
+            {
+              key: "from",
+              value: "link16mk739rd3r3q8a8dw7zr3h50xunxcq0wp80gtu"
+            },
+            {
+              key: "amount",
+              value: "1"
+            }
+          ]
+        },
+        {
+          type: "message",
+          attributes: [
+            {
+              key: "action",
+              value: "burn_from"
+            },
+            {
+              key: "module",
+              value: "token"
+            },
+            {
+              key: "sender",
+              value: "link17gx76scz3pe7gtqq8rmf46favtmxn3sgs6qa49"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  info: "",
+  gasWanted: 62796,
+  gasUsed: 51117,
   tx: {
     type: "cosmos-sdk/StdTx",
     value: {
@@ -971,31 +1014,30 @@ export const serviceTokenBurnFromTxResult = {
         {
           type: "token/MsgBurnFrom",
           value: {
-            proxy: "tlink1zl4zgr446curnyf9jv07775529axdnu3kxnkex",
-            contractId: "3336b76f",
-            from: "tlink1jvsldpv083tu0xd58vrtp54j3q8s84av35k6ax",
-            amount: "2",
-          },
-        },
+            proxy: "link17gx76scz3pe7gtqq8rmf46favtmxn3sgs6qa49",
+            contract_id: "678c146a",
+            from: "link16mk739rd3r3q8a8dw7zr3h50xunxcq0wp80gtu",
+            amount: "1"
+          }
+        }
       ],
       fee: {
-        gas: 440000,
-        amount: [],
+        gas: 62796,
+        amount: []
       },
       memo: "",
       signatures: [
         {
-          pub_key: {
+          pubKey: {
             type: "tendermint/PubKeySecp256k1",
-            value: "Axk3kE9+A6XbAwjS34NvWR3/AtXcDtX602dfl0kps9zU",
+            value: "AgIyPPXQ/mT6vVSCmsCmTCr9dwP5ccm32OUhro1ooPSG"
           },
-          signature:
-            "p5eW6aEhpT2kCO1jQ7Yhhr6ir1CydLbQfBUEsHPSiY463IswySRkHeENC64yRwlbC6xXB2yCutzWr/K3CB+cNQ==",
-        },
-      ],
-    },
+          signature: "gMQ0nYHaDexG2gQUXVypKUmJJGXU3VbXs8b9O3XKSXJm9PuR/1K1J/Y/yrBT6t1a83iN1Xt9iw4wULY+ydl+JA=="
+        }
+      ]
+    }
   },
-  timestamp: 1618370726000,
+  timestamp: 1616575171000
 };
 
 export const serviceTokenTransferTxResult = {
@@ -1255,7 +1297,7 @@ export const serviceTokenProxyApprovedTxResult = {
       memo: "",
       signatures: [
         {
-          pub_key: {
+          pubKey: {
             type: "tendermint/PubKeySecp256k1",
             value: "AiIrcNL3/Rda9zUMlg3/ocwuvfkne5usVNjfO+oEtYua",
           },
@@ -3742,84 +3784,84 @@ export const failedTransferFromNonFungibleTxResult = {
 
 
 export const createAccountTxResult = {
-  "height": 430069,
-  "txhash": "DA6DC65B2141E104A69A5F0F93C9E965EE796496385DC993FEEF79B91854B108",
-  "codespace": "",
-  "code": 0,
-  "index": 0,
-  "data": "",
-  "logs": [
+  height: 430069,
+  txhash: "DA6DC65B2141E104A69A5F0F93C9E965EE796496385DC993FEEF79B91854B108",
+  codespace: "",
+  code: 0,
+  index: 0,
+  data: "",
+  logs: [
     {
-      "msgIndex": 0,
-      "log": "",
-      "events": [
+      msgIndex: 0,
+      log: "",
+      events: [
         {
-          "type": "create_account",
-          "attributes": [
+          type: "create_account",
+          attributes: [
             {
-              "key": "create_account_from",
-              "value": "link1e9xfq4gkjdredmyka98qes3m4g6xtzqn403vf9"
+              key: "create_account_from",
+              value: "link1e9xfq4gkjdredmyka98qes3m4g6xtzqn403vf9"
             },
             {
-              "key": "create_account_target",
-              "value": "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd"
+              key: "create_account_target",
+              value: "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd"
             }
           ]
         },
         {
-          "type": "message",
-          "attributes": [
+          type: "message",
+          attributes: [
             {
-              "key": "action",
-              "value": "create_account"
+              key: "action",
+              value: "create_account"
             },
             {
-              "key": "sender",
-              "value": "link1e9xfq4gkjdredmyka98qes3m4g6xtzqn403vf9"
+              key: "sender",
+              value: "link1e9xfq4gkjdredmyka98qes3m4g6xtzqn403vf9"
             },
             {
-              "key": "action",
-              "value": "create_account"
+              key: "action",
+              value: "create_account"
             },
             {
-              "key": "module",
-              "value": "account"
+              key: "module",
+              value: "account"
             }
           ]
         }
       ]
     }
   ],
-  "info": "",
-  "gasWanted": 200000,
-  "gasUsed": 42114,
-  "tx": {
-    "type": "cosmos-sdk/StdTx",
-    "value": {
-      "msg": [
+  info: "",
+  gasWanted: 200000,
+  gasUsed: 42114,
+  tx: {
+    type: "cosmos-sdk/StdTx",
+    value: {
+      msg: [
         {
-          "type": "account/MsgCreateAccount",
-          "value": {
-            "from": "link1e9xfq4gkjdredmyka98qes3m4g6xtzqn403vf9",
-            "target": "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd"
+          type: "account/MsgCreateAccount",
+          value: {
+            from: "link1e9xfq4gkjdredmyka98qes3m4g6xtzqn403vf9",
+            target: "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd"
           }
         }
       ],
-      "fee": {
-        "gas": "200000",
-        "amount": []
+      fee: {
+        gas: 200000,
+        amount: []
       },
-      "memo": "",
-      "signatures": [
+      memo: "",
+      signatures: [
         {
-          "pubKey": {
-            "type": "tendermint/PubKeySecp256k1",
-            "value": "AhwH4dCM7+mIVM2GQxnijhhSQ5SUkZ4nQDo0+kitOHEF"
+          pubKey: {
+            type: "tendermint/PubKeySecp256k1",
+            value: "AhwH4dCM7+mIVM2GQxnijhhSQ5SUkZ4nQDo0+kitOHEF"
           },
-          "signature": "uD0IoeIOYG2uP8nd3AnLDpL0RSQxfd8hp43crSif0fYSP+T8tLOxUQMAK3lQ6IqpH6sRBCCFaRkMqenIXi8Uiw=="
+          signature: "uD0IoeIOYG2uP8nd3AnLDpL0RSQxfd8hp43crSif0fYSP+T8tLOxUQMAK3lQ6IqpH6sRBCCFaRkMqenIXi8Uiw=="
         }
       ]
     }
   },
-  "timestamp": 1616561548000
-}
+  timestamp: 1616561548000
+};

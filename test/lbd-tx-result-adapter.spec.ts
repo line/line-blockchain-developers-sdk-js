@@ -1,5 +1,3 @@
-import _ from "lodash";
-import { expect } from "chai";
 import { describe, it } from "mocha";
 import { HrpPrefix } from "../lib/constants";
 import {
@@ -8,7 +6,13 @@ import {
 } from "../lib/tx-result-adapters";
 import { RawTransactionResult } from "../lib/tx-raw-models";
 import { TxResult, TxSigner } from "../lib/tx-core-models";
-import { baseCoinTransferTxResult } from "./test-data";
+import {
+  accountMsgEmptyTxResult,
+  baseCoinTransferTxResult,
+  createAccountTxResult
+} from "./test-data";
+import { expect } from "chai";
+import _ from "lodash";
 
 describe("LbdTxResultAdapterV1 test", () => {
   let underTest: TxResultAdapter<RawTransactionResult, TxResult> = new LbdTxResultAdapterV1(HrpPrefix.TEST_NET);
@@ -24,4 +28,28 @@ describe("LbdTxResultAdapterV1 test", () => {
     expect(lbdTxResult.txEvents).to.be.not.empty;
     expect(_.first(Array.from(lbdTxResult.txEvents))["eventName"]).to.equal("EventCoinTransferred");
   });
+
+  it("test createAccountTxResult", () => {
+    let inputRawTxResult = createAccountTxResult;
+    let lbdTxResult = underTest.adapt(inputRawTxResult);
+    expect(lbdTxResult.summary.height).to.equal(inputRawTxResult.height);
+    expect(lbdTxResult.summary.txHash).to.equal(inputRawTxResult.txhash);
+    expect(lbdTxResult.summary.txIndex).to.equal(inputRawTxResult.index);
+    expect(lbdTxResult.txMessages).to.be.not.empty;
+    expect(lbdTxResult.txEvents).to.be.not.empty;
+    expect(_.first(Array.from(lbdTxResult.txEvents))["eventName"]).to.equal("EventAccountCreated");
+  });
+
+  it("test accountMsgEmptyTxResult", () => {
+    let inputRawTxResult = accountMsgEmptyTxResult;
+    let lbdTxResult = underTest.adapt(inputRawTxResult);
+    expect(lbdTxResult.summary.height).to.equal(inputRawTxResult.height);
+    expect(lbdTxResult.summary.txHash).to.equal(inputRawTxResult.txhash);
+    expect(lbdTxResult.summary.txIndex).to.equal(inputRawTxResult.index);
+    expect(lbdTxResult.txMessages).to.be.not.empty;
+    expect(lbdTxResult.txEvents).to.be.not.empty;
+    expect(_.first(Array.from(lbdTxResult.txEvents))["eventName"]).to.equal("EventEmptyMsgCreated");
+  });
 });
+
+

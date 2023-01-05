@@ -246,10 +246,34 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
   ): ReadonlyArray<TransactionEvent> {
     // TODO resolving events
     switch (eventType) {
+      // account
       case RawMessageEventKeyTypes.AccountMsgCreateAccount:
-        return [this.txEVentConverter.accountCreated(event, log.msgIndex)];
+        return [this.txEVentConverter.accountCreated(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.AccountMsgEmpty:
+        return [this.txEVentConverter.emptyMsgCreated(log.msgIndex, event)];
+
+      // coin
       case RawMessageEventKeyTypes.CoinMsgSend:
         return [this.txEVentConverter.coinTransferred(log.msgIndex, event)];
+
+      // token
+      case RawMessageEventKeyTypes.TokenMsgIssue:
+        return [this.txEVentConverter.tokenIssued(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.TokenMsgMint:
+        return [this.txEVentConverter.tokenMinted(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.TokenMsgBurn:
+        return [this.txEVentConverter.tokenBurned(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.TokenMsgBurnFrom:
+        return [this.txEVentConverter.tokenBurned(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.TokenMsgModify:
+        let messageEvent = _.find(log.events, it => it.type == "message")
+        return [this.txEVentConverter.tokenModified(log.msgIndex, messageEvent, event)];
+      case RawMessageEventKeyTypes.TokenMsgTransfer:
+        return [this.txEVentConverter.tokenTransferred(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.TokenMsgTransferFrom:
+        return [this.txEVentConverter.tokenTransferred(log.msgIndex, event)];
+      case RawMessageEventKeyTypes.TokenMsgApprove:
+        return [this.txEVentConverter.tokenProxyApproved(log.msgIndex, event)];
       default:
         return [];
 
@@ -265,7 +289,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
 export class LbdTxEventConverterV1 {
   constructor() { }
 
-  public accountCreated(event: RawTransactionEvent, msgIndex: number): TransactionEvent {
+  public accountCreated(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
     let createdAccountAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.CreateAccountTarget);
     return new EventAccountCreated(msgIndex, createdAccountAddress);
   }
