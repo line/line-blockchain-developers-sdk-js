@@ -1413,7 +1413,7 @@ export const itemTokenCreateTxResult = {
       memo: "",
       signatures: [
         {
-          pub_key: {
+          pubKey: {
             type: "tendermint/PubKeySecp256k1",
             value: "AuP7XzFCVfejnMtr52DS42s9mjmd5kGZVeyaURsa0sAm",
           },
@@ -2827,16 +2827,61 @@ export const burnFungibleTxResult = {
 };
 
 export const burnFromFungibleTxResult = {
-  height: 168958,
-  txhash: "B522B0959DDAF915F1F2841025B2FC4B3A35DA21E85B71C7FB165D1222DC8693",
+  height: 22606205,
+  txhash: "3DE3E082E36753D527FF7CF25BBAF775AE9A27855BDF9A3AB62AFA8A9B6A9D9F",
   codespace: "",
   code: 0,
   index: 0,
   data: "",
-  logs: null,
+  logs: [
+    {
+      msgIndex: 0,
+      log: "",
+      events: [
+        {
+          type: "burn_ft_from",
+          attributes: [
+            {
+              key: "contract_id",
+              value: "2d8be688"
+            },
+            {
+              key: "proxy",
+              value: "link1z9x3cnadjdvxlrlyl9myrau2uxqrpd0hfwslu4"
+            },
+            {
+              key: "from",
+              value: "link1yhjrm7zxn97eu5tnz76j32r76sfq02mtmjttuq"
+            },
+            {
+              key: "amount",
+              value: "500:0000000100000000"
+            }
+          ]
+        },
+        {
+          type: "message",
+          attributes: [
+            {
+              key: "action",
+              value: "burn_ft_from"
+            },
+            {
+              key: "module",
+              value: "collection"
+            },
+            {
+              key: "sender",
+              value: "link1z9x3cnadjdvxlrlyl9myrau2uxqrpd0hfwslu4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   info: "",
-  gasWanted: 100000000,
-  gasUsed: 132821,
+  gasWanted: 69282,
+  gasUsed: 56519,
   tx: {
     type: "cosmos-sdk/StdTx",
     value: {
@@ -2844,37 +2889,36 @@ export const burnFromFungibleTxResult = {
         {
           type: "collection/MsgBurnFTFrom",
           value: {
-            proxy: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-            from: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-            contractId: "61e14383",
+            proxy: "link1z9x3cnadjdvxlrlyl9myrau2uxqrpd0hfwslu4",
+            contractId: "2d8be688",
+            from: "link1yhjrm7zxn97eu5tnz76j32r76sfq02mtmjttuq",
             amount: [
               {
                 tokenId: "0000000100000000",
-                amount: 1,
-              },
-            ],
-          },
-        },
+                amount: 500
+              }
+            ]
+          }
+        }
       ],
       fee: {
-        gas: 100000000,
-        amount: [],
+        gas: 69282,
+        amount: [ ]
       },
       memo: "",
       signatures: [
         {
           pubKey: {
             type: "tendermint/PubKeySecp256k1",
-            value: "A41pCdZ71Vw66K5er5JrzVqYffiZsjoLBDB2szrNIJjy",
+            value: "A1mdoBg0PGWui1MmSCmbw7t07IpY5haRjlpOvHT8RMz1"
           },
-          signature:
-            "wdIVwwikR9Dc8XTr8+lHvDtJlDTFimMABFpKPGvwPN4fSHC2dyHDxOvdwT5e7E2fK1GyaeJaq7uTHfSczuC5hg==",
-        },
-      ],
-    },
+          signature: "P7GJcXgY2maNYsIXliQu6Ow7M9G+QrJKvNtAYAUUUqQrci9KXDFF9Lo7HvDAqf81GcCV736Lue0k1sI+hNShog=="
+        }
+      ]
+    }
   },
-  timestamp: 1618370726000,
-};
+  timestamp: 1670465353000
+}
 
 export const issueNonFungibleTypeTxResult = {
   height: 170448,
@@ -3419,16 +3463,78 @@ export const multiMintNonFungibleTxResult = {
 };
 
 export const transferNonFungibleTxResult = {
-  height: 1449976,
-  txhash: "0A57292ADCFB9AD34FB2B0DB7EC1B652E075AD90F44604869AD67CB74E4035D1",
-  codespace: "collection",
-  code: 2,
+  height: 23106624,
+  txhash: "2FAD1E4E6207D9197B77C67319375BCA5A31E6F404EE1E096E45262323C0101D",
+  codespace: "",
+  code: 0,
   index: 0,
   data: "",
-  logs: [],
+  logs: [
+    {
+      msgIndex: 0,
+      log: "",
+      events: [
+        {
+          type: "message",
+          attributes: [
+            {
+              key: "action",
+              value: "transfer_nft"
+            },
+            {
+              key: "module",
+              value: "collection"
+            },
+            {
+              key: "sender",
+              value: "tlink1uly93jzy4qlpf6k803uz4tke6auwl3ukhns90t"
+            }
+          ]
+        },
+        {
+          type: "operation_transfer_nft",
+          attributes: [
+            {
+              key: "token_id",
+              value: "1000000100000004"
+            },
+            {
+              key: "token_id",
+              value: "1000000100000006"
+            }
+          ]
+        },
+        {
+          type: "transfer_nft",
+          attributes: [
+            {
+              key: "contract_id",
+              value: "803820e6"
+            },
+            {
+              key: "from",
+              value: "tlink1uly93jzy4qlpf6k803uz4tke6auwl3ukhns90t"
+            },
+            {
+              key: "to",
+              value: "tlink1nq492tmyhcdz5dp52r7hht6f3w9f3m5wwxwyxv"
+            },
+            {
+              key: "token_id",
+              value: "1000000100000004"
+            },
+            {
+              key: "token_id",
+              value: "1000000100000006"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   info: "",
-  gasWanted: 840000,
-  gasUsed: 35643,
+  gasWanted: 78681,
+  gasUsed: 64355,
   tx: {
     type: "cosmos-sdk/StdTx",
     value: {
@@ -3436,32 +3542,34 @@ export const transferNonFungibleTxResult = {
         {
           type: "collection/MsgTransferNFT",
           value: {
-            from: "link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu",
-            contractId: "bf365bab",
-            to: "link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu",
-            tokenIds: ["1000000600000005", "1000000600000006"],
-          },
-        },
+            from: "tlink1uly93jzy4qlpf6k803uz4tke6auwl3ukhns90t",
+            contractId: "803820e6",
+            to: "tlink1nq492tmyhcdz5dp52r7hht6f3w9f3m5wwxwyxv",
+            tokenIds: [
+              "1000000100000004",
+              "1000000100000006"
+            ]
+          }
+        }
       ],
       fee: {
-        gas: 840000,
-        amount: [],
+        gas: 78681,
+        amount: []
       },
       memo: "",
       signatures: [
         {
           pubKey: {
             type: "tendermint/PubKeySecp256k1",
-            value: "A0S7CghmtkRmFwe9lUAR3Jn+pjg53vRAhVtgP2nbg9J6",
+            value: "A974lA1KH/9LMErULy1+cv+UVW/dYOb1XmkM1GWfC0Si"
           },
-          signature:
-            "FRY97DMH2m/TAFFClgxhH8NYidkvcG6l7Vwotz0JUo0nCqvqc+rIoO3qqVRIHXsZTfSNGsu1NJCou9a9C+xYdg==",
-        },
-      ],
-    },
+          signature: "esNaChjbBbIElyln+NyIfDF/h/y3R9RUzdSN4TiHxZxLSNmQHsfIlkgxZqw5PpE2e8o7TMDNFW9PqIN1j9+qyw=="
+        }
+      ]
+    }
   },
-  timestamp: 1618922051000,
-};
+  timestamp: 1670402367000
+}
 
 export const transferFromNonFungibleTxResult = {
   height: 1449984,
