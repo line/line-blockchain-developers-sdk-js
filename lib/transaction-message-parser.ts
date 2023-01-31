@@ -21,14 +21,14 @@ import {
   NonFungibleTokenAttachFromMessage,
   NonFungibleTokenDetachMessage,
   NonFungibleTokenDetachFromMessage,
-  NonFungibleToken,
+  NonFungibleTokenMessage,
   FungibleTokenIssueMessage,
   FungibleTokenMintMessage,
   FungibleTokenBurnMessage,
   FungibleTokenBurnFromMessage,
   FungibleTokenTransferMessage,
   FungibleTokenTransferFromMessage,
-  TransferredFungibleTokenAmount,
+  TransferredFungibleTokenAmountMessage,
   NonFungibleTokenIssueMessage,
   NonFungibleTokenMintMessage,
   NonFungibleTokenBurnMessage,
@@ -422,8 +422,8 @@ export class NFTAttachMessageParser
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
       TxResultUtil.findSenderWalletAddress(txResultResponse),
-      new NonFungibleToken(contractId, tokenType, parentTokenIndex),
-      new NonFungibleToken(contractId, tokenType, tokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, parentTokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, tokenIndex),
     );
   }
 }
@@ -457,8 +457,8 @@ export class NFTAttachFromMessageParser
       TxResultUtil.findFromWalletAddress(txResultResponse),
       TxResultUtil.findProxyWalletAddress(txResultResponse),
       TxResultUtil.findSenderWalletAddress(txResultResponse),
-      new NonFungibleToken(contractId, tokenType, parentTokenIndex),
-      new NonFungibleToken(contractId, tokenType, tokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, parentTokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, tokenIndex),
     );
   }
 }
@@ -493,8 +493,8 @@ export class NFTDetachMessageParser
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
       TxResultUtil.findSenderWalletAddress(txResultResponse),
-      new NonFungibleToken(contractId, tokenType, parentTokenIndex),
-      new NonFungibleToken(contractId, tokenType, tokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, parentTokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, tokenIndex),
     );
   }
 }
@@ -530,8 +530,8 @@ export class NFTDetachFromMessageParser
       TxResultUtil.findFromWalletAddress(txResultResponse),
       TxResultUtil.findSenderWalletAddress(txResultResponse),
       TxResultUtil.findProxyWalletAddress(txResultResponse),
-      new NonFungibleToken(contractId, tokenType, parentTokenIndex),
-      new NonFungibleToken(contractId, tokenType, tokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, parentTokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, tokenIndex),
     );
   }
 }
