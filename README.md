@@ -229,3 +229,7 @@ This class provides a functionality to [generate signatures](https://docs-blockc
 All API requests, except for the endpoint to retrieve the server time, must pass authentication information and be signed. Signing is a bit annoying, but never mind, fortunately, `HttpClient` itself will import this and generate signatures before sending a request. 
 
 If you do want to study how LINE Blockchain signature created, it's okay to dive into the source code.
+
+
+### New transaction result
+Please refer to [New transaction result](./docs/README.md)
