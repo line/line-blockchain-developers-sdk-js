@@ -3,17 +3,17 @@ import jsonpath from "jsonpath";
 import { TokenUtil } from "./token-util";
 import { TxResultResponse } from "./response";
 import {
-  TokenChange,
-  IssuedServiceToken,
-  CreatedItemToken,
-  MintedFungibleToken,
-  BurnedFungibleToken,
-  IssuedNonFungibleToken,
-  IssuedFungibleToken,
-  MintedNonFungibleToken,
-  NonFungibleToken,
-  BaseCoinAmount,
-  TransferredFungibleTokenAmount,
+  TokenChangeMessage,
+  IssuedServiceTokenMessage,
+  CreatedItemTokenMessage,
+  MintedFungibleTokenMessage,
+  BurnedFungibleTokenMessage,
+  IssuedNonFungibleTokenMessage,
+  IssuedFungibleTokenMessage,
+  MintedNonFungibleTokenMessage,
+  NonFungibleTokenMessage,
+  BaseCoinAmountMessage,
+  TransferredFungibleTokenAmountMessage,
 } from "./transaction-messages";
 
 export class TxResultUtil {
@@ -72,7 +72,7 @@ export class TxResultUtil {
     }
   }
 
-  static findChanges(txResultResponse: TxResultResponse): Array<TokenChange> {
+  static findChanges(txResultResponse: TxResultResponse): Array<TokenChangeMessage> {
     return TxResultUtil.findValueFromMessagesWithDefaultValue(
       txResultResponse,
       "changes",
@@ -123,8 +123,8 @@ export class TxResultUtil {
 
   static findCreatedItemToken(
     txResultResponse: TxResultResponse,
-  ): CreatedItemToken {
-    return new CreatedItemToken(
+  ): CreatedItemTokenMessage {
+    return new CreatedItemTokenMessage(
       TxResultUtil.findContractId(txResultResponse),
       TxResultUtil.findOwnerWalletAddress(txResultResponse),
       TxResultUtil.findTokenName(txResultResponse),
@@ -135,7 +135,7 @@ export class TxResultUtil {
 
   static findTransferredFungibleTokenAmount(
     txResultResponse: TxResultResponse,
-  ): TransferredFungibleTokenAmount {
+  ): TransferredFungibleTokenAmountMessage {
     const amounts = TxResultUtil.findValueFromMessagesWithDefaultValue(
       txResultResponse,
       "amount",
@@ -143,7 +143,7 @@ export class TxResultUtil {
     );
     const tokenId = amounts[0]["tokenId"];
     const amount = amounts[0]["amount"];
-    return new TransferredFungibleTokenAmount(
+    return new TransferredFungibleTokenAmountMessage(
       TxResultUtil.findContractId(txResultResponse),
       TokenUtil.tokenTypeFrom(tokenId),
       (amount || "0").toString(),
@@ -186,8 +186,8 @@ export class TxResultUtil {
 
   static findIssuedServiceToken(
     txResultResponse: TxResultResponse,
-  ): IssuedServiceToken {
-    return new IssuedServiceToken(
+  ): IssuedServiceTokenMessage {
+    return new IssuedServiceTokenMessage(
       TxResultUtil.findContractId(txResultResponse),
       TxResultUtil.findTokenName(txResultResponse),
       TxResultUtil.findTokenSymbol(txResultResponse),
@@ -199,7 +199,7 @@ export class TxResultUtil {
 
   static findMintedFungibleTokens(
     txResultResponse: TxResultResponse,
-  ): Array<MintedFungibleToken> {
+  ): Array<MintedFungibleTokenMessage> {
     // array of object
     let amounts: Array<any> = TxResultUtil.findValueFromMessages(
       txResultResponse,
@@ -208,7 +208,7 @@ export class TxResultUtil {
     return amounts.map(it => {
       const tokenId = it["tokenId"];
       const tokenType = TokenUtil.tokenTypeFrom(tokenId);
-      return new MintedFungibleToken(
+      return new MintedFungibleTokenMessage(
         TxResultUtil.findContractId(txResultResponse),
         tokenType,
         (it["amount"] || "0").toString(),
@@ -218,7 +218,7 @@ export class TxResultUtil {
 
   static findBurnedFungibleTokens(
     txResultResponse: TxResultResponse,
-  ): Array<MintedFungibleToken> {
+  ): Array<MintedFungibleTokenMessage> {
     // array of object
     let amounts: Array<any> = TxResultUtil.findValueFromMessages(
       txResultResponse,
@@ -227,7 +227,7 @@ export class TxResultUtil {
     return amounts.map(it => {
       const tokenId = it["tokenId"];
       const tokenType = TokenUtil.tokenTypeFrom(tokenId);
-      return new BurnedFungibleToken(
+      return new BurnedFungibleTokenMessage(
         TxResultUtil.findContractId(txResultResponse),
         tokenType,
         (it["amount"] || "0").toString(),
@@ -237,10 +237,10 @@ export class TxResultUtil {
 
   static findIssuedFungibleToken(
     txResultResponse: TxResultResponse,
-  ): IssuedFungibleToken {
+  ): IssuedFungibleTokenMessage {
     const tokenId = TxResultUtil.findTokenIdFromEvents(txResultResponse);
     const tokenType = TokenUtil.tokenTypeFrom(tokenId);
-    return new IssuedFungibleToken(
+    return new IssuedFungibleTokenMessage(
       TxResultUtil.findContractId(txResultResponse),
       tokenType,
       TxResultUtil.findTokenName(txResultResponse),
@@ -251,8 +251,8 @@ export class TxResultUtil {
 
   static findIssuedNonFungibleToken(
     txResultResponse: TxResultResponse,
-  ): IssuedNonFungibleToken {
-    return new IssuedNonFungibleToken(
+  ): IssuedNonFungibleTokenMessage {
+    return new IssuedNonFungibleTokenMessage(
       TxResultUtil.findContractId(txResultResponse),
       TxResultUtil.findTokenType(txResultResponse),
       TxResultUtil.findTokenName(txResultResponse),
@@ -262,11 +262,11 @@ export class TxResultUtil {
 
   static findMintedNonFungibleToken(
     txResultResponse: TxResultResponse,
-  ): MintedNonFungibleToken {
+  ): MintedNonFungibleTokenMessage {
     const tokenId = TxResultUtil.findTokenId(txResultResponse);
     const tokenType = TokenUtil.tokenTypeFrom(tokenId);
     const tokenIndex = TokenUtil.tokenIndexFrom(tokenId);
-    return new MintedNonFungibleToken(
+    return new MintedNonFungibleTokenMessage(
       TxResultUtil.findFromWalletAddress(txResultResponse),
       TxResultUtil.findSenderWalletAddress(txResultResponse),
       TxResultUtil.findToWalletAddress(txResultResponse),
@@ -280,7 +280,7 @@ export class TxResultUtil {
 
   static findMintedNonFungibleTokens(
     txResultResponse: TxResultResponse,
-  ): Array<MintedNonFungibleToken> {
+  ): Array<MintedNonFungibleTokenMessage> {
     const senderAddresses = jsonpath.query(
       txResultResponse.logs,
       `$..[?(@.key === 'sender')].value`,
@@ -309,7 +309,7 @@ export class TxResultUtil {
     return tokenIdList.map((it, index) => {
       const tokenType = TokenUtil.tokenTypeFrom(it);
       const tokenIndex = TokenUtil.tokenIndexFrom(it);
-      return new MintedNonFungibleToken(
+      return new MintedNonFungibleTokenMessage(
         fromAddresses[index],
         senderAddresses[index],
         toAddresses[index],
@@ -324,26 +324,26 @@ export class TxResultUtil {
 
   static findBurnedNonFungibleToken(
     txResultResponse: TxResultResponse,
-  ): NonFungibleToken {
+  ): NonFungibleTokenMessage {
     return TxResultUtil.findNonFungibleToken(txResultResponse);
   }
 
   static findTransferredNonFungibleToken(
     txResultResponse: TxResultResponse,
-  ): Array<NonFungibleToken> {
+  ): Array<NonFungibleTokenMessage> {
     const contractId = TxResultUtil.findContractId(txResultResponse);
     const tokenIdList = TxResultUtil.findMultiTokenIds(txResultResponse);
 
     return tokenIdList.map((it, _) => {
       const tokenType = TokenUtil.tokenTypeFrom(it);
       const tokenIndex = TokenUtil.tokenIndexFrom(it);
-      return new NonFungibleToken(contractId, tokenType, tokenIndex);
+      return new NonFungibleTokenMessage(contractId, tokenType, tokenIndex);
     });
   }
 
   static findTransferredFromNonFungibleTokens(
     txResultResponse: TxResultResponse,
-  ): Array<NonFungibleToken> {
+  ): Array<NonFungibleTokenMessage> {
     const tokenIdList = jsonpath.query(
       txResultResponse.logs,
       `$..[?(@.key === 'token_id')].value`,
@@ -352,7 +352,7 @@ export class TxResultUtil {
     return tokenIdList.map((it, _) => {
       const tokenType = TokenUtil.tokenTypeFrom(it);
       const tokenIndex = TokenUtil.tokenIndexFrom(it);
-      return new NonFungibleToken(contractId, tokenType, tokenIndex);
+      return new NonFungibleTokenMessage(contractId, tokenType, tokenIndex);
     });
   }
 
@@ -366,11 +366,11 @@ export class TxResultUtil {
 
   static findNonFungibleToken(
     txResultResponse: TxResultResponse,
-  ): NonFungibleToken {
+  ): NonFungibleTokenMessage {
     const tokenId = TxResultUtil.findTokenIdList(txResultResponse)[0];
     const tokenType = TokenUtil.tokenTypeFrom(tokenId);
     const tokenIndex = TokenUtil.tokenIndexFrom(tokenId);
-    return new NonFungibleToken(
+    return new NonFungibleTokenMessage(
       TxResultUtil.findContractId(txResultResponse),
       tokenType,
       tokenIndex,
@@ -528,9 +528,9 @@ export class TxResultUtil {
 
   static findBaseCoinAmount(
     txResultResponse: TxResultResponse,
-  ): BaseCoinAmount {
+  ): BaseCoinAmountMessage {
     const amount = txResultResponse.tx.value.msg[0].value.amount[0];
-    return new BaseCoinAmount(
+    return new BaseCoinAmountMessage(
       amount["denom"],
       (amount["amount"] || "0").toString(),
     );
