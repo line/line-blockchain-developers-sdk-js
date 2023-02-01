@@ -398,7 +398,7 @@ export class EventCollectionNftBurned implements TransactionEvent {
   constructor(
     readonly msgIndex: number,
     readonly contractId: string,
-    readonly tokenIds: Set<string>,
+    readonly tokenIds: Array<string>,
     readonly fromAddress: string,
     readonly proxyAddress: string = null,
   ) {
@@ -425,7 +425,7 @@ export class EventCollectionNftHolderChanged implements TransactionEvent {
   constructor(
     readonly msgIndex: number,
     readonly contractId: string,
-    readonly tokenIds: Set<string>,
+    readonly tokenIds: Array<string>,
     readonly fromAddress: string,
     readonly toAddress: string,
   ) {

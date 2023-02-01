@@ -705,13 +705,7 @@ export class LbdTxEventConverterV1 {
       tokenIds = RawTransactionEventUtil.findAttributes(eventOperationBurnNft, EventAttributeTypes.TokenId);
     }
 
-    return new EventCollectionNftBurned(
-      msgIndex,
-      contractId,
-      new Set(tokenIds),
-      fromAddress,
-      proxyAddress,
-    );
+    return new EventCollectionNftBurned(msgIndex, contractId, tokenIds, fromAddress, proxyAddress);
   }
 
   public collectionNftAttached(
@@ -813,13 +807,7 @@ export class LbdTxEventConverterV1 {
       tokenIds = RawTransactionEventUtil.findAttributes(eventOperationTransferNft, EventAttributeTypes.TokenId);
     }
 
-    return new EventCollectionNftHolderChanged(
-      msgIndex,
-      contractId,
-      new Set(tokenIds),
-      fromAddress,
-      toAddress,
-    );
+    return new EventCollectionNftHolderChanged(msgIndex, contractId, tokenIds, fromAddress, toAddress);
   }
 
   public collectionNftIssued(

@@ -600,12 +600,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     );
 
     let actualValue = underTest.collectionNftBurned(0, collectionNftBurnedRawTxResultEvent, operationBurnNftRawTxResultEvent);
-    let expectedValue = new EventCollectionNftBurned(
-      0,
-      "9636a07e",
-      new Set(["1000000100000001"]),
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-    );
+    let expectedValue = new EventCollectionNftBurned(0, "9636a07e", ["1000000100000001"], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -728,13 +723,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     );
 
     let actualValue = underTest.collectionNftHolderChanged(0, collectionNftTransferredRawTxResultEvent, collectionOperationNftTransferredRawTxResultEvent);
-    let expectedValue = new EventCollectionNftHolderChanged(
-      0,
-      "9636a07e",
-      new Set(["1000000100000003"]),
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-      "tlink1rrjua8zktmqnr6hlsqz7qyx5gxm5z96yt8f5ae",
-    );
+    let expectedValue = new EventCollectionNftHolderChanged(0, "9636a07e", ["1000000100000003"], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", "tlink1rrjua8zktmqnr6hlsqz7qyx5gxm5z96yt8f5ae");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
