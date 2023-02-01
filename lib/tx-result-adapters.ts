@@ -453,12 +453,7 @@ export class LbdTxEventConverterV1 {
       return new TokenAttribute(it.key, it.value);
     });
 
-    return new EventTokenModified(
-      msgIndex,
-      contractId,
-      modifierAddress,
-      new Set(tokenAttributes),
-    );
+    return new EventTokenModified(msgIndex, contractId, modifierAddress, tokenAttributes);
   }
 
   public tokenTransferred(msgIndex: number, event: RawTransactionEvent): TransactionEvent {

@@ -182,7 +182,7 @@ export class EventTokenModified implements TransactionEvent {
     readonly msgIndex: number,
     readonly contractId: string,
     readonly modifierAddress: string,
-    readonly tokenAttributes: Set<TokenAttribute>,
+    readonly tokenAttributes: Array<TokenAttribute>,
   ) {
   }
 

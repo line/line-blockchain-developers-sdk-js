@@ -82,7 +82,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventAccountCreated.name).to.equal(event.constructor.name);
@@ -100,7 +100,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventEmptyMsgCreated.name).to.equal(event.constructor.name);
@@ -118,7 +118,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCoinTransferred.name).to.equal(event.constructor.name);
@@ -138,7 +138,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenIssued.name).to.equal(event.constructor.name);
@@ -162,7 +162,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenMinted.name).to.equal(event.constructor.name);
@@ -183,7 +183,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenBurned.name).to.equal(event.constructor.name);
@@ -203,7 +203,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenBurned.name).to.equal(event.constructor.name);
@@ -223,7 +223,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenModified.name).to.equal(event.constructor.name);
@@ -247,7 +247,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenTransferred.name).to.equal(event.constructor.name);
@@ -268,7 +268,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenTransferred.name).to.equal(event.constructor.name);
@@ -290,7 +290,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenProxyApproved.name).to.equal(event.constructor.name);
@@ -311,7 +311,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionCreated.name).to.equal(event.constructor.name);
@@ -329,7 +329,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtIssued.name).to.equal(event.constructor.name);
@@ -350,7 +350,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftIssued.name).to.equal(event.constructor.name);
@@ -368,7 +368,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtMinted.name).to.equal(event.constructor.name);
@@ -388,7 +388,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftMinted.name).to.equal(event.constructor.name);
@@ -407,7 +407,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtBurned.name).to.equal(event.constructor.name);
@@ -425,7 +425,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtBurned.name).to.equal(event.constructor.name);
@@ -445,7 +445,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftBurned.name).to.equal(event.constructor.name);
@@ -463,7 +463,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftBurned.name).to.equal(event.constructor.name);
@@ -482,7 +482,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftTypeModified.name).to.equal(event.constructor.name);
@@ -506,7 +506,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftModified.name).to.equal(event.constructor.name);
@@ -531,7 +531,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtTransferred.name).to.equal(event.constructor.name);
@@ -551,7 +551,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtTransferred.name).to.equal(event.constructor.name);
@@ -572,7 +572,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftTransferred = _.find(Array.from(actual), it => {
       return it.eventName === "EventCollectionNftTransferred"
@@ -604,7 +604,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftTransferred = _.find(Array.from(actual), it => {
       return it.eventName === "EventCollectionNftTransferred"
@@ -637,7 +637,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftAttached = _.find(Array.from(actual), it => {
       return it.eventName === "EventCollectionNftAttached"
@@ -670,7 +670,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftAttached = _.find(Array.from(actual), it => {
       return it.eventName === "EventCollectionNftAttached"
@@ -704,7 +704,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftDetached = _.find(Array.from(actual), it => {
       return it.eventName === "EventCollectionNftDetached"
@@ -737,7 +737,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftDetached = _.find(Array.from(actual), it => {
       return it.eventName === "EventCollectionNftDetached"
@@ -771,7 +771,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let eventCollectionProxyApproved = _.find(Array.from(actual), it => {
       return it.eventName === "EventCollectionProxyApproved"
@@ -791,7 +791,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let eventCollectionProxyDisapproved = _.find(Array.from(actual), it => {
       return it.eventName === "EventCollectionProxyDisapproved"
