@@ -17,7 +17,7 @@ describe("raw-tx-result-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCoinTransferred.name).to.equal(event.constructor.name);

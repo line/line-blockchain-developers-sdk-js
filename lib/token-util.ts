@@ -26,18 +26,17 @@ export class TokenUtil {
     return tokenType && tokenType.startsWith("0");
   }
 
-  static tokenTypes(tokenIds: Set<string>): Set<string> {
-    return new Set(
-      _.map(tokenIds.values(), it => {
+  static tokenTypes(tokenIds: Array<string>): Array<string> {
+    return _.map(tokenIds.values(), it => {
         return TokenUtil.tokenTypeFrom(it.toString())
       })
-    )
+
   }
 
-  static tokenIndices(tokenIds: Set<string>): Set<string> {
+  static tokenIndices(tokenIds: Array<string>): Array<string> {
     let indices = _.map(tokenIds.values(), it => {
       return TokenUtil.tokenIndexFrom(it.toString())
     });
-    return new Set(indices)
+    return indices
   }
 }

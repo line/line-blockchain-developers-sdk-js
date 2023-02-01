@@ -33,11 +33,11 @@ import {
   serviceTokenTransferFromTxResult,
   serviceTokenTransferTxResult,
   transferFromNonFungibleTxResult,
-  transferNonFungibleTxResult
+  transferNonFungibleTxResult,
 } from "./test-data";
 import {
   LbdTxEventsAdapterV1,
-  RawTransactionResultAdapter
+  RawTransactionResultAdapter,
 } from "../lib/tx-result-adapters";
 import {
   CollectionAttribute,
@@ -67,7 +67,7 @@ import {
   EventTokenModified,
   EventTokenProxyApproved,
   EventTokenTransferred,
-  TokenAttribute
+  TokenAttribute,
 } from "../lib/tx-core-models";
 
 
@@ -82,7 +82,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventAccountCreated.name).to.equal(event.constructor.name);
@@ -100,7 +100,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventEmptyMsgCreated.name).to.equal(event.constructor.name);
@@ -118,7 +118,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCoinTransferred.name).to.equal(event.constructor.name);
@@ -138,7 +138,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenIssued.name).to.equal(event.constructor.name);
@@ -162,7 +162,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenMinted.name).to.equal(event.constructor.name);
@@ -183,15 +183,15 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenBurned.name).to.equal(event.constructor.name);
     let eventTokenBurned: EventTokenBurned = event;
     expect(0).to.equal(eventTokenBurned.msgIndex);
     expect("9be17165").to.equal(eventTokenBurned.contractId);
-    expect("1000").to.equal(eventTokenBurned.amount)
-    expect("tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9").to.equal(eventTokenBurned.fromAddress)
+    expect("1000").to.equal(eventTokenBurned.amount);
+    expect("tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9").to.equal(eventTokenBurned.fromAddress);
     expect(0).to.equal(eventTokenBurned.msgIndex);
     expect("EventTokenBurned").to.equal(eventTokenBurned.eventName);
   });
@@ -203,7 +203,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenBurned.name).to.equal(event.constructor.name);
@@ -223,7 +223,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenModified.name).to.equal(event.constructor.name);
@@ -232,10 +232,10 @@ describe("lbd-tx-event-adapter test", () => {
     expect("9636a07e").to.equal(eventTokenModified.contractId);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventTokenModified.modifierAddress);
     expect(new TokenAttribute("name", "STname")).to.deep.equal(_.find(Array.from(eventTokenModified.tokenAttributes), it => {
-      return it.key === "name"
+      return it.key==="name";
     }));
     expect(new TokenAttribute("meta", "meta")).to.deep.equal(_.find(Array.from(eventTokenModified.tokenAttributes), it => {
-      return it.key === "meta"
+      return it.key==="meta";
     }));
     expect("EventTokenModified").to.equal(eventTokenModified.eventName);
   });
@@ -247,7 +247,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenTransferred.name).to.equal(event.constructor.name);
@@ -268,7 +268,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenTransferred.name).to.equal(event.constructor.name);
@@ -290,7 +290,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventTokenProxyApproved.name).to.equal(event.constructor.name);
@@ -311,7 +311,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionCreated.name).to.equal(event.constructor.name);
@@ -329,7 +329,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtIssued.name).to.equal(event.constructor.name);
@@ -350,7 +350,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftIssued.name).to.equal(event.constructor.name);
@@ -368,7 +368,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtMinted.name).to.equal(event.constructor.name);
@@ -388,14 +388,14 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftMinted.name).to.equal(event.constructor.name);
     let eventCollectionNftMinted: EventCollectionNftMinted = event;
     expect(0).to.equal(eventCollectionNftMinted.msgIndex);
     expect("61e14383").to.equal(eventCollectionNftMinted.contractId);
-    expect(new Set(["1000000100000007"])).to.deep.equals(eventCollectionNftMinted.tokenIds);
+    expect(["1000000100000007"]).to.deep.equals(eventCollectionNftMinted.tokenIds);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftMinted.minterAddress);
     expect("tlink12v6t8c3reucj3ahfvx9tvghpltwchh7uvj5frl").to.equal(eventCollectionNftMinted.toAddress);
     expect("EventCollectionNftMinted").to.equal(eventCollectionNftMinted.eventName);
@@ -407,7 +407,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtBurned.name).to.equal(event.constructor.name);
@@ -425,7 +425,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtBurned.name).to.equal(event.constructor.name);
@@ -445,14 +445,14 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftBurned.name).to.equal(event.constructor.name);
     let eventCollectionNftBurned: EventCollectionNftBurned = event;
     expect(0).to.equal(eventCollectionNftBurned.msgIndex);
     expect("61e14383").to.equal(eventCollectionNftBurned.contractId);
-    expect(new Set(["1000000100000003"])).to.deep.equal(eventCollectionNftBurned.tokenIds);
+    expect(["1000000100000003"]).to.deep.equal(eventCollectionNftBurned.tokenIds);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftBurned.fromAddress);
     expect("EventCollectionNftBurned").to.equal(eventCollectionNftBurned.eventName);
   });
@@ -463,14 +463,14 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftBurned.name).to.equal(event.constructor.name);
     let eventCollectionNftBurned: EventCollectionNftBurned = event;
     expect(0).to.equal(eventCollectionNftBurned.msgIndex);
     expect("61e14383").to.equal(eventCollectionNftBurned.contractId);
-    expect(new Set(["1000000100000005"])).to.deep.equal(eventCollectionNftBurned.tokenIds);
+    expect(["1000000100000005"]).to.deep.equal(eventCollectionNftBurned.tokenIds);
     expect("tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph").to.equal(eventCollectionNftBurned.fromAddress);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftBurned.proxyAddress);
     expect("EventCollectionNftBurned").to.equal(eventCollectionNftBurned.eventName);
@@ -482,7 +482,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftTypeModified.name).to.equal(event.constructor.name);
@@ -491,10 +491,10 @@ describe("lbd-tx-event-adapter test", () => {
     expect("61e14383").to.equal(eventCollectionNftTypeModified.contractId);
     expect("10000001").to.equal(eventCollectionNftTypeModified.tokenType);
     expect(new CollectionAttribute("name", "NFT Name")).to.deep.equals(_.find(Array.from(eventCollectionNftTypeModified.tokenAttributes), it => {
-      return it.key === "name"
+      return it.key==="name";
     }));
     expect(new CollectionAttribute("meta", "NFT meta")).to.deep.equals(_.find(Array.from(eventCollectionNftTypeModified.tokenAttributes), it => {
-      return it.key === "meta"
+      return it.key==="meta";
     }));
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftTypeModified.modifierAddress);
     expect("EventCollectionNftTypeModified").to.equal(eventCollectionNftTypeModified.eventName);
@@ -506,7 +506,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionNftModified.name).to.equal(event.constructor.name);
@@ -514,10 +514,10 @@ describe("lbd-tx-event-adapter test", () => {
     expect("61e14383").to.equal(eventCollectionNftModified.contractId);
     expect("1000000100000001").to.equal(eventCollectionNftModified.tokenId);
     expect(new CollectionAttribute("name", "NFT index name")).to.deep.equals(_.find(Array.from(eventCollectionNftModified.tokenAttributes), it => {
-      return it.key === "name"
+      return it.key==="name";
     }));
     expect(new CollectionAttribute("meta", "NFT index meta")).to.deep.equals(_.find(Array.from(eventCollectionNftModified.tokenAttributes), it => {
-      return it.key === "meta"
+      return it.key==="meta";
     }));
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftModified.modifierAddress);
     expect(0).to.equal(eventCollectionNftModified.msgIndex);
@@ -531,7 +531,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtTransferred.name).to.equal(event.constructor.name);
@@ -551,11 +551,11 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let event = actual.values().next().value;
     expect(EventCollectionFtTransferred.name).to.equal(event.constructor.name);
-    let eventCollectionFtTransferred: EventCollectionFtTransferred = event
+    let eventCollectionFtTransferred: EventCollectionFtTransferred = event;
     expect(0).to.equal(eventCollectionFtTransferred.msgIndex);
     expect("bf365bab").to.equal(eventCollectionFtTransferred.contractId);
     expect("00000001").to.equal(eventCollectionFtTransferred.tokenType);
@@ -572,25 +572,25 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftTransferred = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftTransferred"
+      return it.eventName==="EventCollectionNftTransferred";
     }) as EventCollectionNftTransferred;
 
     expect("803820e6", eventCollectionNftTransferred.contractId);
-    expect(new Set(["1000000100000004", "1000000100000006"])).to.deep.equal(eventCollectionNftTransferred.tokenIds);
+    expect(["1000000100000004", "1000000100000006"]).to.deep.equal(eventCollectionNftTransferred.tokenIds);
     expect("tlink1uly93jzy4qlpf6k803uz4tke6auwl3ukhns90t").to.equal(eventCollectionNftTransferred.fromAddress);
     expect("tlink1nq492tmyhcdz5dp52r7hht6f3w9f3m5wwxwyxv").to.equal(eventCollectionNftTransferred.toAddress);
     expect(0).to.equal(eventCollectionNftTransferred.msgIndex);
     expect("EventCollectionNftTransferred", eventCollectionNftTransferred.eventName);
 
     let eventCollectionNftHolderChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftHolderChanged"
+      return it.eventName==="EventCollectionNftHolderChanged";
     }) as EventCollectionNftHolderChanged;
 
     expect("803820e6").to.equal(eventCollectionNftHolderChanged.contractId);
-    expect(new Set(["1000000100000004", "1000000100000006"])).to.deep.equal(eventCollectionNftHolderChanged.tokenIds);
+    expect(["1000000100000004", "1000000100000006"]).to.deep.equal(eventCollectionNftHolderChanged.tokenIds);
     expect("tlink1uly93jzy4qlpf6k803uz4tke6auwl3ukhns90t").to.equal(eventCollectionNftHolderChanged.fromAddress);
     expect("tlink1nq492tmyhcdz5dp52r7hht6f3w9f3m5wwxwyxv").to.equal(eventCollectionNftHolderChanged.toAddress);
     expect(0).to.equal(eventCollectionNftHolderChanged.msgIndex);
@@ -604,14 +604,14 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftTransferred = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftTransferred"
+      return it.eventName==="EventCollectionNftTransferred";
     }) as EventCollectionNftTransferred;
 
     expect("bf365bab", eventCollectionNftTransferred.contractId);
-    expect(new Set(["100000010000000e", "100000010000000f"])).to.deep.equal(eventCollectionNftTransferred.tokenIds);
+    expect(["100000010000000e", "100000010000000f"]).to.deep.equal(eventCollectionNftTransferred.tokenIds);
     expect("link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd").to.equal(eventCollectionNftTransferred.fromAddress);
     expect("link137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p").to.equal(eventCollectionNftTransferred.toAddress);
     expect("link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu").to.equal(eventCollectionNftTransferred.proxyAddress);
@@ -619,11 +619,11 @@ describe("lbd-tx-event-adapter test", () => {
     expect("EventCollectionNftTransferred", eventCollectionNftTransferred.eventName);
 
     let eventCollectionNftHolderChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftHolderChanged"
+      return it.eventName==="EventCollectionNftHolderChanged";
     }) as EventCollectionNftHolderChanged;
 
     expect("bf365bab").to.equal(eventCollectionNftHolderChanged.contractId);
-    expect(new Set(["100000010000000e", "100000010000000f"])).to.deep.equal(eventCollectionNftHolderChanged.tokenIds);
+    expect(["100000010000000e", "100000010000000f"]).to.deep.equal(eventCollectionNftHolderChanged.tokenIds);
     expect("link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd").to.equal(eventCollectionNftHolderChanged.fromAddress);
     expect("link137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p").to.equal(eventCollectionNftHolderChanged.toAddress);
     expect(0).to.equal(eventCollectionNftHolderChanged.msgIndex);
@@ -637,10 +637,10 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftAttached = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftAttached"
+      return it.eventName==="EventCollectionNftAttached";
     }) as EventCollectionNftAttached;
 
     expect("61e14383", eventCollectionNftAttached.contractId);
@@ -651,11 +651,11 @@ describe("lbd-tx-event-adapter test", () => {
     expect("EventCollectionNftAttached", eventCollectionNftAttached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftRootChanged"
+      return it.eventName==="EventCollectionNftRootChanged";
     }) as EventCollectionNftRootChanged;
 
     expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.size);
+    expect(1, eventCollectionNftRootChanged.tokenIds.length);
     expect(new Array(["100000080000000e"]), eventCollectionNftRootChanged.tokenIds);
     expect("100000080000000e", eventCollectionNftRootChanged.oldRootTokenId);
     expect("100000080000000f", eventCollectionNftRootChanged.newRootTokenId);
@@ -670,10 +670,10 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftAttached = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftAttached"
+      return it.eventName==="EventCollectionNftAttached";
     }) as EventCollectionNftAttached;
 
     expect(0, eventCollectionNftAttached.msgIndex);
@@ -685,11 +685,11 @@ describe("lbd-tx-event-adapter test", () => {
     expect("EventCollectionNftAttached", eventCollectionNftAttached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftRootChanged"
+      return it.eventName==="EventCollectionNftRootChanged";
     }) as EventCollectionNftRootChanged;
 
     expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.size);
+    expect(1, eventCollectionNftRootChanged.tokenIds.length);
     expect(new Array(["100000010000000b"]), eventCollectionNftRootChanged.tokenIds);
     expect("100000010000000b", eventCollectionNftRootChanged.oldRootTokenId);
     expect("100000010000000c", eventCollectionNftRootChanged.newRootTokenId);
@@ -704,10 +704,10 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftDetached = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftDetached"
+      return it.eventName==="EventCollectionNftDetached";
     }) as EventCollectionNftDetached;
 
     expect(0, eventCollectionNftDetached.msgIndex);
@@ -718,12 +718,12 @@ describe("lbd-tx-event-adapter test", () => {
     expect("EventCollectionNftDetached", eventCollectionNftDetached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftRootChanged"
+      return it.eventName==="EventCollectionNftRootChanged";
     }) as EventCollectionNftRootChanged;
 
     expect(0, eventCollectionNftRootChanged.msgIndex);
     expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.size);
+    expect(1, eventCollectionNftRootChanged.tokenIds.length);
     expect(new Array(["100000080000000e"]), eventCollectionNftRootChanged.tokenIds);
     expect("100000080000000f", eventCollectionNftRootChanged.oldRootTokenId);
     expect("100000080000000e", eventCollectionNftRootChanged.newRootTokenId);
@@ -737,10 +737,10 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(2).to.equal(actual.size);
+    expect(2).to.equal(actual.length);
 
     let eventCollectionNftDetached = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftDetached"
+      return it.eventName==="EventCollectionNftDetached";
     }) as EventCollectionNftDetached;
 
     expect(0, eventCollectionNftDetached.msgIndex);
@@ -752,12 +752,12 @@ describe("lbd-tx-event-adapter test", () => {
     expect("EventCollectionNftDetached", eventCollectionNftDetached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftRootChanged"
+      return it.eventName==="EventCollectionNftRootChanged";
     }) as EventCollectionNftRootChanged;
 
     expect(0, eventCollectionNftRootChanged.msgIndex);
     expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.size);
+    expect(1, eventCollectionNftRootChanged.tokenIds.length);
     expect(new Array(["100000010000000b"]), eventCollectionNftRootChanged.tokenIds);
     expect("100000080000000c", eventCollectionNftRootChanged.oldRootTokenId);
     expect("100000080000000b", eventCollectionNftRootChanged.newRootTokenId);
@@ -771,10 +771,10 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let eventCollectionProxyApproved = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionProxyApproved"
+      return it.eventName==="EventCollectionProxyApproved";
     }) as EventCollectionProxyApproved;
 
     expect(0).to.equal(eventCollectionProxyApproved.msgIndex);
@@ -791,10 +791,10 @@ describe("lbd-tx-event-adapter test", () => {
 
     let actual = adapter.adapt(rawTransactionResult);
 
-    expect(1).to.equal(actual.size);
+    expect(1).to.equal(actual.length);
 
     let eventCollectionProxyDisapproved = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionProxyDisapproved"
+      return it.eventName==="EventCollectionProxyDisapproved";
     }) as EventCollectionProxyDisapproved;
 
     expect(0).to.equal(eventCollectionProxyDisapproved.msgIndex);

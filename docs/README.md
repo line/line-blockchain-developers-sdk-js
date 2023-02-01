@@ -253,8 +253,8 @@ const lbdTxResultAdapter: TxResultAdapter<RawTransactionResult, TxResult>  = new
 /*
 We can use custom adapters for summary, messages and events
 const customTxResultSummaryAdapter: TxResultAdapter<RawTransactionResult, TxResultSummary> = new CustomTxSummaryAdapterV1();
-const customTxMessagesAdapter: TxResultAdapter<RawTransactionResult, Set<TxMessage>>  = new CustomTxMessageAdapterV1();
-const customTxEventsAdapter: TxResultAdapter<RawTransactionResult, Set<TransactionEvent>>  = new CustomTxMessageAdapterV1();
+const customTxMessagesAdapter: TxResultAdapter<RawTransactionResult, Array<TxMessage>>  = new CustomTxMessageAdapterV1();
+const customTxEventsAdapter: TxResultAdapter<RawTransactionResult, Array<TransactionEvent>>  = new CustomTxMessageAdapterV1();
 
 const lbdTxResultAdapter: TxResultAdapter<RawTransactionResult, TxResult>  = new LbdTxEventsAdapterV1(
    HrpPrefix.TEST_NET,

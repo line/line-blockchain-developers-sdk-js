@@ -18,7 +18,7 @@ describe("lbd-tx-result-summary-adapter test", () => {
         expect(inputRawTxResult.codespace).to.equal(lbdTxResultSummary.result.codeSpace);
         expect(TxSuccessResult.SUCCEEDED).to.equal(lbdTxResultSummary.result.result);
 
-        let expectedSigners = new Set([new TxSigner("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq")])
+        let expectedSigners = [new TxSigner("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq")]
         expect(expectedSigners).to.deep.equal(lbdTxResultSummary.signers);
     });
 });
