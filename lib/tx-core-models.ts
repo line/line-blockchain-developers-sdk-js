@@ -450,7 +450,7 @@ export class EventCollectionNftMinted implements TransactionEvent {
   constructor(
     readonly msgIndex: number,
     readonly contractId: string,
-    readonly tokenIds: Set<string>,
+    readonly tokenIds: Array<string>,
     readonly toAddress: string,
     readonly minterAddress: string,
   ) {
@@ -464,7 +464,7 @@ export class EventCollectionNftModified implements TransactionEvent {
     readonly msgIndex: number,
     readonly contractId: string,
     readonly tokenId: string,
-    readonly tokenAttributes: Set<CollectionAttribute>,
+    readonly tokenAttributes: Array<CollectionAttribute>,
     readonly modifierAddress: string,
   ) {
   }
@@ -476,7 +476,7 @@ export class EventCollectionNftRootChanged implements TransactionEvent {
   constructor(
     readonly msgIndex: number,
     readonly contractId: string,
-    readonly tokenIds: Set<string>,
+    readonly tokenIds: Array<string>,
     readonly oldRootTokenId: string,
     readonly newRootTokenId: string,
   ) {
@@ -489,7 +489,7 @@ export class EventCollectionNftTransferred implements TransactionEvent {
   constructor(
     readonly msgIndex: number,
     readonly contractId: string,
-    readonly tokenIds: Set<string>,
+    readonly tokenIds: Array<string>,
     readonly fromAddress: string,
     readonly toAddress: string,
     readonly proxyAddress: string = null,
@@ -505,7 +505,7 @@ export class EventCollectionNftTypeModified implements TransactionEvent {
     readonly msgIndex: number,
     readonly contractId: string,
     readonly tokenType: string,
-    readonly tokenAttributes: Set<CollectionAttribute>,
+    readonly tokenAttributes: Array<CollectionAttribute>,
     readonly modifierAddress: string,
   ) {
   }

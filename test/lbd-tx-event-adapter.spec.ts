@@ -395,7 +395,7 @@ describe("lbd-tx-event-adapter test", () => {
     let eventCollectionNftMinted: EventCollectionNftMinted = event;
     expect(0).to.equal(eventCollectionNftMinted.msgIndex);
     expect("61e14383").to.equal(eventCollectionNftMinted.contractId);
-    expect(new Set(["1000000100000007"])).to.deep.equals(eventCollectionNftMinted.tokenIds);
+    expect(["1000000100000007"]).to.deep.equals(eventCollectionNftMinted.tokenIds);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftMinted.minterAddress);
     expect("tlink12v6t8c3reucj3ahfvx9tvghpltwchh7uvj5frl").to.equal(eventCollectionNftMinted.toAddress);
     expect("EventCollectionNftMinted").to.equal(eventCollectionNftMinted.eventName);
@@ -452,7 +452,7 @@ describe("lbd-tx-event-adapter test", () => {
     let eventCollectionNftBurned: EventCollectionNftBurned = event;
     expect(0).to.equal(eventCollectionNftBurned.msgIndex);
     expect("61e14383").to.equal(eventCollectionNftBurned.contractId);
-    expect(new Set(["1000000100000003"])).to.deep.equal(eventCollectionNftBurned.tokenIds);
+    expect(["1000000100000003"]).to.deep.equal(eventCollectionNftBurned.tokenIds);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftBurned.fromAddress);
     expect("EventCollectionNftBurned").to.equal(eventCollectionNftBurned.eventName);
   });
@@ -470,7 +470,7 @@ describe("lbd-tx-event-adapter test", () => {
     let eventCollectionNftBurned: EventCollectionNftBurned = event;
     expect(0).to.equal(eventCollectionNftBurned.msgIndex);
     expect("61e14383").to.equal(eventCollectionNftBurned.contractId);
-    expect(new Set(["1000000100000005"])).to.deep.equal(eventCollectionNftBurned.tokenIds);
+    expect(["1000000100000005"]).to.deep.equal(eventCollectionNftBurned.tokenIds);
     expect("tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph").to.equal(eventCollectionNftBurned.fromAddress);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftBurned.proxyAddress);
     expect("EventCollectionNftBurned").to.equal(eventCollectionNftBurned.eventName);
@@ -579,7 +579,7 @@ describe("lbd-tx-event-adapter test", () => {
     }) as EventCollectionNftTransferred;
 
     expect("803820e6", eventCollectionNftTransferred.contractId);
-    expect(new Set(["1000000100000004", "1000000100000006"])).to.deep.equal(eventCollectionNftTransferred.tokenIds);
+    expect(["1000000100000004", "1000000100000006"]).to.deep.equal(eventCollectionNftTransferred.tokenIds);
     expect("tlink1uly93jzy4qlpf6k803uz4tke6auwl3ukhns90t").to.equal(eventCollectionNftTransferred.fromAddress);
     expect("tlink1nq492tmyhcdz5dp52r7hht6f3w9f3m5wwxwyxv").to.equal(eventCollectionNftTransferred.toAddress);
     expect(0).to.equal(eventCollectionNftTransferred.msgIndex);
@@ -590,7 +590,7 @@ describe("lbd-tx-event-adapter test", () => {
     }) as EventCollectionNftHolderChanged;
 
     expect("803820e6").to.equal(eventCollectionNftHolderChanged.contractId);
-    expect(new Set(["1000000100000004", "1000000100000006"])).to.deep.equal(eventCollectionNftHolderChanged.tokenIds);
+    expect(["1000000100000004", "1000000100000006"]).to.deep.equal(eventCollectionNftHolderChanged.tokenIds);
     expect("tlink1uly93jzy4qlpf6k803uz4tke6auwl3ukhns90t").to.equal(eventCollectionNftHolderChanged.fromAddress);
     expect("tlink1nq492tmyhcdz5dp52r7hht6f3w9f3m5wwxwyxv").to.equal(eventCollectionNftHolderChanged.toAddress);
     expect(0).to.equal(eventCollectionNftHolderChanged.msgIndex);
@@ -611,7 +611,7 @@ describe("lbd-tx-event-adapter test", () => {
     }) as EventCollectionNftTransferred;
 
     expect("bf365bab", eventCollectionNftTransferred.contractId);
-    expect(new Set(["100000010000000e", "100000010000000f"])).to.deep.equal(eventCollectionNftTransferred.tokenIds);
+    expect(["100000010000000e", "100000010000000f"]).to.deep.equal(eventCollectionNftTransferred.tokenIds);
     expect("link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd").to.equal(eventCollectionNftTransferred.fromAddress);
     expect("link137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p").to.equal(eventCollectionNftTransferred.toAddress);
     expect("link1he0tp59u36mdjaw560gh8c27pz8fqms88l8nhu").to.equal(eventCollectionNftTransferred.proxyAddress);
@@ -623,7 +623,7 @@ describe("lbd-tx-event-adapter test", () => {
     }) as EventCollectionNftHolderChanged;
 
     expect("bf365bab").to.equal(eventCollectionNftHolderChanged.contractId);
-    expect(new Set(["100000010000000e", "100000010000000f"])).to.deep.equal(eventCollectionNftHolderChanged.tokenIds);
+    expect(["100000010000000e", "100000010000000f"]).to.deep.equal(eventCollectionNftHolderChanged.tokenIds);
     expect("link1j8jd9nps56txm2w3afcjsktrrjh0ft82eftchd").to.equal(eventCollectionNftHolderChanged.fromAddress);
     expect("link137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p").to.equal(eventCollectionNftHolderChanged.toAddress);
     expect(0).to.equal(eventCollectionNftHolderChanged.msgIndex);
@@ -655,7 +655,7 @@ describe("lbd-tx-event-adapter test", () => {
     }) as EventCollectionNftRootChanged;
 
     expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.size);
+    expect(1, eventCollectionNftRootChanged.tokenIds.length);
     expect(new Array(["100000080000000e"]), eventCollectionNftRootChanged.tokenIds);
     expect("100000080000000e", eventCollectionNftRootChanged.oldRootTokenId);
     expect("100000080000000f", eventCollectionNftRootChanged.newRootTokenId);
@@ -689,7 +689,7 @@ describe("lbd-tx-event-adapter test", () => {
     }) as EventCollectionNftRootChanged;
 
     expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.size);
+    expect(1, eventCollectionNftRootChanged.tokenIds.length);
     expect(new Array(["100000010000000b"]), eventCollectionNftRootChanged.tokenIds);
     expect("100000010000000b", eventCollectionNftRootChanged.oldRootTokenId);
     expect("100000010000000c", eventCollectionNftRootChanged.newRootTokenId);
@@ -723,7 +723,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     expect(0, eventCollectionNftRootChanged.msgIndex);
     expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.size);
+    expect(1, eventCollectionNftRootChanged.tokenIds.length);
     expect(new Array(["100000080000000e"]), eventCollectionNftRootChanged.tokenIds);
     expect("100000080000000f", eventCollectionNftRootChanged.oldRootTokenId);
     expect("100000080000000e", eventCollectionNftRootChanged.newRootTokenId);
@@ -757,7 +757,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     expect(0, eventCollectionNftRootChanged.msgIndex);
     expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.size);
+    expect(1, eventCollectionNftRootChanged.tokenIds.length);
     expect(new Array(["100000010000000b"]), eventCollectionNftRootChanged.tokenIds);
     expect("100000080000000c", eventCollectionNftRootChanged.oldRootTokenId);
     expect("100000080000000b", eventCollectionNftRootChanged.newRootTokenId);

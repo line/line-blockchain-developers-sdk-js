@@ -633,13 +633,7 @@ export class LbdTxEventConverterV1 {
       return new CollectionAttribute(it.key, it.value);
     });
 
-    return new EventCollectionNftTypeModified(
-      msgIndex,
-      contractId,
-      TokenUtil.tokenTypeFrom(tokenType),
-      new Set(tokenAttributes),
-      modifierAddress,
-    );
+    return new EventCollectionNftTypeModified(msgIndex, contractId, TokenUtil.tokenTypeFrom(tokenType), tokenAttributes, modifierAddress);
   }
 
   public collectionNftModified(
@@ -655,13 +649,7 @@ export class LbdTxEventConverterV1 {
       return new CollectionAttribute(it.key, it.value);
     });
 
-    return new EventCollectionNftModified(
-      msgIndex,
-      contractId,
-      tokenId,
-      new Set(tokenAttributes),
-      modifierAddress,
-    );
+    return new EventCollectionNftModified(msgIndex, contractId, tokenId, tokenAttributes, modifierAddress);
   }
 
   public collectionModified(
@@ -762,13 +750,7 @@ export class LbdTxEventConverterV1 {
       tokenIds = RawTransactionEventUtil.findAttributes(eventOperationRootChanged, EventAttributeTypes.TokenId);
     }
 
-    return new EventCollectionNftRootChanged(
-      msgIndex,
-      contractId,
-      new Set(tokenIds),
-      oldRootTokenId,
-      newRootTokenId,
-    );
+    return new EventCollectionNftRootChanged(msgIndex, contractId, tokenIds, oldRootTokenId, newRootTokenId);
   }
 
   public collectionNftTransferred(
@@ -784,14 +766,7 @@ export class LbdTxEventConverterV1 {
     }
     let proxyAddress = RawTransactionEventUtil.findAttributeOrNull(event, EventAttributeTypes.Proxy);
 
-    return new EventCollectionNftTransferred(
-      msgIndex,
-      contractId,
-      new Set(tokenIds),
-      fromAddress,
-      toAddress,
-      proxyAddress,
-    );
+    return new EventCollectionNftTransferred(msgIndex, contractId, tokenIds, fromAddress, toAddress, proxyAddress);
   }
 
   public collectionNftHolderChanged(
@@ -836,13 +811,7 @@ export class LbdTxEventConverterV1 {
     let minterAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
     let toAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.To);
 
-    return new EventCollectionNftMinted(
-      msgIndex,
-      contractId,
-      new Set(tokenIds),
-      toAddress,
-      minterAddress,
-    );
+    return new EventCollectionNftMinted(msgIndex, contractId, tokenIds, toAddress, minterAddress);
   }
 
   public collectionProxyApproved(

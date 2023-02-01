@@ -419,13 +419,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
     let actualValue = underTest.collectionNftTypeModified(0, collectionNftTypeModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionNftTypeModified(
-      0,
-      "61e14383",
-      "10000031",
-      new Set([new CollectionAttribute("name", "TestFT")]),
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-    );
+    let expectedValue = new EventCollectionNftTypeModified(0, "61e14383", "10000031", [new CollectionAttribute("name", "TestFT")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -442,13 +436,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
     let actualValue = underTest.collectionNftModified(0, collectionNftModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionNftModified(
-      0,
-      "61e14383",
-      "1000003100000001",
-      new Set([new CollectionAttribute("name", "TestFT")]),
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-    );
+    let expectedValue = new EventCollectionNftModified(0, "61e14383", "1000003100000001", [new CollectionAttribute("name", "TestFT")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -548,13 +536,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
     let actualValue = underTest.collectionModified(0, collectionModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionNftTypeModified(
-      0,
-      "9636a07e",
-      "10000001",
-      new Set([new CollectionAttribute("name", "TestNFT_Type")]),
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-    );
+    let expectedValue = new EventCollectionNftTypeModified(0, "9636a07e", "10000001", [new CollectionAttribute("name", "TestNFT_Type")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -571,13 +553,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
     let actualValue = underTest.collectionModified(0, collectionModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionNftModified(
-      0,
-      "9636a07e",
-      "1000000100000001",
-      new Set([new CollectionAttribute("name", "TestNFT")]),
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-    );
+    let expectedValue = new EventCollectionNftModified(0, "9636a07e", "1000000100000001", [new CollectionAttribute("name", "TestNFT")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -760,13 +736,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     );
 
     let actualValue = underTest.collectionNftMinted(0, collectionNftMintedRawTxResultEvent);
-    let expectedValue = new EventCollectionNftMinted(
-      0,
-      "9636a07e",
-      new Set(["1000000100000003"]),
-      "tlink12v6t8c3reucj3ahfvx9tvghpltwchh7uvj5frl",
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-    );
+    let expectedValue = new EventCollectionNftMinted(0, "9636a07e", ["1000000100000003"], "tlink12v6t8c3reucj3ahfvx9tvghpltwchh7uvj5frl", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -791,13 +761,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     );
 
     let actualValue = underTest.collectionNftRootChanged(0, collectionNftAttachedRawTxResultEvent, collectionNftRootChangedRawTxResultEvent);
-    let expectedValue = new EventCollectionNftRootChanged(
-      0,
-      "9636a07e",
-      new Set(["1000000100000003"]),
-      "1000000100000002",
-      "1000000100000003",
-    );
+    let expectedValue = new EventCollectionNftRootChanged(0, "9636a07e", ["1000000100000003"], "1000000100000002", "1000000100000003");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -821,13 +785,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     );
 
     let actualValue = underTest.collectionNftRootChanged(0, collectionNftAttachedRawTxResultEvent, collectionNftRootChangedRawTxResultEvent);
-    let expectedValue = new EventCollectionNftRootChanged(
-      0,
-      "9636a07e",
-      new Set(["1000000100000003"]),
-      "1000000100000003",
-      "1000000100000002",
-    );
+    let expectedValue = new EventCollectionNftRootChanged(0, "9636a07e", ["1000000100000003"], "1000000100000003", "1000000100000002");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -843,13 +801,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     );
 
     let actualValue = underTest.collectionNftTransferred(0, collectionNftTransferredRawTxResultEvent);
-    let expectedValue = new EventCollectionNftTransferred(
-      0,
-      "9636a07e",
-      new Set(["1000000100000003"]),
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-      "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p",
-    );
+    let expectedValue = new EventCollectionNftTransferred(0, "9636a07e", ["1000000100000003"], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -866,13 +818,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     );
 
     let actualValue = underTest.collectionNftTransferred(0, collectionNftTransferredRawTxResultEvent);
-    let expectedValue = new EventCollectionNftTransferred(
-      0,
-      "9636a07e",
-      new Set(["1000000100000003", "1000000100000004"]),
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-      "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p",
-    );
+    let expectedValue = new EventCollectionNftTransferred(0, "9636a07e", ["1000000100000003", "1000000100000004"], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
