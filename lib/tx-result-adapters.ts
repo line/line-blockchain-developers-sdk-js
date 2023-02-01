@@ -612,13 +612,7 @@ export class LbdTxEventConverterV1 {
       return new CollectionAttribute(it.key, it.value);
     });
 
-    return new EventCollectionFtModified(
-      msgIndex,
-      contractId,
-      TokenUtil.tokenTypeFrom(tokenId),
-      new Set(tokenAttributes),
-      modifierAddress,
-    );
+    return new EventCollectionFtModified(msgIndex, contractId, TokenUtil.tokenTypeFrom(tokenId), tokenAttributes, modifierAddress);
   }
 
 

@@ -354,7 +354,7 @@ export class EventCollectionFtModified implements TransactionEvent {
     readonly msgIndex: number,
     readonly contractId: string,
     readonly tokenType: string,
-    readonly tokenAttributes: Set<CollectionAttribute>,
+    readonly tokenAttributes: Array<CollectionAttribute>,
     readonly modifierAddress: string,
   ) {
   }

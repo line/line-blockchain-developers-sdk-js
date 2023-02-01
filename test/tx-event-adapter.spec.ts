@@ -403,13 +403,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
     let actualValue = underTest.collectionFtModified(0, collectionFtModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionFtModified(
-      0,
-      "61e14383",
-      "00000031",
-      new Set([new CollectionAttribute("name", "TestFT")]),
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-    );
+    let expectedValue = new EventCollectionFtModified(0, "61e14383", "00000031", [new CollectionAttribute("name", "TestFT")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -537,13 +531,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
     let actualValue = underTest.collectionModified(0, collectionModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionFtModified(
-      0,
-      "9636a07e",
-      "00000001",
-      new Set([new CollectionAttribute("name", "TestFT")]),
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-    );
+    let expectedValue = new EventCollectionFtModified(0, "9636a07e", "00000001", [new CollectionAttribute("name", "TestFT")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
