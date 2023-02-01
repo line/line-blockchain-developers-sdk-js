@@ -64,7 +64,7 @@ import {
 import { StringUtil } from "./string-util";
 import { TokenUtil } from "./token-util";
 
-export const EMPTY_TX_EVENTS: Set<TransactionEvent> = new Set();
+export const EMPTY_TX_EVENTS: Array<TransactionEvent> = [];
 
 export interface TxResultAdapter<T, R> {
   adapt(input: T): R;
@@ -153,14 +153,14 @@ export class RawTransactionResultAdapter implements TxResultAdapter<TxResultResp
 
 export class LbdTxResultAdapterV1 implements TxResultAdapter<RawTransactionResult, TxResult> {
   private txResultSummaryAdapter: TxResultAdapter<RawTransactionResult, TxResultSummary>;
-  private txResultMessagesAdapter: TxResultAdapter<RawTransactionResult, Set<TxMessage>>;
-  private txResultEventsAdapter: TxResultAdapter<RawTransactionResult, Set<TransactionEvent>>;
+  private txResultMessagesAdapter: TxResultAdapter<RawTransactionResult, Array<TxMessage>>;
+  private txResultEventsAdapter: TxResultAdapter<RawTransactionResult, Array<TransactionEvent>>;
 
   constructor(
     readonly hrpPrefix: HrpPrefix,
     txResultSummaryAdapter?: TxResultAdapter<RawTransactionResult, TxResultSummary>,
-    txResultMessagesAdapter?: TxResultAdapter<RawTransactionResult, Set<TxMessage>>,
-    txResultEventsAdapter?: TxResultAdapter<RawTransactionResult, Set<TransactionEvent>>,
+    txResultMessagesAdapter?: TxResultAdapter<RawTransactionResult, Array<TxMessage>>,
+    txResultEventsAdapter?: TxResultAdapter<RawTransactionResult, Array<TransactionEvent>>,
   ) {
     this.txResultSummaryAdapter = txResultSummaryAdapter ?? new LbdTxSummaryAdapterV1(hrpPrefix);
     this.txResultMessagesAdapter = txResultMessagesAdapter ?? new LbdTxMessageAdapterV1();
@@ -173,11 +173,7 @@ export class LbdTxResultAdapterV1 implements TxResultAdapter<RawTransactionResul
     let txResultMessages = this.txResultMessagesAdapter.adapt(input);
     let txResultEvents = this.txResultEventsAdapter.adapt(input);
 
-    return new TxResult(
-      txResultSummary,
-      txResultMessages,
-      txResultEvents,
-    );
+    return new TxResult(txResultSummary, txResultMessages, txResultEvents);
   }
 }
 
@@ -194,35 +190,34 @@ export class LbdTxSummaryAdapterV1 implements TxResultAdapter<RawTransactionResu
       input.height,
       input.index,
       input.txhash,
-      new Set(signers),
+      signers,
       new TxStatusResult(
         input.code,
         input.codespace,
-      ),
-    );
+      ));
   }
 }
 
-export class LbdTxMessageAdapterV1 implements TxResultAdapter<RawTransactionResult, Set<TxMessage>> {
-  adapt(input: RawTransactionResult): Set<TxMessage> {
+export class LbdTxMessageAdapterV1 implements TxResultAdapter<RawTransactionResult, Array<TxMessage>> {
+  adapt(input: RawTransactionResult): Array<TxMessage> {
     let tx = input.tx;
     let rawMessages = tx.value.msg;
     let txMessages = _.map(rawMessages, (rawMessage, index) => {
       let type = rawMessage.type;
       return new TxMessage(index, type, rawMessage.value);
     });
-    return new Set(txMessages);
+    return txMessages;
   }
 }
 
-export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResult, Set<TransactionEvent>> {
+export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResult, Array<TransactionEvent>> {
   txEVentConverter: LbdTxEventConverterV1;
 
   constructor() {
     this.txEVentConverter = new LbdTxEventConverterV1();
   }
 
-  adapt(input: RawTransactionResult): Set<TransactionEvent> {
+  adapt(input: RawTransactionResult): Array<TransactionEvent> {
     let logs = input.logs;
 
     if (input.code!==0 || _(logs).isEmpty()) {
@@ -238,7 +233,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
           return this.resolveTransactionEvents(eventType, event, log);
         }
       });
-      return new Set(events);
+      return events;
     }
   }
 

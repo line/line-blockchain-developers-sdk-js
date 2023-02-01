@@ -45,7 +45,7 @@ export class TxResultSummary {
     readonly height: number,
     readonly txIndex: number,
     readonly txHash: string,
-    readonly signers: Set<TxSigner>,
+    readonly signers: Array<TxSigner>,
     readonly result: TxStatusResult,
   ) {
   }
@@ -54,8 +54,8 @@ export class TxResultSummary {
 export class TxResult {
   constructor(
     readonly summary: TxResultSummary,
-    readonly txMessages: Set<TxMessage>,
-    readonly txEvents: Set<TransactionEvent>,
+    readonly txMessages: Array<TxMessage>,
+    readonly txEvents: Array<TransactionEvent>,
   ) {
   }
 
