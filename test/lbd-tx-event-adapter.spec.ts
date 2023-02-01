@@ -33,11 +33,11 @@ import {
   serviceTokenTransferFromTxResult,
   serviceTokenTransferTxResult,
   transferFromNonFungibleTxResult,
-  transferNonFungibleTxResult
+  transferNonFungibleTxResult,
 } from "./test-data";
 import {
   LbdTxEventsAdapterV1,
-  RawTransactionResultAdapter
+  RawTransactionResultAdapter,
 } from "../lib/tx-result-adapters";
 import {
   CollectionAttribute,
@@ -67,7 +67,7 @@ import {
   EventTokenModified,
   EventTokenProxyApproved,
   EventTokenTransferred,
-  TokenAttribute
+  TokenAttribute,
 } from "../lib/tx-core-models";
 
 
@@ -190,8 +190,8 @@ describe("lbd-tx-event-adapter test", () => {
     let eventTokenBurned: EventTokenBurned = event;
     expect(0).to.equal(eventTokenBurned.msgIndex);
     expect("9be17165").to.equal(eventTokenBurned.contractId);
-    expect("1000").to.equal(eventTokenBurned.amount)
-    expect("tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9").to.equal(eventTokenBurned.fromAddress)
+    expect("1000").to.equal(eventTokenBurned.amount);
+    expect("tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9").to.equal(eventTokenBurned.fromAddress);
     expect(0).to.equal(eventTokenBurned.msgIndex);
     expect("EventTokenBurned").to.equal(eventTokenBurned.eventName);
   });
@@ -232,10 +232,10 @@ describe("lbd-tx-event-adapter test", () => {
     expect("9636a07e").to.equal(eventTokenModified.contractId);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventTokenModified.modifierAddress);
     expect(new TokenAttribute("name", "STname")).to.deep.equal(_.find(Array.from(eventTokenModified.tokenAttributes), it => {
-      return it.key === "name"
+      return it.key==="name";
     }));
     expect(new TokenAttribute("meta", "meta")).to.deep.equal(_.find(Array.from(eventTokenModified.tokenAttributes), it => {
-      return it.key === "meta"
+      return it.key==="meta";
     }));
     expect("EventTokenModified").to.equal(eventTokenModified.eventName);
   });
@@ -491,10 +491,10 @@ describe("lbd-tx-event-adapter test", () => {
     expect("61e14383").to.equal(eventCollectionNftTypeModified.contractId);
     expect("10000001").to.equal(eventCollectionNftTypeModified.tokenType);
     expect(new CollectionAttribute("name", "NFT Name")).to.deep.equals(_.find(Array.from(eventCollectionNftTypeModified.tokenAttributes), it => {
-      return it.key === "name"
+      return it.key==="name";
     }));
     expect(new CollectionAttribute("meta", "NFT meta")).to.deep.equals(_.find(Array.from(eventCollectionNftTypeModified.tokenAttributes), it => {
-      return it.key === "meta"
+      return it.key==="meta";
     }));
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftTypeModified.modifierAddress);
     expect("EventCollectionNftTypeModified").to.equal(eventCollectionNftTypeModified.eventName);
@@ -514,10 +514,10 @@ describe("lbd-tx-event-adapter test", () => {
     expect("61e14383").to.equal(eventCollectionNftModified.contractId);
     expect("1000000100000001").to.equal(eventCollectionNftModified.tokenId);
     expect(new CollectionAttribute("name", "NFT index name")).to.deep.equals(_.find(Array.from(eventCollectionNftModified.tokenAttributes), it => {
-      return it.key === "name"
+      return it.key==="name";
     }));
     expect(new CollectionAttribute("meta", "NFT index meta")).to.deep.equals(_.find(Array.from(eventCollectionNftModified.tokenAttributes), it => {
-      return it.key === "meta"
+      return it.key==="meta";
     }));
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftModified.modifierAddress);
     expect(0).to.equal(eventCollectionNftModified.msgIndex);
@@ -555,7 +555,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     let event = actual.values().next().value;
     expect(EventCollectionFtTransferred.name).to.equal(event.constructor.name);
-    let eventCollectionFtTransferred: EventCollectionFtTransferred = event
+    let eventCollectionFtTransferred: EventCollectionFtTransferred = event;
     expect(0).to.equal(eventCollectionFtTransferred.msgIndex);
     expect("bf365bab").to.equal(eventCollectionFtTransferred.contractId);
     expect("00000001").to.equal(eventCollectionFtTransferred.tokenType);
@@ -575,7 +575,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect(2).to.equal(actual.length);
 
     let eventCollectionNftTransferred = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftTransferred"
+      return it.eventName==="EventCollectionNftTransferred";
     }) as EventCollectionNftTransferred;
 
     expect("803820e6", eventCollectionNftTransferred.contractId);
@@ -586,7 +586,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect("EventCollectionNftTransferred", eventCollectionNftTransferred.eventName);
 
     let eventCollectionNftHolderChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftHolderChanged"
+      return it.eventName==="EventCollectionNftHolderChanged";
     }) as EventCollectionNftHolderChanged;
 
     expect("803820e6").to.equal(eventCollectionNftHolderChanged.contractId);
@@ -607,7 +607,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect(2).to.equal(actual.length);
 
     let eventCollectionNftTransferred = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftTransferred"
+      return it.eventName==="EventCollectionNftTransferred";
     }) as EventCollectionNftTransferred;
 
     expect("bf365bab", eventCollectionNftTransferred.contractId);
@@ -619,7 +619,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect("EventCollectionNftTransferred", eventCollectionNftTransferred.eventName);
 
     let eventCollectionNftHolderChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftHolderChanged"
+      return it.eventName==="EventCollectionNftHolderChanged";
     }) as EventCollectionNftHolderChanged;
 
     expect("bf365bab").to.equal(eventCollectionNftHolderChanged.contractId);
@@ -640,7 +640,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect(2).to.equal(actual.length);
 
     let eventCollectionNftAttached = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftAttached"
+      return it.eventName==="EventCollectionNftAttached";
     }) as EventCollectionNftAttached;
 
     expect("61e14383", eventCollectionNftAttached.contractId);
@@ -651,7 +651,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect("EventCollectionNftAttached", eventCollectionNftAttached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftRootChanged"
+      return it.eventName==="EventCollectionNftRootChanged";
     }) as EventCollectionNftRootChanged;
 
     expect("61e14383", eventCollectionNftRootChanged.contractId);
@@ -673,7 +673,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect(2).to.equal(actual.length);
 
     let eventCollectionNftAttached = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftAttached"
+      return it.eventName==="EventCollectionNftAttached";
     }) as EventCollectionNftAttached;
 
     expect(0, eventCollectionNftAttached.msgIndex);
@@ -685,7 +685,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect("EventCollectionNftAttached", eventCollectionNftAttached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftRootChanged"
+      return it.eventName==="EventCollectionNftRootChanged";
     }) as EventCollectionNftRootChanged;
 
     expect("61e14383", eventCollectionNftRootChanged.contractId);
@@ -707,7 +707,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect(2).to.equal(actual.length);
 
     let eventCollectionNftDetached = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftDetached"
+      return it.eventName==="EventCollectionNftDetached";
     }) as EventCollectionNftDetached;
 
     expect(0, eventCollectionNftDetached.msgIndex);
@@ -718,7 +718,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect("EventCollectionNftDetached", eventCollectionNftDetached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftRootChanged"
+      return it.eventName==="EventCollectionNftRootChanged";
     }) as EventCollectionNftRootChanged;
 
     expect(0, eventCollectionNftRootChanged.msgIndex);
@@ -740,7 +740,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect(2).to.equal(actual.length);
 
     let eventCollectionNftDetached = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftDetached"
+      return it.eventName==="EventCollectionNftDetached";
     }) as EventCollectionNftDetached;
 
     expect(0, eventCollectionNftDetached.msgIndex);
@@ -752,7 +752,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect("EventCollectionNftDetached", eventCollectionNftDetached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionNftRootChanged"
+      return it.eventName==="EventCollectionNftRootChanged";
     }) as EventCollectionNftRootChanged;
 
     expect(0, eventCollectionNftRootChanged.msgIndex);
@@ -774,7 +774,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect(1).to.equal(actual.length);
 
     let eventCollectionProxyApproved = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionProxyApproved"
+      return it.eventName==="EventCollectionProxyApproved";
     }) as EventCollectionProxyApproved;
 
     expect(0).to.equal(eventCollectionProxyApproved.msgIndex);
@@ -794,7 +794,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect(1).to.equal(actual.length);
 
     let eventCollectionProxyDisapproved = _.find(Array.from(actual), it => {
-      return it.eventName === "EventCollectionProxyDisapproved"
+      return it.eventName==="EventCollectionProxyDisapproved";
     }) as EventCollectionProxyDisapproved;
 
     expect(0).to.equal(eventCollectionProxyDisapproved.msgIndex);

@@ -688,12 +688,7 @@ export class LbdTxEventConverterV1 {
       let tokenAttributes = _.map([...rawTokenAttributes]).map(it => {
         return new CollectionAttribute(it.key, it.value);
       });
-      return new EventCollectionModified(
-        msgIndex,
-        contractId,
-        new Set(tokenAttributes),
-        modifierAddress,
-      );
+      return new EventCollectionModified(msgIndex, contractId, tokenAttributes, modifierAddress);
     } else if (event.type==="modify_token_type") {
       return this.collectionNftTypeModified(msgIndex, event, modifierAddress);
     } else if (isFungible) {

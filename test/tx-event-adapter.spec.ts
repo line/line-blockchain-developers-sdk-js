@@ -520,12 +520,7 @@ describe("LbdTxEventConverterV1 tests", () => {
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
     let actualValue = underTest.collectionModified(0, collectionModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionModified(
-      0,
-      "9636a07e",
-      new Set([new CollectionAttribute("name", "TestCollection")]),
-      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-    );
+    let expectedValue = new EventCollectionModified(0, "9636a07e", [new CollectionAttribute("name", "TestCollection")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
     expect(expectedValue).to.deep.equal(actualValue);
   });
 

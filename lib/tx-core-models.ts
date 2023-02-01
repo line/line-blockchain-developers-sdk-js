@@ -294,7 +294,7 @@ export class EventCollectionModified implements TransactionEvent {
   constructor(
     readonly msgIndex: number,
     readonly contractId: string,
-    readonly tokenAttributes: Set<CollectionAttribute>,
+    readonly tokenAttributes: Array<CollectionAttribute>,
     readonly modifierAddress: string,
   ) {
   }
