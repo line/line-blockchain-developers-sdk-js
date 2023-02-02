@@ -170,7 +170,7 @@ export class EventTokenBurned implements TransactionEvent {
     readonly contractId: string,
     readonly amount: string,
     readonly fromAddress: string,
-    readonly proxyAddress: string = null,
+    readonly proxyAddress: string = "",
   ) {
   }
 
@@ -252,7 +252,7 @@ export class EventTokenTransferred implements TransactionEvent {
     readonly amount: string,
     readonly fromAddress: string,
     readonly toAddress: string,
-    readonly proxyAddress: string = null,
+    readonly proxyAddress: string = "",
   ) {
   }
 
@@ -268,7 +268,6 @@ enum ItemTokenPermission {
   COLLECTION_MINT = "COLLECTION_MINT",
   COLLECTION_BURN = "COLLECTION_BURN",
 }
-
 
 export class CollectionAttribute {
   constructor(
@@ -310,7 +309,7 @@ export class EventCollectionFtBurned implements TransactionEvent {
     readonly tokenId: string,
     readonly amount: string,
     readonly fromAddress: string,
-    readonly proxyAddress: string = null,
+    readonly proxyAddress: string = "",
   ) {
   }
 
@@ -332,7 +331,6 @@ export class EventCollectionFtIssued implements TransactionEvent {
 
   eventName: string = "EventCollectionFtIssued";
 }
-
 
 export class EventCollectionFtMinted implements TransactionEvent {
   constructor(
@@ -371,13 +369,12 @@ export class EventCollectionFtTransferred implements TransactionEvent {
     readonly amount: string,
     readonly fromAddress: string,
     readonly toAddress: string,
-    readonly proxyAddress: string = null,
+    readonly proxyAddress: string = "",
   ) {
   }
 
   eventName: string = "EventCollectionFtTransferred";
 }
-
 
 export class EventCollectionNftAttached implements TransactionEvent {
   constructor(
@@ -386,13 +383,12 @@ export class EventCollectionNftAttached implements TransactionEvent {
     readonly childTokenId: string,
     readonly parentTokenId: string,
     readonly holderAddress: string,
-    readonly proxyAddress: string = null,
+    readonly proxyAddress: string = "",
   ) {
   }
 
   eventName: string = "EventCollectionNftAttached";
 }
-
 
 export class EventCollectionNftBurned implements TransactionEvent {
   constructor(
@@ -400,7 +396,7 @@ export class EventCollectionNftBurned implements TransactionEvent {
     readonly contractId: string,
     readonly tokenIds: Array<string>,
     readonly fromAddress: string,
-    readonly proxyAddress: string = null,
+    readonly proxyAddress: string = "",
   ) {
   }
 
@@ -414,7 +410,7 @@ export class EventCollectionNftDetached implements TransactionEvent {
     readonly exChildTokenId: string,
     readonly exParentTokenId: string,
     readonly holderAddress: string,
-    readonly proxyAddress: string = null,
+    readonly proxyAddress: string = "",
   ) {
   }
 
@@ -492,7 +488,7 @@ export class EventCollectionNftTransferred implements TransactionEvent {
     readonly tokenIds: Array<string>,
     readonly fromAddress: string,
     readonly toAddress: string,
-    readonly proxyAddress: string = null,
+    readonly proxyAddress: string = "",
   ) {
   }
 

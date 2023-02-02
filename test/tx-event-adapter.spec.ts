@@ -43,13 +43,19 @@ describe("LbdTxEventConverterV1 tests", () => {
     let memoRawTxResultEvent = new RawTransactionEvent(
       "message",
       [
-        new RawTransactionEventAttribute("sender", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
+        new RawTransactionEventAttribute(
+          "sender",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
         new RawTransactionEventAttribute("module", "account"),
         new RawTransactionEventAttribute("action", "empty"),
       ],
     );
     let actualValue = underTest.emptyMsgCreated(0, memoRawTxResultEvent);
-    let expectedValue = new EventEmptyMsgCreated(0, "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
+    let expectedValue = new EventEmptyMsgCreated(
+      0,
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -57,12 +63,24 @@ describe("LbdTxEventConverterV1 tests", () => {
     let createAccountRawTxResultEvent = new RawTransactionEvent(
       "create_account",
       [
-        new RawTransactionEventAttribute("create_account_from", "link1e9xfq4gkjdredmyka98qes3m4g6xtzqn403vf9"),
-        new RawTransactionEventAttribute("create_account_target", "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd"),
+        new RawTransactionEventAttribute(
+          "create_account_from",
+          "link1e9xfq4gkjdredmyka98qes3m4g6xtzqn403vf9",
+        ),
+        new RawTransactionEventAttribute(
+          "create_account_target",
+          "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd",
+        ),
       ],
     );
-    let actualValue = underTest.accountCreated(0, createAccountRawTxResultEvent);
-    let expectedValue = new EventAccountCreated(0, "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd");
+    let actualValue = underTest.accountCreated(
+      0,
+      createAccountRawTxResultEvent,
+    );
+    let expectedValue = new EventAccountCreated(
+      0,
+      "link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -70,13 +88,28 @@ describe("LbdTxEventConverterV1 tests", () => {
     let coinTransferredRawTxResultEvent = new RawTransactionEvent(
       "transfer",
       [
-        new RawTransactionEventAttribute("sender", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("recipient", "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww"),
+        new RawTransactionEventAttribute(
+          "sender",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "recipient",
+          "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww",
+        ),
         new RawTransactionEventAttribute("amount", "1tcony"),
       ],
     );
-    let actualValue = underTest.coinTransferred(0, coinTransferredRawTxResultEvent);
-    let expectedValue = new EventCoinTransferred(0, "tcony", "1", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww");
+    let actualValue = underTest.coinTransferred(
+      0,
+      coinTransferredRawTxResultEvent,
+    );
+    let expectedValue = new EventCoinTransferred(
+      0,
+      "tcony",
+      "1",
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+      "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -87,8 +120,14 @@ describe("LbdTxEventConverterV1 tests", () => {
         new RawTransactionEventAttribute("contract_id", "9be17165"),
         new RawTransactionEventAttribute("name", "Gamja"),
         new RawTransactionEventAttribute("symbol", "GAMJA"),
-        new RawTransactionEventAttribute("owner", "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558"),
-        new RawTransactionEventAttribute("to", "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558"),
+        new RawTransactionEventAttribute(
+          "owner",
+          "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink1n9pqyk4jy8d3pd20quryudxw3g47cl99403558",
+        ),
         new RawTransactionEventAttribute("amount", "1"),
         new RawTransactionEventAttribute("mintable", "true"),
         new RawTransactionEventAttribute("decimals", "6"),
@@ -113,8 +152,14 @@ describe("LbdTxEventConverterV1 tests", () => {
       "mint",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("to", "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww",
+        ),
         new RawTransactionEventAttribute("amount", "1000"),
       ],
     );
@@ -134,7 +179,10 @@ describe("LbdTxEventConverterV1 tests", () => {
       "burn",
       [
         new RawTransactionEventAttribute("contract_id", "9be17165"),
-        new RawTransactionEventAttribute("from", "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9",
+        ),
         new RawTransactionEventAttribute("amount", "1000"),
       ],
     );
@@ -153,8 +201,14 @@ describe("LbdTxEventConverterV1 tests", () => {
       "burn",
       [
         new RawTransactionEventAttribute("contract_id", "9be17165"),
-        new RawTransactionEventAttribute("from", "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9"),
-        new RawTransactionEventAttribute("proxy", "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe9",
+        ),
+        new RawTransactionEventAttribute(
+          "proxy",
+          "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8",
+        ),
         new RawTransactionEventAttribute("amount", "1000"),
       ],
     );
@@ -184,10 +238,17 @@ describe("LbdTxEventConverterV1 tests", () => {
       [
         new RawTransactionEventAttribute("module", "token"),
         new RawTransactionEventAttribute("action", "modify_token"),
-        new RawTransactionEventAttribute("sender", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
+        new RawTransactionEventAttribute(
+          "sender",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
       ],
     );
-    let actualValue = underTest.tokenModified(0, emptyMessageEvent, tokenMintedRawTxResultEvent);
+    let actualValue = underTest.tokenModified(
+      0,
+      emptyMessageEvent,
+      tokenMintedRawTxResultEvent,
+    );
     let expectedValue = new EventTokenModified(
       0,
       "9636a07e",
@@ -195,7 +256,8 @@ describe("LbdTxEventConverterV1 tests", () => {
       [
         new TokenAttribute("name", "STname"),
         new TokenAttribute("meta", "meta"),
-      ]);
+      ],
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -203,14 +265,23 @@ describe("LbdTxEventConverterV1 tests", () => {
     let tokenTransferredRawTxResultEvent = new RawTransactionEvent(
       "transfer",
       [
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("to", "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww",
+        ),
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
         new RawTransactionEventAttribute("amount", "1000"),
       ],
     );
 
-    let actualValue = underTest.tokenTransferred(0, tokenTransferredRawTxResultEvent);
+    let actualValue = underTest.tokenTransferred(
+      0,
+      tokenTransferredRawTxResultEvent,
+    );
     let expectedValue = new EventTokenTransferred(
       0,
       "9636a07e",
@@ -225,15 +296,27 @@ describe("LbdTxEventConverterV1 tests", () => {
     let tokenTransferredRawTxResultEvent = new RawTransactionEvent(
       "transfer",
       [
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("to", "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww"),
-        new RawTransactionEventAttribute("proxy", "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww",
+        ),
+        new RawTransactionEventAttribute(
+          "proxy",
+          "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8",
+        ),
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
         new RawTransactionEventAttribute("amount", "1000"),
       ],
     );
 
-    let actualValue = underTest.tokenTransferred(0, tokenTransferredRawTxResultEvent);
+    let actualValue = underTest.tokenTransferred(
+      0,
+      tokenTransferredRawTxResultEvent,
+    );
     let expectedValue = new EventTokenTransferred(
       0,
       "9636a07e",
@@ -250,7 +333,10 @@ describe("LbdTxEventConverterV1 tests", () => {
       "create_collection",
       [
         new RawTransactionEventAttribute("name", "testContract"),
-        new RawTransactionEventAttribute("owner", "link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz"),
+        new RawTransactionEventAttribute(
+          "owner",
+          "link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz",
+        ),
         new RawTransactionEventAttribute("contract_id", "fee15a74"),
       ],
     );
@@ -258,11 +344,18 @@ describe("LbdTxEventConverterV1 tests", () => {
     let permissionGrantedRawTxResultEvent = new RawTransactionEvent(
       "grant_perm",
       [
-        new RawTransactionEventAttribute("to", "link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz"),
+        new RawTransactionEventAttribute(
+          "to",
+          "link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz",
+        ),
       ],
     );
 
-    let actualValue = underTest.collectionCreated(0, collectionCreatedRawTxResultEvent, permissionGrantedRawTxResultEvent);
+    let actualValue = underTest.collectionCreated(
+      0,
+      collectionCreatedRawTxResultEvent,
+      permissionGrantedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionCreated(
       0,
       "fee15a74",
@@ -277,12 +370,18 @@ describe("LbdTxEventConverterV1 tests", () => {
       "create_collection",
       [
         new RawTransactionEventAttribute("name", "testContract"),
-        new RawTransactionEventAttribute("owner", "link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz"),
+        new RawTransactionEventAttribute(
+          "owner",
+          "link17k4j8nfr47urlzfz6h7hzdaankpkz0dgce0xkz",
+        ),
         new RawTransactionEventAttribute("contract_id", "fee15a74"),
       ],
     );
 
-    let actualValue = underTest.collectionCreated(0, collectionCreatedRawTxResultEvent);
+    let actualValue = underTest.collectionCreated(
+      0,
+      collectionCreatedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionCreated(
       0,
       "fee15a74",
@@ -297,12 +396,18 @@ describe("LbdTxEventConverterV1 tests", () => {
       "burn_ft",
       [
         new RawTransactionEventAttribute("amount", "1:0000000100000000"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
         new RawTransactionEventAttribute("contract_id", "61e14383"),
       ],
     );
 
-    let actualValue = underTest.collectionFtBurned(0, collectionCreatedRawTxResultEvent);
+    let actualValue = underTest.collectionFtBurned(
+      0,
+      collectionCreatedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionFtBurned(
       0,
       "61e14383",
@@ -319,13 +424,22 @@ describe("LbdTxEventConverterV1 tests", () => {
       "burn_ft",
       [
         new RawTransactionEventAttribute("amount", "1:0000000100000000"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
         new RawTransactionEventAttribute("contract_id", "61e14383"),
-        new RawTransactionEventAttribute("proxy", "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8"),
+        new RawTransactionEventAttribute(
+          "proxy",
+          "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8",
+        ),
       ],
     );
 
-    let actualValue = underTest.collectionFtBurned(0, collectionCreatedRawTxResultEvent);
+    let actualValue = underTest.collectionFtBurned(
+      0,
+      collectionCreatedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionFtBurned(
       0,
       "61e14383",
@@ -343,8 +457,14 @@ describe("LbdTxEventConverterV1 tests", () => {
       "issue_ft",
       [
         new RawTransactionEventAttribute("amount", "100"),
-        new RawTransactionEventAttribute("owner", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("to", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
+        new RawTransactionEventAttribute(
+          "owner",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
         new RawTransactionEventAttribute("contract_id", "61e14383"),
         new RawTransactionEventAttribute("name", "TestFT"),
         new RawTransactionEventAttribute("token_id", "0000003100000000"),
@@ -353,7 +473,10 @@ describe("LbdTxEventConverterV1 tests", () => {
       ],
     );
 
-    let actualValue = underTest.collectionFtIssued(0, collectionFtIssuedRawTxResultEvent);
+    let actualValue = underTest.collectionFtIssued(
+      0,
+      collectionFtIssuedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionFtIssued(
       0,
       "61e14383",
@@ -372,13 +495,22 @@ describe("LbdTxEventConverterV1 tests", () => {
       "mint_ft",
       [
         new RawTransactionEventAttribute("amount", "100:0000003100000000"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("to", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
         new RawTransactionEventAttribute("contract_id", "61e14383"),
       ],
     );
 
-    let actualValue = underTest.collectionFtMinted(0, collectionFtMintedRawTxResultEvent);
+    let actualValue = underTest.collectionFtMinted(
+      0,
+      collectionFtMintedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionFtMinted(
       0,
       "61e14383",
@@ -402,8 +534,18 @@ describe("LbdTxEventConverterV1 tests", () => {
     );
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
-    let actualValue = underTest.collectionFtModified(0, collectionFtModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionFtModified(0, "61e14383", "00000031", [new CollectionAttribute("name", "TestFT")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
+    let actualValue = underTest.collectionFtModified(
+      0,
+      collectionFtModifiedRawTxResultEvent,
+      senderAddress,
+    );
+    let expectedValue = new EventCollectionFtModified(
+      0,
+      "61e14383",
+      "00000031",
+      [new CollectionAttribute("name", "TestFT")],
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -418,8 +560,18 @@ describe("LbdTxEventConverterV1 tests", () => {
     );
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
-    let actualValue = underTest.collectionNftTypeModified(0, collectionNftTypeModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionNftTypeModified(0, "61e14383", "10000031", [new CollectionAttribute("name", "TestFT")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
+    let actualValue = underTest.collectionNftTypeModified(
+      0,
+      collectionNftTypeModifiedRawTxResultEvent,
+      senderAddress,
+    );
+    let expectedValue = new EventCollectionNftTypeModified(
+      0,
+      "61e14383",
+      "10000031",
+      [new CollectionAttribute("name", "TestFT")],
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -435,8 +587,18 @@ describe("LbdTxEventConverterV1 tests", () => {
     );
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
-    let actualValue = underTest.collectionNftModified(0, collectionNftModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionNftModified(0, "61e14383", "1000003100000001", [new CollectionAttribute("name", "TestFT")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
+    let actualValue = underTest.collectionNftModified(
+      0,
+      collectionNftModifiedRawTxResultEvent,
+      senderAddress,
+    );
+    let expectedValue = new EventCollectionNftModified(
+      0,
+      "61e14383",
+      "1000003100000001",
+      [new CollectionAttribute("name", "TestFT")],
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -444,14 +606,23 @@ describe("LbdTxEventConverterV1 tests", () => {
     let tokenTransferredRawTxResultEvent = new RawTransactionEvent(
       "transfer_ft",
       [
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("to", "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww",
+        ),
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
         new RawTransactionEventAttribute("amount", "100:0000000100000000"),
       ],
     );
 
-    let actualValue = underTest.collectionFtTransferred(0, tokenTransferredRawTxResultEvent);
+    let actualValue = underTest.collectionFtTransferred(
+      0,
+      tokenTransferredRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionFtTransferred(
       0,
       "9636a07e",
@@ -468,15 +639,27 @@ describe("LbdTxEventConverterV1 tests", () => {
     let tokenTransferredRawTxResultEvent = new RawTransactionEvent(
       "transfer_ft",
       [
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("proxy", "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8"),
-        new RawTransactionEventAttribute("to", "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "proxy",
+          "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww",
+        ),
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
         new RawTransactionEventAttribute("amount", "100:0000000100000000"),
       ],
     );
 
-    let actualValue = underTest.collectionFtTransferred(0, tokenTransferredRawTxResultEvent);
+    let actualValue = underTest.collectionFtTransferred(
+      0,
+      tokenTransferredRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionFtTransferred(
       0,
       "9636a07e",
@@ -501,8 +684,17 @@ describe("LbdTxEventConverterV1 tests", () => {
 
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
-    let actualValue = underTest.collectionModified(0, collectionModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionModified(0, "9636a07e", [new CollectionAttribute("name", "TestCollection")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
+    let actualValue = underTest.collectionModified(
+      0,
+      collectionModifiedRawTxResultEvent,
+      senderAddress,
+    );
+    let expectedValue = new EventCollectionModified(
+      0,
+      "9636a07e",
+      [new CollectionAttribute("name", "TestCollection")],
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -518,8 +710,18 @@ describe("LbdTxEventConverterV1 tests", () => {
 
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
-    let actualValue = underTest.collectionModified(0, collectionModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionFtModified(0, "9636a07e", "00000001", [new CollectionAttribute("name", "TestFT")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
+    let actualValue = underTest.collectionModified(
+      0,
+      collectionModifiedRawTxResultEvent,
+      senderAddress,
+    );
+    let expectedValue = new EventCollectionFtModified(
+      0,
+      "9636a07e",
+      "00000001",
+      [new CollectionAttribute("name", "TestFT")],
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -535,8 +737,18 @@ describe("LbdTxEventConverterV1 tests", () => {
 
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
-    let actualValue = underTest.collectionModified(0, collectionModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionNftTypeModified(0, "9636a07e", "10000001", [new CollectionAttribute("name", "TestNFT_Type")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
+    let actualValue = underTest.collectionModified(
+      0,
+      collectionModifiedRawTxResultEvent,
+      senderAddress,
+    );
+    let expectedValue = new EventCollectionNftTypeModified(
+      0,
+      "9636a07e",
+      "10000001",
+      [new CollectionAttribute("name", "TestNFT_Type")],
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -552,8 +764,18 @@ describe("LbdTxEventConverterV1 tests", () => {
 
     let senderAddress = "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq";
 
-    let actualValue = underTest.collectionModified(0, collectionModifiedRawTxResultEvent, senderAddress);
-    let expectedValue = new EventCollectionNftModified(0, "9636a07e", "1000000100000001", [new CollectionAttribute("name", "TestNFT")], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
+    let actualValue = underTest.collectionModified(
+      0,
+      collectionModifiedRawTxResultEvent,
+      senderAddress,
+    );
+    let expectedValue = new EventCollectionNftModified(
+      0,
+      "9636a07e",
+      "1000000100000001",
+      [new CollectionAttribute("name", "TestNFT")],
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -563,7 +785,10 @@ describe("LbdTxEventConverterV1 tests", () => {
       "burn_nft",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
         new RawTransactionEventAttribute("token_id", "1000000100000001"),
       ],
     );
@@ -575,8 +800,17 @@ describe("LbdTxEventConverterV1 tests", () => {
       ],
     );
 
-    let actualValue = underTest.collectionNftBurned(0, collectionNftBurnedRawTxResultEvent, operationBurnNftRawTxResultEvent);
-    let expectedValue = new EventCollectionNftBurned(0, "9636a07e", ["1000000100000001"], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
+    let actualValue = underTest.collectionNftBurned(
+      0,
+      collectionNftBurnedRawTxResultEvent,
+      operationBurnNftRawTxResultEvent,
+    );
+    let expectedValue = new EventCollectionNftBurned(
+      0,
+      "9636a07e",
+      ["1000000100000001"],
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -585,15 +819,27 @@ describe("LbdTxEventConverterV1 tests", () => {
       "attach",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
         new RawTransactionEventAttribute("token_id", "1000000100000003"),
         new RawTransactionEventAttribute("to_token_id", "1000000100000002"),
-        new RawTransactionEventAttribute("old_root_token_id", "1000000100000003"),
-        new RawTransactionEventAttribute("new_root_token_id", "1000000100000002"),
+        new RawTransactionEventAttribute(
+          "old_root_token_id",
+          "1000000100000003",
+        ),
+        new RawTransactionEventAttribute(
+          "new_root_token_id",
+          "1000000100000002",
+        ),
       ],
     );
 
-    let actualValue = underTest.collectionNftAttached(0, collectionNftAttachedRawTxResultEvent);
+    let actualValue = underTest.collectionNftAttached(
+      0,
+      collectionNftAttachedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionNftAttached(
       0,
       "9636a07e",
@@ -609,16 +855,31 @@ describe("LbdTxEventConverterV1 tests", () => {
       "attach",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("proxy", "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "proxy",
+          "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8",
+        ),
         new RawTransactionEventAttribute("token_id", "1000000100000003"),
         new RawTransactionEventAttribute("to_token_id", "1000000100000002"),
-        new RawTransactionEventAttribute("old_root_token_id", "1000000100000003"),
-        new RawTransactionEventAttribute("new_root_token_id", "1000000100000002"),
+        new RawTransactionEventAttribute(
+          "old_root_token_id",
+          "1000000100000003",
+        ),
+        new RawTransactionEventAttribute(
+          "new_root_token_id",
+          "1000000100000002",
+        ),
       ],
     );
 
-    let actualValue = underTest.collectionNftAttached(0, collectionNftAttachedRawTxResultEvent);
+    let actualValue = underTest.collectionNftAttached(
+      0,
+      collectionNftAttachedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionNftAttached(
       0,
       "9636a07e",
@@ -635,15 +896,27 @@ describe("LbdTxEventConverterV1 tests", () => {
       "detach",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
         new RawTransactionEventAttribute("token_id", "1000000100000003"),
         new RawTransactionEventAttribute("from_token_id", "1000000100000002"),
-        new RawTransactionEventAttribute("old_root_token_id", "1000000100000002"),
-        new RawTransactionEventAttribute("new_root_token_id", "1000000100000003"),
+        new RawTransactionEventAttribute(
+          "old_root_token_id",
+          "1000000100000002",
+        ),
+        new RawTransactionEventAttribute(
+          "new_root_token_id",
+          "1000000100000003",
+        ),
       ],
     );
 
-    let actualValue = underTest.collectionNftDetached(0, collectionNftDetachedRawTxResultEvent);
+    let actualValue = underTest.collectionNftDetached(
+      0,
+      collectionNftDetachedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionNftDetached(
       0,
       "9636a07e",
@@ -659,16 +932,31 @@ describe("LbdTxEventConverterV1 tests", () => {
       "detach",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("proxy", "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "proxy",
+          "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8",
+        ),
         new RawTransactionEventAttribute("token_id", "1000000100000003"),
         new RawTransactionEventAttribute("from_token_id", "1000000100000002"),
-        new RawTransactionEventAttribute("old_root_token_id", "1000000100000002"),
-        new RawTransactionEventAttribute("new_root_token_id", "1000000100000003"),
+        new RawTransactionEventAttribute(
+          "old_root_token_id",
+          "1000000100000002",
+        ),
+        new RawTransactionEventAttribute(
+          "new_root_token_id",
+          "1000000100000003",
+        ),
       ],
     );
 
-    let actualValue = underTest.collectionNftDetached(0, collectionNftDetachedRawTxResultEvent);
+    let actualValue = underTest.collectionNftDetached(
+      0,
+      collectionNftDetachedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionNftDetached(
       0,
       "9636a07e",
@@ -685,8 +973,14 @@ describe("LbdTxEventConverterV1 tests", () => {
       "transfer_nft",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("to", "tlink1rrjua8zktmqnr6hlsqz7qyx5gxm5z96yt8f5ae"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink1rrjua8zktmqnr6hlsqz7qyx5gxm5z96yt8f5ae",
+        ),
         new RawTransactionEventAttribute("token_id", "1000000100000003"),
       ],
     );
@@ -698,8 +992,18 @@ describe("LbdTxEventConverterV1 tests", () => {
       ],
     );
 
-    let actualValue = underTest.collectionNftHolderChanged(0, collectionNftTransferredRawTxResultEvent, collectionOperationNftTransferredRawTxResultEvent);
-    let expectedValue = new EventCollectionNftHolderChanged(0, "9636a07e", ["1000000100000003"], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", "tlink1rrjua8zktmqnr6hlsqz7qyx5gxm5z96yt8f5ae");
+    let actualValue = underTest.collectionNftHolderChanged(
+      0,
+      collectionNftTransferredRawTxResultEvent,
+      collectionOperationNftTransferredRawTxResultEvent,
+    );
+    let expectedValue = new EventCollectionNftHolderChanged(
+      0,
+      "9636a07e",
+      ["1000000100000003"],
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+      "tlink1rrjua8zktmqnr6hlsqz7qyx5gxm5z96yt8f5ae",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -714,7 +1018,11 @@ describe("LbdTxEventConverterV1 tests", () => {
 
     let issuerAddress = "tlink1z9x3cnadjdvxlrlyl9myrau2uxqrpd0hfwslu4";
 
-    let actualValue = underTest.collectionNftIssued(0, collectionNftIssuedRawTxResultEvent, issuerAddress);
+    let actualValue = underTest.collectionNftIssued(
+      0,
+      collectionNftIssuedRawTxResultEvent,
+      issuerAddress,
+    );
     let expectedValue = new EventCollectionNftIssued(
       0,
       "9636a07e",
@@ -730,13 +1038,28 @@ describe("LbdTxEventConverterV1 tests", () => {
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
         new RawTransactionEventAttribute("token_id", "1000000100000003"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("to", "tlink12v6t8c3reucj3ahfvx9tvghpltwchh7uvj5frl"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink12v6t8c3reucj3ahfvx9tvghpltwchh7uvj5frl",
+        ),
       ],
     );
 
-    let actualValue = underTest.collectionNftMinted(0, collectionNftMintedRawTxResultEvent);
-    let expectedValue = new EventCollectionNftMinted(0, "9636a07e", ["1000000100000003"], "tlink12v6t8c3reucj3ahfvx9tvghpltwchh7uvj5frl", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq");
+    let actualValue = underTest.collectionNftMinted(
+      0,
+      collectionNftMintedRawTxResultEvent,
+    );
+    let expectedValue = new EventCollectionNftMinted(
+      0,
+      "9636a07e",
+      ["1000000100000003"],
+      "tlink12v6t8c3reucj3ahfvx9tvghpltwchh7uvj5frl",
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -745,12 +1068,24 @@ describe("LbdTxEventConverterV1 tests", () => {
       "detach",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("proxy", "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "proxy",
+          "tlink1xrr7amq5g80afllmfcud59y3w60q58llx2zpe8",
+        ),
         new RawTransactionEventAttribute("token_id", "1000000100000003"),
         new RawTransactionEventAttribute("from_token_id", "1000000100000002"),
-        new RawTransactionEventAttribute("old_root_token_id", "1000000100000002"),
-        new RawTransactionEventAttribute("new_root_token_id", "1000000100000003"),
+        new RawTransactionEventAttribute(
+          "old_root_token_id",
+          "1000000100000002",
+        ),
+        new RawTransactionEventAttribute(
+          "new_root_token_id",
+          "1000000100000003",
+        ),
       ],
     );
     let collectionNftRootChangedRawTxResultEvent = new RawTransactionEvent(
@@ -760,8 +1095,18 @@ describe("LbdTxEventConverterV1 tests", () => {
       ],
     );
 
-    let actualValue = underTest.collectionNftRootChanged(0, collectionNftAttachedRawTxResultEvent, collectionNftRootChangedRawTxResultEvent);
-    let expectedValue = new EventCollectionNftRootChanged(0, "9636a07e", ["1000000100000003"], "1000000100000002", "1000000100000003");
+    let actualValue = underTest.collectionNftRootChanged(
+      0,
+      collectionNftAttachedRawTxResultEvent,
+      collectionNftRootChangedRawTxResultEvent,
+    );
+    let expectedValue = new EventCollectionNftRootChanged(
+      0,
+      "9636a07e",
+      ["1000000100000003"],
+      "1000000100000002",
+      "1000000100000003",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -770,11 +1115,20 @@ describe("LbdTxEventConverterV1 tests", () => {
       "attach",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
         new RawTransactionEventAttribute("token_id", "1000000100000003"),
         new RawTransactionEventAttribute("to_token_id", "1000000100000002"),
-        new RawTransactionEventAttribute("old_root_token_id", "1000000100000003"),
-        new RawTransactionEventAttribute("new_root_token_id", "1000000100000002"),
+        new RawTransactionEventAttribute(
+          "old_root_token_id",
+          "1000000100000003",
+        ),
+        new RawTransactionEventAttribute(
+          "new_root_token_id",
+          "1000000100000002",
+        ),
       ],
     );
     let collectionNftRootChangedRawTxResultEvent = new RawTransactionEvent(
@@ -784,8 +1138,18 @@ describe("LbdTxEventConverterV1 tests", () => {
       ],
     );
 
-    let actualValue = underTest.collectionNftRootChanged(0, collectionNftAttachedRawTxResultEvent, collectionNftRootChangedRawTxResultEvent);
-    let expectedValue = new EventCollectionNftRootChanged(0, "9636a07e", ["1000000100000003"], "1000000100000003", "1000000100000002");
+    let actualValue = underTest.collectionNftRootChanged(
+      0,
+      collectionNftAttachedRawTxResultEvent,
+      collectionNftRootChangedRawTxResultEvent,
+    );
+    let expectedValue = new EventCollectionNftRootChanged(
+      0,
+      "9636a07e",
+      ["1000000100000003"],
+      "1000000100000003",
+      "1000000100000002",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -794,14 +1158,29 @@ describe("LbdTxEventConverterV1 tests", () => {
       "transfer_nft_from",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("to", "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p",
+        ),
         new RawTransactionEventAttribute("token_id", "1000000100000003"),
       ],
     );
 
-    let actualValue = underTest.collectionNftTransferred(0, collectionNftTransferredRawTxResultEvent);
-    let expectedValue = new EventCollectionNftTransferred(0, "9636a07e", ["1000000100000003"], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p");
+    let actualValue = underTest.collectionNftTransferred(
+      0,
+      collectionNftTransferredRawTxResultEvent,
+    );
+    let expectedValue = new EventCollectionNftTransferred(
+      0,
+      "9636a07e",
+      ["1000000100000003"],
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+      "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -810,15 +1189,30 @@ describe("LbdTxEventConverterV1 tests", () => {
       "transfer_nft_from",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("from", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("to", "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p"),
+        new RawTransactionEventAttribute(
+          "from",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "to",
+          "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p",
+        ),
         new RawTransactionEventAttribute("token_id", "1000000100000003"),
         new RawTransactionEventAttribute("token_id", "1000000100000004"),
       ],
     );
 
-    let actualValue = underTest.collectionNftTransferred(0, collectionNftTransferredRawTxResultEvent);
-    let expectedValue = new EventCollectionNftTransferred(0, "9636a07e", ["1000000100000003", "1000000100000004"], "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p");
+    let actualValue = underTest.collectionNftTransferred(
+      0,
+      collectionNftTransferredRawTxResultEvent,
+    );
+    let expectedValue = new EventCollectionNftTransferred(
+      0,
+      "9636a07e",
+      ["1000000100000003", "1000000100000004"],
+      "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+      "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p",
+    );
     expect(expectedValue).to.deep.equal(actualValue);
   });
 
@@ -827,12 +1221,21 @@ describe("LbdTxEventConverterV1 tests", () => {
       "approve_collection",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("approver", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("proxy", "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p"),
+        new RawTransactionEventAttribute(
+          "approver",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "proxy",
+          "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p",
+        ),
       ],
     );
 
-    let actualValue = underTest.collectionProxyApproved(0, collectionProxyApprovedRawTxResultEvent);
+    let actualValue = underTest.collectionProxyApproved(
+      0,
+      collectionProxyApprovedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionProxyApproved(
       0,
       "9636a07e",
@@ -847,12 +1250,21 @@ describe("LbdTxEventConverterV1 tests", () => {
       "disapprove_collection",
       [
         new RawTransactionEventAttribute("contract_id", "9636a07e"),
-        new RawTransactionEventAttribute("approver", "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"),
-        new RawTransactionEventAttribute("proxy", "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p"),
+        new RawTransactionEventAttribute(
+          "approver",
+          "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        ),
+        new RawTransactionEventAttribute(
+          "proxy",
+          "tlink137pmnn2snxdcwa5kmg5rra6u3tf2y5c7emmm7p",
+        ),
       ],
     );
 
-    let actualValue = underTest.collectionProxyDisapproved(0, collectionProxyDisapprovedRawTxResultEvent);
+    let actualValue = underTest.collectionProxyDisapproved(
+      0,
+      collectionProxyDisapprovedRawTxResultEvent,
+    );
     let expectedValue = new EventCollectionProxyDisapproved(
       0,
       "9636a07e",
