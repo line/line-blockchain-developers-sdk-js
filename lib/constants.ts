@@ -47,3 +47,11 @@ export class Validations {
   static PATTERN_BASE_URI = `^(https:\\/\\/)${Validations.PATTERN_URI_PATH}(:[0-9]{1,5})?\\/$`
   static BASE_URI_OR_EMPTY_REGEX = new RegExp(`^(${Validations.PATTERN_BASE_URI})?$`)
 }
+
+export enum HrpPrefix {
+  MAIN_NET = "link", TEST_NET = "tlink",
+}
+
+export const EMPTY_SET: Set<string> = new Set();
+
+export const EMPTY_STRING_ARRAY: Array<string> = [];

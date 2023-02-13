@@ -49,7 +49,6 @@ describe('http-client-base test', () => {
   const httpClient = new HttpClient(HOST_URL, SERVICE_API_KEY, SERVICE_API_SECRET);
 
   it('time api test', async () => {
-    1
 
     const response = await httpClient.time();
     expect(response["statusCode"]).to.equal(1000);

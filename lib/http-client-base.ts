@@ -1,4 +1,5 @@
 import { LoggerFactory } from "./logger-factory";
+import { LoggerWrapper } from "./logger-wrapper";
 import _ from "lodash";
 import { RequestParameterValidator } from "./request-parameter-validator";
 import axios, {
@@ -85,13 +86,14 @@ import {
 } from "./request";
 import { SignatureGenerator } from "./signature-generator";
 import { Constant } from "./constants";
+import { TxResult } from "./tx-core-models";
 
 declare module "axios" {
   interface AxiosResponse<T = any> extends Promise<T> { }
 }
 
 export class HttpClient {
-  private logger = LoggerFactory.logger("HttpClient");
+  private logger: LoggerWrapper = LoggerFactory.logger("HttpClient");
 
   protected readonly instance: AxiosInstance;
   private readonly serviceApiKey: string;
@@ -110,6 +112,14 @@ export class HttpClient {
       "application/json;charset=UTF-8";
 
     this._initializeResponseInterceptor();
+  }
+
+  public logOn(): void {
+    this.logger.logOn();
+  }
+
+  public logOff(): void {
+    this.logger.logOff();
   }
 
   // for test
@@ -528,7 +538,7 @@ export class HttpClient {
     walletAddress: string,
     pageRequest: PageRequest,
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
-  ): Promise<GenericResponse<TxHashResponse>> {
+  ): Promise<GenericResponse<Array<TxResultResponse>>> {
     const path = `/v1/wallets/${walletAddress}/transactions`;
     const requestConfig = this.pageRequestConfig(
       pageRequest,
@@ -687,7 +697,7 @@ export class HttpClient {
     userId: string,
     pageRequest: PageRequest,
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
-  ): Promise<GenericResponse<TxHashResponse>> {
+  ): Promise<GenericResponse<Array<TxResultResponse>>> {
     const path = `/v1/users/${userId}/transactions`;
     const requestConfig = this.pageRequestConfig(
       pageRequest,
@@ -1028,6 +1038,41 @@ export class HttpClient {
 
   public memos(txHash: string): Promise<GenericResponse<Memo>> {
     const path = `/v1/memos/${txHash}`;
+    return this.instance.get(path);
+  }
+
+  // v2 APIs
+  public userTransactionsV2(
+    userId: string,
+    pageRequest: PageRequest,
+    optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
+  ): Promise<GenericResponse<Array<TxResult>>> {
+    const path = `/v2/users/${userId}/transactions`;
+    const requestConfig = this.pageRequestConfig(
+      pageRequest,
+      optionalTransactionSearchParameters,
+    );
+    return this.instance.get(path, requestConfig);
+  }
+
+  public walletTransactionsV2(
+    walletAddress: string,
+    pageRequest: PageRequest,
+    optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
+  ): Promise<GenericResponse<Array<TxResult>>> {
+    const path = `/v2/wallets/${walletAddress}/transactions`;
+    const requestConfig = this.pageRequestConfig(
+      pageRequest,
+      optionalTransactionSearchParameters,
+    );
+
+    return this.instance.get(path, requestConfig);
+  }
+
+  public transactionResultV2(
+    txHash: string,
+  ): Promise<GenericResponse<TxResult>> {
+    const path = `/v2/transactions/${txHash}`;
     return this.instance.get(path);
   }
 
