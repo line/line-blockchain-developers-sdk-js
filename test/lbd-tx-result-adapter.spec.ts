@@ -24,9 +24,9 @@ describe("LbdTxResultAdapterV1 test", () => {
     expect(lbdTxResult.summary.txHash).to.equal(inputRawTxResult.txhash);
     expect(lbdTxResult.summary.txIndex).to.equal(inputRawTxResult.index);
     expect(lbdTxResult.summary.signers).to.deep.include(new TxSigner("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"));
-    expect(lbdTxResult.txMessages).to.be.not.empty;
-    expect(lbdTxResult.txEvents).to.be.not.empty;
-    expect(_.first(Array.from(lbdTxResult.txEvents))["eventName"]).to.equal("EventCoinTransferred");
+    expect(lbdTxResult.messages).to.be.not.empty;
+    expect(lbdTxResult.events).to.be.not.empty;
+    expect(_.first(Array.from(lbdTxResult.events))["eventName"]).to.equal("EventCoinTransferred");
   });
 
   it("test createAccountTxResult", () => {
@@ -35,9 +35,9 @@ describe("LbdTxResultAdapterV1 test", () => {
     expect(lbdTxResult.summary.height).to.equal(inputRawTxResult.height);
     expect(lbdTxResult.summary.txHash).to.equal(inputRawTxResult.txhash);
     expect(lbdTxResult.summary.txIndex).to.equal(inputRawTxResult.index);
-    expect(lbdTxResult.txMessages).to.be.not.empty;
-    expect(lbdTxResult.txEvents).to.be.not.empty;
-    expect(_.first(Array.from(lbdTxResult.txEvents))["eventName"]).to.equal("EventAccountCreated");
+    expect(lbdTxResult.messages).to.be.not.empty;
+    expect(lbdTxResult.events).to.be.not.empty;
+    expect(_.first(Array.from(lbdTxResult.events))["eventName"]).to.equal("EventAccountCreated");
   });
 
   it("test accountMsgEmptyTxResult", () => {
@@ -46,9 +46,9 @@ describe("LbdTxResultAdapterV1 test", () => {
     expect(lbdTxResult.summary.height).to.equal(inputRawTxResult.height);
     expect(lbdTxResult.summary.txHash).to.equal(inputRawTxResult.txhash);
     expect(lbdTxResult.summary.txIndex).to.equal(inputRawTxResult.index);
-    expect(lbdTxResult.txMessages).to.be.not.empty;
-    expect(lbdTxResult.txEvents).to.be.not.empty;
-    expect(_.first(Array.from(lbdTxResult.txEvents))["eventName"]).to.equal("EventEmptyMsgCreated");
+    expect(lbdTxResult.messages).to.be.not.empty;
+    expect(lbdTxResult.events).to.be.not.empty;
+    expect(_.first(Array.from(lbdTxResult.events))["eventName"]).to.equal("EventEmptyMsgCreated");
   });
 });
 
