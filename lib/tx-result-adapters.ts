@@ -194,6 +194,7 @@ export class LbdTxSummaryAdapterV1 implements TxResultAdapter<RawTransactionResu
       input.height,
       input.index,
       input.txhash,
+      input.timestamp,
       signers,
       new TxStatusResult(
         input.code,

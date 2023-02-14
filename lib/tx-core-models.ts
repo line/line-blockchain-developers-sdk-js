@@ -45,6 +45,7 @@ export class TxResultSummary {
     readonly height: number,
     readonly txIndex: number,
     readonly txHash: string,
+    readonly timestamp: number,
     readonly signers: Array<TxSigner>,
     readonly result: TxStatusResult,
   ) {
@@ -65,6 +66,7 @@ export class TxResult {
         "height": this.summary.height,
         "txIndex": this.summary.txIndex,
         "txHash": this.summary.txHash,
+        "timestamp": this.summary.timestamp,
         "signers": [...this.summary.signers],
         "result": this.summary.result,
 
