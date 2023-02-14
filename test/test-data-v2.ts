@@ -14,7 +14,7 @@ export const transactionResult = {
                     codeSpace: "collection"
                 }
             },
-            txMessages: [
+            messages: [
                 {
                     msgIndex: 0,
                     requestType: "collection/MsgTransferNFT",
@@ -26,7 +26,7 @@ export const transactionResult = {
                     }
                 }
             ],
-            txEvents: [
+            events: [
                 {
                     eventName: "EventCollectionNftTransferred",
                     msgIndex: 0,
@@ -57,7 +57,7 @@ export const singleTransactionResult = {
                 codeSpace: "collection"
             }
         },
-        txMessages: [
+        messages: [
             {
                 msgIndex: 0,
                 requestType: "collection/MsgTransferNFT",
@@ -69,7 +69,7 @@ export const singleTransactionResult = {
                 }
             }
         ],
-        txEvents: [
+        events: [
             {
                 eventName: "EventCollectionNftTransferred",
                 msgIndex: 0,
