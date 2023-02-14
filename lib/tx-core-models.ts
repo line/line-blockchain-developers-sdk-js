@@ -23,7 +23,7 @@ export class TxStatusResult {
     readonly code: number = 0,
     readonly codeSpace: string = "",
   ) {
-    if (this.code==0) {
+    if (this.code == 0) {
       this.result = TxSuccessResult.SUCCEEDED;
     } else {
       this.result = TxSuccessResult.FAILED;
@@ -54,8 +54,8 @@ export class TxResultSummary {
 export class TxResult {
   constructor(
     readonly summary: TxResultSummary,
-    readonly txMessages: Array<TxMessage>,
-    readonly txEvents: Array<TransactionEvent>,
+    readonly messages: Array<TxMessage>,
+    readonly events: Array<TransactionEvent>,
   ) {
   }
 
@@ -69,8 +69,8 @@ export class TxResult {
         "result": this.summary.result,
 
       },
-      "txMessages": [...this.txMessages],
-      "txEvents": [...this.txEvents],
+      "messages": [...this.messages],
+      "events": [...this.events],
     };
   }
 }
