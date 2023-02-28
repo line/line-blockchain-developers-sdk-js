@@ -1029,6 +1029,9 @@ export class HttpClient {
     return this.instance.get(path);
   }
 
+  /**
+   * @deprecated This API will be removed soon
+   */
   public createMemo(
     request: MemoRequest,
   ): Promise<GenericResponse<TxHashResponse>> {
@@ -1036,6 +1039,9 @@ export class HttpClient {
     return this.instance.post(path, request);
   }
 
+  /**
+   * @deprecated This API will be removed soon
+   */
   public memos(txHash: string): Promise<GenericResponse<Memo>> {
     const path = `/v1/memos/${txHash}`;
     return this.instance.get(path);
