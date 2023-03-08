@@ -41,6 +41,7 @@ import {
   CreatedItemToken,
   ProxyApprovedResponse,
   IssueProxyResponse,
+  UserRequestStatus,
 } from "./response";
 
 import {
@@ -485,7 +486,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     tokenIndex: string,
-  ): Promise<GenericResponse<Array<NonFungibleId>>> {
+  ): Promise<GenericResponse<NonFungibleId>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/parent`;
     return this.instance.get(path);
   }
@@ -495,7 +496,7 @@ export class HttpClient {
     tokenType: string,
     tokenIndex: string,
     request: NonFungibleTokenAttachRequest,
-  ): Promise<GenericResponse<TxHashResponse>> {
+  ): Promise<GenericResponse<NonFungibleId>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/parent`;
     return this.instance.post(path, request);
   }
@@ -1079,6 +1080,13 @@ export class HttpClient {
     txHash: string,
   ): Promise<GenericResponse<TxResult>> {
     const path = `/v2/transactions/${txHash}`;
+    return this.instance.get(path);
+  }
+
+  public userRequestStatus(
+    requestSessionToken: string,
+  ): Promise<GenericResponse<UserRequestStatus>> {
+    const path = `/v1/user-requests/${requestSessionToken}`;
     return this.instance.get(path);
   }
 
