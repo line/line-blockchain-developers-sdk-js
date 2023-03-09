@@ -3424,7 +3424,7 @@ describe("http-client-base test", () => {
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1000,
-      statusMessage: "Accepted",
+      statusMessage: "Success",
       responseData: {
         status: "Authorized"
       },
