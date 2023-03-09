@@ -3417,6 +3417,33 @@ describe("http-client-base test", () => {
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["isApproved"]).to.equal(true);
   });
+
+  it("query user-request api test", async () => {
+    const testRequestSessionToken = "J4EDHA_oyCyXrtREGS4MpyoGeus";
+
+    const receivedData = {
+      responseTime: 1585467711877,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: {
+        status: "Authorized"
+      },
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    const path = `/v1/user-requests/${testRequestSessionToken}`;
+    stub.onGet(path).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.userRequestStatus(
+      testRequestSessionToken,
+    );
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"]["status"]).to.equal("Authorized");
+  });
 });
 
 function assertHeaders(headers: any) {
