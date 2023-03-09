@@ -3423,7 +3423,7 @@ describe("http-client-base test", () => {
 
     const receivedData = {
       responseTime: 1585467711877,
-      statusCode: 1002,
+      statusCode: 1000,
       statusMessage: "Accepted",
       responseData: {
         status: "Authorized"
@@ -3441,7 +3441,7 @@ describe("http-client-base test", () => {
     const response = await httpClient.userRequestStatus(
       testRequestSessionToken,
     );
-    expect(response["statusCode"]).to.equal(1002);
+    expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["status"]).to.equal("Authorized");
   });
 });
