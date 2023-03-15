@@ -1445,33 +1445,6 @@ describe("http-client-base test", () => {
     expect(response["responseData"][0]["txhash"]).to.equal(testTxHash);
   });
 
-  it("base-coin balance of wallet api test", async () => {
-    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
-    const receivedData = {
-      responseTime: 1585467716718,
-      statusCode: 1000,
-      statusMessage: "Success",
-      responseData: {
-        symbol: "TC",
-        decimals: 6,
-        amount: "1000000",
-      },
-    };
-
-    stub = new MockAdapter(httpClient.getAxiosInstance());
-
-    stub.onGet(`/v1/wallets/${testAddress}/base-coin`).reply(config => {
-      assertHeaders(config.headers);
-      return [200, receivedData];
-    });
-
-    const response = await httpClient.baseCoinBalanceOfWallet(testAddress);
-    expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"]["symbol"]).to.equal("TC");
-    expect(response["responseData"]["decimals"]).to.equal(6);
-    expect(response["responseData"]["amount"]).to.equal("1000000");
-  });
-
   it("service-token balances of wallet api test", async () => {
     const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
     const pageRequest = new PageRequest(0, 10, OrderBy.DESC);
@@ -1729,43 +1702,6 @@ describe("http-client-base test", () => {
     );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["tokenIndex"]).to.equal(testTokenIndex);
-  });
-
-  it("tranfer base-coin of wallet api test", async () => {
-    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
-    const request = {
-      walletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
-      amount: "15",
-    };
-
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
-    const receivedData = {
-      responseTime: 1585467711877,
-      statusCode: 1002,
-      statusMessage: "Accepted",
-      responseData: {
-        txHash: testTxHash,
-      },
-    };
-
-    stub = new MockAdapter(httpClient.getAxiosInstance());
-
-    stub
-      .onPost(`/v1/wallets/${testAddress}/base-coin/transfer`)
-      .reply(config => {
-        assertHeaders(config.headers);
-        expect(config.data).to.equal(JSON.stringify(request));
-        return [200, receivedData];
-      });
-
-    const response = await httpClient.transferBaseCoinOfWallet(
-      testAddress,
-      request,
-    );
-    expect(response["statusCode"]).to.equal(1002);
-    expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
 
   it("tranfer service-token of wallet api test", async () => {
@@ -2426,45 +2362,6 @@ describe("http-client-base test", () => {
     );
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
-  });
-
-  it("issue session-token of a user for base-coin transfer api test", async () => {
-    const testUserId = "U556719f559479aab8b8f74c488bf6317";
-    const testRequestSessionToken = "J4EDHA_oyCyXrtREGS4MpyoGeus";
-    const request = {
-      toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
-      amount: "15",
-      landingUri: "https://my.service.landing/home",
-    };
-
-    const receivedData = {
-      responseTime: 1585484513052,
-      statusCode: 1000,
-      statusMessage: "Success",
-      responseData: {
-        requestSessionToken: testRequestSessionToken,
-        redirectUri: null,
-      },
-    };
-
-    stub = new MockAdapter(httpClient.getAxiosInstance());
-
-    const path = `/v1/users/${testUserId}/base-coin/request-transfer`;
-    stub.onPost(path).reply(config => {
-      assertHeaders(config.headers);
-      expect(config.data).to.equal(JSON.stringify(request));
-      return [200, receivedData];
-    });
-
-    const response = await httpClient.issueSessionTokenForBaseCoinTransfer(
-      testUserId,
-      RequestType.AOA,
-      request,
-    );
-    expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"]["requestSessionToken"]).to.equal(
-      testRequestSessionToken,
-    );
   });
 
   it("issue session-token of a user for service-token transfer api test", async () => {

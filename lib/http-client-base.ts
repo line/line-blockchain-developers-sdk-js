@@ -549,13 +549,6 @@ export class HttpClient {
     return this.instance.get(path, requestConfig);
   }
 
-  public baseCoinBalanceOfWallet(
-    walletAddress: string,
-  ): Promise<GenericResponse<BaseCoinBalance>> {
-    const path = `/v1/wallets/${walletAddress}/base-coin`;
-    return this.instance.get(path);
-  }
-
   public issueServiceToken(
     request: IssueServiceTokenRequest,
   ): Promise<GenericResponse<TxHashResponse>> {
@@ -642,14 +635,6 @@ export class HttpClient {
     return this.instance.get(path);
   }
 
-  public transferBaseCoinOfWallet(
-    walletAddress: string,
-    request: TransferBaseCoinRequest,
-  ): Promise<GenericResponse<TxHashResponse>> {
-    const path = `/v1/wallets/${walletAddress}/base-coin/transfer`;
-    return this.instance.post(path, request);
-  }
-
   public transferServiceTokenOfWallet(
     walletAddress: string,
     contractId: string,
@@ -705,13 +690,6 @@ export class HttpClient {
       optionalTransactionSearchParameters,
     );
     return this.instance.get(path, requestConfig);
-  }
-
-  public baseCoinBalanceOfUser(
-    userId: string,
-  ): Promise<GenericResponse<BaseCoinBalance>> {
-    const path = `/v1/users/${userId}/base-coin`;
-    return this.instance.get(path);
   }
 
   public serviceTokenBalancesOfUser(
@@ -955,16 +933,6 @@ export class HttpClient {
   > {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/thumbnails/${requestId}/status`;
     return this.instance.get(path);
-  }
-
-  public issueSessionTokenForBaseCoinTransfer(
-    userId: string,
-    requestType: RequestType,
-    request: IssueTransferSessionTokenRequest,
-  ): Promise<GenericResponse<SessionTokenResponse>> {
-    const path = `/v1/users/${userId}/base-coin/request-transfer`;
-    const requestTypeParam = this.requestTypeParam(requestType);
-    return this.instance.post(path, request, requestTypeParam);
   }
 
   public issueSessionTokenForServiceTokenTransfer(
