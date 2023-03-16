@@ -496,7 +496,7 @@ export class HttpClient {
     tokenType: string,
     tokenIndex: string,
     request: NonFungibleTokenAttachRequest,
-  ): Promise<GenericResponse<NonFungibleId>> {
+  ): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/parent`;
     return this.instance.post(path, request);
   }
