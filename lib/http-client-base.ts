@@ -429,7 +429,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     pageRequest: PageRequest,
-  ): Promise<GenericResponse<NonFungibleTokenTypeHolder>> {
+  ): Promise<GenericResponse<Array<NonFungibleTokenTypeHolder>>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/holders`;
     const requestConfig = this.pageRequestConfig(pageRequest);
     return this.instance.get(path, requestConfig);
