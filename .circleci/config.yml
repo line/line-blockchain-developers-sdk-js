@@ -1,19 +1,19 @@
 version: 2.1
 executors:
-  node12-executor:
+  node14-executor:
     docker:
-      - image: node:12-alpine3.11
-      
+      - image: node:14-alpine3.16
+
 jobs:
   build:
-    executor: node12-executor
+    executor: node14-executor
     steps:
       - checkout
       - run: |
           npm install
           npm build
   test:
-    executor: node12-executor
+    executor: node14-executor
     steps:
       - checkout
       - run: |
