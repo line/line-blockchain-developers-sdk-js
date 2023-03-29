@@ -13,7 +13,6 @@ export class TxMessage {
   constructor(
     readonly msgIndex: number,
     readonly requestType: string,
-    readonly details: any,
   ) {
   }
 }
