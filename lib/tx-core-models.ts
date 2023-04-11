@@ -16,7 +16,7 @@ export class TxMessage {
   ) {
   }
 
-  details: any = { }; // details are always empty.
+  readonly details: any = { }; // details are always empty.
 }
 
 export class TxStatusResult {
