@@ -19,7 +19,7 @@ import {
   RawTransactionRequestValue,
   RawTransactionResult,
   RawTransactionSignerAddressUtil,
-  RawTxSignature,
+  RawTxSignature
 } from "./tx-raw-models";
 
 import {
@@ -59,7 +59,7 @@ import {
   TxResultSummary,
   TxSigner,
   TxStatusResult,
-  UnknownTransactionEvent,
+  UnknownTransactionEvent
 } from "./tx-core-models";
 import { StringUtil } from "./string-util";
 import { TokenUtil } from "./token-util";
@@ -209,7 +209,7 @@ export class LbdTxMessageAdapterV1 implements TxResultAdapter<RawTransactionResu
     let rawMessages = tx.value.msg;
     let txMessages = _.map(rawMessages, (rawMessage, index) => {
       let type = rawMessage.type;
-      return new TxMessage(index, type, rawMessage.value);
+      return new TxMessage(index, type);
     });
     return txMessages;
   }
