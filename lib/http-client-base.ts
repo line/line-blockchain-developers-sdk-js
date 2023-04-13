@@ -43,6 +43,7 @@ import {
   IssueProxyResponse,
   UserRequestStatus,
   NonFungibleTokenTypeHolderList,
+  TxMessageListResponse,
 } from "./response";
 
 import {
@@ -1071,6 +1072,15 @@ export class HttpClient {
   ): Promise<GenericResponse<UserRequestStatus>> {
     const path = `/v1/user-requests/${requestSessionToken}`;
     return this.instance.get(path);
+  }
+
+  public transactionMessages(
+    txHash: string,
+    cursorPageRequest: CursorPageRequest
+  ): Promise<GenericResponse<TxMessageListResponse>>  {
+    const path = `/v2/transactions/${txHash}/messages`;
+    const requestConfig = this.cursorPageRequestConfig(cursorPageRequest);
+    return this.instance.get(path, requestConfig);
   }
 
   private requestTypeParam(requestType: RequestType): AxiosRequestConfig {

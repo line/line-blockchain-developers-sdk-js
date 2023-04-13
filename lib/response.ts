@@ -391,3 +391,19 @@ export class IssueProxyResponse {
     readonly redirectUri?: string
   ) { }
 }
+
+export class TxMessageWithDetailResponse {
+  constructor(
+    readonly msgIndex: number,
+    readonly requestType: string,
+    readonly details: any
+  ) { }
+}
+
+export class TxMessageListResponse {
+  constructor(
+    readonly messages: Array<TxMessageWithDetailResponse>,
+    readonly prePageToken?: string,
+    readonly nextPageToken?: string,
+  ) { }
+}
