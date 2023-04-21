@@ -403,7 +403,7 @@ export class TxMessageWithDetailResponse {
 export class TxMessageListResponse {
   constructor(
     readonly messages: Array<TxMessageWithDetailResponse>,
-    readonly prePageToken?: string,
-    readonly nextPageToken?: string,
+    readonly prePageToken: string = "",
+    readonly nextPageToken: string= "",
   ) { }
 }
