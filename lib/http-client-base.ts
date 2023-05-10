@@ -442,10 +442,10 @@ export class HttpClient {
   public nonFungibleTokenTypeHoldersV2(
     contractId: string,
     tokenType: string,
-    pageRequest: PageRequest,
+    cursorPageRequest: CursorPageRequest,
     ): Promise<GenericResponse<Array<NonFungibleTokenTypeHolder>>> {
     const path = `/v2/item-tokens/${contractId}/non-fungibles/${tokenType}/holders`;
-    const requestConfig = this.pageRequestConfig(pageRequest);
+    const requestConfig = this.pageRequestConfig(cursorPageRequest);
     return this.instance.get(path, requestConfig);
   }
 
