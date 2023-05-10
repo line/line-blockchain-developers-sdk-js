@@ -435,6 +435,20 @@ export class HttpClient {
     return this.instance.get(path, requestConfig);
   }
 
+  /**
+    ** Caution **
+    The list of holders in the response is not sorted by "amount", but this is much faster then previous one
+  */
+  public nonFungibleTokenTypeHoldersV2(
+    contractId: string,
+    tokenType: string,
+    pageRequest: PageRequest,
+    ): Promise<GenericResponse<Array<NonFungibleTokenTypeHolder>>> {
+    const path = `/v2/item-tokens/${contractId}/non-fungibles/${tokenType}/holders`;
+    const requestConfig = this.pageRequestConfig(pageRequest);
+    return this.instance.get(path, requestConfig);
+  }
+
   // NFT has to belong to only one holder
   public nonFungibleTokenHolder(
     contractId: string,
