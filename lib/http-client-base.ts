@@ -41,7 +41,7 @@ import {
   CreatedItemToken,
   ProxyApprovedResponse,
   IssueProxyResponse,
-  UserRequestStatus,
+  UserRequestStatus, NonFungibleTokenTypeHolderList,
 } from "./response";
 
 import {
@@ -443,9 +443,9 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     cursorPageRequest: CursorPageRequest,
-    ): Promise<GenericResponse<Array<NonFungibleTokenTypeHolder>>> {
+    ): Promise<GenericResponse<NonFungibleTokenTypeHolderList>> {
     const path = `/v2/item-tokens/${contractId}/non-fungibles/${tokenType}/holders`;
-    const requestConfig = this.pageRequestConfig(cursorPageRequest);
+    const requestConfig = this.cursorPageRequestConfig(cursorPageRequest);
     return this.instance.get(path, requestConfig);
   }
 
