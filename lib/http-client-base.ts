@@ -41,7 +41,8 @@ import {
   CreatedItemToken,
   ProxyApprovedResponse,
   IssueProxyResponse,
-  UserRequestStatus, NonFungibleTokenTypeHolderList,
+  UserRequestStatus,
+  NonFungibleTokenTypeHolderList,
 } from "./response";
 
 import {
