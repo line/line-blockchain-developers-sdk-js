@@ -388,7 +388,7 @@ export class ProxyApprovedResponse {
 export class IssueProxyResponse {
   constructor(
     readonly requestSessionToken: string,
-    readonly redirectUri?: string
+    readonly redirectUri?: string,
   ) { }
 }
 
@@ -396,7 +396,7 @@ export class TxMessageWithDetailResponse {
   constructor(
     readonly msgIndex: number,
     readonly requestType: string,
-    readonly details: any
+    readonly details: any,
   ) { }
 }
 
