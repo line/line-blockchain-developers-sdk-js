@@ -13,9 +13,10 @@ export class TxMessage {
   constructor(
     readonly msgIndex: number,
     readonly requestType: string,
-    readonly details: any,
   ) {
   }
+
+  readonly details: any = { }; // details are always empty.
 }
 
 export class TxStatusResult {
