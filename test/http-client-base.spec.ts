@@ -8,21 +8,20 @@ chai.use(chaiAsPromised);
 const expect = chai.expect;
 import {describe, it} from "mocha";
 
-import _ from "lodash";
-import {HttpClient} from "../lib/http-client-base";
-import {Constant} from "../lib/constants";
-import {TransactionMsgTypes} from "../lib/constants";
 import {
+  HttpClient,
+  TransactionMsgTypes,
   DEFAULT_PAGE_REQUEST,
   PageRequest,
   OrderBy,
   TokenId,
   RequestType,
-  CursorPageRequest
-} from "../lib/request";
-import {transactionResult, singleTransactionResult} from "./test-data";
-import {doesNotMatch} from "assert";
-import {HttpTestUtil} from "./http-test-util";
+  CursorPageRequest,
+} from "../lib";
+// @ts-ignore
+import { transactionResult, singleTransactionResult } from "./test-data";
+// @ts-ignore
+import { HttpTestUtil } from "./http-test-util";
 
 describe("http-client-base test", () => {
   let stub: MockAdapter;
