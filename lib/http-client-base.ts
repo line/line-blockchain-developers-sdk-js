@@ -42,6 +42,7 @@ import {
   ProxyApprovedResponse,
   IssueProxyResponse,
   UserRequestStatus,
+  NonFungibleTokenTypeHolderList,
 } from "./response";
 
 import {
@@ -432,6 +433,20 @@ export class HttpClient {
   ): Promise<GenericResponse<Array<NonFungibleTokenTypeHolder>>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/holders`;
     const requestConfig = this.pageRequestConfig(pageRequest);
+    return this.instance.get(path, requestConfig);
+  }
+
+  /**
+    ** Caution **
+    The list of holders in the response is not sorted by "amount", but this is much faster then previous one
+  */
+  public nonFungibleTokenTypeHoldersV2(
+    contractId: string,
+    tokenType: string,
+    cursorPageRequest: CursorPageRequest,
+    ): Promise<GenericResponse<NonFungibleTokenTypeHolderList>> {
+    const path = `/v2/item-tokens/${contractId}/non-fungibles/${tokenType}/holders`;
+    const requestConfig = this.cursorPageRequestConfig(cursorPageRequest);
     return this.instance.get(path, requestConfig);
   }
 

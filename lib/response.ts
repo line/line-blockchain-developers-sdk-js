@@ -350,6 +350,14 @@ export class NonFungibleTokenTypeHolder {
   ) { }
 }
 
+export class NonFungibleTokenTypeHolderList {
+  constructor(
+    readonly list: Array<NonFungibleTokenTypeHolder>,
+    readonly prePageToken: string,
+    readonly nextPageToken: string,
+    ) { }
+}
+
 export class NonFungibleTokenHolder {
   constructor(
     readonly tokenId: string,
