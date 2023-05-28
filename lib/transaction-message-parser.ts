@@ -1,7 +1,7 @@
-import { GenericResponse, TxResultResponse } from "./response";
-import { TxResultUtil } from "./tx-result-util";
-import { TokenUtil } from "./token-util";
-import { TxResultCodeMappingsProvider } from "./tx-result-codes";
+import {GenericResponse, TxResultResponse} from "./response";
+import {TxResultUtil} from "./tx-result-util";
+import {TokenUtil} from "./token-util";
+import {TxResultCodeMappingsProvider} from "./tx-result-codes";
 import {
   MessageType,
   TxResultMessage,
@@ -42,6 +42,7 @@ import {
 // TODO this interface, and just parse directly
 export interface TxResultMessageParser<T extends TxResultMessage> {
   parse(txResultResponse: TxResultResponse): T;
+
   parseGenericTxResultResponse(txResultResponse: GenericResponse<TxResultResponse>): T;
 }
 
@@ -597,6 +598,7 @@ export class MintFungibleMessageParser
     );
   }
 }
+
 export class BurnFungibleMessageParser
   implements TxResultMessageParser<FungibleTokenBurnMessage> {
   parse(txResultResponse: TxResultResponse): FungibleTokenBurnMessage {
@@ -627,6 +629,7 @@ export class BurnFungibleMessageParser
     );
   }
 }
+
 export class FungibleTransferMessageParser
   implements TxResultMessageParser<FungibleTokenTransferMessage> {
   parse(txResultResponse: TxResultResponse): FungibleTokenTransferMessage {
@@ -655,6 +658,7 @@ export class FungibleTransferMessageParser
     );
   }
 }
+
 export class FungibleTransferFromMessageParser
   implements TxResultMessageParser<FungibleTokenTransferFromMessage> {
   parse(txResultResponse: TxResultResponse): FungibleTokenTransferFromMessage {
@@ -684,6 +688,7 @@ export class FungibleTransferFromMessageParser
     );
   }
 }
+
 export class BurnFromFungibleMessageParser
   implements TxResultMessageParser<FungibleTokenBurnFromMessage> {
   parse(txResultResponse: TxResultResponse): FungibleTokenBurnFromMessage {
@@ -824,6 +829,7 @@ export class NonFungibleTokenBurnFromMessageParser
     );
   }
 }
+
 export class NonFungibleTokenTransferMessageParser
   implements TxResultMessageParser<NonFungibleTokenTransferMessage> {
   parse(txResultResponse: TxResultResponse): NonFungibleTokenTransferMessage {

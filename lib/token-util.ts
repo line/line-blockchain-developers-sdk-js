@@ -28,8 +28,8 @@ export class TokenUtil {
 
   static tokenTypes(tokenIds: Array<string>): Array<string> {
     return _.map(tokenIds.values(), it => {
-        return TokenUtil.tokenTypeFrom(it.toString())
-      })
+      return TokenUtil.tokenTypeFrom(it.toString())
+    })
 
   }
 

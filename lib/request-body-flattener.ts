@@ -1,6 +1,7 @@
 import _ from "lodash";
 
 const EMPTY = "";
+
 export class RequestBodyFlattener {
   static flatten(requestBody = {}) {
     const objBody = _.cloneDeep(requestBody);

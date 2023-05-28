@@ -6,12 +6,12 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 
 const expect = chai.expect;
-import { describe, it } from "mocha";
+import {describe, it} from "mocha";
 
 import _ from "lodash";
-import { HttpClient } from "../lib/http-client-base";
-import { Constant } from "../lib/constants";
-import { TransactionMsgTypes } from "../lib/constants";
+import {HttpClient} from "../lib/http-client-base";
+import {Constant} from "../lib/constants";
+import {TransactionMsgTypes} from "../lib/constants";
 import {
   DEFAULT_PAGE_REQUEST,
   PageRequest,
@@ -20,9 +20,9 @@ import {
   RequestType,
   CursorPageRequest
 } from "../lib/request";
-import { transactionResult, singleTransactionResult } from "./test-data";
-import { doesNotMatch } from "assert";
-import { HttpTestUtil } from "./http-test-util";
+import {transactionResult, singleTransactionResult} from "./test-data";
+import {doesNotMatch} from "assert";
+import {HttpTestUtil} from "./http-test-util";
 
 describe("http-client-base test", () => {
   let stub: MockAdapter;
@@ -1440,7 +1440,7 @@ describe("http-client-base test", () => {
     const response = await httpClient.walletTransactions(
       testAddress,
       pageRequest,
-      { before, after, msgType }
+      {before, after, msgType}
     );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["txhash"]).to.equal(testTxHash);
@@ -2594,9 +2594,9 @@ describe("http-client-base test", () => {
   it("update fungible-token media resource", async () => {
     const testContractId = "9636a07e";
 
-    const updateList = [{ tokenType: "00000001" }, { tokenType: "00000002" }];
+    const updateList = [{tokenType: "00000001"}, {tokenType: "00000002"}];
 
-    const expectedRequest = { updateList: updateList };
+    const expectedRequest = {updateList: updateList};
 
     const testRequestId = "test-request-id";
     const receivedData = {
@@ -2640,7 +2640,7 @@ describe("http-client-base test", () => {
       }
     ];
 
-    const expectedRequest = { updateList: updateList };
+    const expectedRequest = {updateList: updateList};
 
     const testRequestId = "test-request-id";
     const receivedData = {
@@ -2674,9 +2674,9 @@ describe("http-client-base test", () => {
   it("update fungible-token thumbnail resource", async () => {
     const testContractId = "9636a07e";
 
-    const updateList = [{ tokenType: "00000001" }, { tokenType: "00000002" }];
+    const updateList = [{tokenType: "00000001"}, {tokenType: "00000002"}];
 
-    const expectedRequest = { updateList: updateList };
+    const expectedRequest = {updateList: updateList};
 
     const testRequestId = "test-request-id";
     const receivedData = {
@@ -2721,7 +2721,7 @@ describe("http-client-base test", () => {
       }
     ];
 
-    const expectedRequest = { updateList: updateList };
+    const expectedRequest = {updateList: updateList};
 
     const testRequestId = "test-request-id";
     const receivedData = {
@@ -2921,7 +2921,7 @@ describe("http-client-base test", () => {
 
   it("test default-paging-request when not page-request-is given", async () => {
     const testContractId = "9636a07e";
-    const pageRequest = { "page": null, "limit": null, "orderBy": null };
+    const pageRequest = {"page": null, "limit": null, "orderBy": null};
     const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
     const receivedData = {
       responseTime: 1585467715916,

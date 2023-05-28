@@ -83,6 +83,7 @@ class TxResultAdaptFailedException extends Error {
     super(message);
   }
 }
+
 class InvalidTxResultJsonFormatException extends Error {
   constructor(
     input: string,

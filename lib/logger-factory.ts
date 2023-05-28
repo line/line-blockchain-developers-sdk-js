@@ -1,8 +1,9 @@
-import { Logger } from "tslog";
+import {Logger} from "tslog";
 import _ from "lodash";
-import { LoggerWrapper } from "./logger-wrapper"
+import {LoggerWrapper} from "./logger-wrapper"
 
 const DEFAULT_LOG_LEVEL = process.env.log_level || "debug";
+
 export class LoggerFactory {
   static logger(name: string, config: object = {}): LoggerWrapper {
     const loggerConfig = config

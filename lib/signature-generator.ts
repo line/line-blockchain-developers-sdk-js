@@ -1,10 +1,11 @@
-import { LoggerFactory } from "./logger-factory";
+import {LoggerFactory} from "./logger-factory";
 import CryptoJS from "crypto-js";
 import _ from "lodash";
-import { RequestBodyFlattener } from "./request-body-flattener";
+import {RequestBodyFlattener} from "./request-body-flattener";
+
 /**
-reference site: https://jokecamp.wordpress.com/2012/10/21/examples-of-creating-base64-hashes-using-hmac-sha256-in-different-languages/#js
-*/
+ reference site: https://jokecamp.wordpress.com/2012/10/21/examples-of-creating-base64-hashes-using-hmac-sha256-in-different-languages/#js
+ */
 export class SignatureGenerator {
   static signature(
     apiSecret: string,

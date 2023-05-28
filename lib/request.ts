@@ -1,5 +1,6 @@
 import _ from "lodash";
-import { RequestParameterValidator } from "./request-parameter-validator";
+import {RequestParameterValidator} from "./request-parameter-validator";
+
 export class AbstractTokenBurnTransactionRequest {
   constructor(readonly fromUserId?: string, readonly fromAddress?: string) {
     if (!fromUserId && !fromAddress) {
@@ -57,7 +58,8 @@ export class UpdateServiceTokenRequest {
     readonly ownerSecret: string,
     readonly name: string,
     readonly meta?: string,
-  ) { }
+  ) {
+  }
 }
 
 export class BurnFromServiceTokenRequest extends AbstractTokenBurnTransactionRequest {
@@ -89,7 +91,8 @@ export class MemoRequest {
     readonly memo: string,
     readonly walletAddress: string,
     readonly walletSecret: string,
-  ) { }
+  ) {
+  }
 }
 
 export class TransferBaseCoinRequest extends AbstractTransactionRequest {
@@ -194,17 +197,22 @@ export class BatchTransferNonFungibleTokenProxyRequest extends AbstractTransacti
 }
 
 export class MultiFungibleTokenMediaResourcesUpdateRequest {
-  constructor(readonly updateList: Array<TokenType>) { }
+  constructor(readonly updateList: Array<TokenType>) {
+  }
 }
 
 export class MultiNonFungibleTokenMediaResourcesUpdateRequest {
-  constructor(readonly updateList: Array<TokenTypeAndIndex>) { }
+  constructor(readonly updateList: Array<TokenTypeAndIndex>) {
+  }
 }
 
 export class TokenType {
-  private constructor(readonly tokenType: string) { }
+  private constructor(readonly tokenType: string) {
+  }
+
   static readonly tokenTypeFormat = new RegExp("\\w{8}");
   static readonly tokenTypeLength = 8;
+
   static from(value: string): TokenType {
     if (value.length != TokenType.tokenTypeLength) {
       throw new Error(
@@ -225,9 +233,12 @@ export class TokenType {
 }
 
 export class TokenId {
-  private constructor(readonly tokenId: string) { }
+  private constructor(readonly tokenId: string) {
+  }
+
   static readonly tokenIdFormat = new RegExp("\\w{8}\\w{8}");
   static readonly tokenIdLength = 16;
+
   static from(value: string): TokenId {
     if (value.length != TokenId.tokenIdLength) {
       throw new Error(
@@ -254,7 +265,8 @@ export class TokenId {
 }
 
 export class TokenTypeAndIndex {
-  constructor(readonly tokenType: string, readonly tokenIndex: string) { }
+  constructor(readonly tokenType: string, readonly tokenIndex: string) {
+  }
 
   static from(value: string): TokenTypeAndIndex {
     if (value.length != TokenId.tokenIdLength) {
@@ -281,7 +293,8 @@ export class CreateItemTokenContractRequest {
     readonly serviceWalletAddress: string,
     readonly serviceWalletSecret: string,
     readonly baseImgUri: string,
-  ) { }
+  ) {
+  }
 }
 
 export class FungibleTokenCreateUpdateRequest {
@@ -290,7 +303,8 @@ export class FungibleTokenCreateUpdateRequest {
     readonly ownerSecret: string,
     readonly name: string,
     readonly meta?: string,
-  ) { }
+  ) {
+  }
 }
 
 export class FungibleTokenMintRequest extends AbstractTransactionRequest {
@@ -323,7 +337,8 @@ export class NonFungibleTokenCreateUpdateRequest {
     readonly ownerSecret: string,
     readonly name: string,
     readonly meta?: string,
-  ) { }
+  ) {
+  }
 }
 
 export class NonFungibleTokenMintRequest extends AbstractTransactionRequest {
@@ -350,19 +365,23 @@ export class NonFungibleTokenMultiMintRequest extends AbstractTransactionRequest
     super(toAddress, toUserId);
   }
 }
+
 export class MultiMintNonFungible {
   constructor(
     readonly tokenType: string,
     readonly name: string,
     readonly meta?: string,
-  ) { }
+  ) {
+  }
 }
+
 export class NonFungibleTokenMultiMintMultiReceiversRequest {
   constructor(
     readonly ownerAddress: string,
     readonly ownerSecret: string,
     readonly mintList: Array<MultiMintNonFungibleWithReceiver>,
-  ) { }
+  ) {
+  }
 }
 
 export class MultiMintNonFungibleWithReceiver {
@@ -450,7 +469,8 @@ export class IssueTransferSessionTokenRequest extends AbstractTransactionRequest
 }
 
 export class UserProxyRequest {
-  constructor(readonly ownerAddress: string, readonly landingUri: string) { }
+  constructor(readonly ownerAddress: string, readonly landingUri: string) {
+  }
 }
 
 export enum OrderBy {
@@ -468,7 +488,8 @@ export class PageRequest {
     readonly page: number = 0,
     readonly limit: number = 10,
     readonly orderBy: OrderBy = OrderBy.DESC,
-  ) { }
+  ) {
+  }
 }
 
 export class CursorPageRequest {
@@ -476,7 +497,8 @@ export class CursorPageRequest {
     readonly pageToken: string = "",
     readonly limit: number = 10,
     readonly orderBy: OrderBy = OrderBy.ASC,
-  ) { }
+  ) {
+  }
 }
 
 export const DEFAULT_PAGE_REQUEST: PageRequest = new PageRequest(0, 10, OrderBy.DESC)
@@ -491,5 +513,6 @@ export class OptionalTransactionSearchParameters {
     readonly after?: number,
     readonly before?: number,
     readonly msgType?: string,
-  ) { }
+  ) {
+  }
 }
