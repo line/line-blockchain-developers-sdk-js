@@ -1,4 +1,4 @@
-import { TxResultCode } from "./tx-result-codes";
+import {TxResultCode} from "./tx-result-codes";
 
 export enum MessageType {
   // SERVICE TOKEN MESSAGE TYPES
@@ -51,7 +51,8 @@ export abstract class TxResultMessage {
     readonly txHash: string,
     readonly from: string,
     readonly proxy?: string, // transaction come from proxy wallet
-  ) { }
+  ) {
+  }
 
   isProxyTransaction(): boolean {
     return !!this.proxy;
@@ -66,7 +67,8 @@ export class IssuedServiceTokenMessage {
     readonly meta: string,
     readonly imUri: string,
     readonly decimal: number,
-  ) { }
+  ) {
+  }
 }
 
 export class CreatedItemTokenMessage {
@@ -76,11 +78,13 @@ export class CreatedItemTokenMessage {
     readonly name: string,
     readonly meta: string,
     readonly baseImgUri: string,
-  ) { }
+  ) {
+  }
 }
 
 export class FungibleTokenMessage {
-  constructor(readonly contractId: string, readonly tokenType: string) { }
+  constructor(readonly contractId: string, readonly tokenType: string) {
+  }
 }
 
 export class IssuedFungibleTokenMessage extends FungibleTokenMessage {
@@ -118,11 +122,13 @@ export class NonFungibleTokenMessage {
     readonly contractId: string,
     readonly tokenType: string,
     readonly tokenIndex?: string,
-  ) { }
+  ) {
+  }
 }
 
 export class BaseCoinAmountMessage {
-  constructor(readonly contractId: string, readonly amount: string) { }
+  constructor(readonly contractId: string, readonly amount: string) {
+  }
 }
 
 export class IssuedNonFungibleTokenMessage extends NonFungibleTokenMessage {
@@ -162,7 +168,8 @@ export class TransferredNonFungibleTokenMessage extends NonFungibleTokenMessage 
 }
 
 export class TokenChangeMessage {
-  constructor(readonly field: string, readonly value: string) { }
+  constructor(readonly field: string, readonly value: string) {
+  }
 }
 
 export class ServiceTokenIssueMessage extends TxResultMessage {

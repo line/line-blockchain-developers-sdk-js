@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import jsonpath from "jsonpath";
-import { TokenUtil } from "./token-util";
-import { TxResultResponse } from "./response";
+import {TokenUtil} from "./token-util";
+import {TxResultResponse} from "./response";
 import {
   TokenChangeMessage,
   IssuedServiceTokenMessage,
@@ -17,7 +17,9 @@ import {
 } from "./transaction-messages";
 
 export class TxResultUtil {
-  private constructor() {}
+  private constructor() {
+  }
+
   static findFromWalletAddress(txResultResponse: TxResultResponse): string {
     return TxResultUtil.findValueFromMessagesWithDefaultValue(
       txResultResponse,
@@ -59,6 +61,7 @@ export class TxResultUtil {
       return senderAddress;
     }
   }
+
   static findApproverWalletAddress(txResultResponse: TxResultResponse): string {
     const approverAddress = TxResultUtil.findValueFromMessagesWithDefaultValue(
       txResultResponse,
@@ -388,12 +391,13 @@ export class TxResultUtil {
   static findTokenNameFromMintNFT(txResultResponse: TxResultResponse): string {
     return txResultResponse.tx.value.msg[0].value["params"][0][
       "name"
-    ].toString();
+      ].toString();
   }
+
   static findTokenMetaFromMintNFT(txResultResponse: TxResultResponse): string {
     return txResultResponse.tx.value.msg[0].value["params"][0][
       "meta"
-    ].toString();
+      ].toString();
   }
 
   static findTokenId(txResultResponse: TxResultResponse): string {

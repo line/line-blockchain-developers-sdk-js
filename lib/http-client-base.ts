@@ -1,14 +1,14 @@
-import { LoggerFactory } from "./logger-factory";
-import { LoggerWrapper } from "./logger-wrapper";
+import {LoggerFactory} from "./logger-factory";
+import {LoggerWrapper} from "./logger-wrapper";
 import _ from "lodash";
-import { RequestParameterValidator } from "./request-parameter-validator";
+import {RequestParameterValidator} from "./request-parameter-validator";
 import axios, {
   AxiosInstance,
   AxiosResponse,
   AxiosRequestConfig,
   AxiosError,
 } from "axios";
-import { HTTPError, ReadError, RequestError } from "./exceptions";
+import {HTTPError, ReadError, RequestError} from "./exceptions";
 import cryptoRandomString from "crypto-random-string";
 import {
   GenericResponse,
@@ -43,6 +43,7 @@ import {
   IssueProxyResponse,
   UserRequestStatus,
   NonFungibleTokenTypeHolderList,
+  TxMessageListResponse,
 } from "./response";
 
 import {
@@ -86,12 +87,13 @@ import {
   CreateItemTokenContractRequest,
   IssueServiceTokenRequest,
 } from "./request";
-import { SignatureGenerator } from "./signature-generator";
-import { Constant } from "./constants";
-import { TxResult } from "./tx-core-models";
+import {SignatureGenerator} from "./signature-generator";
+import {Constant} from "./constants";
+import {TxResult} from "./tx-core-models";
 
 declare module "axios" {
-  interface AxiosResponse<T = any> extends Promise<T> { }
+  interface AxiosResponse<T = any> extends Promise<T> {
+  }
 }
 
 export class HttpClient {
@@ -100,6 +102,7 @@ export class HttpClient {
   protected readonly instance: AxiosInstance;
   private readonly serviceApiKey: string;
   private readonly serviceApiSecret: string;
+
   public constructor(baseURL: string, apiKey: string, apiSecret: string) {
     this.instance = axios.create({
       baseURL,
@@ -140,7 +143,7 @@ export class HttpClient {
     );
   };
 
-  private _handleResponse = ({ data }: AxiosResponse) => {
+  private _handleResponse = ({data}: AxiosResponse) => {
     this.logger.debug("Response data", JSON.stringify(data));
     return data;
   };
@@ -183,7 +186,7 @@ export class HttpClient {
   }
 
   protected addRequestHeaders(config: AxiosRequestConfig) {
-    const nonce = cryptoRandomString({ length: 8 });
+    const nonce = cryptoRandomString({length: 8});
     const timestamp = Date.now();
     const method = config.method.toUpperCase();
     config.headers[Constant.SERVICE_API_KEY_HEADER] = this.serviceApiKey;
@@ -437,14 +440,14 @@ export class HttpClient {
   }
 
   /**
-    ** Caution **
-    The list of holders in the response is not sorted by "amount", but this is much faster then previous one
-  */
+   ** Caution **
+   The list of holders in the response is not sorted by "amount", but this is much faster then previous one
+   */
   public nonFungibleTokenTypeHoldersV2(
     contractId: string,
     tokenType: string,
     cursorPageRequest: CursorPageRequest,
-    ): Promise<GenericResponse<NonFungibleTokenTypeHolderList>> {
+  ): Promise<GenericResponse<NonFungibleTokenTypeHolderList>> {
     const path = `/v2/item-tokens/${contractId}/non-fungibles/${tokenType}/holders`;
     const requestConfig = this.cursorPageRequestConfig(cursorPageRequest);
     return this.instance.get(path, requestConfig);
@@ -1071,6 +1074,15 @@ export class HttpClient {
   ): Promise<GenericResponse<UserRequestStatus>> {
     const path = `/v1/user-requests/${requestSessionToken}`;
     return this.instance.get(path);
+  }
+
+  public transactionMessages(
+    txHash: string,
+    cursorPageRequest: CursorPageRequest
+  ): Promise<GenericResponse<TxMessageListResponse>> {
+    const path = `/v2/transactions/${txHash}/messages`;
+    const requestConfig = this.cursorPageRequestConfig(cursorPageRequest);
+    return this.instance.get(path, requestConfig);
   }
 
   private requestTypeParam(requestType: RequestType): AxiosRequestConfig {

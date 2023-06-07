@@ -1,6 +1,6 @@
 import _ from "lodash";
-import { HrpPrefix } from "./constants";
-import { LogResponse, TxResultResponse } from "./response";
+import {HrpPrefix} from "./constants";
+import {LogResponse, TxResultResponse} from "./response";
 import {
   EventAttributeTypes,
   RawMessageEventKeyType,
@@ -61,8 +61,8 @@ import {
   TxStatusResult,
   UnknownTransactionEvent
 } from "./tx-core-models";
-import { StringUtil } from "./string-util";
-import { TokenUtil } from "./token-util";
+import {StringUtil} from "./string-util";
+import {TokenUtil} from "./token-util";
 
 export const EMPTY_TX_EVENTS: Array<TransactionEvent> = [];
 
@@ -225,7 +225,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
   adapt(input: RawTransactionResult): Array<TransactionEvent> {
     let logs = input.logs;
 
-    if (input.code!==0 || _(logs).isEmpty()) {
+    if (input.code !== 0 || _(logs).isEmpty()) {
       return EMPTY_TX_EVENTS;
     } else {
       let events = _.flatMap(logs, log => {
@@ -268,7 +268,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
       case RawMessageEventKeyTypes.TokenMsgBurnFrom:
         return [this.txEVentConverter.tokenBurned(log.msgIndex, event)];
       case RawMessageEventKeyTypes.TokenMsgModify: {
-        let messageEvent = _.find(log.events, it => it.type=="message");
+        let messageEvent = _.find(log.events, it => it.type == "message");
         return [this.txEVentConverter.tokenModified(
           log.msgIndex,
           messageEvent,
@@ -297,7 +297,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
       case RawMessageEventKeyTypes.CollectionMsgIssueFT:
         return [this.txEVentConverter.collectionFtIssued(log.msgIndex, event)];
       case RawMessageEventKeyTypes.CollectionMsgIssueNFT: {
-        let messageEvent = _.find(log.events, it => it.type=="message");
+        let messageEvent = _.find(log.events, it => it.type == "message");
         let senderAddress = RawTransactionEventUtil.findAttribute(
           messageEvent,
           EventAttributeTypes.Sender,
@@ -339,7 +339,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
         )];
       }
       case RawMessageEventKeyTypes.CollectionMsgModify: {
-        let messageEvent = _.find(log.events, it => it.type=="message");
+        let messageEvent = _.find(log.events, it => it.type == "message");
         let senderAddress = RawTransactionEventUtil.findAttribute(
           messageEvent,
           EventAttributeTypes.Sender,
@@ -730,7 +730,7 @@ export class LbdTxEventConverterV1 {
       eventGrantPerm,
       EventAttributeTypes.To,
     );
-    if (!creatorAddress || creatorAddress==="") {
+    if (!creatorAddress || creatorAddress === "") {
       creatorAddress = RawTransactionEventUtil.findAttribute(
         eventCollectionCreated,
         EventAttributeTypes.Owner,
@@ -1024,7 +1024,7 @@ export class LbdTxEventConverterV1 {
     let isFungible = tokenType.startsWith("0");
     let modifierAddress = senderAddress;
 
-    if (event.type==="modify_collection") {
+    if (event.type === "modify_collection") {
       let rawTokenAttributes = RawTransactionEventUtil.attributesExclude(
         event,
         EventAttributeTypes.ContractId,
@@ -1038,7 +1038,7 @@ export class LbdTxEventConverterV1 {
         tokenAttributes,
         modifierAddress,
       );
-    } else if (event.type==="modify_token_type") {
+    } else if (event.type === "modify_token_type") {
       return this.collectionNftTypeModified(msgIndex, event, modifierAddress);
     } else if (isFungible) {
       return this.collectionFtModified(msgIndex, event, modifierAddress);

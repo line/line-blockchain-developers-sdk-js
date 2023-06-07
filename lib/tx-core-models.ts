@@ -16,7 +16,7 @@ export class TxMessage {
   ) {
   }
 
-  readonly details: any = { }; // details are always empty.
+  readonly details: any = {}; // details are always empty.
 }
 
 export class TxStatusResult {
@@ -24,7 +24,7 @@ export class TxStatusResult {
     readonly code: number = 0,
     readonly codeSpace: string = "",
   ) {
-    if (this.code==0) {
+    if (this.code == 0) {
       this.result = TxSuccessResult.SUCCEEDED;
     } else {
       this.result = TxSuccessResult.FAILED;
