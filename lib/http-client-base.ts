@@ -44,6 +44,7 @@ import {
   UserRequestStatus,
   NonFungibleTokenTypeHolderList,
   TxMessageListResponse,
+  TokenIndex
 } from "./response";
 
 import {
@@ -771,7 +772,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     pageRequest: PageRequest,
-  ): Promise<GenericResponse<Array<NonFungibleBalance>>> {
+  ): Promise<GenericResponse<Array<TokenIndex>>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles/${tokenType}`;
     const requestConfig = this.pageRequestConfig(pageRequest);
     return this.instance.get(path, requestConfig);
