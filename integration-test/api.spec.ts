@@ -1,19 +1,24 @@
-import { load } from 'ts-dotenv';
+import {load} from 'ts-dotenv';
 import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
+
 chai.use(chaiAsPromised);
 
 const expect = chai.expect;
-import { describe, it } from "mocha";
+import {describe, it} from "mocha";
 
 import _ from "lodash";
-import { HttpClient } from '../lib/http-client-base';
-import { Constant } from '../lib/constants';
-import { TransactionMsgTypes } from '../lib/constants';
-import { PageRequest, OrderBy, OptionalTransactionSearchParameters } from '../lib/request';
-import { NonFungibleTokenMintRequest } from '../lib/request';
-import { TokenId } from '../lib/request';
-import { RequestType } from '../lib/request';
+import {HttpClient} from '../lib/http-client-base';
+import {Constant} from '../lib/constants';
+import {TransactionMsgTypes} from '../lib/constants';
+import {
+  PageRequest,
+  OrderBy,
+  OptionalTransactionSearchParameters
+} from '../lib/request';
+import {NonFungibleTokenMintRequest} from '../lib/request';
+import {TokenId} from '../lib/request';
+import {RequestType} from '../lib/request';
 
 const env = load(
   {
@@ -29,8 +34,8 @@ const env = load(
     "LINE_USER_ID": String,
     "LINE_USER_WALLET_ADDRESS": String,
   }, {
-  "path": "./integration-test/integration-test.env"
-}
+    "path": "./integration-test/integration-test.env"
+  }
 )
 
 const HOST_URL = env.HOST_URL

@@ -1,11 +1,11 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
-import { baseCoinTransferTxResult } from "./test-data";
+import {expect} from "chai";
+import {describe, it} from "mocha";
+import {baseCoinTransferTxResult} from "./test-data";
 import {
   LbdTxEventsAdapterV1,
   RawTransactionResultAdapter
 } from "../lib/tx-result-adapters";
-import { EventCoinTransferred } from "../lib/tx-core-models";
+import {EventCoinTransferred} from "../lib/tx-core-models";
 
 describe("raw-tx-result-adapter test", () => {
   it("with baseCoinTransferTxResult", () => {

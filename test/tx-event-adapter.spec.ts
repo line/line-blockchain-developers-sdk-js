@@ -1,5 +1,5 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
+import {expect} from "chai";
+import {describe, it} from "mocha";
 import {
   CollectionAttribute,
   EventAccountCreated,
@@ -35,7 +35,7 @@ import {
   RawTransactionEvent,
   RawTransactionEventAttribute,
 } from "../lib/tx-raw-models";
-import { LbdTxEventConverterV1 } from "../lib/tx-result-adapters";
+import {LbdTxEventConverterV1} from "../lib/tx-result-adapters";
 
 describe("LbdTxEventConverterV1 tests", () => {
   let underTest: LbdTxEventConverterV1 = new LbdTxEventConverterV1();

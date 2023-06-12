@@ -19,9 +19,9 @@ import {
   CursorPageRequest,
 } from "../lib";
 // @ts-ignore
-import { transactionResult, singleTransactionResult } from "./test-data";
+import {transactionResult, singleTransactionResult} from "./test-data";
 // @ts-ignore
-import { HttpTestUtil } from "./http-test-util";
+import {HttpTestUtil} from "./http-test-util";
 
 describe("http-client-base test", () => {
   let stub: MockAdapter;

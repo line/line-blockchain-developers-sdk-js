@@ -339,23 +339,23 @@ export class EventAttributeTypes {
     }
   }
 
-    public static getAllTypes() {
-        return [
-            EventAttributeTypes.Amount,
-            EventAttributeTypes.Approver,
-            EventAttributeTypes.ContractId,
-            EventAttributeTypes.CreateAccountTarget,
-            EventAttributeTypes.Decimals,
-            EventAttributeTypes.ExParentTokenId,
-            EventAttributeTypes.From,
-            EventAttributeTypes.Meta,
-            EventAttributeTypes.Name,
-            EventAttributeTypes.NewRootTokenId,
-            EventAttributeTypes.Owner,
-            EventAttributeTypes.ParentTokenId,
-            EventAttributeTypes.Mintable
-        ];
-    }
+  public static getAllTypes() {
+    return [
+      EventAttributeTypes.Amount,
+      EventAttributeTypes.Approver,
+      EventAttributeTypes.ContractId,
+      EventAttributeTypes.CreateAccountTarget,
+      EventAttributeTypes.Decimals,
+      EventAttributeTypes.ExParentTokenId,
+      EventAttributeTypes.From,
+      EventAttributeTypes.Meta,
+      EventAttributeTypes.Name,
+      EventAttributeTypes.NewRootTokenId,
+      EventAttributeTypes.Owner,
+      EventAttributeTypes.ParentTokenId,
+      EventAttributeTypes.Mintable
+    ];
+  }
 }
 
 export class EventAttributeUtil {
