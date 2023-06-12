@@ -327,6 +327,8 @@ export class EventCollectionFtIssued implements TransactionEvent {
     readonly decimals: number = 0,
     readonly issuerAddress: string,
     readonly receiverAddress: string,
+    readonly meta: string,
+    readonly mintable: boolean = true
   ) {
   }
 

@@ -2578,6 +2578,10 @@ export const issueFungibleTxResult = {
               key: "decimals",
               value: "0",
             },
+            {
+              key: "meta",
+              value: "test",
+            },
           ],
         },
         {

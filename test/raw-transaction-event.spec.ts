@@ -14,7 +14,7 @@ describe("RawTransactionEvent test", () => {
         let testEventAttributeType: EventAttributeType = {
             names: ["unknown"],
             matches(attributeName: string): boolean {
-                return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+                return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
             }
         }
 

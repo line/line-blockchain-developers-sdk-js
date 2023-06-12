@@ -470,6 +470,7 @@ describe("LbdTxEventConverterV1 tests", () => {
         new RawTransactionEventAttribute("token_id", "0000003100000000"),
         new RawTransactionEventAttribute("decimals", "0"),
         new RawTransactionEventAttribute("mintable", "true"),
+        new RawTransactionEventAttribute("meta", "test"),
       ],
     );
 
@@ -486,6 +487,8 @@ describe("LbdTxEventConverterV1 tests", () => {
       0,
       "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
       "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+      "test",
+      true
     );
     expect(expectedValue).to.deep.equal(actualValue);
   });

@@ -342,6 +342,8 @@ describe("lbd-tx-event-adapter test", () => {
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionFtIssued.receiverAddress);
     expect("00000031").to.equal(eventCollectionFtIssued.tokenType);
     expect("EventCollectionFtIssued").to.equal(eventCollectionFtIssued.eventName);
+    expect(true).to.equal(eventCollectionFtIssued.mintable);
+    expect("test").to.equal(eventCollectionFtIssued.meta);
   });
   it("with issueNonFungibleTypeTxResult", () => {
     let inputTxResultResponse = issueNonFungibleTypeTxResult;

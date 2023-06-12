@@ -202,159 +202,167 @@ export class EventAttributeTypes {
   static Amount: EventAttributeType = {
     names: ["amount"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static From: EventAttributeType = {
     names: ["from"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static Approver: EventAttributeType = {
     names: ["approver"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static Sender: EventAttributeType = {
     names: ["sender"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static To: EventAttributeType = {
     names: ["to"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static Proxy: EventAttributeType = {
     names: ["proxy"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static TokenId: EventAttributeType = {
     names: ["tokenId", "token_id"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static ParentTokenId: EventAttributeType = {
     names: ["to_token_id", "toTokenId"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static ExParentTokenId: EventAttributeType = {
     names: ["from_token_id", "fromTokenId", "old_root_token_id", "oldRootTokenId"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static NewRootTokenId: EventAttributeType = {
     names: ["new_root_token_id", "new_rootTokenId"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static TokenType: EventAttributeType = {
     names: ["tokenType", "token_type"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static ContractId: EventAttributeType = {
     names: ["contractId", "contract_id"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static CreateAccountTarget: EventAttributeType = {
     names: ["create_account_target"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static Recipient: EventAttributeType = {
     names: ["recipient"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static Owner: EventAttributeType = {
     names: ["owner"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static Name: EventAttributeType = {
     names: ["name"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static Meta: EventAttributeType = {
     names: ["meta"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static Symbol: EventAttributeType = {
     names: ["symbol"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
   static Decimals: EventAttributeType = {
     names: ["decimals"],
     matches(attributeName: string): boolean {
-      return EventAttributeUtil.hasMatchedAttriute(this.names, attributeName);
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
     }
   }
 
-  public static getAllTypes() {
-    return [
-      EventAttributeTypes.Amount,
-      EventAttributeTypes.Approver,
-      EventAttributeTypes.ContractId,
-      EventAttributeTypes.CreateAccountTarget,
-      EventAttributeTypes.Decimals,
-      EventAttributeTypes.ExParentTokenId,
-      EventAttributeTypes.From,
-      EventAttributeTypes.Meta,
-      EventAttributeTypes.Name,
-      EventAttributeTypes.NewRootTokenId,
-      EventAttributeTypes.Owner,
-      EventAttributeTypes.ParentTokenId
-    ];
+  static Mintable: EventAttributeType = {
+    names: ["mintable"],
+    matches(attributeName: string): boolean {
+      return EventAttributeUtil.hasMatchedAttribute(this.names, attributeName);
+    }
   }
+
+    public static getAllTypes() {
+        return [
+            EventAttributeTypes.Amount,
+            EventAttributeTypes.Approver,
+            EventAttributeTypes.ContractId,
+            EventAttributeTypes.CreateAccountTarget,
+            EventAttributeTypes.Decimals,
+            EventAttributeTypes.ExParentTokenId,
+            EventAttributeTypes.From,
+            EventAttributeTypes.Meta,
+            EventAttributeTypes.Name,
+            EventAttributeTypes.NewRootTokenId,
+            EventAttributeTypes.Owner,
+            EventAttributeTypes.ParentTokenId,
+            EventAttributeTypes.Mintable
+        ];
+    }
 }
 
 export class EventAttributeUtil {
   private constructor() {
   }
 
-  public static hasMatchedAttriute(names: Array<string>, matchedAttrName: string): boolean {
+  public static hasMatchedAttribute(names: Array<string>, matchedAttrName: string): boolean {
     return _.head(_.filter(names, it => it === matchedAttrName)) != null
   }
 }
