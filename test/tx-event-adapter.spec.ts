@@ -1,5 +1,5 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
+import {expect} from "chai";
+import {describe, it} from "mocha";
 import {
   CollectionAttribute,
   EventAccountCreated,
@@ -35,7 +35,7 @@ import {
   RawTransactionEvent,
   RawTransactionEventAttribute,
 } from "../lib/tx-raw-models";
-import { LbdTxEventConverterV1 } from "../lib/tx-result-adapters";
+import {LbdTxEventConverterV1} from "../lib/tx-result-adapters";
 
 describe("LbdTxEventConverterV1 tests", () => {
   let underTest: LbdTxEventConverterV1 = new LbdTxEventConverterV1();
@@ -470,6 +470,7 @@ describe("LbdTxEventConverterV1 tests", () => {
         new RawTransactionEventAttribute("token_id", "0000003100000000"),
         new RawTransactionEventAttribute("decimals", "0"),
         new RawTransactionEventAttribute("mintable", "true"),
+        new RawTransactionEventAttribute("meta", "test"),
       ],
     );
 
@@ -486,6 +487,8 @@ describe("LbdTxEventConverterV1 tests", () => {
       0,
       "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
       "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+      "test",
+      true
     );
     expect(expectedValue).to.deep.equal(actualValue);
   });

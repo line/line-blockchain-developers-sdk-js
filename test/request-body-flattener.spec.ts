@@ -1,9 +1,9 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
+import {expect} from "chai";
+import {describe, it} from "mocha";
 
 import _ from "lodash";
 
-import { RequestBodyFlattener } from "../lib/request-body-flattener";
+import {RequestBodyFlattener} from "../lib/request-body-flattener";
 
 describe("request-body-flatten test", () => {
   it("flatten request body with mint-list parameter value test", () => {

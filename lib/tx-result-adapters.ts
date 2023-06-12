@@ -812,6 +812,16 @@ export class LbdTxEventConverterV1 {
       EventAttributeTypes.To,
     );
 
+    let meta = RawTransactionEventUtil.findAttribute(
+      event,
+      EventAttributeTypes.Meta,
+    );
+
+    let mintable = RawTransactionEventUtil.findAttribute(
+      event,
+      EventAttributeTypes.Mintable,
+    );
+
     return new EventCollectionFtIssued(
       msgIndex,
       contractId,
@@ -821,6 +831,8 @@ export class LbdTxEventConverterV1 {
       Number.parseInt(decimals),
       issuerAddress,
       receiverAddress,
+      meta,
+      Boolean(mintable)
     );
   }
 

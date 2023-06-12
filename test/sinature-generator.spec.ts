@@ -1,6 +1,6 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
-import { SignatureGenerator } from "../lib/signature-generator";
+import {expect} from "chai";
+import {describe, it} from "mocha";
+import {SignatureGenerator} from "../lib/signature-generator";
 
 describe("signature-generator test", () => {
   // it('signature without parameters test', () => {

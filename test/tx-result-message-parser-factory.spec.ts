@@ -1,5 +1,5 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
+import {expect} from "chai";
+import {describe, it} from "mocha";
 import {
   TxResultMessageParserFactory
 } from "../lib/transaction-message-parser";
@@ -76,8 +76,8 @@ import {
 describe("txResultMessageParserFactory-test", () => {
   it("test parsing to ServiceTokenModifyMessage", () => {
     const expectedChanges = [
-      { field: "name", value: "STname" },
-      { field: "meta", value: "meta" },
+      {field: "name", value: "STname"},
+      {field: "meta", value: "meta"},
     ];
 
     const parser = TxResultMessageParserFactory.create(

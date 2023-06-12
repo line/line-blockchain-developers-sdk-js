@@ -45,7 +45,7 @@ npm run test:integration
 ```
 
 > Note
-> 
+>
 > To run integration tests, `integration-test.env` is required with following properties.
 ```
 HOST_URL=[api-url]
@@ -164,7 +164,7 @@ import { GenericResponse, TxResultResponse } from './lib/response';
 ### `SignatureGenerator`
 This class provides a functionality to [generate signatures](https://docs-blockchain.line.biz/api-guide/Authentication#generating-signature) for a request.
 
-All API requests, except for the endpoint to retrieve the server time, must pass authentication information and be signed. Signing is a bit annoying, but never mind, fortunately, `HttpClient` itself will import this and generate signatures before sending a request. 
+All API requests, except for the endpoint to retrieve the server time, must pass authentication information and be signed. Signing is a bit annoying, but never mind, fortunately, `HttpClient` itself will import this and generate signatures before sending a request.
 
 If you do want to study how LINE Blockchain signature created, it's okay to dive into the source code.
 
@@ -219,8 +219,8 @@ There could be messages more than one in a transaction, and a message is what a 
 A message has `msgIndex`, `requestType` and `details`. More details on each property are as followings.
 * msgIndex: Index number of the message in a transaction
 * requestType: Type of the message. For example, "collection/MsgTransferNFT"
-* details: Value included in the message. Properties vary, depending on the type of the message. 
-  
+* details: Value included in the message. Properties vary, depending on the type of the message.
+
 > Note
 >
 > `details` in each message isn't a fixed object, since it's hard to provide a concrete type of data when we support smart contract. With smart contracts, developers or owners of the smart contract can define their own messages with custom properties, which are not known to LINE Blockchain Developers.
@@ -233,7 +233,7 @@ By they way, all events basically have `msgIndex` and `eventName` properties.
 * eventName: Name of an event such as `EventCoinTransferred`, `EventTokenIssued` and so on.
 
 ### Adapting to new transaction result
-We need a way to adapt(convert) old transaction result in sort of raw format, which is very dependent on the chain's to new structured transaction result. 
+We need a way to adapt(convert) old transaction result in sort of raw format, which is very dependent on the chain's to new structured transaction result.
 
 #### Basic adapting flow
 Adapting flow is simple as below.

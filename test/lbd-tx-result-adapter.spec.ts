@@ -1,17 +1,17 @@
-import { describe, it } from "mocha";
-import { HrpPrefix } from "../lib/constants";
+import {describe, it} from "mocha";
+import {HrpPrefix} from "../lib/constants";
 import {
   LbdTxResultAdapterV1,
   TxResultAdapter
 } from "../lib/tx-result-adapters";
-import { RawTransactionResult } from "../lib/tx-raw-models";
-import { TxResult, TxSigner } from "../lib/tx-core-models";
+import {RawTransactionResult} from "../lib/tx-raw-models";
+import {TxResult, TxSigner} from "../lib/tx-core-models";
 import {
   accountMsgEmptyTxResult,
   baseCoinTransferTxResult,
   createAccountTxResult
 } from "./test-data";
-import { expect } from "chai";
+import {expect} from "chai";
 import _ from "lodash";
 
 describe("LbdTxResultAdapterV1 test", () => {

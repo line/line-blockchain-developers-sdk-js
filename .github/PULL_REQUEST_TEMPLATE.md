@@ -1,10 +1,10 @@
-### What kind of change does this PR introduce? 
+### What kind of change does this PR introduce?
 * [ ] bug fix
 * [ ] feature
 * [ ] docs
 * [ ] update
 
-### What is the current behavior? 
+### What is the current behavior?
 You can also link to an open issue here
 
 ### What is the new behavior?

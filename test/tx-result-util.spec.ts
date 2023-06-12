@@ -1,6 +1,6 @@
-import { expect } from "chai";
-import { describe, it } from "mocha";
-import { TxResultUtil } from "../lib/tx-result-util";
+import {expect} from "chai";
+import {describe, it} from "mocha";
+import {TxResultUtil} from "../lib/tx-result-util";
 import {
   serviceTokenBurnFromTxResult,
   singleTransactionResult
