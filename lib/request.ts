@@ -26,7 +26,7 @@ export class IssueServiceTokenRequest {
     readonly initialSupply: string,
     readonly recipientWalletAddress: string,
   ) {
-    if (RequestParameterValidator.isValidWalletAddress(serviceWalletAddress)) {
+    if (!RequestParameterValidator.isValidWalletAddress(serviceWalletAddress)) {
       throw new Error(`Invalid serviceWalletAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
     }
 
@@ -46,7 +46,7 @@ export class IssueServiceTokenRequest {
       throw new Error(`Invalid initialSupply of service token - valid pattern: ${RequestParameterValidator.validTokenInitialSupplyPattern()}`);
     }
 
-    if (RequestParameterValidator.isValidWalletAddress(recipientWalletAddress)) {
+    if (!RequestParameterValidator.isValidWalletAddress(recipientWalletAddress)) {
       throw new Error(`Invalid recipientWalletAddress of service token - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
     }
   }
