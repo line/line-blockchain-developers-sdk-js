@@ -26,7 +26,7 @@
     "format": "npm run prettier -- --write",
     "format:check": "npm run prettier -- -l",
     "pretest": "npm run build",
-    "clean": "rm -rf dist/*",
+    "clean": "rm -rf dist/* && rm -f tsconfig.tsbuildinfo",
     "build": "tsc -p tsconfig.json",
     "test-api": "mocha test/http-client-base.spec.ts -r ts-node/register",
     "test:integration": "mocha integration-test/*.spec.ts -r ts-node/register",
