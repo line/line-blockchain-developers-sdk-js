@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 import {LoggerFactory} from "./logger-factory";
 import {LoggerWrapper} from "./logger-wrapper";
 import _ from "lodash";
@@ -26,7 +28,6 @@ import {
   NonFungibleTokenTypeHolder,
   NonFungibleTokenHolder,
   WalletResponse,
-  BaseCoinBalance,
   ServiceTokenBalance,
   FungibleBalance,
   NonFungibleBalance,
@@ -69,7 +70,6 @@ import {
   NonFungibleTokenBurnRequest,
   NonFungibleTokenAttachRequest,
   NonFungibleTokenDetachRequest,
-  TransferBaseCoinRequest,
   TransferServiceTokenRequest,
   TransferFungibleTokenRequest,
   TransferNonFungibleTokenRequest,
@@ -87,6 +87,7 @@ import {
   OrderBy,
   CreateItemTokenContractRequest,
   IssueServiceTokenRequest,
+  MultiNonFungibleTokenTypeMediaResourcesUpdateRequest,
 } from "./request";
 import {SignatureGenerator} from "./signature-generator";
 import {Constant} from "./constants";
@@ -459,9 +460,11 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     tokenIndex: string,
+    isMetaRequired: boolean = false,
   ): Promise<GenericResponse<NonFungibleTokenHolder>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/holder`;
-    return this.instance.get(path);
+    const queryParam = this.isMetaRequiredQueryParameter(isMetaRequired)
+    return this.instance.get(path, queryParam);
   }
 
   public multiMintNonFungibleToken(
@@ -869,6 +872,18 @@ export class HttpClient {
     return this.instance.put(path, request);
   }
 
+  public updateNonFungibleTokenTypeMediaResources(
+    contractId: string,
+    tokenTypes: Array<string>,
+  ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/types/media-resources`;
+    const updateList = TokenType.fromMulti(tokenTypes);
+    const request = new MultiNonFungibleTokenTypeMediaResourcesUpdateRequest(
+      updateList,
+    );
+    return this.instance.put(path, request);
+  }
+
   public updateTokenThumbnailResources(
     contractId: string,
     tokenIdentifiers: Array<string>,
@@ -1133,6 +1148,14 @@ export class HttpClient {
     };
   }
 
+  private isMetaRequiredQueryParameter(isMetaRequired: boolean): AxiosRequestConfig {
+    return {
+      params: {
+        isMetaRequired: isMetaRequired,
+      },
+    };
+  }
+
   private txHashAndIsOnlyContractIdRequestConfig(
     txHash?: string,
     isOnlyContractId?: boolean
@@ -1154,7 +1177,7 @@ export class HttpClient {
   }
 
   private cursorPageRequestConfig(cursorPageRequest: CursorPageRequest) {
-    var pagingParams = {
+    const pagingParams = {
       limit: cursorPageRequest.limit,
       pageToken: cursorPageRequest.pageToken,
       orderBy: cursorPageRequest.orderBy,
@@ -1169,7 +1192,7 @@ export class HttpClient {
   private detachRequestConfig(
     detachRequest: NonFungibleTokenDetachRequest,
   ): AxiosRequestConfig {
-    var detachNonFungibleParams = _.omitBy(detachRequest, _.isNil);
+    const detachNonFungibleParams = _.omitBy(detachRequest, _.isNil);
     return {
       data: Object.keys(detachNonFungibleParams)
         .sort()

@@ -997,6 +997,48 @@ describe("http-client-base test", () => {
     expect(response["responseData"]["walletAddress"]).to.equal(testAddress);
   });
 
+  it("non-fungible-token holder with meta api test", async () => {
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const testContractId = "9636a07e";
+    const testTokenType = "0000004a";
+    const testTokenIndex = "00000001";
+    const isMetaRequired = true;
+    const metaData = "test-meta";
+
+    const receivedData = {
+      responseTime: 1585467711436,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: {
+        walletAddress: testAddress,
+        userId: null,
+        numberOfIndex: "5",
+        meta: metaData
+      }
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub
+      .onGet(
+        `/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/holder`
+      )
+      .reply(config => {
+        assertHeaders(config.headers);
+        return [200, receivedData];
+      });
+
+    const response = await httpClient.nonFungibleTokenHolder(
+      testContractId,
+      testTokenType,
+      testTokenIndex,
+      isMetaRequired
+    );
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"]["walletAddress"]).to.equal(testAddress);
+    expect(response["responseData"]["meta"]).to.equal(metaData);
+  });
+
   it("multi-mint non-fungible-token api test", async () => {
     const testContractId = "9636a07e";
     const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
