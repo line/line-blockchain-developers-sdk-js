@@ -927,6 +927,18 @@ export class HttpClient {
     return this.instance.put(path, request);
   }
 
+  public updateNonFungibleTokenTypeThumbnailResources(
+    contractId: string,
+    tokenTypes: Array<string>,
+  ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
+    const path = `/v1/item-tokens/${contractId}/non-fungibles/types/thumbnails`;
+    const updateList = TokenType.fromMulti(tokenTypes);
+    const request = new MultiNonFungibleTokenTypeMediaResourcesUpdateRequest(
+      updateList,
+    );
+    return this.instance.put(path, request);
+  }
+
 
   public fungibleTokenMediaResourcesUpdateStatuses(
     contractId: string,
