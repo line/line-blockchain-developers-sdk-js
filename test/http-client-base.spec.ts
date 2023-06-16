@@ -997,6 +997,48 @@ describe("http-client-base test", () => {
     expect(response["responseData"]["walletAddress"]).to.equal(testAddress);
   });
 
+  it("non-fungible-token holder with meta api test", async () => {
+    const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
+    const testContractId = "9636a07e";
+    const testTokenType = "0000004a";
+    const testTokenIndex = "00000001";
+    const isMetaRequired = true;
+    const metaData = "test-meta";
+
+    const receivedData = {
+      responseTime: 1585467711436,
+      statusCode: 1000,
+      statusMessage: "Success",
+      responseData: {
+        walletAddress: testAddress,
+        userId: null,
+        numberOfIndex: "5",
+        meta: metaData
+      }
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    stub
+      .onGet(
+        `/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/holder`
+      )
+      .reply(config => {
+        assertHeaders(config.headers);
+        return [200, receivedData];
+      });
+
+    const response = await httpClient.nonFungibleTokenHolder(
+      testContractId,
+      testTokenType,
+      testTokenIndex,
+      isMetaRequired
+    );
+    expect(response["statusCode"]).to.equal(1000);
+    expect(response["responseData"]["walletAddress"]).to.equal(testAddress);
+    expect(response["responseData"]["meta"]).to.equal(metaData);
+  });
+
   it("multi-mint non-fungible-token api test", async () => {
     const testContractId = "9636a07e";
     const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
@@ -2669,6 +2711,47 @@ describe("http-client-base test", () => {
     expect(response["responseData"]["requestId"]).to.equal(testRequestId);
   });
 
+  it("update non-fungible-token-type media resource", async () => {
+    const testContractId = "9636a07e";
+
+    const updateList = [
+      {
+        tokenType: "10000001",
+      },
+      {
+        tokenType: "10000002",
+      }
+    ];
+
+    const expectedRequest = {updateList: updateList};
+
+    const testRequestId = "test-request-id";
+    const receivedData = {
+      responseTime: 1585467711877,
+      statusCode: 1002,
+      statusMessage: "Accepted",
+      responseData: {
+        requestId: testRequestId
+      }
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    const path = `/v1/item-tokens/${testContractId}/non-fungibles/types/media-resources`;
+    stub.onPut(path).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(expectedRequest));
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.updateNonFungibleTokenTypeMediaResources(
+      testContractId,
+      ["10000001", "10000002"],
+    );
+    expect(response["statusCode"]).to.equal(1002);
+    expect(response["responseData"]["requestId"]).to.equal(testRequestId);
+  });
+
 
   it("update fungible-token thumbnail resource", async () => {
     const testContractId = "9636a07e";
@@ -2745,6 +2828,47 @@ describe("http-client-base test", () => {
       testContractId,
       ["1000000100000001", "1000000200000001"],
       false
+    );
+    expect(response["statusCode"]).to.equal(1002);
+    expect(response["responseData"]["requestId"]).to.equal(testRequestId);
+  });
+
+  it("update non-fungible-token-type thumbnail resource", async () => {
+    const testContractId = "9636a07e";
+
+    const updateList = [
+      {
+        tokenType: "10000001",
+      },
+      {
+        tokenType: "10000002",
+      }
+    ];
+
+    const expectedRequest = {updateList: updateList};
+
+    const testRequestId = "test-request-id";
+    const receivedData = {
+      responseTime: 1585467711877,
+      statusCode: 1002,
+      statusMessage: "Accepted",
+      responseData: {
+        requestId: testRequestId
+      }
+    };
+
+    stub = new MockAdapter(httpClient.getAxiosInstance());
+
+    const path = `/v1/item-tokens/${testContractId}/non-fungibles/types/thumbnails`;
+    stub.onPut(path).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(expectedRequest));
+      return [200, receivedData];
+    });
+
+    const response = await httpClient.updateNonFungibleTokenTypeThumbnailResources(
+      testContractId,
+      ["10000001", "10000002"],
     );
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["requestId"]).to.equal(testRequestId);

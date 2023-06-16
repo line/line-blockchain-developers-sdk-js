@@ -206,6 +206,11 @@ export class MultiNonFungibleTokenMediaResourcesUpdateRequest {
   }
 }
 
+export class MultiNonFungibleTokenTypeMediaResourcesUpdateRequest {
+  constructor(readonly updateList: Array<TokenType>) {
+  }
+}
+
 export class TokenType {
   private constructor(readonly tokenType: string) {
   }

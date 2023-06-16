@@ -411,6 +411,7 @@ export class NonFungibleTokenHolder {
     readonly walletAddress: string,
     readonly amount: string,
     readonly userId?: string,
+    readonly meta?: string
   ) {
   }
 }
