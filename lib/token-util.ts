@@ -3,8 +3,7 @@ import _ from "lodash";
 export class TokenUtil {
   private static FUNGIBLE_TOKEN_INDEX = "00000000";
 
-  private constructor() {
-  }
+  private constructor() {}
 
   static tokenIndexFrom(tokenId: string): string {
     let tokenIndex = "";
@@ -28,15 +27,14 @@ export class TokenUtil {
 
   static tokenTypes(tokenIds: Array<string>): Array<string> {
     return _.map(tokenIds.values(), it => {
-      return TokenUtil.tokenTypeFrom(it.toString())
-    })
-
+      return TokenUtil.tokenTypeFrom(it.toString());
+    });
   }
 
   static tokenIndices(tokenIds: Array<string>): Array<string> {
     let indices = _.map(tokenIds.values(), it => {
-      return TokenUtil.tokenIndexFrom(it.toString())
+      return TokenUtil.tokenIndexFrom(it.toString());
     });
-    return indices
+    return indices;
   }
 }

@@ -2,7 +2,7 @@
 
 export enum TxSuccessResult {
   SUCCEEDED = "SUCCEEDED",
-  FAILED = "FAILED"
+  FAILED = "FAILED",
 }
 
 export interface TransactionEvent {
@@ -10,20 +10,13 @@ export interface TransactionEvent {
 }
 
 export class TxMessage {
-  constructor(
-    readonly msgIndex: number,
-    readonly requestType: string,
-  ) {
-  }
+  constructor(readonly msgIndex: number, readonly requestType: string) {}
 
   readonly details: any = {}; // details are always empty.
 }
 
 export class TxStatusResult {
-  constructor(
-    readonly code: number = 0,
-    readonly codeSpace: string = "",
-  ) {
+  constructor(readonly code: number = 0, readonly codeSpace: string = "") {
     if (this.code == 0) {
       this.result = TxSuccessResult.SUCCEEDED;
     } else {
@@ -35,10 +28,7 @@ export class TxStatusResult {
 }
 
 export class TxSigner {
-  constructor(
-    readonly address: string,
-  ) {
-  }
+  constructor(readonly address: string) {}
 }
 
 export class TxResultSummary {
@@ -48,8 +38,7 @@ export class TxResultSummary {
     readonly txHash: string,
     readonly signers: Array<TxSigner>,
     readonly result: TxStatusResult,
-  ) {
-  }
+  ) {}
 }
 
 export class TxResult {
@@ -57,32 +46,26 @@ export class TxResult {
     readonly summary: TxResultSummary,
     readonly txMessages: Array<TxMessage>,
     readonly txEvents: Array<TransactionEvent>,
-  ) {
-  }
+  ) {}
 
   toJson(): any {
     return {
-      "summary": {
-        "height": this.summary.height,
-        "txIndex": this.summary.txIndex,
-        "txHash": this.summary.txHash,
-        "signers": [...this.summary.signers],
-        "result": this.summary.result,
-
+      summary: {
+        height: this.summary.height,
+        txIndex: this.summary.txIndex,
+        txHash: this.summary.txHash,
+        signers: [...this.summary.signers],
+        result: this.summary.result,
       },
-      "txMessages": [...this.txMessages],
-      "txEvents": [...this.txEvents],
+      txMessages: [...this.txMessages],
+      txEvents: [...this.txEvents],
     };
   }
 }
 
 // events
 export class UnknownTransactionEvent implements TransactionEvent {
-  constructor(
-    readonly type: string,
-    readonly attributes: Array<string>,
-    readonly extraMessage: string,
-  ) {
+  constructor(readonly type: string, readonly attributes: Array<string>, readonly extraMessage: string) {
     if (!attributes) {
       this.attributes = [];
     }
@@ -95,21 +78,13 @@ export class UnknownTransactionEvent implements TransactionEvent {
 }
 
 export class EventAccountCreated implements TransactionEvent {
-  constructor(
-    readonly msgIndex: number,
-    readonly createdAddress: string,
-  ) {
-  }
+  constructor(readonly msgIndex: number, readonly createdAddress: string) {}
 
   eventName: string = "EventAccountCreated";
 }
 
 export class EventEmptyMsgCreated implements TransactionEvent {
-  constructor(
-    readonly msgIndex: number,
-    readonly senderAddress: string,
-  ) {
-  }
+  constructor(readonly msgIndex: number, readonly senderAddress: string) {}
 
   eventName: string = "EventEmptyMsgCreated";
 }
@@ -122,8 +97,7 @@ export class EventCoinTransferred implements TransactionEvent {
     readonly amount: string,
     readonly fromAddress: string,
     readonly toAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCoinTransferred";
 }
@@ -138,18 +112,13 @@ export class EventTokenIssued implements TransactionEvent {
     readonly symbol: string,
     readonly decimals: number,
     readonly amount: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventTokenIssued";
 }
 
 export class TokenAttribute {
-  constructor(
-    readonly key: string,
-    readonly value: any,
-  ) {
-  }
+  constructor(readonly key: string, readonly value: any) {}
 }
 
 export class EventTokenMinted implements TransactionEvent {
@@ -159,8 +128,7 @@ export class EventTokenMinted implements TransactionEvent {
     readonly amount: string,
     readonly minterAddress: string,
     readonly toAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventTokenMinted";
 }
@@ -172,8 +140,7 @@ export class EventTokenBurned implements TransactionEvent {
     readonly amount: string,
     readonly fromAddress: string,
     readonly proxyAddress: string = "",
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventTokenBurned";
 }
@@ -184,8 +151,7 @@ export class EventTokenModified implements TransactionEvent {
     readonly contractId: string,
     readonly modifierAddress: string,
     readonly tokenAttributes: Array<TokenAttribute>,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventTokenModified";
 }
@@ -194,7 +160,7 @@ enum TokenPermission {
   UNDEFINED = "UNDEFINED",
   TOKEN_MODIFY = "TOKEN_MODIFY",
   TOKEN_MINT = "TOKEN_MINT",
-  TOKEN_BURN = "TOKEN_BURN"
+  TOKEN_BURN = "TOKEN_BURN",
 }
 
 export class EventTokenPermissionGranted implements TransactionEvent {
@@ -204,8 +170,7 @@ export class EventTokenPermissionGranted implements TransactionEvent {
     readonly permission: TokenPermission,
     readonly granteeAddress: string,
     readonly granterAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventTokenPermissionGranted";
 }
@@ -216,8 +181,7 @@ export class EventTokenPermissionRenounced implements TransactionEvent {
     readonly contractId: string,
     readonly permission: TokenPermission,
     readonly granteeAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventTokenPermissionRenounced";
 }
@@ -228,8 +192,7 @@ export class EventTokenProxyApproved implements TransactionEvent {
     readonly contractId: string,
     readonly approverAddress: string,
     readonly proxyAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventTokenProxyApproved";
 }
@@ -240,8 +203,7 @@ export class EventTokenProxyDisapproved implements TransactionEvent {
     readonly contractId: string,
     readonly approverAddress: TokenPermission,
     readonly proxyAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventTokenProxyDisapproved";
 }
@@ -254,8 +216,7 @@ export class EventTokenTransferred implements TransactionEvent {
     readonly fromAddress: string,
     readonly toAddress: string,
     readonly proxyAddress: string = "",
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventTokenTransferred";
 }
@@ -271,11 +232,7 @@ enum ItemTokenPermission {
 }
 
 export class CollectionAttribute {
-  constructor(
-    readonly key: string,
-    readonly value: any,
-  ) {
-  }
+  constructor(readonly key: string, readonly value: any) {}
 }
 
 export class EventCollectionCreated implements TransactionEvent {
@@ -284,8 +241,7 @@ export class EventCollectionCreated implements TransactionEvent {
     readonly contractId: string,
     readonly name: string,
     readonly creatorAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionCreated";
 }
@@ -296,8 +252,7 @@ export class EventCollectionModified implements TransactionEvent {
     readonly contractId: string,
     readonly tokenAttributes: Array<CollectionAttribute>,
     readonly modifierAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionModified";
 }
@@ -311,8 +266,7 @@ export class EventCollectionFtBurned implements TransactionEvent {
     readonly amount: string,
     readonly fromAddress: string,
     readonly proxyAddress: string = "",
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionFtBurned";
 }
@@ -328,9 +282,8 @@ export class EventCollectionFtIssued implements TransactionEvent {
     readonly issuerAddress: string,
     readonly receiverAddress: string,
     readonly meta: string,
-    readonly mintable: boolean = true
-  ) {
-  }
+    readonly mintable: boolean = true,
+  ) {}
 
   eventName: string = "EventCollectionFtIssued";
 }
@@ -344,8 +297,7 @@ export class EventCollectionFtMinted implements TransactionEvent {
     readonly amount: string,
     readonly toAddress: string,
     readonly minterAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionFtMinted";
 }
@@ -357,8 +309,7 @@ export class EventCollectionFtModified implements TransactionEvent {
     readonly tokenType: string,
     readonly tokenAttributes: Array<CollectionAttribute>,
     readonly modifierAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionFtModified";
 }
@@ -373,8 +324,7 @@ export class EventCollectionFtTransferred implements TransactionEvent {
     readonly fromAddress: string,
     readonly toAddress: string,
     readonly proxyAddress: string = "",
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionFtTransferred";
 }
@@ -387,8 +337,7 @@ export class EventCollectionNftAttached implements TransactionEvent {
     readonly parentTokenId: string,
     readonly holderAddress: string,
     readonly proxyAddress: string = "",
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionNftAttached";
 }
@@ -400,8 +349,7 @@ export class EventCollectionNftBurned implements TransactionEvent {
     readonly tokenIds: Array<string>,
     readonly fromAddress: string,
     readonly proxyAddress: string = "",
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionNftBurned";
 }
@@ -414,8 +362,7 @@ export class EventCollectionNftDetached implements TransactionEvent {
     readonly exParentTokenId: string,
     readonly holderAddress: string,
     readonly proxyAddress: string = "",
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionNftDetached";
 }
@@ -427,8 +374,7 @@ export class EventCollectionNftHolderChanged implements TransactionEvent {
     readonly tokenIds: Array<string>,
     readonly fromAddress: string,
     readonly toAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionNftHolderChanged";
 }
@@ -439,8 +385,7 @@ export class EventCollectionNftIssued implements TransactionEvent {
     readonly contractId: string,
     readonly tokenType: string,
     readonly issuerAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionNftIssued";
 }
@@ -452,8 +397,7 @@ export class EventCollectionNftMinted implements TransactionEvent {
     readonly tokenIds: Array<string>,
     readonly toAddress: string,
     readonly minterAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionNftMinted";
 }
@@ -465,8 +409,7 @@ export class EventCollectionNftModified implements TransactionEvent {
     readonly tokenId: string,
     readonly tokenAttributes: Array<CollectionAttribute>,
     readonly modifierAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionNftModified";
 }
@@ -478,8 +421,7 @@ export class EventCollectionNftRootChanged implements TransactionEvent {
     readonly tokenIds: Array<string>,
     readonly oldRootTokenId: string,
     readonly newRootTokenId: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionNftRootChanged";
 }
@@ -492,11 +434,9 @@ export class EventCollectionNftTransferred implements TransactionEvent {
     readonly fromAddress: string,
     readonly toAddress: string,
     readonly proxyAddress: string = "",
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionNftTransferred";
-
 }
 
 export class EventCollectionNftTypeModified implements TransactionEvent {
@@ -506,8 +446,7 @@ export class EventCollectionNftTypeModified implements TransactionEvent {
     readonly tokenType: string,
     readonly tokenAttributes: Array<CollectionAttribute>,
     readonly modifierAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionNftTypeModified";
 }
@@ -519,11 +458,9 @@ export class EventCollectionPermissionGranted implements TransactionEvent {
     readonly permission: ItemTokenPermission,
     readonly granteeAddress: string,
     readonly granterAddress?: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionPermissionGranted";
-
 }
 
 export class EventCollectionPermissionRenounced implements TransactionEvent {
@@ -532,8 +469,7 @@ export class EventCollectionPermissionRenounced implements TransactionEvent {
     readonly contractId: string,
     readonly permission: ItemTokenPermission,
     readonly granteeAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionPermissionRenounced";
 }
@@ -544,8 +480,7 @@ export class EventCollectionProxyApproved implements TransactionEvent {
     readonly contractId: string,
     readonly approverAddress: string,
     readonly proxyAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionProxyApproved";
 }
@@ -556,8 +491,7 @@ export class EventCollectionProxyDisapproved implements TransactionEvent {
     readonly contractId: string,
     readonly approverAddress: string,
     readonly proxyAddress: string,
-  ) {
-  }
+  ) {}
 
   eventName: string = "EventCollectionProxyDisapproved";
 }

@@ -1,17 +1,10 @@
-import {describe, it} from "mocha";
-import {HrpPrefix} from "../lib/constants";
-import {
-  LbdTxResultAdapterV1,
-  TxResultAdapter
-} from "../lib/tx-result-adapters";
-import {RawTransactionResult} from "../lib/tx-raw-models";
-import {TxResult, TxSigner} from "../lib/tx-core-models";
-import {
-  accountMsgEmptyTxResult,
-  baseCoinTransferTxResult,
-  createAccountTxResult
-} from "./test-data";
-import {expect} from "chai";
+import { describe, it } from "mocha";
+import { HrpPrefix } from "../lib/constants";
+import { LbdTxResultAdapterV1, TxResultAdapter } from "../lib/tx-result-adapters";
+import { RawTransactionResult } from "../lib/tx-raw-models";
+import { TxResult, TxSigner } from "../lib/tx-core-models";
+import { accountMsgEmptyTxResult, baseCoinTransferTxResult, createAccountTxResult } from "./test-data";
+import { expect } from "chai";
 import _ from "lodash";
 
 describe("LbdTxResultAdapterV1 test", () => {
@@ -51,5 +44,3 @@ describe("LbdTxResultAdapterV1 test", () => {
     expect(_.first(Array.from(lbdTxResult.txEvents))["eventName"]).to.equal("EventEmptyMsgCreated");
   });
 });
-
-

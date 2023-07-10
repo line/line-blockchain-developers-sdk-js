@@ -6,7 +6,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 
 const expect = chai.expect;
-import {describe, it} from "mocha";
+import { describe, it } from "mocha";
 
 import {
   HttpClient,
@@ -19,9 +19,9 @@ import {
   CursorPageRequest,
 } from "../lib";
 // @ts-ignore
-import {transactionResult, singleTransactionResult} from "./test-data";
+import { transactionResult, singleTransactionResult } from "./test-data";
 // @ts-ignore
-import {HttpTestUtil} from "./http-test-util";
+import { HttpTestUtil } from "./http-test-util";
 
 describe("http-client-base test", () => {
   let stub: MockAdapter;
@@ -39,7 +39,7 @@ describe("http-client-base test", () => {
     const receivedData = {
       responseTime: 1581850266351,
       statusCode: 1000,
-      statusMessage: "success"
+      statusMessage: "success",
     };
 
     let httpClient = new HttpClient(baseUrl, testApiKey, testSecret);
@@ -64,8 +64,8 @@ describe("http-client-base test", () => {
         serviceId: testServiceId,
         name: "TESTDAPP",
         description: "TESTDAPP description",
-        category: "SNS"
-      }
+        category: "SNS",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -92,16 +92,15 @@ describe("http-client-base test", () => {
           name: "skt1",
           symbol: "SYNPH",
           imgUri: "https://sample.image",
-          meta:
-            "kjpxcnzuec5l1x8r5ngxl1ghl4tzvawv9bryobjvzc1o4uywnzeydcv4jl8f5mzw1w9e4897op6rsy43exbyojrk5e81jj9jvqd9yye6mdnffhbzptqyc8693ss4by0cjvle1jgtb8ofgr1tkve8nuyn3z9qm14wrtmdzsysvo2n33qwmc6gj2ugdsi9c4m8wa3alf5cdp1dkzs8vj715ifme6v0h4yvk7ranmby0hu0rewu7iv4ex79e8vyvqoodck1b3ry3az5xhfmlwbe1bmku908q3e0wy26rg6gcirgdbkhtryt1f1djpjo2zkkml94h8unwupoll",
+          meta: "kjpxcnzuec5l1x8r5ngxl1ghl4tzvawv9bryobjvzc1o4uywnzeydcv4jl8f5mzw1w9e4897op6rsy43exbyojrk5e81jj9jvqd9yye6mdnffhbzptqyc8693ss4by0cjvle1jgtb8ofgr1tkve8nuyn3z9qm14wrtmdzsysvo2n33qwmc6gj2ugdsi9c4m8wa3alf5cdp1dkzs8vj715ifme6v0h4yvk7ranmby0hu0rewu7iv4ex79e8vyvqoodck1b3ry3az5xhfmlwbe1bmku908q3e0wy26rg6gcirgdbkhtryt1f1djpjo2zkkml94h8unwupoll",
           decimals: 6,
           createdAt: 1584070098000,
           totalSupply: "2185",
           totalMint: "2205",
           totalBurn: "20",
-          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6"
-        }
-      ]
+          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -128,15 +127,14 @@ describe("http-client-base test", () => {
         name: "skt1",
         symbol: "SYNPH",
         imgUri: "https://sample.image",
-        meta:
-          "kjpxcnzuec5l1x8r5ngxl1ghl4tzvawv9bryobjvzc1o4uywnzeydcv4jl8f5mzw1w9e4897op6rsy43exbyojrk5e81jj9jvqd9yye6mdnffhbzptqyc8693ss4by0cjvle1jgtb8ofgr1tkve8nuyn3z9qm14wrtmdzsysvo2n33qwmc6gj2ugdsi9c4m8wa3alf5cdp1dkzs8vj715ifme6v0h4yvk7ranmby0hu0rewu7iv4ex79e8vyvqoodck1b3ry3az5xhfmlwbe1bmku908q3e0wy26rg6gcirgdbkhtryt1f1djpjo2zkkml94h8unwupoll",
+        meta: "kjpxcnzuec5l1x8r5ngxl1ghl4tzvawv9bryobjvzc1o4uywnzeydcv4jl8f5mzw1w9e4897op6rsy43exbyojrk5e81jj9jvqd9yye6mdnffhbzptqyc8693ss4by0cjvle1jgtb8ofgr1tkve8nuyn3z9qm14wrtmdzsysvo2n33qwmc6gj2ugdsi9c4m8wa3alf5cdp1dkzs8vj715ifme6v0h4yvk7ranmby0hu0rewu7iv4ex79e8vyvqoodck1b3ry3az5xhfmlwbe1bmku908q3e0wy26rg6gcirgdbkhtryt1f1djpjo2zkkml94h8unwupoll",
         decimals: 6,
         createdAt: 1584070098000,
         totalSupply: "2185",
         totalMint: "2205",
         totalBurn: "20",
-        serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6"
-      }
+        serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -157,18 +155,17 @@ describe("http-client-base test", () => {
       ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       name: "dTudb9Hq5i2ieHyJFo6o",
-      meta: "bdfssdfasd"
+      meta: "bdfssdfasd",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -179,10 +176,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.updateServiceToken(
-      testContractId,
-      request
-    );
+    const response = await httpClient.updateServiceToken(testContractId, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -193,18 +187,17 @@ describe("http-client-base test", () => {
       ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       toAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-      amount: "1249051"
+      amount: "1249051",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -226,34 +219,28 @@ describe("http-client-base test", () => {
       ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       fromAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-      amount: "31"
+      amount: "31",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onPost(`/v1/service-tokens/${testContractId}/burn-from`)
-      .reply(config => {
-        assertHeaders(config.headers);
-        expect(config.data).to.equal(JSON.stringify(request));
-        return [200, receivedData];
-      });
+    stub.onPost(`/v1/service-tokens/${testContractId}/burn-from`).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.burnFromServiceToken(
-      testContractId,
-      request
-    );
+    const response = await httpClient.burnFromServiceToken(testContractId, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -270,9 +257,9 @@ describe("http-client-base test", () => {
         {
           address: testAddress,
           userId: null,
-          amount: "1066"
-        }
-      ]
+          amount: "1066",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -283,10 +270,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.serviceTokenHolders(
-      testContractId,
-      pageRequest
-    );
+    const response = await httpClient.serviceTokenHolders(testContractId, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["address"]).to.equal(testAddress);
   });
@@ -303,8 +287,8 @@ describe("http-client-base test", () => {
         baseImgUri: "https://image-base-uri/",
         ownerAddress: testAddress,
         createdAt: 1584070104000,
-        serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6"
-      }
+        serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -335,9 +319,9 @@ describe("http-client-base test", () => {
           createdAt: 1585378323000,
           totalSupply: "0",
           totalMint: "0",
-          totalBurn: "0"
-        }
-      ]
+          totalBurn: "0",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -348,10 +332,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokens(
-      testContractId,
-      pageRequest
-    );
+    const response = await httpClient.fungibleTokens(testContractId, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["tokenType"]).to.equal(testTokenType);
   });
@@ -362,18 +343,17 @@ describe("http-client-base test", () => {
     const request = {
       ownerAddress: testAddress,
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      name: "4W1Vj9U8tYf"
+      name: "4W1Vj9U8tYf",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -384,10 +364,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.createFungibleToken(
-      testContractId,
-      request
-    );
+    const response = await httpClient.createFungibleToken(testContractId, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -407,23 +384,18 @@ describe("http-client-base test", () => {
         createdAt: 1585378323000,
         totalSupply: "0",
         totalMint: "0",
-        totalBurn: "0"
-      }
+        totalBurn: "0",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(`/v1/item-tokens/${testContractId}/fungibles/${testTokenType}`)
-      .reply(config => {
-        assertHeaders(config.headers);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/item-tokens/${testContractId}/fungibles/${testTokenType}`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.fungibleToken(
-      testContractId,
-      testTokenType
-    );
+    const response = await httpClient.fungibleToken(testContractId, testTokenType);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["tokenType"]).to.equal(testTokenType);
   });
@@ -435,35 +407,28 @@ describe("http-client-base test", () => {
     const request = {
       ownerAddress: testAddress,
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      name: "4W1Vj9U8tYf"
+      name: "4W1Vj9U8tYf",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onPut(`/v1/item-tokens/${testContractId}/fungibles/${testTokenType}`)
-      .reply(config => {
-        assertHeaders(config.headers);
-        expect(config.data).to.equal(JSON.stringify(request));
-        return [200, receivedData];
-      });
+    stub.onPut(`/v1/item-tokens/${testContractId}/fungibles/${testTokenType}`).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.updateFungibleToken(
-      testContractId,
-      testTokenType,
-      request
-    );
+    const response = await httpClient.updateFungibleToken(testContractId, testTokenType, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -476,37 +441,28 @@ describe("http-client-base test", () => {
       ownerAddress: testAddress,
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       toAddress: testAddress,
-      amount: "5113980"
+      amount: "5113980",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onPost(
-        `/v1/item-tokens/${testContractId}/fungibles/${testTokenType}/mint`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        expect(config.data).to.equal(JSON.stringify(request));
-        return [200, receivedData];
-      });
+    stub.onPost(`/v1/item-tokens/${testContractId}/fungibles/${testTokenType}/mint`).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.mintFungibleToken(
-      testContractId,
-      testTokenType,
-      request
-    );
+    const response = await httpClient.mintFungibleToken(testContractId, testTokenType, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -519,37 +475,28 @@ describe("http-client-base test", () => {
       ownerAddress: testAddress,
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       fromAddress: testAddress,
-      amount: "5113980"
+      amount: "5113980",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onPost(
-        `/v1/item-tokens/${testContractId}/fungibles/${testTokenType}/burn`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        expect(config.data).to.equal(JSON.stringify(request));
-        return [200, receivedData];
-      });
+    stub.onPost(`/v1/item-tokens/${testContractId}/fungibles/${testTokenType}/burn`).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.burnFungibleToken(
-      testContractId,
-      testTokenType,
-      request
-    );
+    const response = await httpClient.burnFungibleToken(testContractId, testTokenType, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -561,35 +508,28 @@ describe("http-client-base test", () => {
     const request = {
       ownerAddress: testAddress,
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      amount: "5113980"
+      amount: "5113980",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onPost(
-        `/v1/item-tokens/${testContractId}/fungibles/${testTokenType}/burn`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        expect(config.data).to.equal(JSON.stringify(request));
-        return [200, receivedData];
-      });
+    stub.onPost(`/v1/item-tokens/${testContractId}/fungibles/${testTokenType}/burn`).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
 
-    expect(() =>
-      httpClient.burnFungibleToken(testContractId, testTokenType, request)
-    ).to.throw();
+    expect(() => httpClient.burnFungibleToken(testContractId, testTokenType, request)).to.throw();
   });
 
   it("fungible-token-holders api test", async () => {
@@ -605,28 +545,20 @@ describe("http-client-base test", () => {
         {
           walletAddress: testAddress,
           userId: null,
-          amount: "1066"
-        }
-      ]
+          amount: "1066",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(
-        `/v1/item-tokens/${testContractId}/fungibles/${testTokenType}/holders`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        assertPageParameters(config.params, pageRequest);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/item-tokens/${testContractId}/fungibles/${testTokenType}/holders`).reply(config => {
+      assertHeaders(config.headers);
+      assertPageParameters(config.params, pageRequest);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.fungibleTokenHolders(
-      testContractId,
-      testTokenType,
-      pageRequest
-    );
+    const response = await httpClient.fungibleTokenHolders(testContractId, testTokenType, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["walletAddress"]).to.equal(testAddress);
   });
@@ -647,25 +579,20 @@ describe("http-client-base test", () => {
           createdAt: 1585353869000,
           totalSupply: "0",
           totalMint: "0",
-          totalBurn: "0"
-        }
-      ]
+          totalBurn: "0",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(`/v1/item-tokens/${testContractId}/non-fungibles`)
-      .reply(config => {
-        assertHeaders(config.headers);
-        assertPageParameters(config.params, pageRequest);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/item-tokens/${testContractId}/non-fungibles`).reply(config => {
+      assertHeaders(config.headers);
+      assertPageParameters(config.params, pageRequest);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.nonFungibleTokens(
-      testContractId,
-      pageRequest
-    );
+    const response = await httpClient.nonFungibleTokens(testContractId, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["tokenType"]).to.equal(testTokenType);
   });
@@ -677,34 +604,28 @@ describe("http-client-base test", () => {
       ownerAddress: testAddress,
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       name: "yVvznw2RICXtz11Lw",
-      meta: "235v234r01234"
+      meta: "235v234r01234",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onPost(`/v1/item-tokens/${testContractId}/non-fungibles`)
-      .reply(config => {
-        assertHeaders(config.headers);
-        expect(config.data).to.equal(JSON.stringify(request));
-        return [200, receivedData];
-      });
+    stub.onPost(`/v1/item-tokens/${testContractId}/non-fungibles`).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.createNonFungibleToken(
-      testContractId,
-      request
-    );
+    const response = await httpClient.createNonFungibleToken(testContractId, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -732,32 +653,24 @@ describe("http-client-base test", () => {
             name: "NFT index name",
             meta: "NFT index meta",
             createdAt: 1584075664000,
-            burnedAt: null
-          }
-        ]
-      }
+            burnedAt: null,
+          },
+        ],
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(`/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}`)
-      .reply(config => {
-        assertHeaders(config.headers);
-        assertPageParameters(config.params, pageRequest);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}`).reply(config => {
+      assertHeaders(config.headers);
+      assertPageParameters(config.params, pageRequest);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.nonFungibleTokenType(
-      testContractId,
-      testTokenType,
-      pageRequest
-    );
+    const response = await httpClient.nonFungibleTokenType(testContractId, testTokenType, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["tokenType"]).to.equal(testTokenType);
-    expect(response["responseData"]["token"][0]["tokenIndex"]).to.equal(
-      testTokenIndex
-    );
+    expect(response["responseData"]["token"][0]["tokenIndex"]).to.equal(testTokenIndex);
   });
 
   it("update non-fungible-token-type api test", async () => {
@@ -768,35 +681,28 @@ describe("http-client-base test", () => {
       ownerAddress: testAddress,
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       name: "yVvznw2RICXtz11Lw",
-      meta: "235v234r01234"
+      meta: "235v234r01234",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onPut(`/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}`)
-      .reply(config => {
-        assertHeaders(config.headers);
-        expect(config.data).to.equal(JSON.stringify(request));
-        return [200, receivedData];
-      });
+    stub.onPut(`/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}`).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.updateNonFungibleTokenType(
-      testContractId,
-      testTokenType,
-      request
-    );
+    const response = await httpClient.updateNonFungibleTokenType(testContractId, testTokenType, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -815,26 +721,18 @@ describe("http-client-base test", () => {
         tokenId: testTokenId,
         meta: "NFT index meta",
         createdAt: 1584075664000,
-        burnedAt: null
-      }
+        burnedAt: null,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(
-        `/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.nonFungibleToken(
-      testContractId,
-      testTokenType,
-      testTokenIndex
-    );
+    const response = await httpClient.nonFungibleToken(testContractId, testTokenType, testTokenIndex);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["tokenId"]).to.equal(testTokenId);
   });
@@ -848,18 +746,17 @@ describe("http-client-base test", () => {
       ownerAddress: testAddress,
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       name: "yVvznw2RICXtz11Lw",
-      meta: "235v234r01234"
+      meta: "235v234r01234",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -871,12 +768,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.updateNonFungibleToken(
-      testContractId,
-      testTokenType,
-      testTokenIndex,
-      request
-    );
+    const response = await httpClient.updateNonFungibleToken(testContractId, testTokenType, testTokenIndex, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -890,18 +782,17 @@ describe("http-client-base test", () => {
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       toAddress: "tlink1wxxfe3etmaxv8hvrdxfwveewrcynynhlnm0jkn",
       name: "Nnq8Eda",
-      meta: "5y4bh"
+      meta: "5y4bh",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -913,11 +804,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.mintNonFungibleToken(
-      testContractId,
-      testTokenType,
-      request
-    );
+    const response = await httpClient.mintNonFungibleToken(testContractId, testTokenType, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -935,28 +822,20 @@ describe("http-client-base test", () => {
         {
           walletAddress: testAddress,
           userId: null,
-          numberOfIndex: "5"
-        }
-      ]
+          numberOfIndex: "5",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(
-        `/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/holders`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        assertPageParameters(config.params, pageRequest);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/holders`).reply(config => {
+      assertHeaders(config.headers);
+      assertPageParameters(config.params, pageRequest);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.nonFungibleTokenTypeHolders(
-      testContractId,
-      testTokenType,
-      pageRequest
-    );
+    const response = await httpClient.nonFungibleTokenTypeHolders(testContractId, testTokenType, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["walletAddress"]).to.equal(testAddress);
   });
@@ -973,26 +852,20 @@ describe("http-client-base test", () => {
       responseData: {
         walletAddress: testAddress,
         userId: null,
-        numberOfIndex: "5"
-      }
+        numberOfIndex: "5",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
     stub
-      .onGet(
-        `/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/holder`
-      )
+      .onGet(`/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/holder`)
       .reply(config => {
         assertHeaders(config.headers);
         return [200, receivedData];
       });
 
-    const response = await httpClient.nonFungibleTokenHolder(
-      testContractId,
-      testTokenType,
-      testTokenIndex
-    );
+    const response = await httpClient.nonFungibleTokenHolder(testContractId, testTokenType, testTokenIndex);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["walletAddress"]).to.equal(testAddress);
   });
@@ -1013,16 +886,14 @@ describe("http-client-base test", () => {
         walletAddress: testAddress,
         userId: null,
         numberOfIndex: "5",
-        meta: metaData
-      }
+        meta: metaData,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
     stub
-      .onGet(
-        `/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/holder`
-      )
+      .onGet(`/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/holder`)
       .reply(config => {
         assertHeaders(config.headers);
         return [200, receivedData];
@@ -1032,7 +903,7 @@ describe("http-client-base test", () => {
       testContractId,
       testTokenType,
       testTokenIndex,
-      isMetaRequired
+      isMetaRequired,
     );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["walletAddress"]).to.equal(testAddress);
@@ -1050,24 +921,23 @@ describe("http-client-base test", () => {
         {
           tokenType: "10000001",
           name: "WGk",
-          meta: "5y4bh"
+          meta: "5y4bh",
         },
         {
           tokenType: "10000001",
-          name: "aoU"
-        }
-      ]
+          name: "aoU",
+        },
+      ],
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1079,10 +949,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.multiMintNonFungibleToken(
-      testContractId,
-      request
-    );
+    const response = await httpClient.multiMintNonFungibleToken(testContractId, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -1098,25 +965,24 @@ describe("http-client-base test", () => {
           tokenType: "10000001",
           name: "WGk",
           meta: "5y4bh",
-          toAddress: testAddress
+          toAddress: testAddress,
         },
         {
           tokenType: "10000001",
           name: "aoU",
-          toAddress: testAddress
-        }
-      ]
+          toAddress: testAddress,
+        },
+      ],
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1128,10 +994,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.multiMintWithMultiReceiversNonFungibleToken(
-      testContractId,
-      request
-    );
+    const response = await httpClient.multiMintWithMultiReceiversNonFungibleToken(testContractId, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -1144,18 +1007,17 @@ describe("http-client-base test", () => {
     const request = {
       ownerAddress: testAddress,
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      fromAddress: testAddress
+      fromAddress: testAddress,
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1167,12 +1029,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.burnNonFungibleToken(
-      testContractId,
-      testTokenType,
-      testTokenIndex,
-      request
-    );
+    const response = await httpClient.burnNonFungibleToken(testContractId, testTokenType, testTokenIndex, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -1193,17 +1050,15 @@ describe("http-client-base test", () => {
           tokenId: testChildTokenId,
           meta: "",
           createdAt: 1585207242000,
-          burnedAt: null
-        }
-      ]
+          burnedAt: null,
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
     stub
-      .onGet(
-        `/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/children`
-      )
+      .onGet(`/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/children`)
       .reply(config => {
         assertHeaders(config.headers);
         assertPageParameters(config.params, pageRequest);
@@ -1214,7 +1069,7 @@ describe("http-client-base test", () => {
       testContractId,
       testTokenType,
       testTokenIndex,
-      pageRequest
+      pageRequest,
     );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["tokenId"]).to.equal(testChildTokenId);
@@ -1234,26 +1089,20 @@ describe("http-client-base test", () => {
         tokenId: testParentTokenId,
         meta: "",
         createdAt: 1585207242000,
-        burnedAt: null
-      }
+        burnedAt: null,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
     stub
-      .onGet(
-        `/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/parent`
-      )
+      .onGet(`/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/parent`)
       .reply(config => {
         assertHeaders(config.headers);
         return [200, receivedData];
       });
 
-    const response = await httpClient.parentOfNonFungibleToken(
-      testContractId,
-      testTokenType,
-      testTokenIndex
-    );
+    const response = await httpClient.parentOfNonFungibleToken(testContractId, testTokenType, testTokenIndex);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["tokenId"]).to.equal(testParentTokenId);
   });
@@ -1268,18 +1117,17 @@ describe("http-client-base test", () => {
       serviceWalletAddress: testAddress,
       serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       parentTokenId: testParentTokenId,
-      tokenHolderAddress: testAddress
+      tokenHolderAddress: testAddress,
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1291,12 +1139,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.attachNonFungibleToken(
-      testContractId,
-      testTokenType,
-      testTokenIndex,
-      request
-    );
+    const response = await httpClient.attachNonFungibleToken(testContractId, testTokenType, testTokenIndex, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -1307,15 +1150,14 @@ describe("http-client-base test", () => {
     const testTokenType = "0000004a";
     const testTokenIndex = "00000001";
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1329,15 +1171,10 @@ describe("http-client-base test", () => {
     const request = {
       serviceWalletAddress: testAddress,
       serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      tokenHolderAddress: testAddress
+      tokenHolderAddress: testAddress,
     };
 
-    const response = await httpClient.detachNonFungibleToken(
-      testContractId,
-      testTokenType,
-      testTokenIndex,
-      request
-    );
+    const response = await httpClient.detachNonFungibleToken(testContractId, testTokenType, testTokenIndex, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -1356,26 +1193,20 @@ describe("http-client-base test", () => {
         tokenId: testParentTokenId,
         meta: "",
         createdAt: 1585207242000,
-        burnedAt: null
-      }
+        burnedAt: null,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
     stub
-      .onGet(
-        `/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/root`
-      )
+      .onGet(`/v1/item-tokens/${testContractId}/non-fungibles/${testTokenType}/${testTokenIndex}/root`)
       .reply(config => {
         assertHeaders(config.headers);
         return [200, receivedData];
       });
 
-    const response = await httpClient.rootOfNonFungibleToken(
-      testContractId,
-      testTokenType,
-      testTokenIndex
-    );
+    const response = await httpClient.rootOfNonFungibleToken(testContractId, testTokenType, testTokenIndex);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["tokenId"]).to.equal(testParentTokenId);
   });
@@ -1390,9 +1221,9 @@ describe("http-client-base test", () => {
         {
           name: "ai7x0eda9a",
           walletAddress: testAddress,
-          createdAt: 1584070098000
-        }
-      ]
+          createdAt: 1584070098000,
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1416,8 +1247,8 @@ describe("http-client-base test", () => {
       responseData: {
         name: "ai7x0eda9a",
         walletAddress: testAddress,
-        createdAt: 1584070098000
-      }
+        createdAt: 1584070098000,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1435,8 +1266,7 @@ describe("http-client-base test", () => {
   it("list of transactions of a wallet api test", async () => {
     const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
     const pageRequest = new PageRequest(0, 10, OrderBy.DESC);
-    const testTxHash =
-      "D3833E2CED77A11639D03EC3DF4B0EC9B77EBFF48795B7151D5201439738031A";
+    const testTxHash = "D3833E2CED77A11639D03EC3DF4B0EC9B77EBFF48795B7151D5201439738031A";
     const receivedData = transactionResult;
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1447,10 +1277,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.walletTransactions(
-      testAddress,
-      pageRequest
-    );
+    const response = await httpClient.walletTransactions(testAddress, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["txhash"]).to.equal(testTxHash);
   });
@@ -1458,8 +1285,7 @@ describe("http-client-base test", () => {
   it("list of transactions of a wallet with optional params api test", async () => {
     const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
     const pageRequest = new PageRequest(0, 10, OrderBy.DESC);
-    const testTxHash =
-      "D3833E2CED77A11639D03EC3DF4B0EC9B77EBFF48795B7151D5201439738031A";
+    const testTxHash = "D3833E2CED77A11639D03EC3DF4B0EC9B77EBFF48795B7151D5201439738031A";
     const before = 1585467706110;
     const after = 1585467906110;
     const msgType = TransactionMsgTypes.ACCOUNT_MSGEMPTY;
@@ -1473,16 +1299,12 @@ describe("http-client-base test", () => {
       assertParameters(config.params, {
         before: before,
         after: after,
-        msgType: msgType
+        msgType: msgType,
       });
       return [200, receivedData];
     });
 
-    const response = await httpClient.walletTransactions(
-      testAddress,
-      pageRequest,
-      {before, after, msgType}
-    );
+    const response = await httpClient.walletTransactions(testAddress, pageRequest, { before, after, msgType });
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["txhash"]).to.equal(testTxHash);
   });
@@ -1502,9 +1324,9 @@ describe("http-client-base test", () => {
           symbol: "V2NPH",
           imgUri: "https://sample.image",
           decimals: 6,
-          amount: "3520543372"
-        }
-      ]
+          amount: "3520543372",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1515,10 +1337,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.serviceTokenBalancesOfWallet(
-      testAddress,
-      pageRequest
-    );
+    const response = await httpClient.serviceTokenBalancesOfWallet(testAddress, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["contractId"]).to.equal(testContractId);
   });
@@ -1536,23 +1355,18 @@ describe("http-client-base test", () => {
         symbol: "V2NPH",
         imgUri: "https://sample.image",
         decimals: 6,
-        amount: "3520543372"
-      }
+        amount: "3520543372",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(`/v1/wallets/${testAddress}/service-tokens/${testContractId}`)
-      .reply(config => {
-        assertHeaders(config.headers);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/wallets/${testAddress}/service-tokens/${testContractId}`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.serviceTokenBalanceOfWallet(
-      testAddress,
-      testContractId
-    );
+    const response = await httpClient.serviceTokenBalanceOfWallet(testAddress, testContractId);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["contractId"]).to.equal(testContractId);
   });
@@ -1571,28 +1385,20 @@ describe("http-client-base test", () => {
           tokenType: testTokenType,
           name: "Hello",
           meta: "Hello",
-          amount: "1"
-        }
-      ]
+          amount: "1",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(
-        `/v1/wallets/${testAddress}/item-tokens/${testContractId}/fungibles`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        assertPageParameters(config.params, pageRequest);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/wallets/${testAddress}/item-tokens/${testContractId}/fungibles`).reply(config => {
+      assertHeaders(config.headers);
+      assertPageParameters(config.params, pageRequest);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.fungibleTokenBalancesOfWallet(
-      testAddress,
-      testContractId,
-      pageRequest
-    );
+    const response = await httpClient.fungibleTokenBalancesOfWallet(testAddress, testContractId, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["tokenType"]).to.equal(testTokenType);
   });
@@ -1609,26 +1415,18 @@ describe("http-client-base test", () => {
         tokenType: testTokenType,
         name: "Hello",
         meta: "Hello",
-        amount: "1"
-      }
+        amount: "1",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(
-        `/v1/wallets/${testAddress}/item-tokens/${testContractId}/fungibles/${testTokenType}`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/wallets/${testAddress}/item-tokens/${testContractId}/fungibles/${testTokenType}`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.fungibleTokenBalanceOfWallet(
-      testAddress,
-      testContractId,
-      testTokenType
-    );
+    const response = await httpClient.fungibleTokenBalanceOfWallet(testAddress, testContractId, testTokenType);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["tokenType"]).to.equal(testTokenType);
   });
@@ -1646,28 +1444,20 @@ describe("http-client-base test", () => {
         {
           tokenIndex: testTokenIndex,
           name: "as",
-          meta: "test"
-        }
-      ]
+          meta: "test",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(
-        `/v1/wallets/${testAddress}/item-tokens/${testContractId}/non-fungibles`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        assertPageParameters(config.params, pageRequest);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/wallets/${testAddress}/item-tokens/${testContractId}/non-fungibles`).reply(config => {
+      assertHeaders(config.headers);
+      assertPageParameters(config.params, pageRequest);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.nonFungibleTokenBalancesOfWallet(
-      testAddress,
-      testContractId,
-      pageRequest
-    );
+    const response = await httpClient.nonFungibleTokenBalancesOfWallet(testAddress, testContractId, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["tokenIndex"]).to.equal(testTokenIndex);
   });
@@ -1686,17 +1476,15 @@ describe("http-client-base test", () => {
         {
           tokenIndex: testTokenIndex,
           name: "as",
-          meta: "test"
-        }
-      ]
+          meta: "test",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
     stub
-      .onGet(
-        `/v1/wallets/${testAddress}/item-tokens/${testContractId}/non-fungibles/${testTokenType}`
-      )
+      .onGet(`/v1/wallets/${testAddress}/item-tokens/${testContractId}/non-fungibles/${testTokenType}`)
       .reply(config => {
         assertHeaders(config.headers);
         assertPageParameters(config.params, pageRequest);
@@ -1707,7 +1495,7 @@ describe("http-client-base test", () => {
       testAddress,
       testContractId,
       testTokenType,
-      pageRequest
+      pageRequest,
     );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["tokenIndex"]).to.equal(testTokenIndex);
@@ -1725,8 +1513,8 @@ describe("http-client-base test", () => {
       responseData: {
         tokenIndex: testTokenIndex,
         name: "as",
-        meta: "test"
-      }
+        meta: "test",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1740,7 +1528,7 @@ describe("http-client-base test", () => {
       testAddress,
       testContractId,
       testTokenType,
-      testTokenIndex
+      testTokenIndex,
     );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["tokenIndex"]).to.equal(testTokenIndex);
@@ -1752,37 +1540,28 @@ describe("http-client-base test", () => {
     const request = {
       walletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
-      amount: "15"
+      amount: "15",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onPost(
-        `/v1/wallets/${testAddress}/service-tokens/${testContractId}/transfer`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        expect(config.data).to.equal(JSON.stringify(request));
-        return [200, receivedData];
-      });
+    stub.onPost(`/v1/wallets/${testAddress}/service-tokens/${testContractId}/transfer`).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.transferServiceTokenOfWallet(
-      testAddress,
-      testContractId,
-      request
-    );
+    const response = await httpClient.transferServiceTokenOfWallet(testAddress, testContractId, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -1794,26 +1573,23 @@ describe("http-client-base test", () => {
     const request = {
       walletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
-      amount: "15"
+      amount: "15",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
     stub
-      .onPost(
-        `/v1/wallets/${testAddress}/item-tokens/${testContractId}/fungibles/${testTokenType}/transfer`
-      )
+      .onPost(`/v1/wallets/${testAddress}/item-tokens/${testContractId}/fungibles/${testTokenType}/transfer`)
       .reply(config => {
         assertHeaders(config.headers);
         expect(config.data).to.equal(JSON.stringify(request));
@@ -1824,7 +1600,7 @@ describe("http-client-base test", () => {
       testAddress,
       testContractId,
       testTokenType,
-      request
+      request,
     );
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
@@ -1837,18 +1613,17 @@ describe("http-client-base test", () => {
     const testTokenType = "0000004a";
     const request = {
       walletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv"
+      toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1865,7 +1640,7 @@ describe("http-client-base test", () => {
       testContractId,
       testTokenType,
       testTokenIndex,
-      request
+      request,
     );
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
@@ -1877,18 +1652,17 @@ describe("http-client-base test", () => {
     const request = {
       walletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
-      transferList: TokenId.fromMulti(["1000000100000001", "1000000100000002"])
+      transferList: TokenId.fromMulti(["1000000100000001", "1000000100000002"]),
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1900,11 +1674,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.batchTransferNonFungibleTokenOfWallet(
-      testAddress,
-      testContractId,
-      request
-    );
+    const response = await httpClient.batchTransferNonFungibleTokenOfWallet(testAddress, testContractId, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -1919,8 +1689,8 @@ describe("http-client-base test", () => {
       statusMessage: "Success",
       responseData: {
         userId: "U556719f559479aab8b8f74c488bf6317",
-        walletAddress: testAddress
-      }
+        walletAddress: testAddress,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1939,8 +1709,7 @@ describe("http-client-base test", () => {
   it("list of transactions of a user api test", async () => {
     const testUserId = "U556719f559479aab8b8f74c488bf6317";
     const pageRequest = new PageRequest(0, 10, OrderBy.DESC);
-    const testTxHash =
-      "D3833E2CED77A11639D03EC3DF4B0EC9B77EBFF48795B7151D5201439738031A";
+    const testTxHash = "D3833E2CED77A11639D03EC3DF4B0EC9B77EBFF48795B7151D5201439738031A";
     const receivedData = transactionResult;
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -1969,23 +1738,18 @@ describe("http-client-base test", () => {
         symbol: "V2NPH",
         imgUri: "https://sample.image",
         decimals: 6,
-        amount: "3520543372"
-      }
+        amount: "3520543372",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(`/v1/users/${testUserId}/service-tokens/${testContractId}`)
-      .reply(config => {
-        assertHeaders(config.headers);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/users/${testUserId}/service-tokens/${testContractId}`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.serviceTokenBalanceOfUser(
-      testUserId,
-      testContractId
-    );
+    const response = await httpClient.serviceTokenBalanceOfUser(testUserId, testContractId);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["contractId"]).to.equal(testContractId);
   });
@@ -2004,26 +1768,20 @@ describe("http-client-base test", () => {
           tokenType: testTokenType,
           name: "Hello",
           meta: "Hello",
-          amount: "1"
-        }
-      ]
+          amount: "1",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(`/v1/users/${testUserId}/item-tokens/${testContractId}/fungibles`)
-      .reply(config => {
-        assertHeaders(config.headers);
-        assertPageParameters(config.params, pageRequest);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/users/${testUserId}/item-tokens/${testContractId}/fungibles`).reply(config => {
+      assertHeaders(config.headers);
+      assertPageParameters(config.params, pageRequest);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.fungibleTokenBalancesOfUser(
-      testUserId,
-      testContractId,
-      pageRequest
-    );
+    const response = await httpClient.fungibleTokenBalancesOfUser(testUserId, testContractId, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["tokenType"]).to.equal(testTokenType);
   });
@@ -2040,26 +1798,18 @@ describe("http-client-base test", () => {
         tokenType: testTokenType,
         name: "Hello",
         meta: "Hello",
-        amount: "1"
-      }
+        amount: "1",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(
-        `/v1/users/${testUserId}/item-tokens/${testContractId}/fungibles/${testTokenType}`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/users/${testUserId}/item-tokens/${testContractId}/fungibles/${testTokenType}`).reply(config => {
+      assertHeaders(config.headers);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.fungibleTokenBalanceOfUser(
-      testUserId,
-      testContractId,
-      testTokenType
-    );
+    const response = await httpClient.fungibleTokenBalanceOfUser(testUserId, testContractId, testTokenType);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["tokenType"]).to.equal(testTokenType);
   });
@@ -2077,28 +1827,20 @@ describe("http-client-base test", () => {
         {
           tokenIndex: testTokenIndex,
           name: "as",
-          meta: "test"
-        }
-      ]
+          meta: "test",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(
-        `/v1/users/${testUserId}/item-tokens/${testContractId}/non-fungibles`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        assertPageParameters(config.params, pageRequest);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/users/${testUserId}/item-tokens/${testContractId}/non-fungibles`).reply(config => {
+      assertHeaders(config.headers);
+      assertPageParameters(config.params, pageRequest);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.nonFungibleTokenBalancesOfUser(
-      testUserId,
-      testContractId,
-      pageRequest
-    );
+    const response = await httpClient.nonFungibleTokenBalancesOfUser(testUserId, testContractId, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["tokenIndex"]).to.equal(testTokenIndex);
   });
@@ -2123,45 +1865,35 @@ describe("http-client-base test", () => {
               createdAt: 1628843776947,
               totalSupply: "35",
               totalMint: "35",
-              totalBurn: "0"
+              totalBurn: "0",
             },
             token: {
               name: "Test",
               tokenId: testTokenId,
               meta: "test-meta",
               createdAt: 1630925137769,
-              burnedAt: 0
-            }
-          }
+              burnedAt: 0,
+            },
+          },
         ],
         prePageToken:
           "eJxtzk0PgjAMBuD/0jMHESXoDQETYoJGd9ATWbYuEnDAmAQk/HfnZzzYU/ukfdMBKOcKm8aXPCilVpTp2HRFgUxnpUyEXmeFRgXL4bMKS9BFJnM7rx1Ptfx661rnush7wRhdVBd0WYVdPavPSL2uBQvYN9nc2p4n3LkjYLSgVBzVqjcabBOy9wOSxmEaRocgJdtNlKTktIt+5zgJo+MTTCwV78f+51ugyxwl6St88ORZ9odjybEz/uKpDeN4BzAdV4M=",
         nextPageToken:
-          "eJxtjssOgjAQRf9l1iwE1AA7REyICRrtQlekaaeRgAVqIaDh363PuHBWc09mTu4NKOcKL5dQ8qiSWlGmE7OVJTKdVzIVepWXGhUEt88pBKDLXBZ20bie6nh77Tu39YtBMEb9+oxzVmPfTJsTUq/vwAL2NZtf2/PEfOYKGC2oFEe1GAyNNinZhRHJkmUW7qOMbNZxmpHjNv6JSbqMD49snFS8W/2XW6CrAiUZanzgyXPsD04kx97wF3YcGMc7LXNWrA=="
-      }
+          "eJxtjssOgjAQRf9l1iwE1AA7REyICRrtQlekaaeRgAVqIaDh363PuHBWc09mTu4NKOcKL5dQ8qiSWlGmE7OVJTKdVzIVepWXGhUEt88pBKDLXBZ20bie6nh77Tu39YtBMEb9+oxzVmPfTJsTUq/vwAL2NZtf2/PEfOYKGC2oFEe1GAyNNinZhRHJkmUW7qOMbNZxmpHjNv6JSbqMD49snFS8W/2XW6CrAiUZanzgyXPsD04kx97wF3YcGMc7LXNWrA==",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(
-        `/v1/users/${testUserId}/item-tokens/${testContractId}/non-fungibles/with-type`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        // assertPageParameters(config.params, pageRequest);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/users/${testUserId}/item-tokens/${testContractId}/non-fungibles/with-type`).reply(config => {
+      assertHeaders(config.headers);
+      // assertPageParameters(config.params, pageRequest);
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.nonFungibleTokenBalancesWithTypeOfUser(
-      testUserId,
-      testContractId,
-      pageRequest
-    );
+    const response = await httpClient.nonFungibleTokenBalancesWithTypeOfUser(testUserId, testContractId, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
-    expect(response.responseData.list[0].type.tokenType).to.equal(
-      testTokenType
-    );
+    expect(response.responseData.list[0].type.tokenType).to.equal(testTokenType);
     expect(response.responseData.list[0].token.tokenId).to.equal(testTokenId);
   });
 
@@ -2179,28 +1911,24 @@ describe("http-client-base test", () => {
         {
           tokenIndex: testTokenIndex,
           name: "as",
-          meta: "test"
-        }
-      ]
+          meta: "test",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onGet(
-        `/v1/users/${testUserId}/item-tokens/${testContractId}/non-fungibles/${testTokenType}`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        assertPageParameters(config.params, pageRequest);
-        return [200, receivedData];
-      });
+    stub.onGet(`/v1/users/${testUserId}/item-tokens/${testContractId}/non-fungibles/${testTokenType}`).reply(config => {
+      assertHeaders(config.headers);
+      assertPageParameters(config.params, pageRequest);
+      return [200, receivedData];
+    });
 
     const response = await httpClient.nonFungibleTokenBalancesByTypeOfUser(
       testUserId,
       testContractId,
       testTokenType,
-      pageRequest
+      pageRequest,
     );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["tokenIndex"]).to.equal(testTokenIndex);
@@ -2218,8 +1946,8 @@ describe("http-client-base test", () => {
       responseData: {
         tokenIndex: testTokenIndex,
         name: "as",
-        meta: "test"
-      }
+        meta: "test",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2233,7 +1961,7 @@ describe("http-client-base test", () => {
       testUserId,
       testContractId,
       testTokenType,
-      testTokenIndex
+      testTokenIndex,
     );
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["tokenIndex"]).to.equal(testTokenIndex);
@@ -2246,37 +1974,28 @@ describe("http-client-base test", () => {
       ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
-      amount: "15"
+      amount: "15",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
-    stub
-      .onPost(
-        `/v1/users/${testUserId}/service-tokens/${testContractId}/transfer`
-      )
-      .reply(config => {
-        assertHeaders(config.headers);
-        expect(config.data).to.equal(JSON.stringify(request));
-        return [200, receivedData];
-      });
+    stub.onPost(`/v1/users/${testUserId}/service-tokens/${testContractId}/transfer`).reply(config => {
+      assertHeaders(config.headers);
+      expect(config.data).to.equal(JSON.stringify(request));
+      return [200, receivedData];
+    });
 
-    const response = await httpClient.transferServiceTokenOfUser(
-      testUserId,
-      testContractId,
-      request
-    );
+    const response = await httpClient.transferServiceTokenOfUser(testUserId, testContractId, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -2289,38 +2008,30 @@ describe("http-client-base test", () => {
       ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
-      amount: "15"
+      amount: "15",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
 
     stub
-      .onPost(
-        `/v1/users/${testUserId}/item-tokens/${testContractId}/fungibles/${testTokenType}/transfer`
-      )
+      .onPost(`/v1/users/${testUserId}/item-tokens/${testContractId}/fungibles/${testTokenType}/transfer`)
       .reply(config => {
         assertHeaders(config.headers);
         expect(config.data).to.equal(JSON.stringify(request));
         return [200, receivedData];
       });
 
-    const response = await httpClient.transferFungibleTokenOfUser(
-      testUserId,
-      testContractId,
-      testTokenType,
-      request
-    );
+    const response = await httpClient.transferFungibleTokenOfUser(testUserId, testContractId, testTokenType, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -2333,18 +2044,17 @@ describe("http-client-base test", () => {
     const request = {
       ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv"
+      toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2361,7 +2071,7 @@ describe("http-client-base test", () => {
       testContractId,
       testTokenType,
       testTokenIndex,
-      request
+      request,
     );
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
@@ -2374,18 +2084,17 @@ describe("http-client-base test", () => {
       ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
       ownerSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
       toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
-      transferList: TokenId.fromMulti(["1000000100000001", "1000000100000002"])
+      transferList: TokenId.fromMulti(["1000000100000001", "1000000100000002"]),
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2397,11 +2106,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.batchTransferNonFungibleTokenOfUser(
-      testUserId,
-      testContractId,
-      request
-    );
+    const response = await httpClient.batchTransferNonFungibleTokenOfUser(testUserId, testContractId, request);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
@@ -2413,7 +2118,7 @@ describe("http-client-base test", () => {
     const request = {
       toAddress: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
       amount: "15",
-      landingUri: "https://my.service.landing/home"
+      landingUri: "https://my.service.landing/home",
     };
 
     const receivedData = {
@@ -2422,8 +2127,8 @@ describe("http-client-base test", () => {
       statusMessage: "Success",
       responseData: {
         requestSessionToken: testRequestSessionToken,
-        redirectUri: null
-      }
+        redirectUri: null,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2439,12 +2144,10 @@ describe("http-client-base test", () => {
       testUserId,
       testContractId,
       RequestType.AOA,
-      request
+      request,
     );
     expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"]["requestSessionToken"]).to.equal(
-      testRequestSessionToken
-    );
+    expect(response["responseData"]["requestSessionToken"]).to.equal(testRequestSessionToken);
   });
 
   it("issue a user proxy request for service-token api test", async () => {
@@ -2453,7 +2156,7 @@ describe("http-client-base test", () => {
     const testRequestSessionToken = "J4EDHA_oyCyXrtREGS4MpyoGeus";
     const request = {
       ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-      landingUri: "https://my.service.landing/home"
+      landingUri: "https://my.service.landing/home",
     };
 
     const receivedData = {
@@ -2462,8 +2165,8 @@ describe("http-client-base test", () => {
       statusMessage: "Success",
       responseData: {
         requestSessionToken: testRequestSessionToken,
-        redirectUri: null
-      }
+        redirectUri: null,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2479,12 +2182,10 @@ describe("http-client-base test", () => {
       testUserId,
       testContractId,
       RequestType.AOA,
-      request
+      request,
     );
     expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"]["requestSessionToken"]).to.equal(
-      testRequestSessionToken
-    );
+    expect(response["responseData"]["requestSessionToken"]).to.equal(testRequestSessionToken);
   });
 
   it("issue a user proxy request for item-token api test", async () => {
@@ -2493,7 +2194,7 @@ describe("http-client-base test", () => {
     const testRequestSessionToken = "J4EDHA_oyCyXrtREGS4MpyoGeus";
     const request = {
       ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-      landingUri: "https://my.service.landing/home"
+      landingUri: "https://my.service.landing/home",
     };
 
     const receivedData = {
@@ -2502,8 +2203,8 @@ describe("http-client-base test", () => {
       statusMessage: "Success",
       responseData: {
         requestSessionToken: testRequestSessionToken,
-        redirectUri: null
-      }
+        redirectUri: null,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2515,30 +2216,22 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.issueItemTokenProxyRequest(
-      testUserId,
-      testContractId,
-      RequestType.AOA,
-      request
-    );
+    const response = await httpClient.issueItemTokenProxyRequest(testUserId, testContractId, RequestType.AOA, request);
     expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"]["requestSessionToken"]).to.equal(
-      testRequestSessionToken
-    );
+    expect(response["responseData"]["requestSessionToken"]).to.equal(testRequestSessionToken);
   });
 
   it("commit a user proxy request api test", async () => {
     const testRequestSessionToken = "J4EDHA_oyCyXrtREGS4MpyoGeus";
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2549,16 +2242,13 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.commitProxyRequest(
-      testRequestSessionToken
-    );
+    const response = await httpClient.commitProxyRequest(testRequestSessionToken);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["txHash"]).to.equal(testTxHash);
   });
 
   it("transaction result api test", async () => {
-    const testTxHash =
-      "D3833E2CED77A11639D03EC3DF4B0EC9B77EBFF48795B7151D5201439738031A";
+    const testTxHash = "D3833E2CED77A11639D03EC3DF4B0EC9B77EBFF48795B7151D5201439738031A";
     const receivedData = singleTransactionResult;
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2578,18 +2268,17 @@ describe("http-client-base test", () => {
     const request = {
       walletAddress: testAddress,
       walletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      memo: "Show me the money"
+      memo: "Show me the money",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2607,16 +2296,15 @@ describe("http-client-base test", () => {
   });
 
   it("query a memo api test", async () => {
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const testMemo = "Show me the money";
     const receivedData = {
       responseTime: 1585498625527,
       statusCode: 1000,
       statusMessage: "Success",
       responseData: {
-        memo: testMemo
-      }
+        memo: testMemo,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2635,9 +2323,9 @@ describe("http-client-base test", () => {
   it("update fungible-token media resource", async () => {
     const testContractId = "9636a07e";
 
-    const updateList = [{tokenType: "00000001"}, {tokenType: "00000002"}];
+    const updateList = [{ tokenType: "00000001" }, { tokenType: "00000002" }];
 
-    const expectedRequest = {updateList: updateList};
+    const expectedRequest = { updateList: updateList };
 
     const testRequestId = "test-request-id";
     const receivedData = {
@@ -2645,8 +2333,8 @@ describe("http-client-base test", () => {
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        requestId: testRequestId
-      }
+        requestId: testRequestId,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2658,11 +2346,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.updateTokenMediaResources(
-      testContractId,
-      ["00000001", "00000002"],
-      true
-    );
+    const response = await httpClient.updateTokenMediaResources(testContractId, ["00000001", "00000002"], true);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["requestId"]).to.equal(testRequestId);
   });
@@ -2673,15 +2357,15 @@ describe("http-client-base test", () => {
     const updateList = [
       {
         tokenType: "10000001",
-        tokenIndex: "00000001"
+        tokenIndex: "00000001",
       },
       {
         tokenType: "10000002",
-        tokenIndex: "00000001"
-      }
+        tokenIndex: "00000001",
+      },
     ];
 
-    const expectedRequest = {updateList: updateList};
+    const expectedRequest = { updateList: updateList };
 
     const testRequestId = "test-request-id";
     const receivedData = {
@@ -2689,8 +2373,8 @@ describe("http-client-base test", () => {
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        requestId: testRequestId
-      }
+        requestId: testRequestId,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2705,7 +2389,7 @@ describe("http-client-base test", () => {
     const response = await httpClient.updateTokenMediaResources(
       testContractId,
       ["1000000100000001", "1000000200000001"],
-      false
+      false,
     );
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["requestId"]).to.equal(testRequestId);
@@ -2720,10 +2404,10 @@ describe("http-client-base test", () => {
       },
       {
         tokenType: "10000002",
-      }
+      },
     ];
 
-    const expectedRequest = {updateList: updateList};
+    const expectedRequest = { updateList: updateList };
 
     const testRequestId = "test-request-id";
     const receivedData = {
@@ -2731,8 +2415,8 @@ describe("http-client-base test", () => {
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        requestId: testRequestId
-      }
+        requestId: testRequestId,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2744,21 +2428,20 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.updateNonFungibleTokenTypeMediaResources(
-      testContractId,
-      ["10000001", "10000002"],
-    );
+    const response = await httpClient.updateNonFungibleTokenTypeMediaResources(testContractId, [
+      "10000001",
+      "10000002",
+    ]);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["requestId"]).to.equal(testRequestId);
   });
 
-
   it("update fungible-token thumbnail resource", async () => {
     const testContractId = "9636a07e";
 
-    const updateList = [{tokenType: "00000001"}, {tokenType: "00000002"}];
+    const updateList = [{ tokenType: "00000001" }, { tokenType: "00000002" }];
 
-    const expectedRequest = {updateList: updateList};
+    const expectedRequest = { updateList: updateList };
 
     const testRequestId = "test-request-id";
     const receivedData = {
@@ -2766,8 +2449,8 @@ describe("http-client-base test", () => {
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        requestId: testRequestId
-      }
+        requestId: testRequestId,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2779,15 +2462,10 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.updateTokenThumbnailResources(
-      testContractId,
-      ["00000001", "00000002"],
-      true
-    );
+    const response = await httpClient.updateTokenThumbnailResources(testContractId, ["00000001", "00000002"], true);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["requestId"]).to.equal(testRequestId);
   });
-
 
   it("update non-fungible-token thumbnail resource", async () => {
     const testContractId = "9636a07e";
@@ -2795,15 +2473,15 @@ describe("http-client-base test", () => {
     const updateList = [
       {
         tokenType: "10000001",
-        tokenIndex: "00000001"
+        tokenIndex: "00000001",
       },
       {
         tokenType: "10000002",
-        tokenIndex: "00000001"
-      }
+        tokenIndex: "00000001",
+      },
     ];
 
-    const expectedRequest = {updateList: updateList};
+    const expectedRequest = { updateList: updateList };
 
     const testRequestId = "test-request-id";
     const receivedData = {
@@ -2811,8 +2489,8 @@ describe("http-client-base test", () => {
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        requestId: testRequestId
-      }
+        requestId: testRequestId,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2827,7 +2505,7 @@ describe("http-client-base test", () => {
     const response = await httpClient.updateTokenThumbnailResources(
       testContractId,
       ["1000000100000001", "1000000200000001"],
-      false
+      false,
     );
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["requestId"]).to.equal(testRequestId);
@@ -2842,10 +2520,10 @@ describe("http-client-base test", () => {
       },
       {
         tokenType: "10000002",
-      }
+      },
     ];
 
-    const expectedRequest = {updateList: updateList};
+    const expectedRequest = { updateList: updateList };
 
     const testRequestId = "test-request-id";
     const receivedData = {
@@ -2853,8 +2531,8 @@ describe("http-client-base test", () => {
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        requestId: testRequestId
-      }
+        requestId: testRequestId,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2866,10 +2544,10 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.updateNonFungibleTokenTypeThumbnailResources(
-      testContractId,
-      ["10000001", "10000002"],
-    );
+    const response = await httpClient.updateNonFungibleTokenTypeThumbnailResources(testContractId, [
+      "10000001",
+      "10000002",
+    ]);
     expect(response["statusCode"]).to.equal(1002);
     expect(response["responseData"]["requestId"]).to.equal(testRequestId);
   });
@@ -2887,15 +2565,15 @@ describe("http-client-base test", () => {
         {
           tokenType: "00000001",
           url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}`,
-          status: "COMPLETED"
+          status: "COMPLETED",
         },
         {
           tokenType: "00000002",
           url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}`,
           status: "COMPLETED",
-          detailStatus: "-"
-        }
-      ]
+          detailStatus: "-",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2906,10 +2584,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatuses(
-      testContractId,
-      testRequestId
-    );
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatuses(testContractId, testRequestId);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
@@ -2927,15 +2602,15 @@ describe("http-client-base test", () => {
         {
           tokenType: "00000001",
           url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}`,
-          status: "COMPLETED"
+          status: "COMPLETED",
         },
         {
           tokenType: "00000002",
           url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}`,
           status: "COMPLETED",
-          detailStatus: "-"
-        }
-      ]
+          detailStatus: "-",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2946,10 +2621,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenThumbnailResourcesUpdateStatuses(
-      testContractId,
-      testRequestId
-    );
+    const response = await httpClient.fungibleTokenThumbnailResourcesUpdateStatuses(testContractId, testRequestId);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
@@ -2970,16 +2642,16 @@ describe("http-client-base test", () => {
           tokenType: testTokenType1,
           tokenIndex: testTokenIndex1,
           url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}${testTokenIndex1}`,
-          status: "COMPLETED"
+          status: "COMPLETED",
         },
         {
           tokenType: testTokenType2,
           tokenIndex: testTokenIndex2,
           url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}${testTokenIndex2}`,
           status: "COMPLETED",
-          detailStatus: "-"
-        }
-      ]
+          detailStatus: "-",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2990,10 +2662,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatuses(
-      testContractId,
-      testRequestId
-    );
+    const response = await httpClient.fungibleTokenMediaResourcesUpdateStatuses(testContractId, testRequestId);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
@@ -3014,16 +2683,16 @@ describe("http-client-base test", () => {
           tokenType: testTokenType1,
           tokenIndex: testTokenIndex1,
           url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType1}${testTokenIndex1}`,
-          status: "COMPLETED"
+          status: "COMPLETED",
         },
         {
           tokenType: testTokenType2,
           tokenIndex: testTokenIndex2,
           url: `https://lbw-impro.line-apps.com/v1/cashew/token/${testContractId}/${testTokenType2}${testTokenIndex2}`,
           status: "COMPLETED",
-          detailStatus: "-"
-        }
-      ]
+          detailStatus: "-",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3034,17 +2703,14 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.fungibleTokenThumbnailResourcesUpdateStatuses(
-      testContractId,
-      testRequestId
-    );
+    const response = await httpClient.fungibleTokenThumbnailResourcesUpdateStatuses(testContractId, testRequestId);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0].tokenType).to.equal(testTokenType1);
   });
 
   it("test default-paging-request when not page-request-is given", async () => {
     const testContractId = "9636a07e";
-    const pageRequest = {"page": null, "limit": null, "orderBy": null};
+    const pageRequest = { page: null, limit: null, orderBy: null };
     const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
     const receivedData = {
       responseTime: 1585467715916,
@@ -3054,9 +2720,9 @@ describe("http-client-base test", () => {
         {
           address: testAddress,
           userId: null,
-          amount: "1066"
-        }
-      ]
+          amount: "1066",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3067,10 +2733,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.serviceTokenHolders(
-      testContractId,
-      pageRequest
-    );
+    const response = await httpClient.serviceTokenHolders(testContractId, pageRequest);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"][0]["address"]).to.equal(testAddress);
   });
@@ -3081,18 +2744,17 @@ describe("http-client-base test", () => {
       name: "test",
       serviceWalletAddress: testAddress,
       serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      baseImgUri: "https://image-base-uri.com/"
+      baseImgUri: "https://image-base-uri.com/",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3115,7 +2777,7 @@ describe("http-client-base test", () => {
       name: "",
       serviceWalletAddress: testAddress,
       serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      baseImgUri: "https://image-base-uri.com/"
+      baseImgUri: "https://image-base-uri.com/",
     };
 
     try {
@@ -3131,7 +2793,7 @@ describe("http-client-base test", () => {
       name: "a",
       serviceWalletAddress: testAddress,
       serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      baseImgUri: "https://image-base-uri.com/"
+      baseImgUri: "https://image-base-uri.com/",
     };
 
     try {
@@ -3147,7 +2809,7 @@ describe("http-client-base test", () => {
       name: "test",
       serviceWalletAddress: testAddress,
       serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      baseImgUri: "https://image-base-uri.com/"
+      baseImgUri: "https://image-base-uri.com/",
     };
 
     try {
@@ -3163,7 +2825,7 @@ describe("http-client-base test", () => {
       name: "test",
       serviceWalletAddress: testAddress,
       serviceWalletSecret: "",
-      baseImgUri: "https://image-base-uri.com/"
+      baseImgUri: "https://image-base-uri.com/",
     };
 
     try {
@@ -3179,7 +2841,7 @@ describe("http-client-base test", () => {
       name: "test",
       serviceWalletAddress: testAddress,
       serviceWalletSecret: "PCSO7JBIH1gWPNNR5vT58Hr2SycFSUb9nzpNapNjJFU=",
-      baseImgUri: "https://"
+      baseImgUri: "https://",
     };
 
     try {
@@ -3198,18 +2860,17 @@ describe("http-client-base test", () => {
       symbol: "TEST",
       initialSupply: "1000",
       recipientWalletAddress: testAddress,
-      imgUri: "https://image-base-uri.com/"
+      imgUri: "https://image-base-uri.com/",
     };
 
-    const testTxHash =
-      "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
+    const testTxHash = "22DF78611396824D293AF7ABA04A2A646B1E3055A19B32E731D8E03BAE743661";
     const receivedData = {
       responseTime: 1585467711877,
       statusCode: 1002,
       statusMessage: "Accepted",
       responseData: {
-        txHash: testTxHash
-      }
+        txHash: testTxHash,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3242,9 +2903,9 @@ describe("http-client-base test", () => {
           meta: "",
           decimals: 6,
           createdAt: 1584070098000,
-          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6"
-        }
-      ]
+          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3275,9 +2936,9 @@ describe("http-client-base test", () => {
           meta: null,
           decimals: null,
           createdAt: null,
-          serviceId: null
-        }
-      ]
+          serviceId: null,
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3305,9 +2966,9 @@ describe("http-client-base test", () => {
           ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
           baseImgUri: "https://sample.image",
           createdAt: 1584070098000,
-          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6"
-        }
-      ]
+          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3334,9 +2995,9 @@ describe("http-client-base test", () => {
           ownerAddress: null,
           baseImgUri: null,
           createdAt: null,
-          serviceId: null
-        }
-      ]
+          serviceId: null,
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3364,9 +3025,9 @@ describe("http-client-base test", () => {
           ownerAddress: null,
           baseImgUri: null,
           createdAt: null,
-          serviceId: null
-        }
-      ]
+          serviceId: null,
+        },
+      ],
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3399,8 +3060,8 @@ describe("http-client-base test", () => {
       statusCode: 1000,
       statusMessage: "Success",
       responseData: {
-        isApproved: true
-      }
+        isApproved: true,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3423,8 +3084,8 @@ describe("http-client-base test", () => {
       statusCode: 1000,
       statusMessage: "Success",
       responseData: {
-        isApproved: true
-      }
+        isApproved: true,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3447,8 +3108,8 @@ describe("http-client-base test", () => {
       statusCode: 1000,
       statusMessage: "Success",
       responseData: {
-        status: "Authorized"
-      }
+        status: "Authorized",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3459,9 +3120,7 @@ describe("http-client-base test", () => {
       return [200, receivedData];
     });
 
-    const response = await httpClient.userRequestStatus(
-      testRequestSessionToken
-    );
+    const response = await httpClient.userRequestStatus(testRequestSessionToken);
     expect(response["statusCode"]).to.equal(1000);
     expect(response["responseData"]["status"]).to.equal("Authorized");
   });
@@ -3475,25 +3134,25 @@ describe("http-client-base test", () => {
       statusCode: 1000,
       statusMessage: "Success",
       responseData: {
-        "messages": [
+        messages: [
           {
-            "msgIndex": 0,
-            "requestType": "/testTransactionMessageType",
-            "details": {
+            msgIndex: 0,
+            requestType: "/testTransactionMessageType",
+            details: {
               "@type": "/testTransactionMessageType",
-              "contractId": "test1234",
-              "name": "test",
-              "meta": "test",
-              "decimals": 0,
-              "mintable": true,
-              "owner": "tlink1d55xs6fg35r8ll36v9dhktvfg22y7hm2kud23j",
-              "amount": "0"
-            }
-          }
+              contractId: "test1234",
+              name: "test",
+              meta: "test",
+              decimals: 0,
+              mintable: true,
+              owner: "tlink1d55xs6fg35r8ll36v9dhktvfg22y7hm2kud23j",
+              amount: "0",
+            },
+          },
         ],
-        "nextPageToken": "",
-        "prevPageToken": ""
-      }
+        nextPageToken: "",
+        prevPageToken: "",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());

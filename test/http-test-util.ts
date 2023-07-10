@@ -2,12 +2,11 @@ import _ from "lodash";
 import * as chai from "chai";
 
 const expect = chai.expect;
-import {Constant} from "../lib/constants";
-import {PageRequest} from "../lib/request";
+import { Constant } from "../lib/constants";
+import { PageRequest } from "../lib/request";
 
 export class HttpTestUtil {
-  private constructor() {
-  }
+  private constructor() {}
 
   public static assertHeaders(headers: any) {
     expect(headers).to.have.any.keys(Constant.SERVICE_API_KEY_HEADER);

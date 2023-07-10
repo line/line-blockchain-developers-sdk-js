@@ -1,6 +1,6 @@
 import _ from "lodash";
-import {expect} from "chai";
-import {describe, it} from "mocha";
+import { expect } from "chai";
+import { describe, it } from "mocha";
 import {
   accountMsgEmptyTxResult,
   attachFromNFTTxResult,
@@ -35,10 +35,7 @@ import {
   transferFromNonFungibleTxResult,
   transferNonFungibleTxResult,
 } from "./test-data";
-import {
-  LbdTxEventsAdapterV1,
-  RawTransactionResultAdapter,
-} from "../lib/tx-result-adapters";
+import { LbdTxEventsAdapterV1, RawTransactionResultAdapter } from "../lib/tx-result-adapters";
 import {
   CollectionAttribute,
   EventAccountCreated,
@@ -70,9 +67,7 @@ import {
   TokenAttribute,
 } from "../lib/tx-core-models";
 
-
 describe("lbd-tx-event-adapter test", () => {
-
   let adapter = new LbdTxEventsAdapterV1();
 
   // account
@@ -231,12 +226,16 @@ describe("lbd-tx-event-adapter test", () => {
     expect(0).to.equal(eventTokenModified.msgIndex);
     expect("9636a07e").to.equal(eventTokenModified.contractId);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventTokenModified.modifierAddress);
-    expect(new TokenAttribute("name", "STname")).to.deep.equal(_.find(Array.from(eventTokenModified.tokenAttributes), it => {
-      return it.key === "name";
-    }));
-    expect(new TokenAttribute("meta", "meta")).to.deep.equal(_.find(Array.from(eventTokenModified.tokenAttributes), it => {
-      return it.key === "meta";
-    }));
+    expect(new TokenAttribute("name", "STname")).to.deep.equal(
+      _.find(Array.from(eventTokenModified.tokenAttributes), it => {
+        return it.key === "name";
+      }),
+    );
+    expect(new TokenAttribute("meta", "meta")).to.deep.equal(
+      _.find(Array.from(eventTokenModified.tokenAttributes), it => {
+        return it.key === "meta";
+      }),
+    );
     expect("EventTokenModified").to.equal(eventTokenModified.eventName);
   });
 
@@ -492,12 +491,16 @@ describe("lbd-tx-event-adapter test", () => {
     expect(0).to.equal(eventCollectionNftTypeModified.msgIndex);
     expect("61e14383").to.equal(eventCollectionNftTypeModified.contractId);
     expect("10000001").to.equal(eventCollectionNftTypeModified.tokenType);
-    expect(new CollectionAttribute("name", "NFT Name")).to.deep.equals(_.find(Array.from(eventCollectionNftTypeModified.tokenAttributes), it => {
-      return it.key === "name";
-    }));
-    expect(new CollectionAttribute("meta", "NFT meta")).to.deep.equals(_.find(Array.from(eventCollectionNftTypeModified.tokenAttributes), it => {
-      return it.key === "meta";
-    }));
+    expect(new CollectionAttribute("name", "NFT Name")).to.deep.equals(
+      _.find(Array.from(eventCollectionNftTypeModified.tokenAttributes), it => {
+        return it.key === "name";
+      }),
+    );
+    expect(new CollectionAttribute("meta", "NFT meta")).to.deep.equals(
+      _.find(Array.from(eventCollectionNftTypeModified.tokenAttributes), it => {
+        return it.key === "meta";
+      }),
+    );
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftTypeModified.modifierAddress);
     expect("EventCollectionNftTypeModified").to.equal(eventCollectionNftTypeModified.eventName);
   });
@@ -515,12 +518,16 @@ describe("lbd-tx-event-adapter test", () => {
     let eventCollectionNftModified: EventCollectionNftModified = event;
     expect("61e14383").to.equal(eventCollectionNftModified.contractId);
     expect("1000000100000001").to.equal(eventCollectionNftModified.tokenId);
-    expect(new CollectionAttribute("name", "NFT index name")).to.deep.equals(_.find(Array.from(eventCollectionNftModified.tokenAttributes), it => {
-      return it.key === "name";
-    }));
-    expect(new CollectionAttribute("meta", "NFT index meta")).to.deep.equals(_.find(Array.from(eventCollectionNftModified.tokenAttributes), it => {
-      return it.key === "meta";
-    }));
+    expect(new CollectionAttribute("name", "NFT index name")).to.deep.equals(
+      _.find(Array.from(eventCollectionNftModified.tokenAttributes), it => {
+        return it.key === "name";
+      }),
+    );
+    expect(new CollectionAttribute("meta", "NFT index meta")).to.deep.equals(
+      _.find(Array.from(eventCollectionNftModified.tokenAttributes), it => {
+        return it.key === "meta";
+      }),
+    );
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftModified.modifierAddress);
     expect(0).to.equal(eventCollectionNftModified.msgIndex);
     expect("EventCollectionNftModified").to.equal(eventCollectionNftModified.eventName);

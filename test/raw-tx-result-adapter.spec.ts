@@ -1,11 +1,8 @@
-import {expect} from "chai";
-import {describe, it} from "mocha";
-import {baseCoinTransferTxResult} from "./test-data";
-import {
-  LbdTxEventsAdapterV1,
-  RawTransactionResultAdapter
-} from "../lib/tx-result-adapters";
-import {EventCoinTransferred} from "../lib/tx-core-models";
+import { expect } from "chai";
+import { describe, it } from "mocha";
+import { baseCoinTransferTxResult } from "./test-data";
+import { LbdTxEventsAdapterV1, RawTransactionResultAdapter } from "../lib/tx-result-adapters";
+import { EventCoinTransferred } from "../lib/tx-core-models";
 
 describe("raw-tx-result-adapter test", () => {
   it("with baseCoinTransferTxResult", () => {
@@ -28,7 +25,7 @@ describe("raw-tx-result-adapter test", () => {
       "tcony",
       "1",
       "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-      "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww"
+      "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww",
     );
 
     expect(expectedValue).to.deep.equal(eventCoinTransferred);

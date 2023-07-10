@@ -1,6 +1,6 @@
 import _ from "lodash";
-import {HrpPrefix} from "./constants";
-import {LogResponse, TxResultResponse} from "./response";
+import { HrpPrefix } from "./constants";
+import { LogResponse, TxResultResponse } from "./response";
 import {
   EventAttributeTypes,
   RawMessageEventKeyType,
@@ -19,7 +19,7 @@ import {
   RawTransactionRequestValue,
   RawTransactionResult,
   RawTransactionSignerAddressUtil,
-  RawTxSignature
+  RawTxSignature,
 } from "./tx-raw-models";
 
 import {
@@ -59,10 +59,10 @@ import {
   TxResultSummary,
   TxSigner,
   TxStatusResult,
-  UnknownTransactionEvent
+  UnknownTransactionEvent,
 } from "./tx-core-models";
-import {StringUtil} from "./string-util";
-import {TokenUtil} from "./token-util";
+import { StringUtil } from "./string-util";
+import { TokenUtil } from "./token-util";
 
 export const EMPTY_TX_EVENTS: Array<TransactionEvent> = [];
 
@@ -81,44 +81,25 @@ export class V1JsonRawTransactionResultAdapter implements TxResultAdapter<string
 export class RawTransactionResultAdapter implements TxResultAdapter<TxResultResponse, RawTransactionResult> {
   public adapt(input: TxResultResponse) {
     let txMessages = _.map(input.tx.value.msg, it => {
-      return new RawTransactionRequestMessage(
-        it.type,
-        it.value,
-      );
+      return new RawTransactionRequestMessage(it.type, it.value);
     });
     let txFeeAmounts = _.map(input.tx.value.fee.amount, it => {
-      return new RawTransactionRequestAmount(
-        it.denom,
-        it.amount.toString(),
-      );
+      return new RawTransactionRequestAmount(it.denom, it.amount.toString());
     });
     let rawTxSignatures = _.map(input.tx.value.signatures, it => {
-      return new RawTxSignature(
-        new RawTransactionRequestPubKey(
-          it.pubKey.type,
-          it.pubKey.value,
-        ),
-        it.signature,
-      );
+      return new RawTxSignature(new RawTransactionRequestPubKey(it.pubKey.type, it.pubKey.value), it.signature);
     });
     let rawTransactionRequest: RawTransactionRequest = new RawTransactionRequest(
       input.tx.type,
       new RawTransactionRequestValue(
         txMessages,
-        new RawTransactionRequestFee(
-          input.tx.value.fee.gas,
-          txFeeAmounts,
-        ),
+        new RawTransactionRequestFee(input.tx.value.fee.gas, txFeeAmounts),
         input.tx.value.memo,
         rawTxSignatures,
       ),
     );
     let rawTransactionLogs = _.map(input.logs, log => {
-      return new RawTransactionLog(
-        log.msgIndex,
-        log.log,
-        this.extractEvents(log),
-      );
+      return new RawTransactionLog(log.msgIndex, log.log, this.extractEvents(log));
     });
     return new RawTransactionResult(
       input.height,
@@ -141,10 +122,7 @@ export class RawTransactionResultAdapter implements TxResultAdapter<TxResultResp
       return new RawTransactionEvent(
         event.type,
         _.map(event.attributes, att => {
-          return new RawTransactionEventAttribute(
-            att.key,
-            att.value,
-          );
+          return new RawTransactionEventAttribute(att.key, att.value);
         }),
       );
     });
@@ -162,8 +140,7 @@ export class LbdTxResultAdapterV1 implements TxResultAdapter<RawTransactionResul
     txResultMessagesAdapter?: TxResultAdapter<RawTransactionResult, Array<TxMessage>>,
     txResultEventsAdapter?: TxResultAdapter<RawTransactionResult, Array<TransactionEvent>>,
   ) {
-    this.txResultSummaryAdapter = txResultSummaryAdapter ??
-      new LbdTxSummaryAdapterV1(hrpPrefix);
+    this.txResultSummaryAdapter = txResultSummaryAdapter ?? new LbdTxSummaryAdapterV1(hrpPrefix);
     this.txResultMessagesAdapter = txResultMessagesAdapter ?? new LbdTxMessageAdapterV1();
     this.txResultEventsAdapter = txResultEventsAdapter ?? new LbdTxEventsAdapterV1();
   }
@@ -179,14 +156,10 @@ export class LbdTxResultAdapterV1 implements TxResultAdapter<RawTransactionResul
 }
 
 export class LbdTxSummaryAdapterV1 implements TxResultAdapter<RawTransactionResult, TxResultSummary> {
-  constructor(readonly hrpPrefix: HrpPrefix) {
-  }
+  constructor(readonly hrpPrefix: HrpPrefix) {}
 
   adapt(input: RawTransactionResult): TxResultSummary {
-    let signerAddresses = RawTransactionSignerAddressUtil.getSignerAddresses(
-      this.hrpPrefix,
-      input.tx,
-    );
+    let signerAddresses = RawTransactionSignerAddressUtil.getSignerAddresses(this.hrpPrefix, input.tx);
     let signers = _.map(signerAddresses, it => {
       return new TxSigner(it);
     });
@@ -195,10 +168,7 @@ export class LbdTxSummaryAdapterV1 implements TxResultAdapter<RawTransactionResu
       input.index,
       input.txhash,
       signers,
-      new TxStatusResult(
-        input.code,
-        input.codespace,
-      ),
+      new TxStatusResult(input.code, input.codespace),
     );
   }
 }
@@ -269,11 +239,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
         return [this.txEVentConverter.tokenBurned(log.msgIndex, event)];
       case RawMessageEventKeyTypes.TokenMsgModify: {
         let messageEvent = _.find(log.events, it => it.type == "message");
-        return [this.txEVentConverter.tokenModified(
-          log.msgIndex,
-          messageEvent,
-          event,
-        )];
+        return [this.txEVentConverter.tokenModified(log.msgIndex, messageEvent, event)];
       }
       case RawMessageEventKeyTypes.TokenMsgTransfer:
         return [this.txEVentConverter.tokenTransferred(log.msgIndex, event)];
@@ -284,29 +250,15 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
 
       // collection
       case RawMessageEventKeyTypes.CollectionMsgCreate: {
-        let eventGrantPermission = RawTransactionLogUtil.findEvent(
-          log,
-          RawMessageEventKeyTypes.GrantPermission,
-        );
-        return [this.txEVentConverter.collectionCreated(
-          log.msgIndex,
-          event,
-          eventGrantPermission,
-        )];
+        let eventGrantPermission = RawTransactionLogUtil.findEvent(log, RawMessageEventKeyTypes.GrantPermission);
+        return [this.txEVentConverter.collectionCreated(log.msgIndex, event, eventGrantPermission)];
       }
       case RawMessageEventKeyTypes.CollectionMsgIssueFT:
         return [this.txEVentConverter.collectionFtIssued(log.msgIndex, event)];
       case RawMessageEventKeyTypes.CollectionMsgIssueNFT: {
         let messageEvent = _.find(log.events, it => it.type == "message");
-        let senderAddress = RawTransactionEventUtil.findAttribute(
-          messageEvent,
-          EventAttributeTypes.Sender,
-        );
-        return [this.txEVentConverter.collectionNftIssued(
-          log.msgIndex,
-          event,
-          senderAddress,
-        )];
+        let senderAddress = RawTransactionEventUtil.findAttribute(messageEvent, EventAttributeTypes.Sender);
+        return [this.txEVentConverter.collectionNftIssued(log.msgIndex, event, senderAddress)];
       }
       case RawMessageEventKeyTypes.CollectionMsgMintFT:
         return [this.txEVentConverter.collectionFtMinted(log.msgIndex, event)];
@@ -321,45 +273,24 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
           log,
           RawMessageEventKeyTypes.CollectionOperationBurnNFT,
         );
-        return [this.txEVentConverter.collectionNftBurned(
-          log.msgIndex,
-          event,
-          eventOperationBurnNft,
-        )];
+        return [this.txEVentConverter.collectionNftBurned(log.msgIndex, event, eventOperationBurnNft)];
       }
       case RawMessageEventKeyTypes.CollectionMsgBurnNFTFrom: {
         let eventOperationBurnNft = RawTransactionLogUtil.findEvent(
           log,
           RawMessageEventKeyTypes.CollectionOperationBurnNFT,
         );
-        return [this.txEVentConverter.collectionNftBurned(
-          log.msgIndex,
-          event,
-          eventOperationBurnNft,
-        )];
+        return [this.txEVentConverter.collectionNftBurned(log.msgIndex, event, eventOperationBurnNft)];
       }
       case RawMessageEventKeyTypes.CollectionMsgModify: {
         let messageEvent = _.find(log.events, it => it.type == "message");
-        let senderAddress = RawTransactionEventUtil.findAttribute(
-          messageEvent,
-          EventAttributeTypes.Sender,
-        );
-        return [this.txEVentConverter.collectionModified(
-          log.msgIndex,
-          event,
-          senderAddress,
-        )];
+        let senderAddress = RawTransactionEventUtil.findAttribute(messageEvent, EventAttributeTypes.Sender);
+        return [this.txEVentConverter.collectionModified(log.msgIndex, event, senderAddress)];
       }
       case RawMessageEventKeyTypes.CollectionMsgTransferFT:
-        return [this.txEVentConverter.collectionFtTransferred(
-          log.msgIndex,
-          event,
-        )];
+        return [this.txEVentConverter.collectionFtTransferred(log.msgIndex, event)];
       case RawMessageEventKeyTypes.CollectionMsgTransferFTFrom:
-        return [this.txEVentConverter.collectionFtTransferred(
-          log.msgIndex,
-          event,
-        )];
+        return [this.txEVentConverter.collectionFtTransferred(log.msgIndex, event)];
       case RawMessageEventKeyTypes.CollectionMsgTransferNFT: {
         let eventOperationTransferNFT = RawTransactionLogUtil.findEvent(
           log,
@@ -367,11 +298,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
         );
         return [
           this.txEVentConverter.collectionNftTransferred(log.msgIndex, event),
-          this.txEVentConverter.collectionNftHolderChanged(
-            log.msgIndex,
-            event,
-            eventOperationTransferNFT,
-          ),
+          this.txEVentConverter.collectionNftHolderChanged(log.msgIndex, event, eventOperationTransferNFT),
         ];
       }
       case RawMessageEventKeyTypes.CollectionMsgTransferNFTFrom: {
@@ -381,11 +308,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
         );
         return [
           this.txEVentConverter.collectionNftTransferred(log.msgIndex, event),
-          this.txEVentConverter.collectionNftHolderChanged(
-            log.msgIndex,
-            event,
-            eventOperationTransferNFT,
-          ),
+          this.txEVentConverter.collectionNftHolderChanged(log.msgIndex, event, eventOperationTransferNFT),
         ];
       }
       case RawMessageEventKeyTypes.CollectionMsgAttach: {
@@ -395,11 +318,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
         );
         return [
           this.txEVentConverter.collectionNftAttached(log.msgIndex, event),
-          this.txEVentConverter.collectionNftRootChanged(
-            log.msgIndex,
-            event,
-            eventOperationRootChanged,
-          ),
+          this.txEVentConverter.collectionNftRootChanged(log.msgIndex, event, eventOperationRootChanged),
         ];
       }
       case RawMessageEventKeyTypes.CollectionMsgAttachFrom: {
@@ -409,11 +328,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
         );
         return [
           this.txEVentConverter.collectionNftAttached(log.msgIndex, event),
-          this.txEVentConverter.collectionNftRootChanged(
-            log.msgIndex,
-            event,
-            eventOperationRootChanged,
-          ),
+          this.txEVentConverter.collectionNftRootChanged(log.msgIndex, event, eventOperationRootChanged),
         ];
       }
       case RawMessageEventKeyTypes.CollectionMsgDetach: {
@@ -423,11 +338,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
         );
         return [
           this.txEVentConverter.collectionNftDetached(log.msgIndex, event),
-          this.txEVentConverter.collectionNftRootChanged(
-            log.msgIndex,
-            event,
-            eventOperationRootChanged,
-          ),
+          this.txEVentConverter.collectionNftRootChanged(log.msgIndex, event, eventOperationRootChanged),
         ];
       }
       case RawMessageEventKeyTypes.CollectionMsgDetachFrom: {
@@ -437,80 +348,41 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
         );
         return [
           this.txEVentConverter.collectionNftDetached(log.msgIndex, event),
-          this.txEVentConverter.collectionNftRootChanged(
-            log.msgIndex,
-            event,
-            eventOperationRootChanged,
-          ),
+          this.txEVentConverter.collectionNftRootChanged(log.msgIndex, event, eventOperationRootChanged),
         ];
       }
       case RawMessageEventKeyTypes.CollectionMsgApprove:
-        return [this.txEVentConverter.collectionProxyApproved(
-          log.msgIndex,
-          event,
-        )];
+        return [this.txEVentConverter.collectionProxyApproved(log.msgIndex, event)];
       case RawMessageEventKeyTypes.CollectionMsgDisapprove:
-        return [this.txEVentConverter.collectionProxyDisapproved(
-          log.msgIndex,
-          event,
-        )];
+        return [this.txEVentConverter.collectionProxyDisapproved(log.msgIndex, event)];
       default:
         return [];
     }
   }
 
-  private unknownTransactionEvent(
-    type: string,
-    extraMessage?: string,
-  ): UnknownTransactionEvent {
+  private unknownTransactionEvent(type: string, extraMessage?: string): UnknownTransactionEvent {
     return new UnknownTransactionEvent(type, [], extraMessage);
   }
-
 }
 
 export class LbdTxEventConverterV1 {
-  constructor() {
-  }
+  constructor() {}
 
-  public accountCreated(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let createdAccountAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.CreateAccountTarget,
-    );
+  public accountCreated(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let createdAccountAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.CreateAccountTarget);
     return new EventAccountCreated(msgIndex, createdAccountAddress);
   }
 
-  public emptyMsgCreated(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let senderAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Sender,
-    );
+  public emptyMsgCreated(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let senderAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Sender);
     return new EventEmptyMsgCreated(msgIndex, senderAddress);
   }
 
-  public coinTransferred(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let amount = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Amount,
-    );
+  public coinTransferred(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let amount = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Amount);
     let denomAmount = StringUtil.parseAmount(amount);
-    let senderAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Sender,
-    );
-    let recipientAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Recipient,
-    );
+    let senderAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Sender);
+    let recipientAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Recipient);
     return new EventCoinTransferred(
       msgIndex,
       denomAmount.denomination,
@@ -520,38 +392,14 @@ export class LbdTxEventConverterV1 {
     );
   }
 
-  public tokenIssued(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let issuerAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Owner,
-    );
-    let name = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Name,
-    );
-    let symbol = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Symbol,
-    );
-    let receiverAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.To,
-    );
-    let amount = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Amount,
-    );
-    let decimals = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Decimals,
-    );
+  public tokenIssued(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let issuerAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Owner);
+    let name = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Name);
+    let symbol = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Symbol);
+    let receiverAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.To);
+    let amount = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Amount);
+    let decimals = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Decimals);
     return new EventTokenIssued(
       msgIndex,
       contractId,
@@ -564,64 +412,22 @@ export class LbdTxEventConverterV1 {
     );
   }
 
-  public tokenMinted(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let minterAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.From,
-    );
-    let toAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.To,
-    );
-    let amount = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Amount,
-    );
+  public tokenMinted(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let minterAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
+    let toAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.To);
+    let amount = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Amount);
 
-    return new EventTokenMinted(
-      msgIndex,
-      contractId,
-      amount,
-      minterAddress,
-      toAddress,
-    );
+    return new EventTokenMinted(msgIndex, contractId, amount, minterAddress, toAddress);
   }
 
-  public tokenBurned(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let fromAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.From,
-    );
-    let proxyAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Proxy,
-    );
-    let amount = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Amount,
-    );
+  public tokenBurned(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let fromAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
+    let proxyAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Proxy);
+    let amount = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Amount);
 
-    return new EventTokenBurned(
-      msgIndex,
-      contractId,
-      amount,
-      fromAddress,
-      proxyAddress,
-    );
+    return new EventTokenBurned(msgIndex, contractId, amount, fromAddress, proxyAddress);
   }
 
   public tokenModified(
@@ -629,88 +435,32 @@ export class LbdTxEventConverterV1 {
     emptyMessageEvent: RawTransactionEvent,
     event: RawTransactionEvent,
   ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let modifierAddress = RawTransactionEventUtil.findAttribute(
-      emptyMessageEvent,
-      EventAttributeTypes.Sender,
-    );
-    let rawModifiedAttributes = RawTransactionEventUtil.attributesExclude(
-      event,
-      EventAttributeTypes.ContractId,
-    );
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let modifierAddress = RawTransactionEventUtil.findAttribute(emptyMessageEvent, EventAttributeTypes.Sender);
+    let rawModifiedAttributes = RawTransactionEventUtil.attributesExclude(event, EventAttributeTypes.ContractId);
     let tokenAttributes = _.map([...rawModifiedAttributes]).map(it => {
       return new TokenAttribute(it.key, it.value);
     });
 
-    return new EventTokenModified(
-      msgIndex,
-      contractId,
-      modifierAddress,
-      tokenAttributes,
-    );
+    return new EventTokenModified(msgIndex, contractId, modifierAddress, tokenAttributes);
   }
 
-  public tokenTransferred(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let fromAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.From,
-    );
-    let receiverAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.To,
-    );
-    let amount = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Amount,
-    );
-    let proxyAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Proxy,
-    );
+  public tokenTransferred(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let fromAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
+    let receiverAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.To);
+    let amount = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Amount);
+    let proxyAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Proxy);
 
-    return new EventTokenTransferred(
-      msgIndex,
-      contractId,
-      amount,
-      fromAddress,
-      receiverAddress,
-      proxyAddress,
-    );
+    return new EventTokenTransferred(msgIndex, contractId, amount, fromAddress, receiverAddress, proxyAddress);
   }
 
-  public tokenProxyApproved(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let approverAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Approver,
-    );
-    let proxyAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Proxy,
-    );
+  public tokenProxyApproved(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let approverAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Approver);
+    let proxyAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Proxy);
 
-    return new EventTokenProxyApproved(
-      msgIndex,
-      contractId,
-      approverAddress,
-      proxyAddress,
-    );
+    return new EventTokenProxyApproved(msgIndex, contractId, approverAddress, proxyAddress);
   }
 
   public collectionCreated(
@@ -718,55 +468,23 @@ export class LbdTxEventConverterV1 {
     eventCollectionCreated: RawTransactionEvent,
     eventGrantPerm?: RawTransactionEvent,
   ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      eventCollectionCreated,
-      EventAttributeTypes.ContractId,
-    );
-    let name = RawTransactionEventUtil.findAttribute(
-      eventCollectionCreated,
-      EventAttributeTypes.Name,
-    );
-    let creatorAddress = RawTransactionEventUtil.findAttributeOrNull(
-      eventGrantPerm,
-      EventAttributeTypes.To,
-    );
+    let contractId = RawTransactionEventUtil.findAttribute(eventCollectionCreated, EventAttributeTypes.ContractId);
+    let name = RawTransactionEventUtil.findAttribute(eventCollectionCreated, EventAttributeTypes.Name);
+    let creatorAddress = RawTransactionEventUtil.findAttributeOrNull(eventGrantPerm, EventAttributeTypes.To);
     if (!creatorAddress || creatorAddress === "") {
-      creatorAddress = RawTransactionEventUtil.findAttribute(
-        eventCollectionCreated,
-        EventAttributeTypes.Owner,
-      );
+      creatorAddress = RawTransactionEventUtil.findAttribute(eventCollectionCreated, EventAttributeTypes.Owner);
     }
 
-    return new EventCollectionCreated(
-      msgIndex,
-      contractId,
-      name,
-      creatorAddress,
-    );
+    return new EventCollectionCreated(msgIndex, contractId, name, creatorAddress);
   }
 
-  public collectionFtBurned(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let fromAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.From,
-    );
-    let amount = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Amount,
-    );
+  public collectionFtBurned(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let fromAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
+    let amount = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Amount);
     let tokenIdAmount = StringUtil.parseTokenIdAmount(amount);
     let tokenId = tokenIdAmount.tokenId;
-    let proxyAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Proxy,
-    );
+    let proxyAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Proxy);
 
     return new EventCollectionFtBurned(
       msgIndex,
@@ -779,48 +497,18 @@ export class LbdTxEventConverterV1 {
     );
   }
 
-  public collectionFtIssued(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let name = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Name,
-    );
-    let amount = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Amount,
-    );
-    let tokenId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.TokenId,
-    );
-    let decimals = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Decimals,
-    );
-    let issuerAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Owner,
-    );
-    let receiverAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.To,
-    );
+  public collectionFtIssued(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let name = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Name);
+    let amount = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Amount);
+    let tokenId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.TokenId);
+    let decimals = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Decimals);
+    let issuerAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Owner);
+    let receiverAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.To);
 
-    let meta = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Meta,
-    );
+    let meta = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Meta);
 
-    let mintable = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Mintable,
-    );
+    let mintable = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Mintable);
 
     return new EventCollectionFtIssued(
       msgIndex,
@@ -832,33 +520,18 @@ export class LbdTxEventConverterV1 {
       issuerAddress,
       receiverAddress,
       meta,
-      Boolean(mintable)
+      Boolean(mintable),
     );
   }
 
-  public collectionFtMinted(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let amount = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Amount,
-    );
+  public collectionFtMinted(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let amount = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Amount);
     let tokenIdAmount = StringUtil.parseTokenIdAmount(amount);
     let tokenId = tokenIdAmount.tokenId;
 
-    let minterAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.From,
-    );
-    let toAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.To,
-    );
+    let minterAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
+    let toAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.To);
 
     return new EventCollectionFtMinted(
       msgIndex,
@@ -871,32 +544,14 @@ export class LbdTxEventConverterV1 {
     );
   }
 
-  public collectionFtTransferred(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let fromAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.From,
-    );
-    let toAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.To,
-    );
-    let amount = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Amount,
-    );
+  public collectionFtTransferred(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let fromAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
+    let toAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.To);
+    let amount = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Amount);
     let tokenIdAmount = StringUtil.parseTokenIdAmount(amount);
     let tokenId = tokenIdAmount.tokenId;
-    let proxyAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Proxy,
-    );
+    let proxyAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Proxy);
 
     return new EventCollectionFtTransferred(
       msgIndex,
@@ -910,19 +565,9 @@ export class LbdTxEventConverterV1 {
     );
   }
 
-  public collectionFtModified(
-    msgIndex: number,
-    event: RawTransactionEvent,
-    senderAddress: string,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let tokenId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.TokenId,
-    );
+  public collectionFtModified(msgIndex: number, event: RawTransactionEvent, senderAddress: string): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let tokenId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.TokenId);
     let modifierAddress = senderAddress;
     let rawTokenAttributes = RawTransactionEventUtil.attributesExclude(
       event,
@@ -947,19 +592,10 @@ export class LbdTxEventConverterV1 {
     event: RawTransactionEvent,
     senderAddress: string,
   ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let tokenType = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.TokenType,
-    );
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let tokenType = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.TokenType);
     if (!tokenType || StringUtil.isBlank(tokenType)) {
-      let tokenId = RawTransactionEventUtil.findAttribute(
-        event,
-        EventAttributeTypes.TokenId,
-      );
+      let tokenId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.TokenId);
       tokenType = TokenUtil.tokenTypeFrom(tokenId);
     }
     let modifierAddress = senderAddress;
@@ -982,19 +618,9 @@ export class LbdTxEventConverterV1 {
     );
   }
 
-  public collectionNftModified(
-    msgIndex: number,
-    event: RawTransactionEvent,
-    senderAddress: string,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let tokenId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.TokenId,
-    );
+  public collectionNftModified(msgIndex: number, event: RawTransactionEvent, senderAddress: string): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let tokenId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.TokenId);
     let modifierAddress = senderAddress;
     let rawTokenAttributes = RawTransactionEventUtil.attributesExclude(
       event,
@@ -1005,51 +631,24 @@ export class LbdTxEventConverterV1 {
       return new CollectionAttribute(it.key, it.value);
     });
 
-    return new EventCollectionNftModified(
-      msgIndex,
-      contractId,
-      tokenId,
-      tokenAttributes,
-      modifierAddress,
-    );
+    return new EventCollectionNftModified(msgIndex, contractId, tokenId, tokenAttributes, modifierAddress);
   }
 
-  public collectionModified(
-    msgIndex: number,
-    event: RawTransactionEvent,
-    senderAddress: string,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let tokenType = RawTransactionEventUtil.findAttributeOrNull(
-      event,
-      EventAttributeTypes.TokenType,
-    );
+  public collectionModified(msgIndex: number, event: RawTransactionEvent, senderAddress: string): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let tokenType = RawTransactionEventUtil.findAttributeOrNull(event, EventAttributeTypes.TokenType);
     if (!tokenType && StringUtil.isBlank(tokenType)) {
-      tokenType = RawTransactionEventUtil.findAttribute(
-        event,
-        EventAttributeTypes.TokenId,
-      );
+      tokenType = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.TokenId);
     }
     let isFungible = tokenType.startsWith("0");
     let modifierAddress = senderAddress;
 
     if (event.type === "modify_collection") {
-      let rawTokenAttributes = RawTransactionEventUtil.attributesExclude(
-        event,
-        EventAttributeTypes.ContractId,
-      );
+      let rawTokenAttributes = RawTransactionEventUtil.attributesExclude(event, EventAttributeTypes.ContractId);
       let tokenAttributes = _.map([...rawTokenAttributes]).map(it => {
         return new CollectionAttribute(it.key, it.value);
       });
-      return new EventCollectionModified(
-        msgIndex,
-        contractId,
-        tokenAttributes,
-        modifierAddress,
-      );
+      return new EventCollectionModified(msgIndex, contractId, tokenAttributes, modifierAddress);
     } else if (event.type === "modify_token_type") {
       return this.collectionNftTypeModified(msgIndex, event, modifierAddress);
     } else if (isFungible) {
@@ -1064,103 +663,35 @@ export class LbdTxEventConverterV1 {
     eventBurnNft: RawTransactionEvent,
     eventOperationBurnNft?: RawTransactionEvent,
   ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      eventBurnNft,
-      EventAttributeTypes.ContractId,
-    );
-    let fromAddress = RawTransactionEventUtil.findAttribute(
-      eventBurnNft,
-      EventAttributeTypes.From,
-    );
-    let proxyAddress = RawTransactionEventUtil.findAttribute(
-      eventBurnNft,
-      EventAttributeTypes.Proxy,
-    );
+    let contractId = RawTransactionEventUtil.findAttribute(eventBurnNft, EventAttributeTypes.ContractId);
+    let fromAddress = RawTransactionEventUtil.findAttribute(eventBurnNft, EventAttributeTypes.From);
+    let proxyAddress = RawTransactionEventUtil.findAttribute(eventBurnNft, EventAttributeTypes.Proxy);
     let tokenIds = [];
     if (eventOperationBurnNft) {
-      tokenIds = RawTransactionEventUtil.findAttributes(
-        eventOperationBurnNft,
-        EventAttributeTypes.TokenId,
-      );
+      tokenIds = RawTransactionEventUtil.findAttributes(eventOperationBurnNft, EventAttributeTypes.TokenId);
     }
 
-    return new EventCollectionNftBurned(
-      msgIndex,
-      contractId,
-      tokenIds,
-      fromAddress,
-      proxyAddress,
-    );
+    return new EventCollectionNftBurned(msgIndex, contractId, tokenIds, fromAddress, proxyAddress);
   }
 
-  public collectionNftAttached(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let fromAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.From,
-    );
-    let proxyAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Proxy,
-    );
-    let tokenId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.TokenId,
-    );
-    let parentTokenId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ParentTokenId,
-    );
+  public collectionNftAttached(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let fromAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
+    let proxyAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Proxy);
+    let tokenId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.TokenId);
+    let parentTokenId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ParentTokenId);
 
-    return new EventCollectionNftAttached(
-      msgIndex,
-      contractId,
-      tokenId,
-      parentTokenId,
-      fromAddress,
-      proxyAddress,
-    );
+    return new EventCollectionNftAttached(msgIndex, contractId, tokenId, parentTokenId, fromAddress, proxyAddress);
   }
 
-  public collectionNftDetached(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let fromAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.From,
-    );
-    let proxyAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Proxy,
-    );
-    let tokenId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.TokenId,
-    );
-    let parentTokenId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ExParentTokenId,
-    );
+  public collectionNftDetached(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let fromAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
+    let proxyAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Proxy);
+    let tokenId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.TokenId);
+    let parentTokenId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ExParentTokenId);
 
-    return new EventCollectionNftDetached(
-      msgIndex,
-      contractId,
-      tokenId,
-      parentTokenId,
-      fromAddress,
-      proxyAddress,
-    );
+    return new EventCollectionNftDetached(msgIndex, contractId, tokenId, parentTokenId, fromAddress, proxyAddress);
   }
 
   public collectionNftRootChanged(
@@ -1168,75 +699,29 @@ export class LbdTxEventConverterV1 {
     event: RawTransactionEvent,
     eventOperationRootChanged?: RawTransactionEvent,
   ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let tokenType = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.TokenType,
-    );
-    let oldRootTokenId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ExParentTokenId,
-    );
-    let newRootTokenId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.NewRootTokenId,
-    );
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let tokenType = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.TokenType);
+    let oldRootTokenId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ExParentTokenId);
+    let newRootTokenId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.NewRootTokenId);
     let tokenIds = [];
     if (eventOperationRootChanged) {
-      tokenIds = RawTransactionEventUtil.findAttributes(
-        eventOperationRootChanged,
-        EventAttributeTypes.TokenId,
-      );
+      tokenIds = RawTransactionEventUtil.findAttributes(eventOperationRootChanged, EventAttributeTypes.TokenId);
     }
 
-    return new EventCollectionNftRootChanged(
-      msgIndex,
-      contractId,
-      tokenIds,
-      oldRootTokenId,
-      newRootTokenId,
-    );
+    return new EventCollectionNftRootChanged(msgIndex, contractId, tokenIds, oldRootTokenId, newRootTokenId);
   }
 
-  public collectionNftTransferred(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let fromAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.From,
-    );
-    let toAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.To,
-    );
+  public collectionNftTransferred(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let fromAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
+    let toAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.To);
     let tokenIds = [];
     if (event) {
-      tokenIds = RawTransactionEventUtil.findAttributes(
-        event,
-        EventAttributeTypes.TokenId,
-      );
+      tokenIds = RawTransactionEventUtil.findAttributes(event, EventAttributeTypes.TokenId);
     }
-    let proxyAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Proxy,
-    );
+    let proxyAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Proxy);
 
-    return new EventCollectionNftTransferred(
-      msgIndex,
-      contractId,
-      tokenIds,
-      fromAddress,
-      toAddress,
-      proxyAddress,
-    );
+    return new EventCollectionNftTransferred(msgIndex, contractId, tokenIds, fromAddress, toAddress, proxyAddress);
   }
 
   public collectionNftHolderChanged(
@@ -1244,139 +729,47 @@ export class LbdTxEventConverterV1 {
     eventTransferNFT: RawTransactionEvent,
     eventOperationTransferNft?: RawTransactionEvent,
   ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      eventTransferNFT,
-      EventAttributeTypes.ContractId,
-    );
-    let fromAddress = RawTransactionEventUtil.findAttribute(
-      eventTransferNFT,
-      EventAttributeTypes.From,
-    );
-    let toAddress = RawTransactionEventUtil.findAttribute(
-      eventTransferNFT,
-      EventAttributeTypes.To,
-    );
+    let contractId = RawTransactionEventUtil.findAttribute(eventTransferNFT, EventAttributeTypes.ContractId);
+    let fromAddress = RawTransactionEventUtil.findAttribute(eventTransferNFT, EventAttributeTypes.From);
+    let toAddress = RawTransactionEventUtil.findAttribute(eventTransferNFT, EventAttributeTypes.To);
     let tokenIds = [];
     if (eventOperationTransferNft) {
-      tokenIds = RawTransactionEventUtil.findAttributes(
-        eventOperationTransferNft,
-        EventAttributeTypes.TokenId,
-      );
+      tokenIds = RawTransactionEventUtil.findAttributes(eventOperationTransferNft, EventAttributeTypes.TokenId);
     }
 
-    return new EventCollectionNftHolderChanged(
-      msgIndex,
-      contractId,
-      tokenIds,
-      fromAddress,
-      toAddress,
-    );
+    return new EventCollectionNftHolderChanged(msgIndex, contractId, tokenIds, fromAddress, toAddress);
   }
 
-  public collectionNftIssued(
-    msgIndex: number,
-    event: RawTransactionEvent,
-    issuerAddress: string,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let tokenType = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.TokenType,
-    );
+  public collectionNftIssued(msgIndex: number, event: RawTransactionEvent, issuerAddress: string): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let tokenType = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.TokenType);
 
-    return new EventCollectionNftIssued(
-      msgIndex,
-      contractId,
-      tokenType,
-      issuerAddress,
-    );
+    return new EventCollectionNftIssued(msgIndex, contractId, tokenType, issuerAddress);
   }
 
-  public collectionNftMinted(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let tokenType = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.TokenType,
-    );
-    let tokenIds = RawTransactionEventUtil.findAttributes(
-      event,
-      EventAttributeTypes.TokenId,
-    );
-    let minterAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.From,
-    );
-    let toAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.To,
-    );
+  public collectionNftMinted(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let tokenType = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.TokenType);
+    let tokenIds = RawTransactionEventUtil.findAttributes(event, EventAttributeTypes.TokenId);
+    let minterAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.From);
+    let toAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.To);
 
-    return new EventCollectionNftMinted(
-      msgIndex,
-      contractId,
-      tokenIds,
-      toAddress,
-      minterAddress,
-    );
+    return new EventCollectionNftMinted(msgIndex, contractId, tokenIds, toAddress, minterAddress);
   }
 
-  public collectionProxyApproved(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let approverAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Approver,
-    );
-    let proxyAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Proxy,
-    );
+  public collectionProxyApproved(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let approverAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Approver);
+    let proxyAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Proxy);
 
-    return new EventCollectionProxyApproved(
-      msgIndex,
-      contractId,
-      approverAddress,
-      proxyAddress,
-    );
+    return new EventCollectionProxyApproved(msgIndex, contractId, approverAddress, proxyAddress);
   }
 
-  public collectionProxyDisapproved(
-    msgIndex: number,
-    event: RawTransactionEvent,
-  ): TransactionEvent {
-    let contractId = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.ContractId,
-    );
-    let approverAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Approver,
-    );
-    let proxyAddress = RawTransactionEventUtil.findAttribute(
-      event,
-      EventAttributeTypes.Proxy,
-    );
+  public collectionProxyDisapproved(msgIndex: number, event: RawTransactionEvent): TransactionEvent {
+    let contractId = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.ContractId);
+    let approverAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Approver);
+    let proxyAddress = RawTransactionEventUtil.findAttribute(event, EventAttributeTypes.Proxy);
 
-    return new EventCollectionProxyDisapproved(
-      msgIndex,
-      contractId,
-      approverAddress,
-      proxyAddress,
-    );
+    return new EventCollectionProxyDisapproved(msgIndex, contractId, approverAddress, proxyAddress);
   }
-
 }
