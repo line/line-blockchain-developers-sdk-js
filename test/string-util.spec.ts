@@ -1,7 +1,6 @@
-import {expect} from "chai";
-import {describe, it} from "mocha";
-import {StringUtil} from "../lib/string-util";
-
+import { expect } from "chai";
+import { describe, it } from "mocha";
+import { StringUtil } from "../lib/string-util";
 
 describe("StringUtil tests", () => {
   it("test parseAmount", () => {

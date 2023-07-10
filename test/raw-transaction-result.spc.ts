@@ -1,11 +1,9 @@
-import {expect} from "chai";
-import {describe, it} from "mocha";
-import {RawTransactionResult} from "../lib/tx-raw-models";
-import {baseCoinTransferTxResult, accountMsgEmptyTxResult} from "./test-data";
-
+import { expect } from "chai";
+import { describe, it } from "mocha";
+import { RawTransactionResult } from "../lib/tx-raw-models";
+import { baseCoinTransferTxResult, accountMsgEmptyTxResult } from "./test-data";
 
 describe("RawTransactionResult test", () => {
-
   it("test baseCoinTransferTxResult", () => {
     let rawTransactionResult: RawTransactionResult = baseCoinTransferTxResult;
     expect(53310).to.equal(rawTransactionResult.height);

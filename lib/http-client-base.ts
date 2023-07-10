@@ -1,16 +1,11 @@
 // noinspection JSUnusedGlobalSymbols
 
-import {LoggerFactory} from "./logger-factory";
-import {LoggerWrapper} from "./logger-wrapper";
+import { LoggerFactory } from "./logger-factory";
+import { LoggerWrapper } from "./logger-wrapper";
 import _ from "lodash";
-import {RequestParameterValidator} from "./request-parameter-validator";
-import axios, {
-  AxiosInstance,
-  AxiosResponse,
-  AxiosRequestConfig,
-  AxiosError,
-} from "axios";
-import {HTTPError, ReadError, RequestError} from "./exceptions";
+import { RequestParameterValidator } from "./request-parameter-validator";
+import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, AxiosError } from "axios";
+import { HTTPError, ReadError, RequestError } from "./exceptions";
 import cryptoRandomString from "crypto-random-string";
 import {
   GenericResponse,
@@ -45,7 +40,7 @@ import {
   UserRequestStatus,
   NonFungibleTokenTypeHolderList,
   TxMessageListResponse,
-  TokenIndex
+  TokenIndex,
 } from "./response";
 
 import {
@@ -89,13 +84,12 @@ import {
   IssueServiceTokenRequest,
   MultiNonFungibleTokenTypeMediaResourcesUpdateRequest,
 } from "./request";
-import {SignatureGenerator} from "./signature-generator";
-import {Constant} from "./constants";
-import {TxResult} from "./tx-core-models";
+import { SignatureGenerator } from "./signature-generator";
+import { Constant } from "./constants";
+import { TxResult } from "./tx-core-models";
 
 declare module "axios" {
-  interface AxiosResponse<T = any> extends Promise<T> {
-  }
+  interface AxiosResponse<T = any> extends Promise<T> {}
 }
 
 export class HttpClient {
@@ -111,12 +105,9 @@ export class HttpClient {
     });
     this.serviceApiKey = apiKey;
     this.serviceApiSecret = apiSecret;
-    this.instance.defaults.headers.post["Content-Type"] =
-      "application/json;charset=UTF-8";
-    this.instance.defaults.headers.put["Content-Type"] =
-      "application/json;charset=UTF-8";
-    this.instance.defaults.headers.delete["Content-Type"] =
-      "application/json;charset=UTF-8";
+    this.instance.defaults.headers.post["Content-Type"] = "application/json;charset=UTF-8";
+    this.instance.defaults.headers.put["Content-Type"] = "application/json;charset=UTF-8";
+    this.instance.defaults.headers.delete["Content-Type"] = "application/json;charset=UTF-8";
 
     this._initializeResponseInterceptor();
   }
@@ -135,17 +126,11 @@ export class HttpClient {
   }
 
   private _initializeResponseInterceptor = () => {
-    this.instance.interceptors.response.use(
-      this._handleResponse,
-      this._handleError,
-    );
-    this.instance.interceptors.request.use(
-      this._handleRequest,
-      this._handleError,
-    );
+    this.instance.interceptors.response.use(this._handleResponse, this._handleError);
+    this.instance.interceptors.request.use(this._handleRequest, this._handleError);
   };
 
-  private _handleResponse = ({data}: AxiosResponse) => {
+  private _handleResponse = ({ data }: AxiosResponse) => {
     this.logger.debug("Response data", JSON.stringify(data));
     return data;
   };
@@ -162,7 +147,9 @@ export class HttpClient {
       config.data = _.omitBy(config.data, _.isNil);
     }
     this.addRequestHeaders(config);
-    this.logger.debug(`API Request - url: ${config.url},headers: ${JSON.stringify(config.headers)}, data: ${config.data || "empty"}`)
+    this.logger.debug(
+      `API Request - url: ${config.url},headers: ${JSON.stringify(config.headers)}, data: ${config.data || "empty"}`,
+    );
 
     return config;
   };
@@ -188,7 +175,7 @@ export class HttpClient {
   }
 
   protected addRequestHeaders(config: AxiosRequestConfig) {
-    const nonce = cryptoRandomString({length: 8});
+    const nonce = cryptoRandomString({ length: 8 });
     const timestamp = Date.now();
     const method = config.method.toUpperCase();
     config.headers[Constant.SERVICE_API_KEY_HEADER] = this.serviceApiKey;
@@ -209,9 +196,7 @@ export class HttpClient {
     return this.instance.get("/v1/time");
   }
 
-  public serviceDetail(
-    serviceId: string,
-  ): Promise<GenericResponse<ServiceDetail>> {
+  public serviceDetail(serviceId: string): Promise<GenericResponse<ServiceDetail>> {
     const path = `/v1/services/${serviceId}`;
     return this.instance.get(path);
   }
@@ -220,9 +205,7 @@ export class HttpClient {
     return this.instance.get(`/v1/service-tokens`);
   }
 
-  public serviceTokenDetail(
-    contractId: string,
-  ): Promise<GenericResponse<ServiceToken>> {
+  public serviceTokenDetail(contractId: string): Promise<GenericResponse<ServiceToken>> {
     const path = `/v1/service-tokens/${contractId}`;
     return this.instance.get(path);
   }
@@ -266,18 +249,18 @@ export class HttpClient {
     return this.instance.get(path);
   }
 
-  public createItemTokenContract(
-    request: CreateItemTokenContractRequest,
-  ): Promise<GenericResponse<TxHashResponse>> {
+  public createItemTokenContract(request: CreateItemTokenContractRequest): Promise<GenericResponse<TxHashResponse>> {
     if (request.name.length <= 0) {
-      throw new Error("Invalid token name - empty token name")
+      throw new Error("Invalid token name - empty token name");
     }
     if (!RequestParameterValidator.isValidTokenName(request.name)) {
       throw new Error(`Invalid token name - valid pattern: ${RequestParameterValidator.validTokenNamePattern()}`);
     }
 
     if (!RequestParameterValidator.isValidWalletAddress(request.serviceWalletAddress)) {
-      throw new Error(`Invalid serviceWalletAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
+      throw new Error(
+        `Invalid serviceWalletAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`,
+      );
     }
 
     if (_.isEmpty(request.serviceWalletSecret)) {
@@ -285,7 +268,9 @@ export class HttpClient {
     }
 
     if (!RequestParameterValidator.isValidBaseUri(request.baseImgUri)) {
-      throw new Error(`Invalid baseImgUri of item token - valid pattern: ${RequestParameterValidator.validBaseUriPattern()}`);
+      throw new Error(
+        `Invalid baseImgUri of item token - valid pattern: ${RequestParameterValidator.validBaseUriPattern()}`,
+      );
     }
     const path = `/v1/item-tokens`;
     return this.instance.post(path, request);
@@ -303,10 +288,7 @@ export class HttpClient {
     return this.instance.get(path, queryParamConfig);
   }
 
-  public fungibleTokens(
-    contractId: string,
-    pageRequest: PageRequest,
-  ): Promise<GenericResponse<Array<FungibleToken>>> {
+  public fungibleTokens(contractId: string, pageRequest: PageRequest): Promise<GenericResponse<Array<FungibleToken>>> {
     const path = `/v1/item-tokens/${contractId}/fungibles`;
     const requestConfig = this.pageRequestConfig(pageRequest);
     return this.instance.get(path, requestConfig);
@@ -320,10 +302,7 @@ export class HttpClient {
     return this.instance.post(path, request);
   }
 
-  public fungibleToken(
-    contractId: string,
-    tokenType: string,
-  ): Promise<GenericResponse<FungibleToken>> {
+  public fungibleToken(contractId: string, tokenType: string): Promise<GenericResponse<FungibleToken>> {
     const path = `/v1/item-tokens/${contractId}/fungibles/${tokenType}`;
     return this.instance.get(path);
   }
@@ -463,7 +442,7 @@ export class HttpClient {
     isMetaRequired: boolean = false,
   ): Promise<GenericResponse<NonFungibleTokenHolder>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/holder`;
-    const queryParam = this.isMetaRequiredQueryParameter(isMetaRequired)
+    const queryParam = this.isMetaRequiredQueryParameter(isMetaRequired);
     return this.instance.get(path, queryParam);
   }
 
@@ -550,9 +529,7 @@ export class HttpClient {
     return this.instance.get(path);
   }
 
-  public walletDetail(
-    walletAddress: string,
-  ): Promise<GenericResponse<WalletResponse>> {
+  public walletDetail(walletAddress: string): Promise<GenericResponse<WalletResponse>> {
     const path = `/v1/wallets/${walletAddress}`;
     return this.instance.get(path);
   }
@@ -563,17 +540,12 @@ export class HttpClient {
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
   ): Promise<GenericResponse<Array<TxResultResponse>>> {
     const path = `/v1/wallets/${walletAddress}/transactions`;
-    const requestConfig = this.pageRequestConfig(
-      pageRequest,
-      optionalTransactionSearchParameters,
-    );
+    const requestConfig = this.pageRequestConfig(pageRequest, optionalTransactionSearchParameters);
 
     return this.instance.get(path, requestConfig);
   }
 
-  public issueServiceToken(
-    request: IssueServiceTokenRequest,
-  ): Promise<GenericResponse<TxHashResponse>> {
+  public issueServiceToken(request: IssueServiceTokenRequest): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/service-tokens`;
     return this.instance.post(path, request);
   }
@@ -583,10 +555,10 @@ export class HttpClient {
     isOnlyContractId: boolean = false,
   ): Promise<GenericResponse<IssuedServiceToken>> {
     if (_.isEmpty(txHash)) {
-      throw new Error("Invalid txHash - empty not allowed")
+      throw new Error("Invalid txHash - empty not allowed");
     }
     const path = `/v1/service-tokens/by-txHash/${txHash}`;
-    const queryParamConfig = this.isOnlyContractIdRequestConfig(isOnlyContractId)
+    const queryParamConfig = this.isOnlyContractIdRequestConfig(isOnlyContractId);
     return this.instance.get(path, queryParamConfig);
   }
 
@@ -707,10 +679,7 @@ export class HttpClient {
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
   ): Promise<GenericResponse<Array<TxResultResponse>>> {
     const path = `/v1/users/${userId}/transactions`;
-    const requestConfig = this.pageRequestConfig(
-      pageRequest,
-      optionalTransactionSearchParameters,
-    );
+    const requestConfig = this.pageRequestConfig(pageRequest, optionalTransactionSearchParameters);
     return this.instance.get(path, requestConfig);
   }
 
@@ -723,10 +692,7 @@ export class HttpClient {
     return this.instance.get(path, requestConfig);
   }
 
-  public serviceTokenBalanceOfUser(
-    userId: string,
-    contractId: string,
-  ): Promise<GenericResponse<ServiceTokenBalance>> {
+  public serviceTokenBalanceOfUser(userId: string, contractId: string): Promise<GenericResponse<ServiceTokenBalance>> {
     const path = `/v1/users/${userId}/service-tokens/${contractId}`;
     return this.instance.get(path);
   }
@@ -836,15 +802,9 @@ export class HttpClient {
     isFungibleRequest: boolean = true,
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
     if (isFungibleRequest) {
-      return this.updateFungibleTokenMediaResources(
-        contractId,
-        tokenIdentifiers,
-      );
+      return this.updateFungibleTokenMediaResources(contractId, tokenIdentifiers);
     } else {
-      return this.updateNonFungibleTokenMediaResources(
-        contractId,
-        tokenIdentifiers,
-      );
+      return this.updateNonFungibleTokenMediaResources(contractId, tokenIdentifiers);
     }
   }
 
@@ -854,9 +814,7 @@ export class HttpClient {
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
     const path = `/v1/item-tokens/${contractId}/fungibles/media-resources`;
     const updateList = TokenType.fromMulti(tokenTypes);
-    const request = new MultiFungibleTokenMediaResourcesUpdateRequest(
-      updateList,
-    );
+    const request = new MultiFungibleTokenMediaResourcesUpdateRequest(updateList);
     return this.instance.put(path, request);
   }
 
@@ -866,9 +824,7 @@ export class HttpClient {
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/media-resources`;
     const updateList = TokenTypeAndIndex.fromMulti(tokenIds);
-    const request = new MultiNonFungibleTokenMediaResourcesUpdateRequest(
-      updateList,
-    );
+    const request = new MultiNonFungibleTokenMediaResourcesUpdateRequest(updateList);
     return this.instance.put(path, request);
   }
 
@@ -878,9 +834,7 @@ export class HttpClient {
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/types/media-resources`;
     const updateList = TokenType.fromMulti(tokenTypes);
-    const request = new MultiNonFungibleTokenTypeMediaResourcesUpdateRequest(
-      updateList,
-    );
+    const request = new MultiNonFungibleTokenTypeMediaResourcesUpdateRequest(updateList);
     return this.instance.put(path, request);
   }
 
@@ -890,15 +844,9 @@ export class HttpClient {
     isFungibleRequest: boolean = true,
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
     if (isFungibleRequest) {
-      return this.updateFungibleTokenThumbnailResources(
-        contractId,
-        tokenIdentifiers,
-      );
+      return this.updateFungibleTokenThumbnailResources(contractId, tokenIdentifiers);
     } else {
-      return this.updateNonFungibleTokenThumbnailResources(
-        contractId,
-        tokenIdentifiers,
-      );
+      return this.updateNonFungibleTokenThumbnailResources(contractId, tokenIdentifiers);
     }
   }
 
@@ -908,12 +856,9 @@ export class HttpClient {
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
     const path = `/v1/item-tokens/${contractId}/fungibles/thumbnails`;
     const updateList = TokenType.fromMulti(tokenTypes);
-    const request = new MultiFungibleTokenMediaResourcesUpdateRequest(
-      updateList,
-    );
+    const request = new MultiFungibleTokenMediaResourcesUpdateRequest(updateList);
     return this.instance.put(path, request);
   }
-
 
   public updateNonFungibleTokenThumbnailResources(
     contractId: string,
@@ -921,9 +866,7 @@ export class HttpClient {
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/thumbnails`;
     const updateList = TokenTypeAndIndex.fromMulti(tokenIds);
-    const request = new MultiNonFungibleTokenMediaResourcesUpdateRequest(
-      updateList,
-    );
+    const request = new MultiNonFungibleTokenMediaResourcesUpdateRequest(updateList);
     return this.instance.put(path, request);
   }
 
@@ -933,30 +876,22 @@ export class HttpClient {
   ): Promise<GenericResponse<TokenMediaResourceUpdateResponse>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/types/thumbnails`;
     const updateList = TokenType.fromMulti(tokenTypes);
-    const request = new MultiNonFungibleTokenTypeMediaResourcesUpdateRequest(
-      updateList,
-    );
+    const request = new MultiNonFungibleTokenTypeMediaResourcesUpdateRequest(updateList);
     return this.instance.put(path, request);
   }
-
 
   public fungibleTokenMediaResourcesUpdateStatuses(
     contractId: string,
     requestId: string,
-  ): Promise<
-    GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>
-  > {
+  ): Promise<GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>> {
     const path = `/v1/item-tokens/${contractId}/fungibles/media-resources/${requestId}/status`;
     return this.instance.get(path);
   }
 
-
   public fungibleTokenThumbnailResourcesUpdateStatuses(
     contractId: string,
     requestId: string,
-  ): Promise<
-    GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>
-  > {
+  ): Promise<GenericResponse<Array<FungibleTokenMediaResourceUpdateStatusResponse>>> {
     const path = `/v1/item-tokens/${contractId}/fungibles/thumbnails/${requestId}/status`;
     return this.instance.get(path);
   }
@@ -964,9 +899,7 @@ export class HttpClient {
   public nonFungibleTokenMediaResourcesUpdateStatuses(
     contractId: string,
     requestId: string,
-  ): Promise<
-    GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>
-  > {
+  ): Promise<GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/media-resources/${requestId}/status`;
     return this.instance.get(path);
   }
@@ -974,9 +907,7 @@ export class HttpClient {
   public nonFungibleTokenThumbnailResourcesUpdateStatuses(
     contractId: string,
     requestId: string,
-  ): Promise<
-    GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>
-  > {
+  ): Promise<GenericResponse<Array<NonFungibleTokenMediaResourceUpdateStatusResponse>>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/thumbnails/${requestId}/status`;
     return this.instance.get(path);
   }
@@ -1011,10 +942,7 @@ export class HttpClient {
     return this.instance.post(path, request, requestTypeParam);
   }
 
-  public isItemTokenProxyApproved(
-    userId: string,
-    contractId: string,
-  ): Promise<GenericResponse<ProxyApprovedResponse>> {
+  public isItemTokenProxyApproved(userId: string, contractId: string): Promise<GenericResponse<ProxyApprovedResponse>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/proxy`;
     return this.instance.get(path);
   }
@@ -1030,16 +958,12 @@ export class HttpClient {
     return this.instance.post(path, request, requestTypeParam);
   }
 
-  public commitProxyRequest(
-    requestSessionToken: string,
-  ): Promise<GenericResponse<TxHashResponse>> {
+  public commitProxyRequest(requestSessionToken: string): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/user-requests/${requestSessionToken}/commit`;
     return this.instance.post(path);
   }
 
-  public transactionResult(
-    txHash: string,
-  ): Promise<GenericResponse<TxResultResponse>> {
+  public transactionResult(txHash: string): Promise<GenericResponse<TxResultResponse>> {
     const path = `/v1/transactions/${txHash}`;
     return this.instance.get(path);
   }
@@ -1047,9 +971,7 @@ export class HttpClient {
   /**
    * @deprecated This API will be removed soon
    */
-  public createMemo(
-    request: MemoRequest,
-  ): Promise<GenericResponse<TxHashResponse>> {
+  public createMemo(request: MemoRequest): Promise<GenericResponse<TxHashResponse>> {
     const path = `/v1/memos`;
     return this.instance.post(path, request);
   }
@@ -1069,10 +991,7 @@ export class HttpClient {
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
   ): Promise<GenericResponse<Array<TxResult>>> {
     const path = `/v2/users/${userId}/transactions`;
-    const requestConfig = this.pageRequestConfig(
-      pageRequest,
-      optionalTransactionSearchParameters,
-    );
+    const requestConfig = this.pageRequestConfig(pageRequest, optionalTransactionSearchParameters);
     return this.instance.get(path, requestConfig);
   }
 
@@ -1082,31 +1001,24 @@ export class HttpClient {
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
   ): Promise<GenericResponse<Array<TxResult>>> {
     const path = `/v2/wallets/${walletAddress}/transactions`;
-    const requestConfig = this.pageRequestConfig(
-      pageRequest,
-      optionalTransactionSearchParameters,
-    );
+    const requestConfig = this.pageRequestConfig(pageRequest, optionalTransactionSearchParameters);
 
     return this.instance.get(path, requestConfig);
   }
 
-  public transactionResultV2(
-    txHash: string,
-  ): Promise<GenericResponse<TxResult>> {
+  public transactionResultV2(txHash: string): Promise<GenericResponse<TxResult>> {
     const path = `/v2/transactions/${txHash}`;
     return this.instance.get(path);
   }
 
-  public userRequestStatus(
-    requestSessionToken: string,
-  ): Promise<GenericResponse<UserRequestStatus>> {
+  public userRequestStatus(requestSessionToken: string): Promise<GenericResponse<UserRequestStatus>> {
     const path = `/v1/user-requests/${requestSessionToken}`;
     return this.instance.get(path);
   }
 
   public transactionMessages(
     txHash: string,
-    cursorPageRequest: CursorPageRequest
+    cursorPageRequest: CursorPageRequest,
   ): Promise<GenericResponse<TxMessageListResponse>> {
     const path = `/v2/transactions/${txHash}/messages`;
     const requestConfig = this.cursorPageRequestConfig(cursorPageRequest);
@@ -1125,7 +1037,7 @@ export class HttpClient {
     pageRequest: PageRequest,
     optionalTransactionSearchParameters?: OptionalTransactionSearchParameters,
   ): AxiosRequestConfig {
-    const _pageRequest = pageRequest || DEFAULT_PAGE_REQUEST
+    const _pageRequest = pageRequest || DEFAULT_PAGE_REQUEST;
     // paging parameters sorted by its key when generating signature
     var pagingParams = {
       limit: _pageRequest.limit || 10,
@@ -1168,15 +1080,12 @@ export class HttpClient {
     };
   }
 
-  private txHashAndIsOnlyContractIdRequestConfig(
-    txHash?: string,
-    isOnlyContractId?: boolean
-  ): AxiosRequestConfig {
+  private txHashAndIsOnlyContractIdRequestConfig(txHash?: string, isOnlyContractId?: boolean): AxiosRequestConfig {
     if (_.isNil(txHash)) {
       return {
         params: {
-          isOnlyContractId: isOnlyContractId || false
-        }
+          isOnlyContractId: isOnlyContractId || false,
+        },
       };
     } else {
       return {
@@ -1201,9 +1110,7 @@ export class HttpClient {
     };
   }
 
-  private detachRequestConfig(
-    detachRequest: NonFungibleTokenDetachRequest,
-  ): AxiosRequestConfig {
+  private detachRequestConfig(detachRequest: NonFungibleTokenDetachRequest): AxiosRequestConfig {
     const detachNonFungibleParams = _.omitBy(detachRequest, _.isNil);
     return {
       data: Object.keys(detachNonFungibleParams)
@@ -1219,9 +1126,7 @@ export class HttpClient {
     }
   }
 
-  private assertItemTokenBurnTransactionRequest(
-    request: AbstractTokenBurnTransactionRequest,
-  ) {
+  private assertItemTokenBurnTransactionRequest(request: AbstractTokenBurnTransactionRequest) {
     if (!request.fromUserId && !request.fromAddress) {
       this.logger.error("fromAddress or fromUserId, one of them is required");
       throw new Error("fromAddress or fromUserId, one of them is required");

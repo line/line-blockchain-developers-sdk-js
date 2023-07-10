@@ -1,4 +1,4 @@
-import {Logger} from "tslog";
+import { Logger } from "tslog";
 
 export class LoggerWrapper {
   private logger: Logger;

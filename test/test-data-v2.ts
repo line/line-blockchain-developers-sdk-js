@@ -11,8 +11,8 @@ export const transactionResult = {
         signers: ["tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"],
         result: {
           code: 0,
-          codeSpace: "collection"
-        }
+          codeSpace: "collection",
+        },
       },
       txMessages: [
         {
@@ -23,8 +23,8 @@ export const transactionResult = {
             contractId: "61e14383",
             to: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
             tokenIds: ["1000000100000001"],
-          }
-        }
+          },
+        },
       ],
       txEvents: [
         {
@@ -34,13 +34,11 @@ export const transactionResult = {
           tokenIds: [],
           fromAddress: "",
           toAddress: "",
-
-        }
+        },
       ],
-    }
-  ]
+    },
+  ],
 };
-
 
 export const singleTransactionResult = {
   responseTime: 1585467706110,
@@ -54,8 +52,8 @@ export const singleTransactionResult = {
       signers: ["tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq"],
       result: {
         code: 0,
-        codeSpace: "collection"
-      }
+        codeSpace: "collection",
+      },
     },
     txMessages: [
       {
@@ -66,8 +64,8 @@ export const singleTransactionResult = {
           contractId: "61e14383",
           to: "tlink1s658utvasn7f5q92034h6zgv0zh2uxy9tzmtqv",
           tokenIds: ["1000000100000001"],
-        }
-      }
+        },
+      },
     ],
     txEvents: [
       {
@@ -77,8 +75,7 @@ export const singleTransactionResult = {
         tokenIds: [],
         fromAddress: "",
         toAddress: "",
-
-      }
+      },
     ],
-  }
+  },
 };
