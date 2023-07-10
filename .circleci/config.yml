@@ -12,17 +12,24 @@ jobs:
       - run: |
           npm install
           npm build
-  test:
+  lint:
     executor: node14-executor
     steps:
       - checkout
       - run: |
           npm install
           npm run format:check
+  test:
+    executor: node14-executor
+    steps:
+      - checkout
+      - run: |
+          npm install
           npm run test
 
 workflows:
   push-workflow:
     jobs:
       - build
+      - lint
       - test
