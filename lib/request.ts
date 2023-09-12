@@ -396,15 +396,6 @@ export class NonFungibleTokenDetachRequest {
   }
 }
 
-export class UserServiceTokenTransferRequest extends AbstractTransactionRequest {
-  constructor(readonly amount: string, toAddress: string = null, toUserId: string = null, readonly landingUri: string) {
-    super(toAddress, toUserId);
-    if (Number(amount) <= 0) {
-      throw new Error("Invalid amount - $amount is less than zero ");
-    }
-  }
-}
-
 export class IssueTransferSessionTokenRequest extends AbstractTransactionRequest {
   constructor(readonly amount: string, readonly landingUri: string, toAddress?: string, toUserId?: string) {
     super(toAddress, toUserId);
