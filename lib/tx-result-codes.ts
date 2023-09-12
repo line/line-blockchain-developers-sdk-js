@@ -255,10 +255,15 @@ export class TxResultCodeMappingsProvider {
   }
 
   static code(txResultResponse: TxResultResponse): TxResultCode {
+    const isSuccess = txResultResponse.code === 0
+    if (isSuccess) {
+      return new TxResultCode("", txResultResponse.code, "")
+    }
+
     const code = this.mappings
       .filter(it => it.codespace == txResultResponse.codespace)
       .flatMap(it => it.codes)
-      .find(it => (it.code = txResultResponse.code));
+      .find(it => (it.code == txResultResponse.code));
 
     if (code) {
       return new TxResultCode(code.codespace, code.code, code.description);
