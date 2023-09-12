@@ -16,7 +16,7 @@ export class TxMessage {
 }
 
 export class TxStatusResult {
-  constructor(readonly code: number = 0, readonly codeSpace: string = "") {
+  constructor(readonly code: number = 0) {
     if (this.code == 0) {
       this.result = TxSuccessResult.SUCCEEDED;
     } else {
@@ -65,7 +65,7 @@ export class TxResult {
 
 // events
 export class UnknownTransactionEvent implements TransactionEvent {
-  constructor(readonly type: string, readonly attributes: Array<string>, readonly extraMessage: string) {
+  constructor(readonly type: string, readonly attributes: Array<string>, readonly extraMessage?: string) {
     if (!attributes) {
       this.attributes = [];
     }

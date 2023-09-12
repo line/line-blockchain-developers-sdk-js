@@ -164,7 +164,7 @@ export class HttpClient {
         err,
       );
     } else if (err.code) {
-      return new RequestError(err.message, err.code, err.response.data.statusMessage || "", err);
+      return new RequestError(err.message, err.code, "", err);
     } else if (err.config) {
       // unknown, but from axios
       return new ReadError(err);
@@ -177,7 +177,12 @@ export class HttpClient {
   protected addRequestHeaders(config: AxiosRequestConfig) {
     const nonce = cryptoRandomString({ length: 8 });
     const timestamp = Date.now();
-    const method = config.method.toUpperCase();
+    const method = config.method?.toUpperCase();
+
+    if (!method || !config.url) {
+      throw new Error(`AxiosRequestConfig is invalid - method: ${method}, ${config.url}`);
+    }
+
     config.headers[Constant.SERVICE_API_KEY_HEADER] = this.serviceApiKey;
     config.headers[Constant.NONCE_HEADER] = nonce;
     config.headers[Constant.SIGNATURE_HEADER] = SignatureGenerator.signature(
@@ -1039,7 +1044,7 @@ export class HttpClient {
   ): AxiosRequestConfig {
     const _pageRequest = pageRequest || DEFAULT_PAGE_REQUEST;
     // paging parameters sorted by its key when generating signature
-    var pagingParams = {
+    const pagingParams: { [key: string]: any } = {
       limit: _pageRequest.limit || 10,
       page: _pageRequest.page || 0,
       orderBy: _pageRequest.orderBy || OrderBy.DESC,
@@ -1058,9 +1063,12 @@ export class HttpClient {
     }
 
     return {
-      params: Object.keys(pagingParams)
-        .sort()
-        .reduce((r, k) => ((r[k] = pagingParams[k]), r), {}),
+      params: Object.assign(
+        {},
+        ...Object.keys(pagingParams)
+          .sort()
+          .map((k) => ({ [k]: pagingParams[k] }))
+      ),
     };
   }
 
@@ -1098,24 +1106,30 @@ export class HttpClient {
   }
 
   private cursorPageRequestConfig(cursorPageRequest: CursorPageRequest) {
-    const pagingParams = {
+    const pagingParams: { [key: string]: any } = {
       limit: cursorPageRequest.limit,
       pageToken: cursorPageRequest.pageToken,
       orderBy: cursorPageRequest.orderBy,
     };
     return {
-      params: Object.keys(pagingParams)
-        .sort()
-        .reduce((r, k) => ((r[k] = pagingParams[k]), r), {}),
+      data: Object.assign(
+        {},
+        ...Object.keys(pagingParams)
+          .sort()
+          .map((k) => ({ [k]: pagingParams[k] }))
+      ),
     };
   }
 
   private detachRequestConfig(detachRequest: NonFungibleTokenDetachRequest): AxiosRequestConfig {
     const detachNonFungibleParams = _.omitBy(detachRequest, _.isNil);
     return {
-      data: Object.keys(detachNonFungibleParams)
-        .sort()
-        .reduce((r, k) => ((r[k] = detachNonFungibleParams[k]), r), {}),
+      data: Object.assign(
+        {},
+        ...Object.keys(detachNonFungibleParams)
+          .sort()
+          .map((k) => ({ [k]: detachNonFungibleParams[k] }))
+      ),
     };
   }
 

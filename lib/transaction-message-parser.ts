@@ -780,7 +780,7 @@ export class AccountMsgEmptyMessageParser implements TxResultMessageParser<Accou
 
 export class TxResultMessageParserFactory {
   static create(messageType: MessageType): TxResultMessageParser<TxResultMessage> {
-    let txResultMessageParser: TxResultMessageParser<TxResultMessage> = null;
+    let txResultMessageParser: TxResultMessageParser<TxResultMessage> | null = null;
     switch (messageType) {
       case MessageType.SERVICE_TOKEN_ISSUE:
         txResultMessageParser = new ServiceTokenIssueMessageParser();
@@ -873,7 +873,7 @@ export class TxResultMessageParserFactory {
         txResultMessageParser = new AccountMsgEmptyMessageParser();
         break;
       default:
-        return null;
+        throw new Error(`Cannot create TxResultMessageParser from ${messageType}`)
     }
     return txResultMessageParser;
   }

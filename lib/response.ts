@@ -3,7 +3,7 @@ export class GenericResponse<T> {
     readonly responseTime: number,
     readonly statusCode: number,
     readonly statusMessage: string,
-    readonly responseData?: T,
+    readonly responseData: T,
   ) {}
 }
 
@@ -124,7 +124,7 @@ export class EventResponse {
 }
 
 export class KeyValueResponse<T> {
-  constructor(readonly key: string, readonly value?: T) {}
+  constructor(readonly key: string, readonly value: T) {}
 }
 
 export class TypedValueResponse<T> {
@@ -145,7 +145,7 @@ export class FeeResponse {
 }
 
 export class SignatureResponse {
-  constructor(readonly signature: string, readonly pubKey?: TypedValueResponse<string>) {}
+  constructor(readonly signature: string, readonly pubKey: TypedValueResponse<string>) {}
 }
 
 export class BaseCoinBalance {

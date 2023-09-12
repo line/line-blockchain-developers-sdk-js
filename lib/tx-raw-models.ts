@@ -41,11 +41,17 @@ export class RawTransactionLogUtil {
     rawTransactionLog: RawTransactionLog,
     rawMessageEventKeyType: RawMessageEventKeyType,
   ): RawTransactionEvent {
-    return _(rawTransactionLog.events).find(it => {
+    const foundEvent = _(rawTransactionLog.events).find(it => {
       return (
         it.type === rawMessageEventKeyType.eventName || _(rawMessageEventKeyType.candidateEventName).includes(it.type)
       );
     });
+
+    if (!foundEvent) {
+      throw new Error(`Event '${rawMessageEventKeyType.eventName}' not found in transaction log.`);
+    }
+
+    return foundEvent;
   }
 }
 
@@ -626,6 +632,12 @@ export class RawMessageEventKeyTypeUtil {
   private constructor() {}
 
   public static convertToEventType(matchedTypeValue: string): RawMessageEventKeyType {
-    return _.head(_.filter(RawMessageEventKeyTypes.getAllType(), it => it.type == matchedTypeValue));
+    const matchedTypes = _.filter(RawMessageEventKeyTypes.getAllType(), it => it.type === matchedTypeValue);
+
+    if (matchedTypes.length > 0) {
+      return _.head(matchedTypes)!;
+    } else {
+      throw new Error(`No matching event type found for '${matchedTypeValue}'.`);
+    }
   }
 }
