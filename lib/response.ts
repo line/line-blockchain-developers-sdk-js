@@ -192,6 +192,14 @@ export class NonFungibleBalance {
   ) {}
 }
 
+export class NonFungibleTokenOfType {
+  constructor(
+    readonly tokenIndex: string,
+    readonly name: string,
+    readonly meta: string,
+  ) {}
+}
+
 export class CursorPaginatedNonFungibleBalanceWithTypes {
   constructor(
     readonly list: Array<NonFungibleBalanceWithType>,

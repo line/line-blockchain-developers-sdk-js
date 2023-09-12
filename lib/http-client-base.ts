@@ -31,6 +31,7 @@ import {
   Memo,
   TokenMediaResourceUpdateResponse,
   FungibleTokenMediaResourceUpdateStatusResponse,
+  NonFungibleTokenOfType,
   NonFungibleTokenMediaResourceUpdateStatusResponse,
   CursorPaginatedNonFungibleBalanceWithTypes,
   IssuedServiceToken,
@@ -524,7 +525,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     tokenIndex: string,
-  ): Promise<GenericResponse<Array<NonFungibleId>>> {
+  ): Promise<GenericResponse<NonFungibleId>> {
     const path = `/v1/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}/root`;
     return this.instance.get(path);
   }
@@ -618,7 +619,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     pageRequest: PageRequest,
-  ): Promise<GenericResponse<Array<NonFungibleBalance>>> {
+  ): Promise<GenericResponse<Array<NonFungibleTokenOfType>>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/non-fungibles/${tokenType}`;
     const requestConfig = this.pageRequestConfig(pageRequest);
     return this.instance.get(path, requestConfig);
@@ -629,7 +630,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     tokenIndex: string,
-  ): Promise<GenericResponse<NonFungibleBalance>> {
+  ): Promise<GenericResponse<NonFungibleTokenOfType>> {
     const path = `/v1/wallets/${walletAddress}/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}`;
     return this.instance.get(path);
   }
@@ -757,7 +758,7 @@ export class HttpClient {
     contractId: string,
     tokenType: string,
     tokenIndex: string,
-  ): Promise<GenericResponse<NonFungibleBalance>> {
+  ): Promise<GenericResponse<NonFungibleTokenOfType>> {
     const path = `/v1/users/${userId}/item-tokens/${contractId}/non-fungibles/${tokenType}/${tokenIndex}`;
     return this.instance.get(path);
   }
