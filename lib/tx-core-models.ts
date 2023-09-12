@@ -16,7 +16,7 @@ export class TxMessage {
 }
 
 export class TxStatusResult {
-  constructor(readonly code: number = 0) {
+  constructor(readonly code: number = 0, readonly codeSpace: string = "") {
     if (this.code == 0) {
       this.result = TxSuccessResult.SUCCEEDED;
     } else {
