@@ -1068,7 +1068,7 @@ export class HttpClient {
         {},
         ...Object.keys(pagingParams)
           .sort()
-          .map((k) => ({ [k]: pagingParams[k] }))
+          .map(k => ({ [k]: pagingParams[k] })),
       ),
     };
   }
@@ -1117,7 +1117,7 @@ export class HttpClient {
         {},
         ...Object.keys(pagingParams)
           .sort()
-          .map((k) => ({ [k]: pagingParams[k] }))
+          .map(k => ({ [k]: pagingParams[k] })),
       ),
     };
   }
@@ -1129,7 +1129,7 @@ export class HttpClient {
         {},
         ...Object.keys(detachNonFungibleParams)
           .sort()
-          .map((k) => ({ [k]: detachNonFungibleParams[k] }))
+          .map(k => ({ [k]: detachNonFungibleParams[k] })),
       ),
     };
   }

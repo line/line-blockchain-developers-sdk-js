@@ -163,13 +163,7 @@ export class LbdTxSummaryAdapterV1 implements TxResultAdapter<RawTransactionResu
     let signers = _.map(signerAddresses, it => {
       return new TxSigner(it);
     });
-    return new TxResultSummary(
-      input.height,
-      input.index,
-      input.txhash,
-      signers,
-      new TxStatusResult(input.code),
-    );
+    return new TxResultSummary(input.height, input.index, input.txhash, signers, new TxStatusResult(input.code));
   }
 }
 
@@ -240,7 +234,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
       case RawMessageEventKeyTypes.TokenMsgModify: {
         let messageEvent = _.find(log.events, it => it.type == "message");
         if (!messageEvent) {
-          throw new Error("Cannot find message from events.")
+          throw new Error("Cannot find message from events.");
         }
         return [this.txEVentConverter.tokenModified(log.msgIndex, messageEvent, event)];
       }
@@ -261,7 +255,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
       case RawMessageEventKeyTypes.CollectionMsgIssueNFT: {
         let messageEvent = _.find(log.events, it => it.type == "message");
         if (!messageEvent) {
-          throw new Error("Cannot find message from events.")
+          throw new Error("Cannot find message from events.");
         }
         let senderAddress = RawTransactionEventUtil.findAttribute(messageEvent, EventAttributeTypes.Sender);
         return [this.txEVentConverter.collectionNftIssued(log.msgIndex, event, senderAddress)];
@@ -291,7 +285,7 @@ export class LbdTxEventsAdapterV1 implements TxResultAdapter<RawTransactionResul
       case RawMessageEventKeyTypes.CollectionMsgModify: {
         let messageEvent = _.find(log.events, it => it.type == "message");
         if (!messageEvent) {
-          throw new Error("Cannot find message from events.")
+          throw new Error("Cannot find message from events.");
         }
         let senderAddress = RawTransactionEventUtil.findAttribute(messageEvent, EventAttributeTypes.Sender);
         return [this.txEVentConverter.collectionModified(log.msgIndex, event, senderAddress)];
@@ -479,7 +473,9 @@ export class LbdTxEventConverterV1 {
   ): TransactionEvent {
     let contractId = RawTransactionEventUtil.findAttribute(eventCollectionCreated, EventAttributeTypes.ContractId);
     let name = RawTransactionEventUtil.findAttribute(eventCollectionCreated, EventAttributeTypes.Name);
-    let creatorAddress = eventGrantPerm ? RawTransactionEventUtil.findAttributeOrNull(eventGrantPerm, EventAttributeTypes.To) : null;
+    let creatorAddress = eventGrantPerm
+      ? RawTransactionEventUtil.findAttributeOrNull(eventGrantPerm, EventAttributeTypes.To)
+      : null;
     if (!creatorAddress || creatorAddress === "") {
       creatorAddress = RawTransactionEventUtil.findAttribute(eventCollectionCreated, EventAttributeTypes.Owner);
     }

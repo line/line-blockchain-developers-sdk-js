@@ -99,7 +99,8 @@ describe("lbd-tx-event-adapter test", () => {
 
     let event = actual.values().next().value;
     expect(EventEmptyMsgCreated.name).to.equal(event.constructor.name);
-    let eventEmptyMsgCreated: EventEmptyMsgCreated = event;    expect(0).to.equal(eventEmptyMsgCreated.msgIndex);
+    let eventEmptyMsgCreated: EventEmptyMsgCreated = event;
+    expect(0).to.equal(eventEmptyMsgCreated.msgIndex);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equals(eventEmptyMsgCreated.senderAddress);
     expect("EventEmptyMsgCreated").to.equals(eventEmptyMsgCreated.eventName);
   });

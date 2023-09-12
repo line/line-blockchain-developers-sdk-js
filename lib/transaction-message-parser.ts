@@ -873,7 +873,7 @@ export class TxResultMessageParserFactory {
         txResultMessageParser = new AccountMsgEmptyMessageParser();
         break;
       default:
-        throw new Error(`Cannot create TxResultMessageParser from ${messageType}`)
+        throw new Error(`Cannot create TxResultMessageParser from ${messageType}`);
     }
     return txResultMessageParser;
   }

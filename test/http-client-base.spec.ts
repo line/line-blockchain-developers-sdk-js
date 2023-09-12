@@ -1462,7 +1462,7 @@ describe("http-client-base test", () => {
     });
 
     const response = await httpClient.nonFungibleTokenBalancesOfWallet(testAddress, testContractId, pageRequest);
-    const responseData: NonFungibleBalance[] = response["responseData"]
+    const responseData: NonFungibleBalance[] = response["responseData"];
     expect(response["statusCode"]).to.equal(1000);
     expect(responseData[0]["tokenType"]).to.equal(testTokenType);
     expect(responseData[0]["numberOfIndex"]).to.equal(testNumberOfIndex);
@@ -1536,7 +1536,7 @@ describe("http-client-base test", () => {
       testTokenType,
       testTokenIndex,
     );
-    const responseData: NonFungibleTokenOfType = response["responseData"]
+    const responseData: NonFungibleTokenOfType = response["responseData"];
     expect(response["statusCode"]).to.equal(1000);
     expect(responseData["tokenIndex"]).to.equal(testTokenIndex);
   });
@@ -1836,7 +1836,7 @@ describe("http-client-base test", () => {
           tokenType: testTokenType,
           name: "as",
           meta: "test",
-          numberOfIndex: testNumberOfIndex
+          numberOfIndex: testNumberOfIndex,
         },
       ],
     };
@@ -1850,7 +1850,7 @@ describe("http-client-base test", () => {
     });
 
     const response = await httpClient.nonFungibleTokenBalancesOfUser(testUserId, testContractId, pageRequest);
-    const responseData: NonFungibleBalance[] = response["responseData"]
+    const responseData: NonFungibleBalance[] = response["responseData"];
     expect(response["statusCode"]).to.equal(1000);
     expect(responseData[0]["tokenType"]).to.equal(testTokenType);
     expect(responseData[0]["numberOfIndex"]).to.equal(testNumberOfIndex);
