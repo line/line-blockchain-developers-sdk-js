@@ -107,11 +107,11 @@ export class TxResultResponse {
     readonly gasUsed: number,
     readonly tx: TypedValueResponse<StdTxResponse>,
     readonly timestamp: number,
-    readonly codespace?: string,
-    readonly data?: string,
-    readonly logs?: Array<LogResponse>,
-    readonly info?: string,
-    readonly gasWanted?: number,
+    readonly codespace?: string | null,
+    readonly data?: string | null,
+    readonly logs?: Array<LogResponse> | null,
+    readonly info?: string | null,
+    readonly gasWanted?: number | null,
   ) {}
 }
 
