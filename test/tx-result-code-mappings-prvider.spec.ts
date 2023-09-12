@@ -5,25 +5,25 @@ import { transferFromNonFungibleTxResult, failedTransferFromNonFungibleTxResult 
 
 describe("txResultMessageParserFactory-test", () => {
   it("test get tx-result-codes", () => {
-    expect(false, TxResultCodeMappingsProvider.codes("bank")[0].isSuccess());
-    expect(TxResultType.FAIL, TxResultCodeMappingsProvider.codes("bank")[0].txResultType());
-    expect(1, TxResultCodeMappingsProvider.codes("bank")[0].code);
-    expect('No "inputs" for "send" type transaction', TxResultCodeMappingsProvider.codes("bank")[0].description);
+    expect(TxResultCodeMappingsProvider.codes("bank")[1].isSuccess()).to.false;
+    expect(TxResultType.FAIL).to.equal(TxResultCodeMappingsProvider.codes("bank")[1].txResultType());
+    expect(1).to.equal(TxResultCodeMappingsProvider.codes("bank")[1].code);
+    expect('No "inputs" for "send" type transaction', TxResultCodeMappingsProvider.codes("bank")[1].description);
   });
 
   it("test get tx-result-code from successful txResult", () => {
     const txResultCode = TxResultCodeMappingsProvider.code(transferFromNonFungibleTxResult);
-    expect(true, txResultCode.isSuccess);
-    expect(TxResultType.SUCCESS, txResultCode.txResultType);
-    expect(0, txResultCode.code);
-    expect("", txResultCode.description);
+    expect(txResultCode.isSuccess()).to.true;
+    expect(TxResultType.SUCCESS).to.equal(txResultCode.txResultType());
+    expect(0).to.equal(txResultCode.code);
+    expect("").to.equal(txResultCode.description);
   });
 
   it("test get tx-result-code from failed txResult", () => {
     const txResultCode = TxResultCodeMappingsProvider.code(failedTransferFromNonFungibleTxResult);
-    expect(false, txResultCode.isSuccess);
-    expect(TxResultType.FAIL, txResultCode.txResultType);
-    expect(23, txResultCode.code);
-    expect("Token is being not owned.", txResultCode.description);
+    expect(txResultCode.isSuccess()).to.false;
+    expect(TxResultType.FAIL).to.equal(txResultCode.txResultType());
+    expect(23).to.equal(txResultCode.code);
+    expect("Token is being not owned.").to.equal(txResultCode.description);
   });
 });
