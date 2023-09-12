@@ -475,15 +475,14 @@ export class LbdTxEventConverterV1 {
   public collectionCreated(
     msgIndex: number,
     eventCollectionCreated: RawTransactionEvent,
-    eventGrantPerm: RawTransactionEvent,
+    eventGrantPerm?: RawTransactionEvent,
   ): TransactionEvent {
     let contractId = RawTransactionEventUtil.findAttribute(eventCollectionCreated, EventAttributeTypes.ContractId);
     let name = RawTransactionEventUtil.findAttribute(eventCollectionCreated, EventAttributeTypes.Name);
-    let creatorAddress = RawTransactionEventUtil.findAttributeOrNull(eventGrantPerm, EventAttributeTypes.To);
+    let creatorAddress = eventGrantPerm ? RawTransactionEventUtil.findAttributeOrNull(eventGrantPerm, EventAttributeTypes.To) : null;
     if (!creatorAddress || creatorAddress === "") {
       creatorAddress = RawTransactionEventUtil.findAttribute(eventCollectionCreated, EventAttributeTypes.Owner);
     }
-
     return new EventCollectionCreated(msgIndex, contractId, name, creatorAddress);
   }
 
