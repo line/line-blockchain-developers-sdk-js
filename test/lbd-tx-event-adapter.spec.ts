@@ -82,7 +82,7 @@ describe("lbd-tx-event-adapter test", () => {
     let event = actual.values().next().value;
     expect(EventAccountCreated.name).to.equal(event.constructor.name);
     let eventAccountCreated: EventAccountCreated = event;
-    expect(0, eventAccountCreated.msgIndex);
+    expect(0).to.equal(eventAccountCreated.msgIndex);
     expect("link16p22ehyh478fjjwc49pcm5srn2fxaezfsf25gd").to.equals(eventAccountCreated.createdAddress);
     expect(0).to.equals(eventAccountCreated.msgIndex);
     expect("EventAccountCreated").to.equals(eventAccountCreated.eventName);
@@ -115,9 +115,7 @@ describe("lbd-tx-event-adapter test", () => {
 
     expect(1).to.equal(actual.length);
 
-    let event = actual.values().next().value;
-    expect(EventCoinTransferred.name).to.equal(event.constructor.name);
-    let eventCoinTransferred: EventCoinTransferred = event;
+    let eventCoinTransferred: EventCoinTransferred = actual.values().next().value;
     expect(0).to.equal(eventCoinTransferred.msgIndex);
     expect("tcony").to.equals(eventCoinTransferred.denomination);
     expect("1").to.equals(eventCoinTransferred.amount);
@@ -356,7 +354,7 @@ describe("lbd-tx-event-adapter test", () => {
     let event = actual.values().next().value;
     expect(EventCollectionNftIssued.name).to.equal(event.constructor.name);
     let eventCollectionNftIssued: EventCollectionNftIssued = event;
-    expect(0, eventCollectionNftIssued.msgIndex);
+    expect(0).to.equal(eventCollectionNftIssued.msgIndex);
     expect("61e14383").to.equal(eventCollectionNftIssued.contractId);
     expect("1000000c").to.equal(eventCollectionNftIssued.tokenType);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftIssued.issuerAddress);
@@ -656,7 +654,7 @@ describe("lbd-tx-event-adapter test", () => {
     expect("100000080000000e", eventCollectionNftAttached.parentTokenId);
     expect("100000080000000f", eventCollectionNftAttached.childTokenId);
     expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", eventCollectionNftAttached.holderAddress);
-    expect(0, eventCollectionNftAttached.msgIndex);
+    expect(0).to.equal(eventCollectionNftAttached.msgIndex);
     expect("EventCollectionNftAttached", eventCollectionNftAttached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
@@ -664,12 +662,12 @@ describe("lbd-tx-event-adapter test", () => {
     }) as EventCollectionNftRootChanged;
 
     expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.length);
-    expect(new Array(["100000080000000e"]), eventCollectionNftRootChanged.tokenIds);
-    expect("100000080000000e", eventCollectionNftRootChanged.oldRootTokenId);
-    expect("100000080000000f", eventCollectionNftRootChanged.newRootTokenId);
-    expect(0, eventCollectionNftRootChanged.msgIndex);
-    expect("EventCollectionNftRootChanged", eventCollectionNftRootChanged.eventName);
+    expect(1).to.equal(eventCollectionNftRootChanged.tokenIds.length);
+    expect(["100000080000000e"]).to.deep.equal(eventCollectionNftRootChanged.tokenIds);
+    expect("100000080000000e").to.equal(eventCollectionNftRootChanged.oldRootTokenId);
+    expect("100000080000000f").to.equal(eventCollectionNftRootChanged.newRootTokenId);
+    expect(0).to.equal(eventCollectionNftRootChanged.msgIndex);
+    expect("EventCollectionNftRootChanged").to.equal(eventCollectionNftRootChanged.eventName);
   });
 
   it("with attachFromNFTTxResult", () => {
@@ -685,25 +683,25 @@ describe("lbd-tx-event-adapter test", () => {
       return it.eventName === "EventCollectionNftAttached";
     }) as EventCollectionNftAttached;
 
-    expect(0, eventCollectionNftAttached.msgIndex);
-    expect("61e14383", eventCollectionNftAttached.contractId);
-    expect("100000010000000b", eventCollectionNftAttached.parentTokenId);
-    expect("100000010000000c", eventCollectionNftAttached.childTokenId);
-    expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", eventCollectionNftAttached.holderAddress);
-    expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", eventCollectionNftAttached.proxyAddress);
-    expect("EventCollectionNftAttached", eventCollectionNftAttached.eventName);
+    expect(0).to.equal(eventCollectionNftAttached.msgIndex);
+    expect("61e14383").to.equal(eventCollectionNftAttached.contractId);
+    expect("100000010000000c").to.equal(eventCollectionNftAttached.parentTokenId);
+    expect("100000010000000b").to.equal(eventCollectionNftAttached.childTokenId);
+    expect("tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph").to.equal(eventCollectionNftAttached.holderAddress);
+    expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftAttached.proxyAddress);
+    expect("EventCollectionNftAttached").to.equal(eventCollectionNftAttached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
       return it.eventName === "EventCollectionNftRootChanged";
     }) as EventCollectionNftRootChanged;
 
-    expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.length);
-    expect(new Array(["100000010000000b"]), eventCollectionNftRootChanged.tokenIds);
-    expect("100000010000000b", eventCollectionNftRootChanged.oldRootTokenId);
-    expect("100000010000000c", eventCollectionNftRootChanged.newRootTokenId);
-    expect(0, eventCollectionNftRootChanged.msgIndex);
-    expect("EventCollectionNftRootChanged", eventCollectionNftRootChanged.eventName);
+    expect("61e14383").to.equal(eventCollectionNftRootChanged.contractId);
+    expect(1).to.equal(eventCollectionNftRootChanged.tokenIds.length);
+    expect(["100000010000000b"]).to.deep.equal(eventCollectionNftRootChanged.tokenIds);
+    expect("100000010000000b").to.equal(eventCollectionNftRootChanged.oldRootTokenId);
+    expect("100000010000000c").to.equal(eventCollectionNftRootChanged.newRootTokenId);
+    expect(0).to.equal(eventCollectionNftRootChanged.msgIndex);
+    expect("EventCollectionNftRootChanged").to.equal(eventCollectionNftRootChanged.eventName);
   });
 
   it("with detachNFTTxResult", () => {
@@ -719,24 +717,24 @@ describe("lbd-tx-event-adapter test", () => {
       return it.eventName === "EventCollectionNftDetached";
     }) as EventCollectionNftDetached;
 
-    expect(0, eventCollectionNftDetached.msgIndex);
-    expect("61e14383", eventCollectionNftDetached.contractId);
-    expect("100000080000000f", eventCollectionNftDetached.exParentTokenId);
-    expect("100000080000000e", eventCollectionNftDetached.exChildTokenId);
-    expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", eventCollectionNftDetached.holderAddress);
-    expect("EventCollectionNftDetached", eventCollectionNftDetached.eventName);
+    expect(0).to.equal(eventCollectionNftDetached.msgIndex);
+    expect("61e14383").to.equal(eventCollectionNftDetached.contractId);
+    expect("100000080000000f").to.equal(eventCollectionNftDetached.exParentTokenId);
+    expect("100000080000000e").to.equal(eventCollectionNftDetached.exChildTokenId);
+    expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftDetached.holderAddress);
+    expect("EventCollectionNftDetached").to.equal(eventCollectionNftDetached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
       return it.eventName === "EventCollectionNftRootChanged";
     }) as EventCollectionNftRootChanged;
 
-    expect(0, eventCollectionNftRootChanged.msgIndex);
-    expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.length);
-    expect(new Array(["100000080000000e"]), eventCollectionNftRootChanged.tokenIds);
-    expect("100000080000000f", eventCollectionNftRootChanged.oldRootTokenId);
-    expect("100000080000000e", eventCollectionNftRootChanged.newRootTokenId);
-    expect("EventCollectionNftRootChanged", eventCollectionNftRootChanged.eventName);
+    expect(0).to.equal(eventCollectionNftRootChanged.msgIndex);
+    expect("61e14383").to.equal(eventCollectionNftRootChanged.contractId);
+    expect(1).to.equal(eventCollectionNftRootChanged.tokenIds.length);
+    expect(["100000080000000e"]).to.deep.equal(eventCollectionNftRootChanged.tokenIds);
+    expect("100000080000000f").to.equal(eventCollectionNftRootChanged.oldRootTokenId);
+    expect("100000080000000e").to.equal(eventCollectionNftRootChanged.newRootTokenId);
+    expect("EventCollectionNftRootChanged").to.equal(eventCollectionNftRootChanged.eventName);
   });
 
   it("with detachNFTFromTxResult", () => {
@@ -752,25 +750,25 @@ describe("lbd-tx-event-adapter test", () => {
       return it.eventName === "EventCollectionNftDetached";
     }) as EventCollectionNftDetached;
 
-    expect(0, eventCollectionNftDetached.msgIndex);
-    expect("61e14383", eventCollectionNftDetached.contractId);
-    expect("100000080000000c", eventCollectionNftDetached.exParentTokenId);
-    expect("100000080000000b", eventCollectionNftDetached.exChildTokenId);
-    expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", eventCollectionNftDetached.holderAddress);
-    expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq", eventCollectionNftDetached.proxyAddress);
-    expect("EventCollectionNftDetached", eventCollectionNftDetached.eventName);
+    expect(0).to.equal(eventCollectionNftDetached.msgIndex);
+    expect("61e14383").to.equal(eventCollectionNftDetached.contractId);
+    expect("100000010000000c").to.equal(eventCollectionNftDetached.exParentTokenId);
+    expect("100000010000000b").to.equal(eventCollectionNftDetached.exChildTokenId);
+    expect("tlink17dz3hqn6nd5j6euymaw3ft9phgspmuhfjqazph").to.equal(eventCollectionNftDetached.holderAddress);
+    expect("tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq").to.equal(eventCollectionNftDetached.proxyAddress);
+    expect("EventCollectionNftDetached").to.equal(eventCollectionNftDetached.eventName);
 
     let eventCollectionNftRootChanged = _.find(Array.from(actual), it => {
       return it.eventName === "EventCollectionNftRootChanged";
     }) as EventCollectionNftRootChanged;
 
-    expect(0, eventCollectionNftRootChanged.msgIndex);
-    expect("61e14383", eventCollectionNftRootChanged.contractId);
-    expect(1, eventCollectionNftRootChanged.tokenIds.length);
-    expect(new Array(["100000010000000b"]), eventCollectionNftRootChanged.tokenIds);
-    expect("100000080000000c", eventCollectionNftRootChanged.oldRootTokenId);
-    expect("100000080000000b", eventCollectionNftRootChanged.newRootTokenId);
-    expect("EventCollectionNftRootChanged", eventCollectionNftRootChanged.eventName);
+    expect(0).to.equal(eventCollectionNftRootChanged.msgIndex);
+    expect("61e14383").to.equal(eventCollectionNftRootChanged.contractId);
+    expect(1).to.equal(eventCollectionNftRootChanged.tokenIds.length);
+    expect(["100000010000000b"]).to.deep.equals(eventCollectionNftRootChanged.tokenIds);
+    expect("100000010000000c").to.equal(eventCollectionNftRootChanged.oldRootTokenId);
+    expect("100000010000000b").to.equal(eventCollectionNftRootChanged.newRootTokenId);
+    expect("EventCollectionNftRootChanged").to.equal(eventCollectionNftRootChanged.eventName);
   });
 
   it("with itemTokenApproveTxResult", () => {

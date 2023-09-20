@@ -3,7 +3,7 @@ export class GenericResponse<T> {
     readonly responseTime: number,
     readonly statusCode: number,
     readonly statusMessage: string,
-    readonly responseData?: T,
+    readonly responseData: T,
   ) {}
 }
 
@@ -107,11 +107,11 @@ export class TxResultResponse {
     readonly gasUsed: number,
     readonly tx: TypedValueResponse<StdTxResponse>,
     readonly timestamp: number,
-    readonly codespace?: string,
-    readonly data?: string,
-    readonly logs?: Array<LogResponse>,
-    readonly info?: string,
-    readonly gasWanted?: number,
+    readonly codespace?: string | null,
+    readonly data?: string | null,
+    readonly logs?: Array<LogResponse> | null,
+    readonly info?: string | null,
+    readonly gasWanted?: number | null,
   ) {}
 }
 
@@ -124,7 +124,7 @@ export class EventResponse {
 }
 
 export class KeyValueResponse<T> {
-  constructor(readonly key: string, readonly value?: T) {}
+  constructor(readonly key: string, readonly value: T) {}
 }
 
 export class TypedValueResponse<T> {
@@ -145,7 +145,7 @@ export class FeeResponse {
 }
 
 export class SignatureResponse {
-  constructor(readonly signature: string, readonly pubKey?: TypedValueResponse<string>) {}
+  constructor(readonly signature: string, readonly pubKey: TypedValueResponse<string>) {}
 }
 
 export class BaseCoinBalance {
@@ -190,6 +190,10 @@ export class NonFungibleBalance {
     readonly meta: string,
     readonly numberOfIndex: string,
   ) {}
+}
+
+export class NonFungibleTokenOfType {
+  constructor(readonly tokenIndex: string, readonly name: string, readonly meta: string) {}
 }
 
 export class CursorPaginatedNonFungibleBalanceWithTypes {

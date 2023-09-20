@@ -22,19 +22,18 @@ export class TokenUtil {
   }
 
   static isFungible(tokenType: string): boolean {
-    return tokenType && tokenType.startsWith("0");
+    return tokenType.startsWith("0");
   }
 
   static tokenTypes(tokenIds: Array<string>): Array<string> {
-    return _.map(tokenIds.values(), it => {
+    return _.map(tokenIds, it => {
       return TokenUtil.tokenTypeFrom(it.toString());
     });
   }
 
   static tokenIndices(tokenIds: Array<string>): Array<string> {
-    let indices = _.map(tokenIds.values(), it => {
+    return _.map(tokenIds, it => {
       return TokenUtil.tokenIndexFrom(it.toString());
     });
-    return indices;
   }
 }

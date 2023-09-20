@@ -17,6 +17,8 @@ import {
   TokenId,
   RequestType,
   CursorPageRequest,
+  NonFungibleBalance,
+  NonFungibleTokenOfType,
 } from "../lib";
 // @ts-ignore
 import { transactionResult, singleTransactionResult } from "./test-data";
@@ -1435,16 +1437,18 @@ describe("http-client-base test", () => {
     const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
     const pageRequest = new PageRequest(0, 10, OrderBy.DESC);
     const testContractId = "9636a07e";
-    const testTokenIndex = "00000006";
+    const testTokenType = "10000001";
+    const testNumberOfIndex = "10";
     const receivedData = {
       responseTime: 1585467701633,
       statusCode: 1000,
       statusMessage: "Success",
       responseData: [
         {
-          tokenIndex: testTokenIndex,
+          tokenType: testTokenType,
           name: "as",
           meta: "test",
+          numberOfIndex: testNumberOfIndex,
         },
       ],
     };
@@ -1458,8 +1462,10 @@ describe("http-client-base test", () => {
     });
 
     const response = await httpClient.nonFungibleTokenBalancesOfWallet(testAddress, testContractId, pageRequest);
+    const responseData: NonFungibleBalance[] = response["responseData"];
     expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"][0]["tokenIndex"]).to.equal(testTokenIndex);
+    expect(responseData[0]["tokenType"]).to.equal(testTokenType);
+    expect(responseData[0]["numberOfIndex"]).to.equal(testNumberOfIndex);
   });
 
   it("non-fungible-token balances by type of wallet api test", async () => {
@@ -1530,8 +1536,9 @@ describe("http-client-base test", () => {
       testTokenType,
       testTokenIndex,
     );
+    const responseData: NonFungibleTokenOfType = response["responseData"];
     expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"]["tokenIndex"]).to.equal(testTokenIndex);
+    expect(responseData["tokenIndex"]).to.equal(testTokenIndex);
   });
 
   it("tranfer service-token of wallet api test", async () => {
@@ -1818,16 +1825,18 @@ describe("http-client-base test", () => {
     const testUserId = "U556719f559479aab8b8f74c488bf6317";
     const pageRequest = new PageRequest(0, 10, OrderBy.DESC);
     const testContractId = "9636a07e";
-    const testTokenIndex = "00000006";
+    const testTokenType = "10000001";
+    const testNumberOfIndex = "10";
     const receivedData = {
       responseTime: 1585467701633,
       statusCode: 1000,
       statusMessage: "Success",
       responseData: [
         {
-          tokenIndex: testTokenIndex,
+          tokenType: testTokenType,
           name: "as",
           meta: "test",
+          numberOfIndex: testNumberOfIndex,
         },
       ],
     };
@@ -1841,8 +1850,10 @@ describe("http-client-base test", () => {
     });
 
     const response = await httpClient.nonFungibleTokenBalancesOfUser(testUserId, testContractId, pageRequest);
+    const responseData: NonFungibleBalance[] = response["responseData"];
     expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"][0]["tokenIndex"]).to.equal(testTokenIndex);
+    expect(responseData[0]["tokenType"]).to.equal(testTokenType);
+    expect(responseData[0]["numberOfIndex"]).to.equal(testNumberOfIndex);
   });
 
   it("non-fungible-token balances with type of user api test", async () => {
@@ -2710,7 +2721,7 @@ describe("http-client-base test", () => {
 
   it("test default-paging-request when not page-request-is given", async () => {
     const testContractId = "9636a07e";
-    const pageRequest = { page: null, limit: null, orderBy: null };
+    const pageRequest = new PageRequest();
     const testAddress = "tlink1nf5uhdmtsshmkqvlmq45kn4q9atnkx4l3u4rww";
     const receivedData = {
       responseTime: 1585467715916,
@@ -2783,7 +2794,7 @@ describe("http-client-base test", () => {
     try {
       await httpClient.createItemTokenContract(request);
     } catch (error) {
-      expect(error.message).to.equal("Invalid token name - empty token name");
+      expect((error as Error).message).to.equal("Invalid token name - empty token name");
     }
   });
 
@@ -2799,7 +2810,7 @@ describe("http-client-base test", () => {
     try {
       await httpClient.createItemTokenContract(request);
     } catch (error) {
-      expect(error.message).to.contains("Invalid token name - valid pattern");
+      expect((error as Error).message).to.contains("Invalid token name - valid pattern");
     }
   });
 
@@ -2815,7 +2826,7 @@ describe("http-client-base test", () => {
     try {
       await httpClient.createItemTokenContract(request);
     } catch (error) {
-      expect(error.message).to.contains("Invalid serviceWalletAddress");
+      expect((error as Error).message).to.contains("Invalid serviceWalletAddress");
     }
   });
 
@@ -2831,7 +2842,7 @@ describe("http-client-base test", () => {
     try {
       await httpClient.createItemTokenContract(request);
     } catch (error) {
-      expect(error.message).to.contains("Empty serviceWalletSecret is not allowed");
+      expect((error as Error).message).to.contains("Empty serviceWalletSecret is not allowed");
     }
   });
 
@@ -2847,7 +2858,7 @@ describe("http-client-base test", () => {
     try {
       await httpClient.createItemTokenContract(request);
     } catch (error) {
-      expect(error.message).to.contains("Invalid baseImgUri of item token");
+      expect((error as Error).message).to.contains("Invalid baseImgUri of item token");
     }
   });
 
@@ -2893,19 +2904,17 @@ describe("http-client-base test", () => {
       responseTime: 1585467715136,
       statusCode: 1000,
       statusMessage: "Success",
-      responseData: [
-        {
-          contractId: "9636a07e",
-          ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-          name: "skt1",
-          symbol: "SYNPH",
-          imgUri: "https://sample.image",
-          meta: "",
-          decimals: 6,
-          createdAt: 1584070098000,
-          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
-        },
-      ],
+      responseData: {
+        contractId: "9636a07e",
+        ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        name: "skt1",
+        symbol: "SYNPH",
+        imgUri: "https://sample.image",
+        meta: "",
+        decimals: 6,
+        createdAt: 1584070098000,
+        serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2917,7 +2926,7 @@ describe("http-client-base test", () => {
 
     const response = await httpClient.issuedServiceTokenByTxHash(testTxHash, false);
     expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+    expect(response["responseData"]["contractId"]).to.equal("9636a07e");
   });
 
   it("issued-service-tokens-by-txHash api test with isOnlyContractId true", async () => {
@@ -2926,19 +2935,17 @@ describe("http-client-base test", () => {
       responseTime: 1585467715136,
       statusCode: 1000,
       statusMessage: "Success",
-      responseData: [
-        {
-          contractId: "9636a07e",
-          ownerAddress: null,
-          name: null,
-          symbol: null,
-          imgUri: null,
-          meta: null,
-          decimals: null,
-          createdAt: null,
-          serviceId: null,
-        },
-      ],
+      responseData: {
+        contractId: "9636a07e",
+        ownerAddress: null,
+        name: null,
+        symbol: null,
+        imgUri: null,
+        meta: null,
+        decimals: null,
+        createdAt: null,
+        serviceId: null,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2950,8 +2957,8 @@ describe("http-client-base test", () => {
 
     const response = await httpClient.issuedServiceTokenByTxHash(testTxHash, false);
     expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
-    expect(response["responseData"][0]["imgUri"]).to.equal(null);
+    expect(response["responseData"]["contractId"]).to.equal("9636a07e");
+    expect(response["responseData"]["imgUri"]).to.equal(null);
   });
 
   it("created-item-token api test", async () => {
@@ -2960,15 +2967,13 @@ describe("http-client-base test", () => {
       responseTime: 1585467715136,
       statusCode: 1000,
       statusMessage: "Success",
-      responseData: [
-        {
-          contractId: "9636a07e",
-          ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
-          baseImgUri: "https://sample.image",
-          createdAt: 1584070098000,
-          serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
-        },
-      ],
+      responseData: {
+        contractId: "9636a07e",
+        ownerAddress: "tlink1fr9mpexk5yq3hu6jc0npajfsa0x7tl427fuveq",
+        baseImgUri: "https://sample.image",
+        createdAt: 1584070098000,
+        serviceId: "cad3f2d5-fb4d-4ab9-9355-56e862f92ff6",
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -2980,7 +2985,7 @@ describe("http-client-base test", () => {
 
     const response = await httpClient.createdItemTokenContract(testTxHash, true);
     expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
+    expect(response["responseData"]["contractId"]).to.equal("9636a07e");
   });
 
   it("created-item-token api test with isOnlyContractId true", async () => {
@@ -2989,15 +2994,13 @@ describe("http-client-base test", () => {
       responseTime: 1585467715136,
       statusCode: 1000,
       statusMessage: "Success",
-      responseData: [
-        {
-          contractId: "9636a07e",
-          ownerAddress: null,
-          baseImgUri: null,
-          createdAt: null,
-          serviceId: null,
-        },
-      ],
+      responseData: {
+        contractId: "9636a07e",
+        ownerAddress: null,
+        baseImgUri: null,
+        createdAt: null,
+        serviceId: null,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3009,25 +3012,23 @@ describe("http-client-base test", () => {
 
     const response = await httpClient.createdItemTokenContract(testTxHash, true);
     expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
-    expect(response["responseData"][0]["baseImgUri"]).to.equal(null);
+    expect(response["responseData"]["contractId"]).to.equal("9636a07e");
+    expect(response["responseData"]["baseImgUri"]).to.equal(null);
   });
 
   it("created-item-token api test with isOnlyContractId true, without tx-hash", async () => {
-    const testTxHash = null;
+    const testTxHash = undefined;
     const receivedData = {
       responseTime: 1585467715136,
       statusCode: 1000,
       statusMessage: "Success",
-      responseData: [
-        {
-          contractId: "9636a07e",
-          ownerAddress: null,
-          baseImgUri: null,
-          createdAt: null,
-          serviceId: null,
-        },
-      ],
+      responseData: {
+        contractId: "9636a07e",
+        ownerAddress: null,
+        baseImgUri: null,
+        createdAt: null,
+        serviceId: null,
+      },
     };
 
     stub = new MockAdapter(httpClient.getAxiosInstance());
@@ -3039,8 +3040,8 @@ describe("http-client-base test", () => {
 
     const response = await httpClient.createdItemTokenContract(testTxHash, true);
     expect(response["statusCode"]).to.equal(1000);
-    expect(response["responseData"][0]["contractId"]).to.equal("9636a07e");
-    expect(response["responseData"][0]["baseImgUri"]).to.equal(null);
+    expect(response["responseData"]["contractId"]).to.equal("9636a07e");
+    expect(response["responseData"]["baseImgUri"]).to.equal(null);
   });
 
   it("created-item-token api test with isOnlyContractId true, with empty tx-hash", async () => {
@@ -3048,7 +3049,7 @@ describe("http-client-base test", () => {
     try {
       await httpClient.createdItemTokenContract(testTxHash, true);
     } catch (error) {
-      expect(error.message).to.equal("Invalid txHash - empty not allowed");
+      expect((error as Error).message).to.equal("Invalid txHash - empty not allowed");
     }
   });
 

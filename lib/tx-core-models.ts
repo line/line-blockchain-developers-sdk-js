@@ -65,7 +65,7 @@ export class TxResult {
 
 // events
 export class UnknownTransactionEvent implements TransactionEvent {
-  constructor(readonly type: string, readonly attributes: Array<string>, readonly extraMessage: string) {
+  constructor(readonly type: string, readonly attributes: Array<string>, readonly extraMessage?: string) {
     if (!attributes) {
       this.attributes = [];
     }

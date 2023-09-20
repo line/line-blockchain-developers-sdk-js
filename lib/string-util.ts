@@ -7,19 +7,29 @@ export class StringUtil {
   public static parseAmount(amountWithDenom: string): DenomAmount {
     const regex = /(\d+):?(\w+)/;
     const match = amountWithDenom.match(regex);
-    return DenomAmount.create({
-      amount: match[1],
-      denom: match[2],
-    });
+
+    if (match) {
+      return DenomAmount.create({
+        amount: match[1],
+        denom: match[2],
+      });
+    } else {
+      throw new Error(`Invalid amountWithDenom - ${amountWithDenom}`);
+    }
   }
 
   public static parseTokenIdAmount(amountWithTokenId: string): TokenIdAmount {
     const regex = /(\d+):?(\d+)/;
     const match = amountWithTokenId.match(regex);
-    return TokenIdAmount.create({
-      amount: match[1],
-      tokenId: match[2],
-    });
+
+    if (match) {
+      return TokenIdAmount.create({
+        amount: match[1],
+        tokenId: match[2],
+      });
+    } else {
+      throw new Error(`Invalid amountWithTokenId - ${amountWithTokenId}`);
+    }
   }
 
   public static isBlank(value: string): boolean {
