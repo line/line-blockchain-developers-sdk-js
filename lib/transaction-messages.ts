@@ -1,3 +1,5 @@
+import { TxResultCode } from "./tx-result-codes";
+
 export enum MessageType {
   // SERVICE TOKEN MESSAGE TYPES
   SERVICE_TOKEN_ISSUE = "token/MsgIssue",
@@ -35,12 +37,16 @@ export enum MessageType {
 
   //BASE COIN - CASHEW ONLY
   COIN_SEND = "coin/MsgSend",
+
+  // Account
+  ACCOUNT_MSG_EMPTY = "account/MsgEmpty",
 }
 
 // data classes(value objects) from tx-results
 
 export abstract class TxResultMessage {
   constructor(
+    readonly txResultCode: TxResultCode,
     readonly height: number,
     readonly txHash: string,
     readonly from: string,
@@ -52,7 +58,7 @@ export abstract class TxResultMessage {
   }
 }
 
-export class IssuedServiceToken {
+export class IssuedServiceTokenMessage {
   constructor(
     readonly contractId: string,
     readonly name: string,
@@ -63,7 +69,7 @@ export class IssuedServiceToken {
   ) {}
 }
 
-export class CreatedItemToken {
+export class CreatedItemTokenMessage {
   constructor(
     readonly contractId: string,
     readonly owner: string,
@@ -73,11 +79,11 @@ export class CreatedItemToken {
   ) {}
 }
 
-export class FungibleToken {
+export class FungibleTokenMessage {
   constructor(readonly contractId: string, readonly tokenType: string) {}
 }
 
-export class IssuedFungibleToken extends FungibleToken {
+export class IssuedFungibleTokenMessage extends FungibleTokenMessage {
   constructor(
     contractId: string,
     tokenType: string,
@@ -89,48 +95,39 @@ export class IssuedFungibleToken extends FungibleToken {
   }
 }
 
-export class MintedFungibleToken extends FungibleToken {
+export class MintedFungibleTokenMessage extends FungibleTokenMessage {
   constructor(contractId: string, tokenType: string, readonly amount: string) {
     super(contractId, tokenType);
   }
 }
 
-export class BurnedFungibleToken extends FungibleToken {
+export class BurnedFungibleTokenMessage extends FungibleTokenMessage {
   constructor(contractId: string, tokenType: string, readonly amount: string) {
     super(contractId, tokenType);
   }
 }
 
-export class TransferredFungibleTokenAmount extends FungibleToken {
+export class TransferredFungibleTokenAmountMessage extends FungibleTokenMessage {
   constructor(contractId: string, tokenType: string, readonly amount: string) {
     super(contractId, tokenType);
   }
 }
 
-export class NonFungibleToken {
-  constructor(
-    readonly contractId: string,
-    readonly tokenType: string,
-    readonly tokenIndex?: string,
-  ) {}
+export class NonFungibleTokenMessage {
+  constructor(readonly contractId: string, readonly tokenType: string, readonly tokenIndex?: string) {}
 }
 
-export class BaseCoinAmount {
+export class BaseCoinAmountMessage {
   constructor(readonly contractId: string, readonly amount: string) {}
 }
 
-export class IssuedNonFungibleToken extends NonFungibleToken {
-  constructor(
-    readonly contractId: string,
-    readonly tokenType: string,
-    readonly name: string,
-    readonly meta: string,
-  ) {
+export class IssuedNonFungibleTokenMessage extends NonFungibleTokenMessage {
+  constructor(readonly contractId: string, readonly tokenType: string, readonly name: string, readonly meta: string) {
     super(contractId, tokenType);
   }
 }
 
-export class MintedNonFungibleToken extends NonFungibleToken {
+export class MintedNonFungibleTokenMessage extends NonFungibleTokenMessage {
   constructor(
     readonly from: string,
     readonly sender: string,
@@ -145,49 +142,48 @@ export class MintedNonFungibleToken extends NonFungibleToken {
   }
 }
 
-export class TransferredNonFungibleToken extends NonFungibleToken {
-  constructor(
-    readonly contractId: string,
-    readonly tokenType: string,
-    readonly tokenIndex: string,
-  ) {
+export class TransferredNonFungibleTokenMessage extends NonFungibleTokenMessage {
+  constructor(readonly contractId: string, readonly tokenType: string, readonly tokenIndex: string) {
     super(contractId, tokenType, tokenIndex);
   }
 }
 
-export class TokenChange {
+export class TokenChangeMessage {
   constructor(readonly field: string, readonly value: string) {}
 }
 
 export class ServiceTokenIssueMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     readonly owner: string,
     readonly to: string, // receiver
-    readonly issuedServiceToken: IssuedServiceToken,
+    readonly issuedServiceToken: IssuedServiceTokenMessage,
     readonly amount: string,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class ServiceTokenModifyMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     sender: string, // sender
     readonly owner: string,
     readonly contractId: string,
-    readonly changes: Array<TokenChange>,
+    readonly changes: Array<TokenChangeMessage>,
   ) {
-    super(height, txHash, sender);
+    super(txResultCode, height, txHash, sender);
   }
 }
 
 export class ServiceTokenMintMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -196,12 +192,13 @@ export class ServiceTokenMintMessage extends TxResultMessage {
     readonly contractId: string,
     readonly amount: string,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class ServiceTokenBurnMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -209,12 +206,13 @@ export class ServiceTokenBurnMessage extends TxResultMessage {
     readonly contractId: string,
     readonly amount: string,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class ServiceTokenBurnFromMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -222,12 +220,13 @@ export class ServiceTokenBurnFromMessage extends TxResultMessage {
     readonly contractId: string,
     readonly amount: string,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class ServiceTokenGrantPermissionMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -236,12 +235,13 @@ export class ServiceTokenGrantPermissionMessage extends TxResultMessage {
     readonly to: string,
     readonly permission: string,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class ServiceTokenRevokePermissionMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -249,12 +249,13 @@ export class ServiceTokenRevokePermissionMessage extends TxResultMessage {
     readonly contractId: string,
     readonly permission: string,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class ServiceTokenTransferMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -263,12 +264,13 @@ export class ServiceTokenTransferMessage extends TxResultMessage {
     readonly to: string,
     readonly amount: string,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class ServiceTokenTransferFromMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -278,12 +280,13 @@ export class ServiceTokenTransferFromMessage extends TxResultMessage {
     readonly to: string,
     readonly amount: string,
   ) {
-    super(height, txHash, from, proxy);
+    super(txResultCode, height, txHash, from, proxy);
   }
 }
 
 export class ServiceTokenApprovedMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     readonly sender: string,
@@ -291,23 +294,25 @@ export class ServiceTokenApprovedMessage extends TxResultMessage {
     readonly approver: string,
     readonly contractId: string,
   ) {
-    super(height, txHash, sender, proxy);
+    super(txResultCode, height, txHash, sender, proxy);
   }
 }
 
 export class ItemTokenCreateMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     readonly sender: string,
-    readonly createdItemToken: CreatedItemToken,
+    readonly createdItemToken: CreatedItemTokenMessage,
   ) {
-    super(height, txHash, sender);
+    super(txResultCode, height, txHash, sender);
   }
 }
 
 export class ItemTokenModifyMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string, // sender
@@ -317,10 +322,10 @@ export class ItemTokenModifyMessage extends TxResultMessage {
     readonly tokenType: string,
     readonly tokenIndex: string, // if fungible then '00000000'
     readonly tokenId: string,
-    readonly changes: Array<TokenChange>,
+    readonly changes: Array<TokenChangeMessage>,
     readonly isFungible: boolean = false,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
     if (!this.tokenId || this.tokenId.length < 1) {
       this.tokenId = `${tokenType}${tokenIndex}`;
     }
@@ -329,6 +334,7 @@ export class ItemTokenModifyMessage extends TxResultMessage {
 
 export class ItemTokenApproveMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -336,12 +342,13 @@ export class ItemTokenApproveMessage extends TxResultMessage {
     readonly contractId: string,
     readonly proxy: string, // approve to
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class ItemTokenDisapproveMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -349,12 +356,13 @@ export class ItemTokenDisapproveMessage extends TxResultMessage {
     readonly contractId: string,
     readonly proxy: string,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class ItemTokenGrantPermissionMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -363,12 +371,13 @@ export class ItemTokenGrantPermissionMessage extends TxResultMessage {
     readonly to: string,
     readonly permission: string,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class ItemTokenRevokePermissionMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -376,93 +385,100 @@ export class ItemTokenRevokePermissionMessage extends TxResultMessage {
     readonly contractId: string,
     readonly permission: string,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class FungibleTokenIssueMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     readonly sender: string,
     readonly owner: string,
     readonly to: string, // receiver
-    readonly issuedFungibleToken: IssuedFungibleToken,
+    readonly issuedFungibleToken: IssuedFungibleTokenMessage,
     readonly amount: string,
   ) {
-    super(height, txHash, sender);
+    super(txResultCode, height, txHash, sender);
   }
 }
 
 export class FungibleTokenModifyMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     readonly owner: string,
     readonly contractId: string,
     readonly tokenType: string,
-    readonly changes: Array<TokenChange>,
+    readonly changes: Array<TokenChangeMessage>,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class FungibleTokenMintMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     readonly sender: string,
     readonly to: string, // receiver
-    readonly mintedFungibleTokens: Array<MintedFungibleToken>,
+    readonly mintedFungibleTokens: Array<MintedFungibleTokenMessage>,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class FungibleTokenBurnMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     readonly sender: string,
     readonly contractId: string,
-    readonly burnedFungibleTokens: Array<BurnedFungibleToken>,
+    readonly burnedFungibleTokens: Array<BurnedFungibleTokenMessage>,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class FungibleTokenBurnFromMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     proxy: string,
     readonly contractId: string,
-    readonly burnedFungibleTokens: Array<BurnedFungibleToken>,
+    readonly burnedFungibleTokens: Array<BurnedFungibleTokenMessage>,
   ) {
-    super(height, txHash, from, proxy);
+    super(txResultCode, height, txHash, from, proxy);
   }
 }
 
 export class FungibleTokenTransferMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     readonly sender: string, // from
     readonly contractId: string,
     readonly to: string,
-    readonly transferredFungibleTokenAmount: TransferredFungibleTokenAmount,
+    readonly transferredFungibleTokenAmount: TransferredFungibleTokenAmountMessage,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class FungibleTokenTransferFromMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
@@ -470,148 +486,165 @@ export class FungibleTokenTransferFromMessage extends TxResultMessage {
     readonly owner: string, // from
     readonly contractId: string,
     readonly to: string,
-    readonly transferredFungibleTokenAmount: TransferredFungibleTokenAmount,
+    readonly transferredFungibleTokenAmount: TransferredFungibleTokenAmountMessage,
   ) {
-    super(height, txHash, from, proxy);
+    super(txResultCode, height, txHash, from, proxy);
   }
 }
 
 export class NonFungibleTokenIssueMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     readonly sender: string,
     readonly contractId: string,
-    readonly issuedNonFungibleToken: IssuedNonFungibleToken,
+    readonly issuedNonFungibleToken: IssuedNonFungibleTokenMessage,
   ) {
-    super(height, txHash, sender);
+    super(txResultCode, height, txHash, sender);
   }
 }
 
 export class NonFungibleTokenMintMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string = "",
-    readonly mintedNonFungibleTokens: Array<MintedNonFungibleToken>,
+    readonly mintedNonFungibleTokens: Array<MintedNonFungibleTokenMessage>,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class NonFungibleTokenBurnMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     readonly sender: string,
     readonly contractId: string,
-    readonly burnedNonFungibleToken: NonFungibleToken,
+    readonly burnedNonFungibleToken: NonFungibleTokenMessage,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class NonFungibleTokenBurnFromMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     proxy: string,
     readonly owner: string, // from
     readonly contractId: string,
-    readonly burnedNonFungibleToken: NonFungibleToken,
+    readonly burnedNonFungibleToken: NonFungibleTokenMessage,
   ) {
-    super(height, txHash, from, proxy);
+    super(txResultCode, height, txHash, from, proxy);
   }
 }
 
 export class NonFungibleTokenTransferMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
-    readonly transferredNonFungibleTokens: Array<NonFungibleToken>,
+    readonly transferredNonFungibleTokens: Array<NonFungibleTokenMessage>,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class NonFungibleTokenTransferFromMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     proxy: string,
-    readonly transferredNonFungibleTokens: Array<NonFungibleToken>,
+    readonly transferredNonFungibleTokens: Array<NonFungibleTokenMessage>,
   ) {
-    super(height, txHash, from, proxy);
+    super(txResultCode, height, txHash, from, proxy);
   }
 }
 
 export class NonFungibleTokenAttachMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     readonly sender: string,
-    readonly parentNonFungibleToken: NonFungibleToken,
-    readonly attachedNonFungibleToken: NonFungibleToken,
+    readonly parentNonFungibleToken: NonFungibleTokenMessage,
+    readonly attachedNonFungibleToken: NonFungibleTokenMessage,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class NonFungibleTokenAttachFromMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     proxy: string,
     readonly sender: string,
-    readonly parentNonFungibleToken: NonFungibleToken,
-    readonly attachedNonFungibleToken: NonFungibleToken,
+    readonly parentNonFungibleToken: NonFungibleTokenMessage,
+    readonly attachedNonFungibleToken: NonFungibleTokenMessage,
   ) {
-    super(height, txHash, from, proxy);
+    super(txResultCode, height, txHash, from, proxy);
   }
 }
 
 export class NonFungibleTokenDetachMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     readonly sender: string,
-    readonly parentNonFungibleToken: NonFungibleToken,
-    readonly attachedNonFungibleToken: NonFungibleToken,
+    readonly parentNonFungibleToken: NonFungibleTokenMessage,
+    readonly attachedNonFungibleToken: NonFungibleTokenMessage,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
   }
 }
 
 export class NonFungibleTokenDetachFromMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     proxy: string,
     readonly sender: string,
-    readonly parentNonFungibleToken: NonFungibleToken,
-    readonly attachedNonFungibleToken: NonFungibleToken,
+    readonly parentNonFungibleToken: NonFungibleTokenMessage,
+    readonly attachedNonFungibleToken: NonFungibleTokenMessage,
   ) {
-    super(height, txHash, from, proxy);
+    super(txResultCode, height, txHash, from, proxy);
   }
 }
 
 export class BaseCoinTransferMessage extends TxResultMessage {
   constructor(
+    txResultCode: TxResultCode,
     height: number,
     txHash: string,
     from: string,
     readonly sender: string, // from
     readonly to: string,
-    readonly baseCoinAmount: BaseCoinAmount,
+    readonly baseCoinAmount: BaseCoinAmountMessage,
   ) {
-    super(height, txHash, from);
+    super(txResultCode, height, txHash, from);
+  }
+}
+
+export class AccountMsgEmptyMessage extends TxResultMessage {
+  constructor(txResultCode: TxResultCode, height: number, txHash: string, from: string) {
+    super(txResultCode, height, txHash, from);
   }
 }

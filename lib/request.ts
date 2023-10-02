@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { RequestParameterValidator } from "./request-parameter-validator";
+
 export class AbstractTokenBurnTransactionRequest {
   constructor(readonly fromUserId?: string, readonly fromAddress?: string) {
     if (!fromUserId && !fromAddress) {
@@ -24,10 +25,11 @@ export class IssueServiceTokenRequest {
     readonly symbol: string,
     readonly initialSupply: string,
     readonly recipientWalletAddress: string,
-    readonly imgUri: string,
   ) {
-    if (RequestParameterValidator.isValidWalletAddress(serviceWalletAddress)) {
-      throw new Error(`Invalid serviceWalletAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
+    if (!RequestParameterValidator.isValidWalletAddress(serviceWalletAddress)) {
+      throw new Error(
+        `Invalid serviceWalletAddress - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`,
+      );
     }
 
     if (_.isEmpty(serviceWalletSecret)) {
@@ -35,23 +37,27 @@ export class IssueServiceTokenRequest {
     }
 
     if (!RequestParameterValidator.isValidTokenName(name)) {
-      throw new Error(`Invalid name of service token - valid pattern: ${RequestParameterValidator.validTokenNamePattern()}`);
+      throw new Error(
+        `Invalid name of service token - valid pattern: ${RequestParameterValidator.validTokenNamePattern()}`,
+      );
     }
 
     if (!RequestParameterValidator.isValidSymbol(symbol)) {
-      throw new Error(`Invalid symbol of service token - valid pattern: ${RequestParameterValidator.validTokenSymbolPattern()}`);
+      throw new Error(
+        `Invalid symbol of service token - valid pattern: ${RequestParameterValidator.validTokenSymbolPattern()}`,
+      );
     }
 
     if (!RequestParameterValidator.isValidInitialSupply(initialSupply)) {
-      throw new Error(`Invalid initialSupply of service token - valid pattern: ${RequestParameterValidator.validTokenInitialSupplyPattern()}`);
+      throw new Error(
+        `Invalid initialSupply of service token - valid pattern: ${RequestParameterValidator.validTokenInitialSupplyPattern()}`,
+      );
     }
 
-    if (RequestParameterValidator.isValidWalletAddress(recipientWalletAddress)) {
-      throw new Error(`Invalid recipientWalletAddress of service token - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`);
-    }
-
-    if (!RequestParameterValidator.isValidBaseUri(imgUri)) {
-      throw new Error(`Invalid imgUri of service token - valid pattern: ${RequestParameterValidator.validBaseUriPattern()}`);
+    if (!RequestParameterValidator.isValidWalletAddress(recipientWalletAddress)) {
+      throw new Error(
+        `Invalid recipientWalletAddress of service token - valid pattern: ${RequestParameterValidator.validWalletAddressPattern()}`,
+      );
     }
   }
 }
@@ -62,7 +68,7 @@ export class UpdateServiceTokenRequest {
     readonly ownerSecret: string,
     readonly name: string,
     readonly meta?: string,
-  ) { }
+  ) {}
 }
 
 export class BurnFromServiceTokenRequest extends AbstractTokenBurnTransactionRequest {
@@ -90,31 +96,17 @@ export class MintServiceTokenRequest extends AbstractTransactionRequest {
 }
 
 export class MemoRequest {
-  constructor(
-    readonly memo: string,
-    readonly walletAddress: string,
-    readonly walletSecret: string,
-  ) { }
+  constructor(readonly memo: string, readonly walletAddress: string, readonly walletSecret: string) {}
 }
 
 export class TransferBaseCoinRequest extends AbstractTransactionRequest {
-  constructor(
-    readonly walletSecret: string,
-    readonly amount: string,
-    toAddress?: string,
-    toUserId?: string,
-  ) {
+  constructor(readonly walletSecret: string, readonly amount: string, toAddress?: string, toUserId?: string) {
     super(toAddress, toUserId);
   }
 }
 
 export class TransferServiceTokenRequest extends AbstractTransactionRequest {
-  constructor(
-    readonly walletSecret: string,
-    readonly amount: string,
-    toAddress?: string,
-    toUserId?: string,
-  ) {
+  constructor(readonly walletSecret: string, readonly amount: string, toAddress?: string, toUserId?: string) {
     super(toAddress, toUserId);
   }
 }
@@ -132,12 +124,7 @@ export class TransferServiceTokenProxyRequest extends AbstractTransactionRequest
 }
 
 export class TransferFungibleTokenRequest extends AbstractTransactionRequest {
-  constructor(
-    readonly walletSecret: string,
-    readonly amount: string,
-    toAddress?: string,
-    toUserId?: string,
-  ) {
+  constructor(readonly walletSecret: string, readonly amount: string, toAddress?: string, toUserId?: string) {
     super(toAddress, toUserId);
   }
 }
@@ -155,22 +142,13 @@ export class TransferFungibleTokenProxyRequest extends AbstractTransactionReques
 }
 
 export class TransferNonFungibleTokenRequest extends AbstractTransactionRequest {
-  constructor(
-    readonly walletSecret: string,
-    toAddress?: string,
-    toUserId?: string,
-  ) {
+  constructor(readonly walletSecret: string, toAddress?: string, toUserId?: string) {
     super(toAddress, toUserId);
   }
 }
 
 export class TransferNonFungibleTokenProxyRequest extends AbstractTransactionRequest {
-  constructor(
-    readonly ownerAddress: string,
-    readonly ownerSecret: string,
-    toAddress?: string,
-    toUserId?: string,
-  ) {
+  constructor(readonly ownerAddress: string, readonly ownerSecret: string, toAddress?: string, toUserId?: string) {
     super(toAddress, toUserId);
   }
 }
@@ -199,27 +177,29 @@ export class BatchTransferNonFungibleTokenProxyRequest extends AbstractTransacti
 }
 
 export class MultiFungibleTokenMediaResourcesUpdateRequest {
-  constructor(readonly updateList: Array<TokenType>) { }
+  constructor(readonly updateList: Array<TokenType>) {}
 }
 
 export class MultiNonFungibleTokenMediaResourcesUpdateRequest {
-  constructor(readonly updateList: Array<TokenTypeAndIndex>) { }
+  constructor(readonly updateList: Array<TokenTypeAndIndex>) {}
+}
+
+export class MultiNonFungibleTokenTypeMediaResourcesUpdateRequest {
+  constructor(readonly updateList: Array<TokenType>) {}
 }
 
 export class TokenType {
-  private constructor(readonly tokenType: string) { }
-  static readonly tokenTypeFormat = new RegExp("\\d{8}");
+  private constructor(readonly tokenType: string) {}
+
+  static readonly tokenTypeFormat = new RegExp("\\w{8}");
   static readonly tokenTypeLength = 8;
+
   static from(value: string): TokenType {
     if (value.length != TokenType.tokenTypeLength) {
-      throw new Error(
-        `Invalid tokenType: length of token-type has to be ${TokenType.tokenTypeLength}`,
-      );
+      throw new Error(`Invalid tokenType: length of token-type has to be ${TokenType.tokenTypeLength}`);
     }
     if (!TokenType.tokenTypeFormat.test(value)) {
-      throw new Error(
-        `Invalid tokenType: invalid format of tokenId, valid format is ${TokenType.tokenTypeFormat}`,
-      );
+      throw new Error(`Invalid tokenType: invalid format of tokenId, valid format is ${TokenType.tokenTypeFormat}`);
     }
     return new TokenType(value);
   }
@@ -230,19 +210,17 @@ export class TokenType {
 }
 
 export class TokenId {
-  private constructor(readonly tokenId: string) { }
-  static readonly tokenIdFormat = new RegExp("\\d{8}\\d{8}");
+  private constructor(readonly tokenId: string) {}
+
+  static readonly tokenIdFormat = new RegExp("\\w{8}\\w{8}");
   static readonly tokenIdLength = 16;
+
   static from(value: string): TokenId {
     if (value.length != TokenId.tokenIdLength) {
-      throw new Error(
-        `Invalid tokenId: length of token-id has to be ${TokenId.tokenIdLength}`,
-      );
+      throw new Error(`Invalid tokenId: length of token-id has to be ${TokenId.tokenIdLength}`);
     }
     if (!TokenId.tokenIdFormat.test(value)) {
-      throw new Error(
-        `Invalid tokenId: invalid format of tokenId, valid format is ${TokenId.tokenIdFormat}`,
-      );
+      throw new Error(`Invalid tokenId: invalid format of tokenId, valid format is ${TokenId.tokenIdFormat}`);
     }
     return new TokenId(value);
   }
@@ -259,16 +237,14 @@ export class TokenId {
 }
 
 export class TokenTypeAndIndex {
-  constructor(readonly tokenType: string, readonly tokenIndex: string) { }
+  constructor(readonly tokenType: string, readonly tokenIndex: string) {}
 
   static from(value: string): TokenTypeAndIndex {
     if (value.length != TokenId.tokenIdLength) {
       throw new Error("Invalid TokenTypeAndIndex: length has to be 16");
     }
     if (!TokenId.tokenIdFormat.test(value)) {
-      throw new Error(
-        `Invalid tokenId: invalid format of TokenTypeAndIndex, valid format is ${TokenId.tokenIdFormat}`,
-      );
+      throw new Error(`Invalid tokenId: invalid format of TokenTypeAndIndex, valid format is ${TokenId.tokenIdFormat}`);
     }
     const tokenType = value.substring(0, 8);
     const tokenIndex = value.substring(8, 16);
@@ -286,7 +262,7 @@ export class CreateItemTokenContractRequest {
     readonly serviceWalletAddress: string,
     readonly serviceWalletSecret: string,
     readonly baseImgUri: string,
-  ) { }
+  ) {}
 }
 
 export class FungibleTokenCreateUpdateRequest {
@@ -295,7 +271,7 @@ export class FungibleTokenCreateUpdateRequest {
     readonly ownerSecret: string,
     readonly name: string,
     readonly meta?: string,
-  ) { }
+  ) {}
 }
 
 export class FungibleTokenMintRequest extends AbstractTransactionRequest {
@@ -328,7 +304,7 @@ export class NonFungibleTokenCreateUpdateRequest {
     readonly ownerSecret: string,
     readonly name: string,
     readonly meta?: string,
-  ) { }
+  ) {}
 }
 
 export class NonFungibleTokenMintRequest extends AbstractTransactionRequest {
@@ -355,19 +331,17 @@ export class NonFungibleTokenMultiMintRequest extends AbstractTransactionRequest
     super(toAddress, toUserId);
   }
 }
+
 export class MultiMintNonFungible {
-  constructor(
-    readonly tokenType: string,
-    readonly name: string,
-    readonly meta?: string,
-  ) { }
+  constructor(readonly tokenType: string, readonly name: string, readonly meta?: string) {}
 }
+
 export class NonFungibleTokenMultiMintMultiReceiversRequest {
   constructor(
     readonly ownerAddress: string,
     readonly ownerSecret: string,
     readonly mintList: Array<MultiMintNonFungibleWithReceiver>,
-  ) { }
+  ) {}
 }
 
 export class MultiMintNonFungibleWithReceiver {
@@ -404,9 +378,7 @@ export class NonFungibleTokenAttachRequest {
     readonly tokenHolderUserId?: string,
   ) {
     if (!tokenHolderAddress && !tokenHolderUserId) {
-      throw new Error(
-        "tokenHolderAddress or tokenHolderUserId, one of them is required",
-      );
+      throw new Error("tokenHolderAddress or tokenHolderUserId, one of them is required");
     }
   }
 }
@@ -419,34 +391,13 @@ export class NonFungibleTokenDetachRequest {
     readonly tokenHolderUserId?: string,
   ) {
     if (!tokenHolderAddress && !tokenHolderUserId) {
-      throw new Error(
-        "tokenHolderAddress or tokenHolderUserId, one of them is required",
-      );
-    }
-  }
-}
-
-export class UserServiceTokenTransferRequest extends AbstractTransactionRequest {
-  constructor(
-    readonly amount: string,
-    toAddress: string = null,
-    toUserId: string = null,
-    readonly landingUri: string,
-  ) {
-    super(toAddress, toUserId);
-    if (Number(amount) <= 0) {
-      throw new Error("Invalid amount - $amount is less than zero ");
+      throw new Error("tokenHolderAddress or tokenHolderUserId, one of them is required");
     }
   }
 }
 
 export class IssueTransferSessionTokenRequest extends AbstractTransactionRequest {
-  constructor(
-    readonly amount: string,
-    readonly landingUri: string,
-    toAddress?: string,
-    toUserId?: string,
-  ) {
+  constructor(readonly amount: string, readonly landingUri: string, toAddress?: string, toUserId?: string) {
     super(toAddress, toUserId);
     if (Number(amount) <= 0) {
       throw new Error("Invalid amount - $amount is less than zero ");
@@ -455,7 +406,7 @@ export class IssueTransferSessionTokenRequest extends AbstractTransactionRequest
 }
 
 export class UserProxyRequest {
-  constructor(readonly ownerAddress: string, readonly landingUri: string) { }
+  constructor(readonly ownerAddress: string, readonly landingUri: string) {}
 }
 
 export enum OrderBy {
@@ -469,22 +420,14 @@ export enum RequestType {
 }
 
 export class PageRequest {
-  constructor(
-    readonly page: number = 0,
-    readonly limit: number = 10,
-    readonly orderBy: OrderBy = OrderBy.DESC,
-  ) { }
+  constructor(readonly page: number = 0, readonly limit: number = 10, readonly orderBy: OrderBy = OrderBy.DESC) {}
 }
 
 export class CursorPageRequest {
-  constructor(
-    readonly pageToken: string = "",
-    readonly limit: number = 10,
-    readonly orderBy: OrderBy = OrderBy.ASC,
-  ) { }
+  constructor(readonly pageToken: string = "", readonly limit: number = 10, readonly orderBy: OrderBy = OrderBy.ASC) {}
 }
 
-export const DEFAULT_PAGE_REQUEST: PageRequest = new PageRequest(0, 10, OrderBy.DESC)
+export const DEFAULT_PAGE_REQUEST: PageRequest = new PageRequest(0, 10, OrderBy.DESC);
 
 /*
 This is for query-parameters to search transactions of a wallet and a user.
@@ -492,9 +435,5 @@ This is for query-parameters to search transactions of a wallet and a user.
 * available msgType can be found at constants.TransactionMsgTypes
 */
 export class OptionalTransactionSearchParameters {
-  constructor(
-    readonly after?: number,
-    readonly before?: number,
-    readonly msgType?: string,
-  ) { }
+  constructor(readonly after?: number, readonly before?: number, readonly msgType?: string) {}
 }

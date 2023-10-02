@@ -1,15 +1,7 @@
 import { expect } from "chai";
 import { describe, it } from "mocha";
 import { TxResultUtil } from "../lib/tx-result-util";
-import {
-  singleTransactionResult,
-  nftDetachTxResultResponse,
-  nftUpdateTxResultResponse,
-  memoTxResultResponse,
-  serviceTokenMintTxResult,
-  serviceTokenTransferFromTxResult,
-  serviceTokenBurnFromTxResult,
-} from "./test-data";
+import { serviceTokenBurnFromTxResult, singleTransactionResult } from "./test-data";
 
 describe("tx-result-util test with tx message", () => {
   const singleTransactionResultResponse = singleTransactionResult.responseData;
@@ -153,9 +145,7 @@ describe("tx-result-util test with tx message", () => {
   //   });
 
   it("given service-token-burn-from message, find contractId", () => {
-    const senderWalletAddress = TxResultUtil.findContractId(
-      serviceTokenBurnFromTxResult,
-    );
-    expect("3336b76f").to.equal(senderWalletAddress);
+    const senderWalletAddress = TxResultUtil.findContractId(serviceTokenBurnFromTxResult);
+    expect("678c146a").to.equal(senderWalletAddress);
   });
 });

@@ -1,34 +1,35 @@
 version: 2.1
 executors:
-  node10-executor:
+  node14-executor:
     docker:
-      - image: node:10-alpine3.11
-      
+      - image: node:14-alpine3.16
+
 jobs:
   build:
-    executor: node10-executor
+    executor: node14-executor
     steps:
       - checkout
       - run: |
           npm install
           npm build
+  lint:
+    executor: node14-executor
+    steps:
+      - checkout
+      - run: |
+          npm install
+          npm run format:check
   test:
-    executor: node10-executor
+    executor: node14-executor
     steps:
       - checkout
       - run: |
           npm install
           npm run test
-  integration-test:
-    executor: node10-executor
-    steps:
-      - checkout
-      - run: |
-          npm install
-          npm run test:integration
 
 workflows:
   push-workflow:
     jobs:
       - build
+      - lint
       - test

@@ -1,15 +1,16 @@
 import _ from "lodash";
 
 const EMPTY = "";
+
 export class RequestBodyFlattener {
-  static flatten(requestBody = {}) {
+  static flatten(requestBody: { [key: string]: any }) {
     const objBody = _.cloneDeep(requestBody);
-    const flatPair = {}; // we're going to convert objBody to flatPair
+    const flatPair: { [key: string]: any } = {}; // we're going to convert objBody to flatPair
     Object.keys(objBody).forEach(key => {
       const value = objBody[key];
       if (Array.isArray(value)) {
         // scan for all sub-keys
-        let allSubKeys = [];
+        let allSubKeys: string[] = [];
         value.forEach(elem => {
           allSubKeys = _.union(allSubKeys, Object.keys(elem));
         });

@@ -38,12 +38,21 @@ export class TransactionMsgTypes {
 }
 
 export class Validations {
-  static WALLET_ADDRESS_REGEX = /^t?link[a-zA-Z0-9]{39}$/
-  static TOKEN_NAME_REGEX = /^[a-zA-Z0-9]{3,20}$/
-  static SYMBOL_NAME_REGEX = /^[A-Z][A-Z0-9]{1,4}$/
-  static NUMBER_FORMAT_REGEX = /^\d+$/
+  static WALLET_ADDRESS_REGEX = /^t?link[a-zA-Z0-9]{39}$/;
+  static TOKEN_NAME_REGEX = /^[a-zA-Z0-9]{3,20}$/;
+  static SYMBOL_NAME_REGEX = /^[A-Z][A-Z0-9]{1,4}$/;
+  static NUMBER_FORMAT_REGEX = /^\d+$/;
 
-  static PATTERN_URI_PATH = "[\\w\\.\\-\\~\\/]+"
-  static PATTERN_BASE_URI = `^(https:\\/\\/)${Validations.PATTERN_URI_PATH}(:[0-9]{1,5})?\\/$`
-  static BASE_URI_OR_EMPTY_REGEX = new RegExp(`^(${Validations.PATTERN_BASE_URI})?$`)
+  static PATTERN_URI_PATH = "[\\w\\.\\-\\~\\/]+";
+  static PATTERN_BASE_URI = `^(https:\\/\\/)${Validations.PATTERN_URI_PATH}(:[0-9]{1,5})?\\/$`;
+  static BASE_URI_OR_EMPTY_REGEX = new RegExp(`^(${Validations.PATTERN_BASE_URI})?$`);
 }
+
+export enum HrpPrefix {
+  MAIN_NET = "link",
+  TEST_NET = "tlink",
+}
+
+export const EMPTY_SET: Set<string> = new Set();
+
+export const EMPTY_STRING_ARRAY: Array<string> = [];

@@ -2,9 +2,10 @@ import { LoggerFactory } from "./logger-factory";
 import CryptoJS from "crypto-js";
 import _ from "lodash";
 import { RequestBodyFlattener } from "./request-body-flattener";
+
 /**
-reference site: https://jokecamp.wordpress.com/2012/10/21/examples-of-creating-base64-hashes-using-hmac-sha256-in-different-languages/#js
-*/
+ reference site: https://jokecamp.wordpress.com/2012/10/21/examples-of-creating-base64-hashes-using-hmac-sha256-in-different-languages/#js
+ */
 export class SignatureGenerator {
   static signature(
     apiSecret: string,
@@ -15,14 +16,7 @@ export class SignatureGenerator {
     parameters: object = {}, // query string
     body: object = {},
   ): string {
-    let signTarget = SignatureGenerator.createSignTarget(
-      method,
-      path,
-      timestamp,
-      nonce,
-      parameters,
-      body,
-    );
+    let signTarget = SignatureGenerator.createSignTarget(method, path, timestamp, nonce, parameters, body);
     let hasQueryParam = _.size(parameters) > 0;
     if (parameters && hasQueryParam) {
       signTarget += RequestBodyFlattener.flatten(parameters);

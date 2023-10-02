@@ -68,20 +68,12 @@ describe("signature-generator test", () => {
     };
 
     let method = "GET";
-    let path =
-      "/v1/wallets/tlink1ey2p39e4l78h49pm28z5ms62ycd06sgrprtps5/transactions";
+    let path = "/v1/wallets/tlink1ey2p39e4l78h49pm28z5ms62ycd06sgrprtps5/transactions";
     let timestamp = 1617503164770;
     let secret = "7d55f1f5-0f6f-426e-909c-47913aa09e72";
     let nonce = "805d1b42";
     // sign-target will be "805d1b421617503164770GET/v1/wallets/tlink1ey2p39e4l78h49pm28z5ms62ycd06sgrprtps5/transactions?after=1614563991000&before=1617155991000&limit=10&msgType=collection/MsgTransferNFTFrom&orderBy=desc&page=0"
-    let signature = SignatureGenerator.signature(
-      secret,
-      method,
-      path,
-      timestamp,
-      nonce,
-      parameters,
-    );
+    let signature = SignatureGenerator.signature(secret, method, path, timestamp, nonce, parameters);
     expect(signature).to.equal(
       "Iq4lDCgzMmtFrZHuE0b7Xu6PqaqnoVJlG2WxMtuAHWuB8hoG98swyb578LMZMUbHLE3D1ldQA1U4hxSPyxiFSA==",
     );

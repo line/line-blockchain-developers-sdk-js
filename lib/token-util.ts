@@ -1,5 +1,8 @@
+import _ from "lodash";
+
 export class TokenUtil {
   private static FUNGIBLE_TOKEN_INDEX = "00000000";
+
   private constructor() {}
 
   static tokenIndexFrom(tokenId: string): string {
@@ -19,6 +22,18 @@ export class TokenUtil {
   }
 
   static isFungible(tokenType: string): boolean {
-    return tokenType && tokenType.startsWith("0");
+    return tokenType.startsWith("0");
+  }
+
+  static tokenTypes(tokenIds: Array<string>): Array<string> {
+    return _.map(tokenIds, it => {
+      return TokenUtil.tokenTypeFrom(it.toString());
+    });
+  }
+
+  static tokenIndices(tokenIds: Array<string>): Array<string> {
+    return _.map(tokenIds, it => {
+      return TokenUtil.tokenIndexFrom(it.toString());
+    });
   }
 }

@@ -6,7 +6,7 @@
 [![CircleCI](https://circleci.com/gh/line/line-blockchain-developers-sdk-js.svg?style=shield)](https://circleci.com/gh/line/line-blockchain-developers-sdk-js)
 
 
-## Table of Contents // TODO update
+## Table of Contents
 * [Introduction](#introduction)
 * [Getting Started](#getting-Started)
 * [Key objects and usage](#key-objects-and-usage)
@@ -24,7 +24,7 @@ See the official LINE Blockchain Developers API documentation for more informati
 * Node.js 10 or higher
 
 ### Installation
-Before getting started, you need to install the library to your project. 
+Before getting started, you need to install the library to your project.
 To make installation easy, use package managers as follows:
 
 Using [npm](https://www.npmjs.com/?target=_blank):
@@ -107,7 +107,7 @@ npm run test:integration
 ```
 
 > Note
-> 
+>
 > To run integration tests, `integration-test.env` is required with following properties.
 ```
 HOST_URL=[api-url]
@@ -218,16 +218,18 @@ import { GenericResponse, TxResultResponse } from './lib/response';
 
 (async() => {
   const request = new MemoRequest('my first memo', walletAddress, walletSecret);
-  let response: GenericResponse<TxResultResponse> = await httpClient.createMemo(servcieId);
+  let response: GenericResponse<TxResultResponse> = await httpClient.createMemo(request);
   console.log(response.responseData.txhash);
 })();
 ```
 
 ### `SignatureGenerator`
-This class provides a functionality to [generate signatures](https://docs-blockchain.line.biz/api-guide/Generating-Signature) for a request.
+This class provides a functionality to [generate signatures](https://docs-blockchain.line.biz/api-guide/Authentication#generating-signature) for a request.
 
-All API requests, except for the endpoint to retrieve the server time, must pass authentication information and be signed. Signing is a bit annoying, but never mind, fortunately, `HttpClient` itself will import this and generate signatures before sending a request. 
+All API requests, except for the endpoint to retrieve the server time, must pass authentication information and be signed. Signing is a bit annoying, but never mind, fortunately, `HttpClient` itself will import this and generate signatures before sending a request.
 
 If you do want to study how LINE Blockchain signature created, it's okay to dive into the source code.
 
 
+### New transaction result
+Please refer to [New transaction result](./docs/README.md)

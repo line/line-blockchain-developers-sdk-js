@@ -1,6 +1,7 @@
 import { GenericResponse, TxResultResponse } from "./response";
 import { TxResultUtil } from "./tx-result-util";
 import { TokenUtil } from "./token-util";
+import { TxResultCodeMappingsProvider } from "./tx-result-codes";
 import {
   MessageType,
   TxResultMessage,
@@ -20,14 +21,14 @@ import {
   NonFungibleTokenAttachFromMessage,
   NonFungibleTokenDetachMessage,
   NonFungibleTokenDetachFromMessage,
-  NonFungibleToken,
+  NonFungibleTokenMessage,
   FungibleTokenIssueMessage,
   FungibleTokenMintMessage,
   FungibleTokenBurnMessage,
   FungibleTokenBurnFromMessage,
   FungibleTokenTransferMessage,
   FungibleTokenTransferFromMessage,
-  TransferredFungibleTokenAmount,
+  TransferredFungibleTokenAmountMessage,
   NonFungibleTokenIssueMessage,
   NonFungibleTokenMintMessage,
   NonFungibleTokenBurnMessage,
@@ -35,33 +36,29 @@ import {
   NonFungibleTokenTransferMessage,
   NonFungibleTokenTransferFromMessage,
   BaseCoinTransferMessage,
+  AccountMsgEmptyMessage,
 } from "./transaction-messages";
 
 // TODO this interface, and just parse directly
 export interface TxResultMessageParser<T extends TxResultMessage> {
   parse(txResultResponse: TxResultResponse): T;
-  parseGenericTxResultResponse(
-    txResultResponse: GenericResponse<TxResultResponse>,
-  ): T;
+
+  parseGenericTxResultResponse(txResultResponse: GenericResponse<TxResultResponse>): T;
 }
 
-export class ServiceTokenIssueMessageParser
-  implements TxResultMessageParser<ServiceTokenIssueMessage> {
+export class ServiceTokenIssueMessageParser implements TxResultMessageParser<ServiceTokenIssueMessage> {
   parse(txResultResponse: TxResultResponse): ServiceTokenIssueMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ServiceTokenIssueMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ServiceTokenIssueMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ServiceTokenIssueMessage {
+  private createMessage(txResultResponse: TxResultResponse): ServiceTokenIssueMessage {
     return new ServiceTokenIssueMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findOwnerWalletAddress(txResultResponse),
@@ -73,23 +70,19 @@ export class ServiceTokenIssueMessageParser
   }
 }
 
-export class ServiceTokenModifyMessageParser
-  implements TxResultMessageParser<ServiceTokenModifyMessage> {
+export class ServiceTokenModifyMessageParser implements TxResultMessageParser<ServiceTokenModifyMessage> {
   parse(txResultResponse: TxResultResponse): ServiceTokenModifyMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ServiceTokenModifyMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ServiceTokenModifyMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ServiceTokenModifyMessage {
+  private createMessage(txResultResponse: TxResultResponse): ServiceTokenModifyMessage {
     return new ServiceTokenModifyMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findSenderWalletAddress(txResultResponse),
@@ -100,23 +93,19 @@ export class ServiceTokenModifyMessageParser
   }
 }
 
-export class ServiceTokenMintMessageParser
-  implements TxResultMessageParser<ServiceTokenMintMessage> {
+export class ServiceTokenMintMessageParser implements TxResultMessageParser<ServiceTokenMintMessage> {
   parse(txResultResponse: TxResultResponse): ServiceTokenMintMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ServiceTokenMintMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ServiceTokenMintMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ServiceTokenMintMessage {
+  private createMessage(txResultResponse: TxResultResponse): ServiceTokenMintMessage {
     return new ServiceTokenMintMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -128,23 +117,19 @@ export class ServiceTokenMintMessageParser
   }
 }
 
-export class ServiceTokenBurnMessageParser
-  implements TxResultMessageParser<ServiceTokenBurnMessage> {
+export class ServiceTokenBurnMessageParser implements TxResultMessageParser<ServiceTokenBurnMessage> {
   parse(txResultResponse: TxResultResponse): ServiceTokenBurnMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ServiceTokenBurnMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ServiceTokenBurnMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ServiceTokenBurnMessage {
+  private createMessage(txResultResponse: TxResultResponse): ServiceTokenBurnMessage {
     return new ServiceTokenBurnMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -155,23 +140,19 @@ export class ServiceTokenBurnMessageParser
   }
 }
 
-export class ServiceTokenBurnFromMessageParser
-  implements TxResultMessageParser<ServiceTokenBurnFromMessage> {
+export class ServiceTokenBurnFromMessageParser implements TxResultMessageParser<ServiceTokenBurnFromMessage> {
   parse(txResultResponse: TxResultResponse): ServiceTokenBurnFromMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ServiceTokenBurnFromMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ServiceTokenBurnFromMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ServiceTokenBurnFromMessage {
+  private createMessage(txResultResponse: TxResultResponse): ServiceTokenBurnFromMessage {
     return new ServiceTokenBurnFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -182,23 +163,19 @@ export class ServiceTokenBurnFromMessageParser
   }
 }
 
-export class ServiceTokenTransferMessageParser
-  implements TxResultMessageParser<ServiceTokenTransferMessage> {
+export class ServiceTokenTransferMessageParser implements TxResultMessageParser<ServiceTokenTransferMessage> {
   parse(txResultResponse: TxResultResponse): ServiceTokenTransferMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ServiceTokenTransferMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ServiceTokenTransferMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ServiceTokenTransferMessage {
+  private createMessage(txResultResponse: TxResultResponse): ServiceTokenTransferMessage {
     return new ServiceTokenTransferMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -210,23 +187,19 @@ export class ServiceTokenTransferMessageParser
   }
 }
 
-export class ServiceTokenTransferFromMessageParser
-  implements TxResultMessageParser<ServiceTokenTransferFromMessage> {
+export class ServiceTokenTransferFromMessageParser implements TxResultMessageParser<ServiceTokenTransferFromMessage> {
   parse(txResultResponse: TxResultResponse): ServiceTokenTransferFromMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ServiceTokenTransferFromMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ServiceTokenTransferFromMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ServiceTokenTransferFromMessage {
+  private createMessage(txResultResponse: TxResultResponse): ServiceTokenTransferFromMessage {
     return new ServiceTokenTransferFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -239,23 +212,19 @@ export class ServiceTokenTransferFromMessageParser
   }
 }
 
-export class ServiceTokenApprovedMessageParser
-  implements TxResultMessageParser<ServiceTokenApprovedMessage> {
+export class ServiceTokenApprovedMessageParser implements TxResultMessageParser<ServiceTokenApprovedMessage> {
   parse(txResultResponse: TxResultResponse): ServiceTokenApprovedMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ServiceTokenApprovedMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ServiceTokenApprovedMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ServiceTokenApprovedMessage {
+  private createMessage(txResultResponse: TxResultResponse): ServiceTokenApprovedMessage {
     return new ServiceTokenApprovedMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findSenderWalletAddress(txResultResponse),
@@ -266,23 +235,19 @@ export class ServiceTokenApprovedMessageParser
   }
 }
 
-export class ItemTokenCreateMessageParser
-  implements TxResultMessageParser<ItemTokenCreateMessage> {
+export class ItemTokenCreateMessageParser implements TxResultMessageParser<ItemTokenCreateMessage> {
   parse(txResultResponse: TxResultResponse): ItemTokenCreateMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ItemTokenCreateMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ItemTokenCreateMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ItemTokenCreateMessage {
+  private createMessage(txResultResponse: TxResultResponse): ItemTokenCreateMessage {
     return new ItemTokenCreateMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       // TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -292,27 +257,23 @@ export class ItemTokenCreateMessageParser
   }
 }
 
-export class ItemTokenModifyMessageParser
-  implements TxResultMessageParser<ItemTokenModifyMessage> {
+export class ItemTokenModifyMessageParser implements TxResultMessageParser<ItemTokenModifyMessage> {
   parse(txResultResponse: TxResultResponse): ItemTokenModifyMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ItemTokenModifyMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ItemTokenModifyMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ItemTokenModifyMessage {
+  private createMessage(txResultResponse: TxResultResponse): ItemTokenModifyMessage {
     const tokenType = TxResultUtil.findTokenType(txResultResponse);
     const tokenIndex = TxResultUtil.findTokenIndex(txResultResponse);
     const isFungible = TokenUtil.isFungible(tokenType);
     const tokenId = TxResultUtil.findTokenId(txResultResponse);
     return new ItemTokenModifyMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -328,23 +289,19 @@ export class ItemTokenModifyMessageParser
   }
 }
 
-export class ItemTokenApproveMessageParser
-  implements TxResultMessageParser<ItemTokenApproveMessage> {
+export class ItemTokenApproveMessageParser implements TxResultMessageParser<ItemTokenApproveMessage> {
   parse(txResultResponse: TxResultResponse): ItemTokenApproveMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ItemTokenApproveMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ItemTokenApproveMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ItemTokenApproveMessage {
+  private createMessage(txResultResponse: TxResultResponse): ItemTokenApproveMessage {
     return new ItemTokenApproveMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -355,23 +312,19 @@ export class ItemTokenApproveMessageParser
   }
 }
 
-export class ItemTokenDisapproveMessageParser
-  implements TxResultMessageParser<ItemTokenDisapproveMessage> {
+export class ItemTokenDisapproveMessageParser implements TxResultMessageParser<ItemTokenDisapproveMessage> {
   parse(txResultResponse: TxResultResponse): ItemTokenDisapproveMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): ItemTokenDisapproveMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): ItemTokenDisapproveMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): ItemTokenDisapproveMessage {
+  private createMessage(txResultResponse: TxResultResponse): ItemTokenDisapproveMessage {
     return new ItemTokenDisapproveMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -382,22 +335,17 @@ export class ItemTokenDisapproveMessageParser
   }
 }
 
-export class NFTAttachMessageParser
-  implements TxResultMessageParser<NonFungibleTokenAttachMessage> {
+export class NFTAttachMessageParser implements TxResultMessageParser<NonFungibleTokenAttachMessage> {
   parse(txResultResponse: TxResultResponse): NonFungibleTokenAttachMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): NonFungibleTokenAttachMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): NonFungibleTokenAttachMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): NonFungibleTokenAttachMessage {
+  private createMessage(txResultResponse: TxResultResponse): NonFungibleTokenAttachMessage {
     const contractId = TxResultUtil.findContractId(txResultResponse);
     const parentTokenId = TxResultUtil.findParentTokenId(txResultResponse);
     const tokenType = TokenUtil.tokenTypeFrom(parentTokenId);
@@ -405,32 +353,28 @@ export class NFTAttachMessageParser
     const tokenId = TxResultUtil.findTokenId(txResultResponse);
     const tokenIndex = TokenUtil.tokenIndexFrom(tokenId);
     return new NonFungibleTokenAttachMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
       TxResultUtil.findSenderWalletAddress(txResultResponse),
-      new NonFungibleToken(contractId, tokenType, parentTokenIndex),
-      new NonFungibleToken(contractId, tokenType, tokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, parentTokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, tokenIndex),
     );
   }
 }
 
-export class NFTAttachFromMessageParser
-  implements TxResultMessageParser<NonFungibleTokenAttachFromMessage> {
+export class NFTAttachFromMessageParser implements TxResultMessageParser<NonFungibleTokenAttachFromMessage> {
   parse(txResultResponse: TxResultResponse): NonFungibleTokenAttachFromMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): NonFungibleTokenAttachFromMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): NonFungibleTokenAttachFromMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): NonFungibleTokenAttachFromMessage {
+  private createMessage(txResultResponse: TxResultResponse): NonFungibleTokenAttachFromMessage {
     const contractId = TxResultUtil.findContractId(txResultResponse);
     const parentTokenId = TxResultUtil.findParentTokenId(txResultResponse);
     const tokenType = TokenUtil.tokenTypeFrom(parentTokenId);
@@ -438,107 +382,92 @@ export class NFTAttachFromMessageParser
     const tokenId = TxResultUtil.findTokenId(txResultResponse);
     const tokenIndex = TokenUtil.tokenIndexFrom(tokenId);
     return new NonFungibleTokenAttachFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
       TxResultUtil.findProxyWalletAddress(txResultResponse),
       TxResultUtil.findSenderWalletAddress(txResultResponse),
-      new NonFungibleToken(contractId, tokenType, parentTokenIndex),
-      new NonFungibleToken(contractId, tokenType, tokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, parentTokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, tokenIndex),
     );
   }
 }
 
-export class NFTDetachMessageParser
-  implements TxResultMessageParser<NonFungibleTokenDetachMessage> {
+export class NFTDetachMessageParser implements TxResultMessageParser<NonFungibleTokenDetachMessage> {
   parse(txResultResponse: TxResultResponse): NonFungibleTokenDetachMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): NonFungibleTokenDetachMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): NonFungibleTokenDetachMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): NonFungibleTokenDetachMessage {
+  private createMessage(txResultResponse: TxResultResponse): NonFungibleTokenDetachMessage {
     const contractId = TxResultUtil.findContractId(txResultResponse);
-    const parentTokenId = TxResultUtil.findParentTokenIdFromDetach(
-      txResultResponse,
-    );
+    const parentTokenId = TxResultUtil.findParentTokenIdFromDetach(txResultResponse);
     const tokenType = TokenUtil.tokenTypeFrom(parentTokenId);
     const parentTokenIndex = TokenUtil.tokenIndexFrom(parentTokenId);
     const tokenId = TxResultUtil.findTokenId(txResultResponse);
     const tokenIndex = TokenUtil.tokenIndexFrom(tokenId);
     return new NonFungibleTokenDetachMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
       TxResultUtil.findSenderWalletAddress(txResultResponse),
-      new NonFungibleToken(contractId, tokenType, parentTokenIndex),
-      new NonFungibleToken(contractId, tokenType, tokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, parentTokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, tokenIndex),
     );
   }
 }
 
-export class NFTDetachFromMessageParser
-  implements TxResultMessageParser<NonFungibleTokenDetachFromMessage> {
+export class NFTDetachFromMessageParser implements TxResultMessageParser<NonFungibleTokenDetachFromMessage> {
   parse(txResultResponse: TxResultResponse): NonFungibleTokenDetachFromMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): NonFungibleTokenDetachFromMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): NonFungibleTokenDetachFromMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): NonFungibleTokenDetachFromMessage {
+  private createMessage(txResultResponse: TxResultResponse): NonFungibleTokenDetachFromMessage {
     const contractId = TxResultUtil.findContractId(txResultResponse);
-    const parentTokenId = TxResultUtil.findParentTokenIdFromDetach(
-      txResultResponse,
-    );
+    const parentTokenId = TxResultUtil.findParentTokenIdFromDetach(txResultResponse);
     const tokenType = TokenUtil.tokenTypeFrom(parentTokenId);
     const parentTokenIndex = TokenUtil.tokenIndexFrom(parentTokenId);
     const tokenId = TxResultUtil.findTokenId(txResultResponse);
     const tokenIndex = TokenUtil.tokenIndexFrom(tokenId);
     return new NonFungibleTokenDetachFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
       TxResultUtil.findSenderWalletAddress(txResultResponse),
       TxResultUtil.findProxyWalletAddress(txResultResponse),
-      new NonFungibleToken(contractId, tokenType, parentTokenIndex),
-      new NonFungibleToken(contractId, tokenType, tokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, parentTokenIndex),
+      new NonFungibleTokenMessage(contractId, tokenType, tokenIndex),
     );
   }
 }
 
-export class IssueFungibleMessageParser
-  implements TxResultMessageParser<FungibleTokenIssueMessage> {
+export class IssueFungibleMessageParser implements TxResultMessageParser<FungibleTokenIssueMessage> {
   parse(txResultResponse: TxResultResponse): FungibleTokenIssueMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): FungibleTokenIssueMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): FungibleTokenIssueMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): FungibleTokenIssueMessage {
+  private createMessage(txResultResponse: TxResultResponse): FungibleTokenIssueMessage {
     const tokenId = TxResultUtil.findTokenIdFromEvents(txResultResponse);
     const tokenType = TokenUtil.tokenTypeFrom(tokenId);
     return new FungibleTokenIssueMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findSenderWalletAddress(txResultResponse),
@@ -550,26 +479,20 @@ export class IssueFungibleMessageParser
   }
 }
 
-export class MintFungibleMessageParser
-  implements TxResultMessageParser<FungibleTokenMintMessage> {
+export class MintFungibleMessageParser implements TxResultMessageParser<FungibleTokenMintMessage> {
   parse(txResultResponse: TxResultResponse): FungibleTokenMintMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): FungibleTokenMintMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): FungibleTokenMintMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): FungibleTokenMintMessage {
-    const mintFtTokens = TxResultUtil.findMintedFungibleTokens(
-      txResultResponse,
-    );
+  private createMessage(txResultResponse: TxResultResponse): FungibleTokenMintMessage {
+    const mintFtTokens = TxResultUtil.findMintedFungibleTokens(txResultResponse);
     return new FungibleTokenMintMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -579,26 +502,21 @@ export class MintFungibleMessageParser
     );
   }
 }
-export class BurnFungibleMessageParser
-  implements TxResultMessageParser<FungibleTokenBurnMessage> {
+
+export class BurnFungibleMessageParser implements TxResultMessageParser<FungibleTokenBurnMessage> {
   parse(txResultResponse: TxResultResponse): FungibleTokenBurnMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): FungibleTokenBurnMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): FungibleTokenBurnMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): FungibleTokenBurnMessage {
-    const burnedTokens = TxResultUtil.findBurnedFungibleTokens(
-      txResultResponse,
-    );
+  private createMessage(txResultResponse: TxResultResponse): FungibleTokenBurnMessage {
+    const burnedTokens = TxResultUtil.findBurnedFungibleTokens(txResultResponse);
     return new FungibleTokenBurnMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -608,23 +526,20 @@ export class BurnFungibleMessageParser
     );
   }
 }
-export class FungibleTransferMessageParser
-  implements TxResultMessageParser<FungibleTokenTransferMessage> {
+
+export class FungibleTransferMessageParser implements TxResultMessageParser<FungibleTokenTransferMessage> {
   parse(txResultResponse: TxResultResponse): FungibleTokenTransferMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): FungibleTokenTransferMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): FungibleTokenTransferMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): FungibleTokenTransferMessage {
+  private createMessage(txResultResponse: TxResultResponse): FungibleTokenTransferMessage {
     return new FungibleTokenTransferMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -635,23 +550,20 @@ export class FungibleTransferMessageParser
     );
   }
 }
-export class FungibleTransferFromMessageParser
-  implements TxResultMessageParser<FungibleTokenTransferFromMessage> {
+
+export class FungibleTransferFromMessageParser implements TxResultMessageParser<FungibleTokenTransferFromMessage> {
   parse(txResultResponse: TxResultResponse): FungibleTokenTransferFromMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): FungibleTokenTransferFromMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): FungibleTokenTransferFromMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): FungibleTokenTransferFromMessage {
+  private createMessage(txResultResponse: TxResultResponse): FungibleTokenTransferFromMessage {
     return new FungibleTokenTransferFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -663,26 +575,21 @@ export class FungibleTransferFromMessageParser
     );
   }
 }
-export class BurnFromFungibleMessageParser
-  implements TxResultMessageParser<FungibleTokenBurnFromMessage> {
+
+export class BurnFromFungibleMessageParser implements TxResultMessageParser<FungibleTokenBurnFromMessage> {
   parse(txResultResponse: TxResultResponse): FungibleTokenBurnFromMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): FungibleTokenBurnFromMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): FungibleTokenBurnFromMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): FungibleTokenBurnFromMessage {
-    const burnedTokens = TxResultUtil.findBurnedFungibleTokens(
-      txResultResponse,
-    );
+  private createMessage(txResultResponse: TxResultResponse): FungibleTokenBurnFromMessage {
+    const burnedTokens = TxResultUtil.findBurnedFungibleTokens(txResultResponse);
     return new FungibleTokenBurnFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -693,23 +600,19 @@ export class BurnFromFungibleMessageParser
   }
 }
 
-export class NonFungibleTokenIssueMessageParser
-  implements TxResultMessageParser<NonFungibleTokenIssueMessage> {
+export class NonFungibleTokenIssueMessageParser implements TxResultMessageParser<NonFungibleTokenIssueMessage> {
   parse(txResultResponse: TxResultResponse): NonFungibleTokenIssueMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): NonFungibleTokenIssueMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): NonFungibleTokenIssueMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): NonFungibleTokenIssueMessage {
+  private createMessage(txResultResponse: TxResultResponse): NonFungibleTokenIssueMessage {
     return new NonFungibleTokenIssueMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findSenderWalletAddress(txResultResponse),
@@ -719,23 +622,19 @@ export class NonFungibleTokenIssueMessageParser
   }
 }
 
-export class NonFungibleTokenMintMessageParser
-  implements TxResultMessageParser<NonFungibleTokenMintMessage> {
+export class NonFungibleTokenMintMessageParser implements TxResultMessageParser<NonFungibleTokenMintMessage> {
   parse(txResultResponse: TxResultResponse): NonFungibleTokenMintMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): NonFungibleTokenMintMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): NonFungibleTokenMintMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): NonFungibleTokenMintMessage {
+  private createMessage(txResultResponse: TxResultResponse): NonFungibleTokenMintMessage {
     return new NonFungibleTokenMintMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       "",
@@ -744,23 +643,19 @@ export class NonFungibleTokenMintMessageParser
   }
 }
 
-export class NonFungibleTokenBurnMessageParser
-  implements TxResultMessageParser<NonFungibleTokenBurnMessage> {
+export class NonFungibleTokenBurnMessageParser implements TxResultMessageParser<NonFungibleTokenBurnMessage> {
   parse(txResultResponse: TxResultResponse): NonFungibleTokenBurnMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): NonFungibleTokenBurnMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): NonFungibleTokenBurnMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): NonFungibleTokenBurnMessage {
+  private createMessage(txResultResponse: TxResultResponse): NonFungibleTokenBurnMessage {
     return new NonFungibleTokenBurnMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -771,23 +666,19 @@ export class NonFungibleTokenBurnMessageParser
   }
 }
 
-export class NonFungibleTokenBurnFromMessageParser
-  implements TxResultMessageParser<NonFungibleTokenBurnFromMessage> {
+export class NonFungibleTokenBurnFromMessageParser implements TxResultMessageParser<NonFungibleTokenBurnFromMessage> {
   parse(txResultResponse: TxResultResponse): NonFungibleTokenBurnFromMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): NonFungibleTokenBurnFromMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): NonFungibleTokenBurnFromMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): NonFungibleTokenBurnFromMessage {
+  private createMessage(txResultResponse: TxResultResponse): NonFungibleTokenBurnFromMessage {
     return new NonFungibleTokenBurnFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -798,23 +689,20 @@ export class NonFungibleTokenBurnFromMessageParser
     );
   }
 }
-export class NonFungibleTokenTransferMessageParser
-  implements TxResultMessageParser<NonFungibleTokenTransferMessage> {
+
+export class NonFungibleTokenTransferMessageParser implements TxResultMessageParser<NonFungibleTokenTransferMessage> {
   parse(txResultResponse: TxResultResponse): NonFungibleTokenTransferMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): NonFungibleTokenTransferMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): NonFungibleTokenTransferMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): NonFungibleTokenTransferMessage {
+  private createMessage(txResultResponse: TxResultResponse): NonFungibleTokenTransferMessage {
     return new NonFungibleTokenTransferMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -824,24 +712,20 @@ export class NonFungibleTokenTransferMessageParser
 }
 
 export class NonFungibleTokenTransferFromMessageParser
-  implements TxResultMessageParser<NonFungibleTokenTransferFromMessage> {
-  parse(
-    txResultResponse: TxResultResponse,
-  ): NonFungibleTokenTransferFromMessage {
+  implements TxResultMessageParser<NonFungibleTokenTransferFromMessage>
+{
+  parse(txResultResponse: TxResultResponse): NonFungibleTokenTransferFromMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): NonFungibleTokenTransferFromMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): NonFungibleTokenTransferFromMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): NonFungibleTokenTransferFromMessage {
+  private createMessage(txResultResponse: TxResultResponse): NonFungibleTokenTransferFromMessage {
     return new NonFungibleTokenTransferFromMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -851,23 +735,19 @@ export class NonFungibleTokenTransferFromMessageParser
   }
 }
 
-export class BaseCoinSendMessageParser
-  implements TxResultMessageParser<BaseCoinTransferMessage> {
+export class BaseCoinSendMessageParser implements TxResultMessageParser<BaseCoinTransferMessage> {
   parse(txResultResponse: TxResultResponse): BaseCoinTransferMessage {
     return this.createMessage(txResultResponse);
   }
 
-  parseGenericTxResultResponse(
-    response: GenericResponse<TxResultResponse>,
-  ): BaseCoinTransferMessage {
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): BaseCoinTransferMessage {
     const txResultResponse = response.responseData;
     return this.createMessage(txResultResponse);
   }
 
-  private createMessage(
-    txResultResponse: TxResultResponse,
-  ): BaseCoinTransferMessage {
+  private createMessage(txResultResponse: TxResultResponse): BaseCoinTransferMessage {
     return new BaseCoinTransferMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
       txResultResponse.height,
       txResultResponse.txhash,
       TxResultUtil.findFromWalletAddress(txResultResponse),
@@ -878,11 +758,29 @@ export class BaseCoinSendMessageParser
   }
 }
 
+export class AccountMsgEmptyMessageParser implements TxResultMessageParser<AccountMsgEmptyMessage> {
+  parse(txResultResponse: TxResultResponse): AccountMsgEmptyMessage {
+    return this.createMessage(txResultResponse);
+  }
+
+  parseGenericTxResultResponse(response: GenericResponse<TxResultResponse>): AccountMsgEmptyMessage {
+    const txResultResponse = response.responseData;
+    return this.createMessage(txResultResponse);
+  }
+
+  private createMessage(txResultResponse: TxResultResponse): AccountMsgEmptyMessage {
+    return new AccountMsgEmptyMessage(
+      TxResultCodeMappingsProvider.code(txResultResponse),
+      txResultResponse.height,
+      txResultResponse.txhash,
+      TxResultUtil.findFromWalletAddress(txResultResponse),
+    );
+  }
+}
+
 export class TxResultMessageParserFactory {
-  static create(
-    messageType: MessageType,
-  ): TxResultMessageParser<TxResultMessage> {
-    let txResultMessageParser: TxResultMessageParser<TxResultMessage> = null;
+  static create(messageType: MessageType): TxResultMessageParser<TxResultMessage> {
+    let txResultMessageParser: TxResultMessageParser<TxResultMessage> | null = null;
     switch (messageType) {
       case MessageType.SERVICE_TOKEN_ISSUE:
         txResultMessageParser = new ServiceTokenIssueMessageParser();
@@ -971,8 +869,11 @@ export class TxResultMessageParserFactory {
       case MessageType.COIN_SEND:
         txResultMessageParser = new BaseCoinSendMessageParser();
         break;
+      case MessageType.ACCOUNT_MSG_EMPTY:
+        txResultMessageParser = new AccountMsgEmptyMessageParser();
+        break;
       default:
-        return null;
+        throw new Error(`Cannot create TxResultMessageParser from ${messageType}`);
     }
     return txResultMessageParser;
   }
